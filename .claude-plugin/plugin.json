@@ -1,6 +1,6 @@
 {
   "name": "just-do-it",
-  "displayName": "Just Do It",
+  "displayName": "just-do-it",
   "version": "1.0.0",
   "description": "Project-agnostic manager, agents, and skills for ticket-driven development: think, plan, develop, test, review.",
   "author": {

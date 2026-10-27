@@ -5,8 +5,8 @@ A manager that plans, builds, tests and reviews a ticket with specialist agents.
 ## Install
 
 ```text
-/plugin marketplace add le0u0/community
-/plugin install just-do-it@community
+/plugin marketplace add le0u0/le0u0.ai
+/plugin install just-do-it@le0u0.ai
 ```
 
 ## Use
