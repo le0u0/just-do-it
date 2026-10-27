@@ -2,8 +2,11 @@
 
 A manager that plans, builds, tests and reviews a ticket with specialist agents. It works in any project: the process lives here, the rules come from your repo (`AGENTS.md`, `CLAUDE.md`, project skills).
 
+## Install
+
 ```text
-/plugin install just-do-it@plugins
+/plugin marketplace add le0u0/community
+/plugin install just-do-it@community
 ```
 
 ## Use
