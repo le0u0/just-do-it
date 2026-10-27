@@ -7,7 +7,7 @@ Behavioral cases for the skills: file changes and executed commands, not just fr
 1. Prepare disposable fixtures outside any real checkout. This creates git repos with a synthetic test runner and installs nothing.
 
    ```bash
-   python3 evals/fixture.py prepare /private/tmp/agent-workflow-evals-UNIQUE
+   python3 evals/fixture.py prepare /private/tmp/just-do-it-evals-UNIQUE
    ```
 
 2. For each case in `cases.json`, give a fresh agent only the skill path (from `skills/`, not an installed cache), the generated `request.txt`, and the `repo` directory. Do not give it `checks`, `before.json`, or the fixture script. Have it save its final answer as `response.md` beside `repo`.
@@ -15,7 +15,7 @@ Behavioral cases for the skills: file changes and executed commands, not just fr
 3. Check files and commands:
 
    ```bash
-   python3 evals/fixture.py check /private/tmp/agent-workflow-evals-UNIQUE
+   python3 evals/fixture.py check /private/tmp/just-do-it-evals-UNIQUE
    ```
 
 4. Read the traces and responses against each case's `checks`. For the manager cases, confirm each handoff and that agents start no extra subagents.

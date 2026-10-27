@@ -1,4 +1,4 @@
-# Agent Workflow
+# Just Do It
 
 Shared terms for this plugin.
 
@@ -24,8 +24,8 @@ Shared terms for this plugin.
 | Term | Meaning |
 | --- | --- |
 | Ticket | A task ID such as `PROJ-123`. Requirements come from supplied or retrieved context, never the key alone. |
-| Project folder | `~/.agent-workflow/{project}/`, one per product or codebase, holding `docs/` and its branch folders. |
-| Branch folder | `~/.agent-workflow/{project}/{branch}/`, with `plan.md`, `checklist.md`, `commit-format.md`, `review.md`, `pr.md`, a testing guide, and `attachments/`. Plugin files live in its `state/` subfolder. |
+| Project folder | `~/.just-do-it/{project}/`, one per product or codebase, holding `docs/` and its branch folders. |
+| Branch folder | `~/.just-do-it/{project}/{branch}/`, with `plan.md`, `checklist.md`, `commit-format.md`, `review.md`, `pr.md`, a testing guide, and `attachments/`. Plugin files live in its `state/` subfolder. |
 | Step | A reviewable milestone in an approved plan. Work stays uncommitted unless the user approves a commit. |
 | Test-driven slice | One behavior: one failing test through a public seam, then the minimum code to pass it. |
 | Temporary contract | A feature-local stand-in used until a real dependency exists, with a ticket-linked `FIXME` and removal condition. |

@@ -4,7 +4,7 @@ description: Formally review a diff or branch and save review.md; use only when 
 model: opus
 effort: medium
 skills:
-  - agent-workflow:review
+  - just-do-it:review
 ---
 
 Do the assigned job with the skill it names: `review`. End with the report in [reports.md](../skills/manager/references/reports.md).

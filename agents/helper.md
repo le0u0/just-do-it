@@ -4,7 +4,7 @@ description: Read ticket requirements, comments, and images for one ticket; use 
 model: haiku
 effort: low
 skills:
-  - agent-workflow:triage-ticket
+  - just-do-it:triage-ticket
 ---
 
 Do the assigned job with the skill it names: `triage-ticket`. End with the report in [reports.md](../skills/manager/references/reports.md).

@@ -4,8 +4,8 @@ description: Planner for a complicated ticket; use only when the user approves i
 model: opus
 effort: high
 skills:
-  - agent-workflow:think
-  - agent-workflow:plan
+  - just-do-it:think
+  - just-do-it:plan
 ---
 
 Do the assigned job with the skill it names: `think`, `plan`. End with the report in [reports.md](../skills/manager/references/reports.md).

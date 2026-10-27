@@ -23,7 +23,7 @@ A skill's `metadata.tier` and `effort` apply when it is called alone; inside the
 
 ## Start
 
-Start the plugin agent, such as `agent-workflow:senior-developer`; it preloads its skills. Its frontmatter sets `model` and `effort`, so pass neither. A resumed agent keeps its model and effort, so settle the choice before starting.
+Start the plugin agent, such as `just-do-it:senior-developer`; it preloads its skills. Its frontmatter sets `model` and `effort`, so pass neither. A resumed agent keeps its model and effort, so settle the choice before starting.
 
 Other hosts start no agents, so a skill runs on the chat's own model.
 

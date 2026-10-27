@@ -1,9 +1,9 @@
 # Storage
 
-Every file this plugin writes lives under `~/.agent-workflow/`, so any repository can reach it. The repository receives only the source and test changes the job requires.
+Every file this plugin writes lives under `~/.just-do-it/`, so any repository can reach it. The repository receives only the source and test changes the job requires.
 
 ```text
-~/.agent-workflow/
+~/.just-do-it/
   {project}/
     docs/                          # glossary.md and adr/, shared by every branch
     {branch}/
@@ -31,8 +31,8 @@ Write only the files listed here. Create a file when it is missing; when it exis
 
 One folder per product or codebase the user works on, named in lowercase words joined by hyphens, such as `acme-billing`. Spaces, underscores and capitals in the user's wording all become that one form, so every spelling of a name reaches one folder.
 
-1. Find a branch's project by globbing `~/.agent-workflow/*/{branch}`.
-2. With no match, ask the user which project the work is for. Listing `~/.agent-workflow/` first, reuse the folder whose name matches the answer ignoring case and separators; otherwise create it.
+1. Find a branch's project by globbing `~/.just-do-it/*/{branch}`.
+2. With no match, ask the user which project the work is for. Listing `~/.just-do-it/` first, reuse the folder whose name matches the answer ignoring case and separators; otherwise create it.
 
 `planner` and `senior-planner` ask in `think` or `plan`, whichever comes first. The manager asks when a link or a review starts the work.
 

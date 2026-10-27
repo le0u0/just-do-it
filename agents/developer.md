@@ -4,10 +4,10 @@ description: Implement production code test-first, write and run unit specs, res
 model: sonnet
 effort: medium
 skills:
-  - agent-workflow:develop
-  - agent-workflow:pr
-  - agent-workflow:testing-guide
-  - agent-workflow:resolve-review
+  - just-do-it:develop
+  - just-do-it:pr
+  - just-do-it:testing-guide
+  - just-do-it:resolve-review
 ---
 
 Do the assigned job with the skill it names: `develop`, `pr`, `testing-guide`, `resolve-review`. End with the report in [reports.md](../skills/manager/references/reports.md).

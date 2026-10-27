@@ -1,10 +1,10 @@
 # Domain Docs
 
-Domain notes live in `~/.agent-workflow/{project}/docs/`, never in a repository, so every branch and agent of a project sees the same definitions.
+Domain notes live in `~/.just-do-it/{project}/docs/`, never in a repository, so every branch and agent of a project sees the same definitions.
 
 ```text
-~/.agent-workflow/{project}/docs/glossary.md
-~/.agent-workflow/{project}/docs/adr/0001-slug.md
+~/.just-do-it/{project}/docs/glossary.md
+~/.just-do-it/{project}/docs/adr/0001-slug.md
 ```
 
 Read the repository's own `GLOSSARY.md` and `docs/adr/` too, if present, and leave them unedited.
@@ -33,4 +33,4 @@ Add a row only after the user confirms the term and its meaning. Keep one senten
 
 ## ADR
 
-Offer one only when the decision is hard to reverse, surprising without context, and a real trade-off. After the user accepts, write the next numbered file in `~/.agent-workflow/{project}/docs/adr/`: a title, then one to three sentences of context, decision, and why.
+Offer one only when the decision is hard to reverse, surprising without context, and a real trade-off. After the user accepts, write the next numbered file in `~/.just-do-it/{project}/docs/adr/`: a title, then one to three sentences of context, decision, and why.

@@ -16,7 +16,7 @@ Split cross-agent requests into jobs ordered by their inputs. Parallelize only r
 
 Every agent costs tokens, and a started agent can pull in far more context than its job needs. Keep the harness small:
 
-- Start agents by their plugin type, such as `agent-workflow:developer`; never as a fork of the main thread, which copies its whole context.
+- Start agents by their plugin type, such as `just-do-it:developer`; never as a fork of the main thread, which copies its whole context.
 - Hand off per [reports.md](reports.md): paths and criteria, nothing pasted.
 - Reuse the ticket's agent over starting a new one. Extra `developer`s only for spec volume.
 - Every agent follows the context cache in [project-references.md](project-references.md), so a later agent reads `state/context.md` instead of searching again.

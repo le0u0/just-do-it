@@ -4,7 +4,7 @@ The project's own test rules win where they conflict. Every section applies on e
 
 ## A good test
 
-Verifies behavior through a public interface, so code can change entirely and the test survives. It reads like a spec: "user can checkout with valid cart" says which capability exists and survives a refactor, because it ignores internal structure. One logical assertion per test. Use the domain terms of `~/.agent-workflow/{project}/docs/glossary.md` and the repo's `GLOSSARY.md`, and respect the ADRs in `~/.agent-workflow/{project}/docs/adr/` and the repo's `docs/adr/` for the area you touch.
+Verifies behavior through a public interface, so code can change entirely and the test survives. It reads like a spec: "user can checkout with valid cart" says which capability exists and survives a refactor, because it ignores internal structure. One logical assertion per test. Use the domain terms of `~/.just-do-it/{project}/docs/glossary.md` and the repo's `GLOSSARY.md`, and respect the ADRs in `~/.just-do-it/{project}/docs/adr/` and the repo's `docs/adr/` for the area you touch.
 
 See [examples.md](examples.md) for good and bad tests, and [mocking.md](mocking.md) for what to mock.
 
