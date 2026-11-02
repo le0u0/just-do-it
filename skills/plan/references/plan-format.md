@@ -1,6 +1,6 @@
 # Plan Format
 
-Brainstorming belongs to `think`. The plan reads as a spec plus its tickets: Goal, Acceptance criteria, Testing, Decisions, and Out of scope are the spec; each step is a ticket with its `Blocked by` edges.
+The plan reads as a spec plus its tickets: Goal, Acceptance criteria, Testing, Decisions, and Out of scope are the spec; each step is a ticket with its `Blocked by` edges.
 
 ## Writing the plan
 

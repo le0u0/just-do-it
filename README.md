@@ -17,17 +17,18 @@ A manager that plans, builds, tests and reviews a ticket with specialist agents.
 
 Describe the work. The manager assigns each job to an agent, checks the result, and reports in a few lines. Run `/just-do-it:manager off` to end it. Every skill also works on its own.
 
-## Agents
+## Roles
 
-| Agent | Skills | Model |
+The manager starts a subagent per job, naming the skill and setting the model and effort. It announces both each time; tell it a preference and it uses that.
+
+| Role | Skills | Model |
 | --- | --- | --- |
-| `planner`, `senior-planner` | `think`, `plan` | opus medium, opus high |
-| `developer`, `senior-developer` | `develop`, `resolve-review`, `pr`, `testing-guide` | sonnet medium, opus medium |
-| `reviewer`, `senior-reviewer` | `review` | opus medium, opus high |
+| `developer` | `develop`, `resolve-review`, `pr`, `testing-guide` | sonnet medium |
+| `reviewer` | `review` | opus medium |
 | `e2e-tester` | `write-e2e`, `run-e2e` | sonnet medium |
 | `helper` | `triage-ticket` | haiku low |
 
-The manager uses `planner`, `developer`, `reviewer` and `helper` by default, and asks you before using another.
+The manager runs `plan` itself, in the main thread, so it can ask you questions directly.
 
 Plugin docs are saved in `~/.just-do-it/{project}/{branch}/`. More in [architecture](docs/architecture/ARCHITECTURE.md).
 

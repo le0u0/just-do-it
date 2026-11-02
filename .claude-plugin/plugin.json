@@ -2,7 +2,7 @@
   "name": "just-do-it",
   "displayName": "just-do-it",
   "version": "1.0.0",
-  "description": "Project-agnostic manager, agents, and skills for ticket-driven development: think, plan, develop, test, review.",
+  "description": "Project-agnostic manager and skills for ticket-driven development: plan, develop, test, review.",
   "author": {
     "name": "Leo Ho"
   },
