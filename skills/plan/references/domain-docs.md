@@ -11,7 +11,7 @@ Read the repository's own `GLOSSARY.md` and `docs/adr/` too, if present, and lea
 
 ## When docs change
 
-Only `think` and `plan`, and only after the user confirms in the conversation: a new or changed term goes to the glossary, an accepted decision becomes an ADR. Every other skill reads them and never writes; `develop` and `review` use them for naming and to respect past decisions.
+Only `plan`, and only after the user confirms in the conversation: a new or changed term goes to the glossary, an accepted decision becomes an ADR. Every other skill reads them and never writes; `develop` and `review` use them for naming and to respect past decisions.
 
 ## While asking
 

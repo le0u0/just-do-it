@@ -6,10 +6,10 @@ Shared terms for this plugin.
 
 | Term | Meaning |
 | --- | --- |
-| Manager | `manager`, the main thread. Assigns each job to an agent, verifies the result itself, and decides the next step. Never does agent work. |
-| Agent | A role such as `planner`, `developer` or `reviewer`, or its stronger variant such as `senior-planner`, `senior-developer` or `senior-reviewer`. Holds several skills and does each job itself. Only agents carry role names. |
-| Skill | An action, such as `write-e2e`. Called directly or used by an agent. |
-| Tier | A skill's `metadata.tier` (light, standard or advanced), mapped to haiku, sonnet and opus. Each agent sets its own `model` and `effort`; the table is in `agents.md`. |
+| Manager | `manager`, the main thread. Assigns each job to a role's subagent, verifies the result itself, and decides the next step. Never does agent work. |
+| Role | A role such as `developer` or `reviewer`. A subagent the manager starts with that role's model and effort, holding the skills of the job. Only roles carry role names. |
+| Skill | An action, such as `write-e2e`. Called directly or used by a subagent. |
+| Tier | A skill's `metadata.tier` (light, standard or advanced), mapped to haiku, sonnet and opus. The manager sets `model` and `effort` per role; the table is in `agents.md`. |
 
 ## Skill structure
 

@@ -21,6 +21,7 @@ Report per [reports.md](../manager/references/reports.md); a test run reports th
 ## Rules
 
 - Work on the current branch; never create or push branches. Commit only per the plan's per-step delivery, or when the user approves the work and the exact one-line message. Otherwise leave work uncommitted.
+- A follow-up request outside the plan's steps, such as a tweak or fix after the `Goal` holds, still ends in a commit, but never a new commit for a small change to work already committed. Before committing, list the unpushed commits (`git log @{u}..HEAD`, or `origin/HEAD..HEAD` with no upstream). When the change is related to the unpushed `HEAD` commit, such as the same file or purpose, fold it in with `git commit --amend --no-edit`. Otherwise make one new commit for the related changes. Never amend or rewrite a pushed commit.
 - Keep working until the plan's `Goal` holds, step by step. Delete only files the plan's `Deletions` lists; ask for any other deletion.
 - Run specs only when the request or approved plan authorizes it; a later no-tests instruction wins. Without authorization, write the specs and hand back unrun.
 - Leave the protected files listed in [running.md](references/running.md) and unrelated specs unchanged.
