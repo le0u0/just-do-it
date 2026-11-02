@@ -8,6 +8,11 @@ Mock example. Findings and test results are fictional.
 
 TODO: 2 (Critical: 0, Warning: 2, Minor: 0)
 
+## Tests
+
+- Unit: mock, not run
+- E2E: not run
+
 ## Manual review
 
 1. `profile-form.component.ts:123`
@@ -36,10 +41,6 @@ None.
 ## IGNORED
 
 None.
-
-## Tests
-
-<sub>Unit: mock pass, not run<br>E2E: not run</sub>
 
 ## Reference
 

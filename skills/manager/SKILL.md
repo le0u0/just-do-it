@@ -42,7 +42,7 @@ Start each role per [agents.md](references/agents.md) and announce its model and
 - `develop` returns `Open: run e2e`: assign `e2e-tester` once to write and run exactly the specs the plan's `E2E` line names, per [tests.md](references/tests.md). Send a failure to the same `developer`.
 - `develop` returns `Open: ready for review`, or the e2e run passes: send the baseline and scope to `reviewer`, then collect the test results per [tests.md](references/tests.md) and write them into `review.md`.
 - A review ends at `review.md` and its short report. Assign `resolve-review` only for the findings the user selects, before anything else; a saved review approves no fixes.
-- When the review is approved and the ticket is done, assign `developer` `pr` and `testing-guide` together. Show the PR title and both paths. The user opens the PR.
+- When the review is approved and the ticket is done, assign `developer` `pr` and `testing-guide` together, without being asked. Show the PR title and both paths, then ask `Open the PR?`. On yes, or when the user already asked, `pr` opens it per its step 6.
 
 Reuse agents, order parallel work, and judge step weight per [reuse.md](references/reuse.md).
 
