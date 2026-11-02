@@ -26,7 +26,7 @@ Routing authorizes nothing by itself. Tests, resets, commits, pushes, external w
 | `developer` | `develop` | Write specs and code for a step, commit it, diagnose a failure, or write, fix or run unit specs |
 | | `resolve-review` | Fix or disposition findings in a saved review |
 | | `pr` | Write the PR title and body |
-| | `testing-guide` | Write the manual testing guide, as an HTML page |
+| | `testing-guide` | Write the manual testing guide (Markdown; HTML only when the user asks) |
 | `e2e-tester` | `write-e2e` | Write or fix e2e specs, or explore UI |
 | | `run-e2e` | Run e2e tests; open the e2e UI only when the user asks |
 | `reviewer` | `review` | Review a diff or branch |

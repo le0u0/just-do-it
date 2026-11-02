@@ -12,14 +12,14 @@ Every file this plugin writes lives under `~/.just-do-it/`, so any repository ca
       checklist.md
       review.md
       pr.md
-      testing-guide-{short-description}.html
+      testing-guide-{short-description}.md   # plus .html only when the user asks
       attachments/{ticket}/        # cached ticket files
       state/
         jobs.md
         triage.md                  # every researched ticket or link
         diagnose.md                # optional
-        testing-guide.data.json    # testing guide content, source of the .html
-        testing-guide.generate.*   # renders the guide data into the page
+        testing-guide.data.json    # only for the .html: guide content
+        testing-guide.generate.*   # only for the .html: renders the page
         context.md                 # rule files and comparable specs, searched once
         logs
 ```

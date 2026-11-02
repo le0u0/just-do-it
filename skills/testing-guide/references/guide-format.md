@@ -1,6 +1,6 @@
 # Guide Format
 
-The reader tests by hand, knows nothing about the code, and has no source. Say what to do and what to expect, once. Author the guide once as data (title, ticket, setup, groups, tests); the HTML page renders from it. The sketch below shows the shape of that data, not an output file.
+The reader tests by hand, knows nothing about the code, and has no source. Say what to do and what to expect, once. The guide is a Markdown file in the shape below. The HTML page, built only on request, renders from it.
 
 ```markdown
 # PROJ-123: feature name
