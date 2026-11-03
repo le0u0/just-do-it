@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0](https://github.com/le0u0/just-do-it/compare/v1.1.0...v1.2.0) (2026-11-03)
+
+
+### Features
+
+* show [JUSTDOIT] in status line while manager mode is on ([3d4fe5b](https://github.com/le0u0/just-do-it/commit/3d4fe5b303efa980f347c60a469a9981712af15f))
+* show [JUSTDOIT] in status line while manager mode is on ([f8d1630](https://github.com/le0u0/just-do-it/commit/f8d1630f3206f1b6ce98b513ddfcef94e3d81237))
+
 ## [1.1.0](https://github.com/le0u0/just-do-it/compare/v1.0.0...v1.1.0) (2026-11-02)
 
 
