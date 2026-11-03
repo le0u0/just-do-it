@@ -1,9 +1,6 @@
 ---
 name: e2e
 description: 'Write or fix end-to-end specs, helpers and test data, find locators, explore UI, or run e2e tests with the project''s own command. Use for "add an e2e test", "find the locator for X", "reproduce this in the UI" or "run the e2e tests".'
-effort: medium
-metadata:
-  tier: standard
 ---
 
 # E2E

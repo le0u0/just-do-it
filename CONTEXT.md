@@ -8,7 +8,6 @@ Shared terms for this plugin.
 | --- | --- |
 | Manager | `manager`, the main thread. Assigns triage, e2e and review jobs to a subagent, runs `plan`, `develop`, `resolve-review`, `pr` and `testing-guide` itself, verifies each result, and decides the next step. |
 | Skill | An action, such as `review`. Called directly or used by a subagent. |
-| Tier | A skill's `metadata.tier` (light, standard or advanced), mapped to haiku, sonnet and opus. The manager sets a subagent's `model` from the tier and `effort` from the skill; the mapping is in `agents.md`. |
 
 ## Skill structure
 

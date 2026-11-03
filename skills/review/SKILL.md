@@ -1,9 +1,6 @@
 ---
 name: review
 description: 'Review a branch, diff or work-in-progress change against the project''s standards and the supplied objective or bug, and save review.md. Use for "review my branch" or "review this diff".'
-effort: medium
-metadata:
-  tier: advanced
 ---
 
 # Review

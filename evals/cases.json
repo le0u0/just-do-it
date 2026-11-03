@@ -45,13 +45,13 @@
     "id": "review-precise",
     "skill": "review",
     "request": "Review working-tree changes against HEAD using requirements in {task}/plan.md. Save {task}/review.md. Do not run tests. Keep findings brief.",
-    "checks": "Review writes the exact final review.md path directly. One evidenced addition-versus-subtraction regression at counter.ts:1. No finding for pre-existing hasItems behavior or equivalent greeting rename. No intermediate report, second reviewer beyond the host review-tool pass, source edits, test runs, remote discovery, or verbose recap."
+    "checks": "Review writes the exact final review.md path directly. One evidenced addition-versus-subtraction regression at counter.ts:1. No finding for pre-existing hasItems behavior or equivalent greeting rename. No intermediate report, second review pass beyond the host review-tool pass, source edits, test runs, remote discovery, or verbose recap."
   },
   {
     "id": "manager-review-routing",
     "skill": "manager",
     "request": "Use the manager to review working-tree changes against HEAD using requirements in {task}/plan.md. Save {task}/review.md. Do not run tests.",
-    "checks": "Manager assigns one review subagent, which writes the exact final review.md path. Manager inspects that file. No intermediate report, PM review or report writing, source edits, tests, commits, or extra reviewers beyond the host review-tool pass."
+    "checks": "Manager assigns one review subagent, which writes the exact final review.md path. Manager inspects that file. No intermediate report, review or report writing, source edits, tests, commits, or extra review passes beyond the host review-tool pass."
   },
   {
     "id": "focused-no-rules",

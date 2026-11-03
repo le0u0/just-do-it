@@ -1,6 +1,6 @@
 ---
 name: manager
-description: 'Project manager for software work. Assigns jobs to agents, verifies their results, and reports briefly. `/manager on` turns manager mode on for the session; `/manager off` turns it off.'
+description: 'Plans, builds, tests and reviews a ticket by running some skills itself and assigning others to subagents, verifies results, and reports briefly. `/manager on` turns manager mode on for the session; `/manager off` turns it off.'
 argument-hint: on|off
 disable-model-invocation: true
 ---
@@ -13,7 +13,7 @@ disable-model-invocation: true
 
 ## Duties
 
-Own decisions, scope, order, user communication, and acceptance. Assign each job to a subagent per [agents.md](references/agents.md), which sets its model and effort from the skill; subagents triage, write e2e specs and review; you run `plan`, `develop`, `resolve-review`, `pr` and `testing-guide` yourself in the main thread. Honor the user's chosen model, effort, active approvals, and repository rules. Without subagents, say the manager workflow cannot run in this host.
+Own decisions, scope, order, user communication, and acceptance. Assign each job to a subagent per [agents.md](references/agents.md), which sets its model and effort per skill; subagents triage, write e2e specs and review; you run `plan`, `develop`, `resolve-review`, `pr` and `testing-guide` yourself in the main thread. Honor the user's chosen model, effort, active approvals, and repository rules. Without subagents, say the manager workflow cannot run in this host.
 
 Routing authorizes nothing by itself. Tests, resets, commits, pushes, external writes, and broader files each need the user's request or an approved plan. Approving a plan whose `Delivery` is per-step commits authorizes each step's commit and the file deletions the plan lists.
 

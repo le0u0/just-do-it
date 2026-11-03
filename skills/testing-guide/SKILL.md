@@ -1,9 +1,6 @@
 ---
 name: testing-guide
 description: 'Write the manual testing guide for a finished ticket as Markdown, for a tester who knows nothing about the code; also build a single HTML QA page when the user asks for one. Use for "write the testing guide", "QA page" or "test steps for the tester".'
-effort: medium
-metadata:
-  tier: standard
 ---
 
 # Testing Guide

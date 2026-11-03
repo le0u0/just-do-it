@@ -1,9 +1,6 @@
 ---
 name: develop
 description: 'Implement production code and its unit specs from a request or an approved plan, following the project''s own rules and skills; also write, fix or run unit specs alone. Use for "implement step 2", "build this feature", "add unit tests", "fix this spec" or "run the unit tests for X".'
-effort: medium
-metadata:
-  tier: standard
 ---
 
 # Develop

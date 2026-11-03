@@ -2,13 +2,11 @@
 
 The manager runs `plan`, `develop`, `resolve-review`, `pr` and `testing-guide` itself, in the main thread. It runs `triage-ticket`, `e2e` and `review` in a general-purpose subagent: the prompt names the skill, and `model` and `effort` are set on the call. A subagent does its job with that skill and starts no agents.
 
-Model comes from the skill's `metadata.tier`; effort is the skill's `effort`.
-
-| `metadata.tier` | Model |
-| --- | --- |
-| light | haiku |
-| standard | sonnet |
-| advanced | opus |
+| Skill | Model | Effort |
+| --- | --- | --- |
+| `triage-ticket` | haiku | low |
+| `e2e` | sonnet | medium |
+| `review` | opus | medium |
 
 The manager writes and runs unit specs per `develop`, in its own steps and for a review or the user's request; `e2e` runs e2e specs once, before review. The other subagents run no tests.
 
@@ -18,7 +16,7 @@ Before each start, say the model, version and effort in the one-line assignment,
 
 ## Start
 
-- Start `general-purpose` with `model` and `effort` from the skill. Never start a fork: a fork copies the whole chat.
+- Start `general-purpose` with `model` and `effort` from the table. Never start a fork: a fork copies the whole chat.
 - The prompt holds the skill to call, such as `just-do-it:review`, the file paths, the acceptance criterion and the authorization, per [reports.md](reports.md). Never paste or summarise the conversation with the user.
 - A resumed agent keeps its model and effort, so settle both before starting.
 - A small job you can finish with one command or read, such as a one-line fix, runs in the main thread with no subagent.

@@ -1,9 +1,6 @@
 ---
 name: resolve-review
 description: 'Fix selected findings from a saved review.md, record numbered dispositions, or set its status to approved. Use for "fix review findings 1 and 3" or "approve the review".'
-effort: medium
-metadata:
-  tier: standard
 ---
 
 # Resolve Review

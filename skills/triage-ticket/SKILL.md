@@ -1,9 +1,6 @@
 ---
 name: triage-ticket
 description: 'Triage tickets, a queue, or any pasted link from live requirements, comments and image attachments, and save triage.md. Use for "triage PROJ-123", "what does this ticket need", "go through my queue" or a pasted URL.'
-effort: low
-metadata:
-  tier: light
 ---
 
 # Triage Ticket

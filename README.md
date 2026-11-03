@@ -1,6 +1,6 @@
 # just-do-it
 
-A manager that plans, builds, tests and reviews a ticket with specialist agents. It works in any project: the process lives here, the rules come from your repo (`AGENTS.md`, `CLAUDE.md`, project skills).
+A manager that plans, builds, tests and reviews a ticket with subagents. It works in any project: the process lives here, the rules come from your repo (`AGENTS.md`, `CLAUDE.md`, project skills).
 
 ## Install
 
@@ -15,11 +15,11 @@ A manager that plans, builds, tests and reviews a ticket with specialist agents.
 /just-do-it:manager on
 ```
 
-Describe the work. The manager assigns each job to an agent, checks the result, and reports in a few lines. Run `/just-do-it:manager off` to end it. Every skill also works on its own.
+Describe the work. The manager assigns jobs to subagents, runs the rest itself, checks the result, and reports in a few lines. Run `/just-do-it:manager off` to end it. Every skill also works on its own.
 
 ## Subagents
 
-The manager starts a subagent per job, naming the skill and setting the model and effort from the skill's tier. It announces both each time; tell it a preference and it uses that.
+The manager starts a subagent per job, naming the skill and setting the model and effort per skill. It announces both each time; tell it a preference and it uses that.
 
 | Skill | Model |
 | --- | --- |
