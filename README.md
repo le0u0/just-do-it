@@ -23,12 +23,11 @@ The manager starts a subagent per job, naming the skill and setting the model an
 
 | Role | Skills | Model |
 | --- | --- | --- |
-| `developer` | `develop`, `resolve-review`, `pr`, `testing-guide` | sonnet medium |
 | `reviewer` | `review` | opus medium |
 | `e2e-tester` | `write-e2e`, `run-e2e` | sonnet medium |
 | `helper` | `triage-ticket` | haiku low |
 
-The manager runs `plan` itself, in the main thread, so it can ask you questions directly.
+The manager runs `plan`, `develop`, `resolve-review`, `pr` and `testing-guide` itself, in the main thread, so it can ask you questions directly.
 
 Plugin docs are saved in `~/.just-do-it/{project}/{branch}/`. More in [architecture](docs/architecture/ARCHITECTURE.md).
 

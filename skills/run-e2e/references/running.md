@@ -17,4 +17,4 @@ When a changed helper, selector, or test data is used by other specs, find them 
 
 ## Debugging
 
-Report the failed tests and the failed-only log path. Rerun only when verification was requested, and then only the failed tests; diagnosis goes to `developer`.
+Report the failed tests and the failed-only log path. Rerun only when verification was requested, and then only the failed tests; diagnosis goes to the manager.

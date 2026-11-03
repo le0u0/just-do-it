@@ -6,8 +6,8 @@ Shared terms for this plugin.
 
 | Term | Meaning |
 | --- | --- |
-| Manager | `manager`, the main thread. Assigns each job to a role's subagent, verifies the result itself, and decides the next step. Never does agent work. |
-| Role | A role such as `developer` or `reviewer`. A subagent the manager starts with that role's model and effort, holding the skills of the job. Only roles carry role names. |
+| Manager | `manager`, the main thread. Assigns triage, e2e and review jobs to a role's subagent, runs `plan`, `develop`, `resolve-review`, `pr` and `testing-guide` itself, verifies each result, and decides the next step. |
+| Role | A role such as `e2e-tester` or `reviewer`. A subagent the manager starts with that role's model and effort, holding the skills of the job. Only roles carry role names. |
 | Skill | An action, such as `write-e2e`. Called directly or used by a subagent. |
 | Tier | A skill's `metadata.tier` (light, standard or advanced), mapped to haiku, sonnet and opus. The manager sets `model` and `effort` per role; the table is in `agents.md`. |
 

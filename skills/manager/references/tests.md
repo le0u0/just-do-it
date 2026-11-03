@@ -1,6 +1,6 @@
 # Tests
 
-`developer` runs the unit specs of its own steps, per `develop`. The manager assigns `e2e-tester`, and a `developer` unit run, at these points, when the user or plan authorizes tests:
+The manager runs the unit specs of its own steps, per `develop`, and assigns `e2e-tester`, at these points, when the user or plan authorizes tests:
 
 - Once, after the last step passes and the plan's `E2E` line is not `none`.
 - A rerun after a fix: the failed specs.
@@ -17,6 +17,6 @@ e2e is slow, so it runs once, before review, never per step. The plan's `E2E` li
 Every review request runs unit specs. e2e runs too when `review.md` has no e2e result for the current `HEAD` and diff, unless the user says to skip it. In this order:
 
 1. `reviewer` writes `review.md`.
-2. Assign `developer` a `develop` test run job on the specs in the diff, and `e2e-tester` the plan's `E2E` specs, or the e2e specs in the diff when there is no plan. Reuse a result only when `review.md` `Tests` or `checklist.md` records it for the current `HEAD` and diff, such as the e2e run just before review in the ticket flow. Always run unit. Skip e2e only when a current result exists, the user says to skip it, or there is no spec in scope, per [test-setup.md](test-setup.md).
+2. Run `develop` in test-run mode yourself on the specs in the diff, and assign `e2e-tester` the plan's `E2E` specs, or the e2e specs in the diff when there is no plan. Reuse a result only when `review.md` `Tests` or `checklist.md` records it for the current `HEAD` and diff, such as the e2e run just before review in the ticket flow. Always run unit. Skip e2e only when a current result exists, the user says to skip it, or there is no spec in scope, per [test-setup.md](test-setup.md).
 3. Collect both results. Write them yourself into `review.md`'s `Tests` section, replacing its `Unit` and `E2E` lines, and write `not run: <reason>` for a skipped kind. Only you edit `Tests`.
-4. A review is not reported done until `Tests` shows both lines. A failed spec is reported to the user with the review, and goes to `developer` when the user asks for the fix.
+4. A review is not reported done until `Tests` shows both lines. A failed spec is reported to the user with the review, and you fix it with `develop` when the user asks.

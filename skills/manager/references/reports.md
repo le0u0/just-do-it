@@ -33,7 +33,7 @@ Open: <or none>
 ```
 
 - **done:** `Result` has the counts (such as `12 specs, 0 failed`) and `Commands` has exit 0. Send no log or output.
-- **failed:** list each failed spec file and test name in `Result`. `Artifacts` is a log holding only the failed tests' output (name, error, top stack lines), saved in the branch folder's `state/`, else the system temp directory. State the symptom and leave the cause to the developer.
+- **failed:** list each failed spec file and test name in `Result`. `Artifacts` is a log holding only the failed tests' output (name, error, top stack lines), saved in the branch folder's `state/`, else the system temp directory. State the symptom and leave the cause to the manager.
 - **blocked:** `Open` has the reason and what the manager or user should do, such as `approve a full-suite run` or `start the backend`. Send no log.
 
 Run only the specs the task changed, unless the user asks for more. On a rerun after a fix, run the previously failed specs plus the specs the fix changed. List other specs that may be affected under `Affected`, unrun.

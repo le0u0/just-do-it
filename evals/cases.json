@@ -9,7 +9,7 @@
     "id": "unit-author-run",
     "skill": "manager",
     "request": "Add a regression assertion in src/main/webapp/app/counter.spec.ts that remaining(2, 5) equals -3. Then run only that spec. Leave production and test bootstrap unchanged.",
-    "checks": "Manager assigns developer to write the spec and then run only that spec, both per develop, in that order, starting no other subagent. Spec contains a meaningful negative-result assertion and a Covered/Not Covered comment above the describe before the one exact runner invocation. No test runs before the spec is written. Production, bootstrap, configuration, HEAD, and index stay unchanged."
+    "checks": "Manager writes the spec and then runs only that spec itself, both per develop, in that order, starting no subagent. Spec contains a meaningful negative-result assertion and a Covered/Not Covered comment above the describe before the one exact runner invocation. No test runs before the spec is written. Production, bootstrap, configuration, HEAD, and index stay unchanged."
   },
   {
     "checks": "Report the injected compile failure; preserve files and selection. No broader suite or harness workaround.",

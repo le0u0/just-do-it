@@ -10,7 +10,7 @@ Run unit tests with the setup found per [test-setup.md](../../manager/references
 
 ## On failure
 
-Report each failed spec file and test name, and the symptom. `developer` fixes the code; change a spec only when it contradicts the plan, and say so. The cause and the fix are not this skill's job.
+Report each failed spec file and test name, and the symptom. The caller fixes the code; change a spec only when it contradicts the plan, and say so. The cause and the fix are not this skill's job.
 
 ## Protected files
 
