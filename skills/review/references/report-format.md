@@ -61,7 +61,7 @@ None.
 - **Fix:** the corrective action, one line; one alternative at most.
 - **Done / Status:** only in `RESOLVED`. Added by `resolve-review`, or alone when a re-review finds an author's fix. `Done` is the final change. `Status` is such as `fixed (e4f5g6h)`, `fixed, tested`, `fixed, not tested`, `deferred`, `disputed`, or `ignored by user`.
 - **Manual review:** sits above `TODO`, so the reader knows where to look first. Pick by risk, not size: logic, state, data flow, permissions. Skip renames, templates, styles, generated code, and specs. At most seven, riskiest first. Each is `file:line`, then `-> ` one sentence of at most 20 words in the plain words a five-year-old follows: what the code does and what could go wrong, with an everyday picture and no jargon or code names. Pick them from the diff even when `TODO` is empty. `None.` only when the diff is a few low-risk lines.
-- **Tests:** written by the manager from the testers' reports, never by the reviewer. Starts as `Unit: not run` and `E2E: not run`.
+- **Tests:** written by the manager from the unit and e2e reports, never by `review`. Starts as `Unit: not run` and `E2E: not run`.
 
 ## Severity
 

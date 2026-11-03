@@ -20,7 +20,7 @@ Keep it to facts: no narrative, restated plan, or code excerpts.
 
 ## Test report
 
-`e2e-tester` after a run, and a unit run, end with this report instead, at most eight lines:
+`e2e` after a run, and a unit run, end with this report instead, at most eight lines:
 
 ```text
 Status: done | failed | blocked

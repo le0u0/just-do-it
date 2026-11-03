@@ -18,11 +18,11 @@ Every agent costs tokens, and a started agent can pull in far more context than 
 
 Agents stay alive for the ticket. Record each agent's name and ID from its start result in `state/jobs.md`, and send all later work to the same ID with SendMessage, so it keeps its context. Resume the same agent for:
 
-- `e2e-tester`: writing and rerunning e2e specs.
-- `reviewer`: re-review of the same branch, which updates `review.md` in place.
+- `e2e`: writing and rerunning e2e specs.
+- `review`: re-review of the same branch, which updates `review.md` in place.
 
-Start a fresh agent only when no agent of that role exists on this ticket, never one per plan step. A resumed agent cannot change its model or effort, so settle both at the start, per [agents.md](agents.md).
+Start a fresh agent only when no agent for that skill exists on this ticket, never one per plan step. A resumed agent cannot change its model or effort, so settle both at the start, per [agents.md](agents.md).
 
-A ticket holds one agent per role; send each step to it.
+A ticket holds one agent per skill; send each step to it.
 
 When SendMessage to a recorded ID fails, start a fresh agent and point it at the plan, `checklist.md`, and `state/jobs.md`.
