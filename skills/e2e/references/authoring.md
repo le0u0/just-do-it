@@ -3,7 +3,8 @@
 ## Setup
 
 - Explore the flow first per [exploration.md](exploration.md), and write from the recorded locators and steps, not from source alone.
-- Adapt generated code to the closest spec; drop APIs the repository's runner version lacks.
+- Adapt generated code to the closest spec; drop APIs the repository's runner version lacks. Generated code has actions but no assertions: add one for each expected outcome.
+- Write one scenario at a time: walk its steps in the live app, then write its test.
 - Match the closest spec's auth state, test data, imports, and helpers.
 - For test-specific records, reuse the project's data helpers. Give each fixture a stable identity from the domain's real unique key, look up before creating, and never delete and recreate fixtures. Rerun behavior is unverified until a run job runs it.
 

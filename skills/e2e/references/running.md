@@ -2,7 +2,7 @@
 
 ## Commands
 
-- "Open the e2e UI", only when the user asks for it: start the project's UI-mode script against the configured base URL, then wait for the user's selection. Every other run opens no UI.
+- "Open the e2e UI", only when the user asks for it: start the project's UI-mode script against the configured base URL, then wait for the user's selection. Every other run opens no UI: set `PLAYWRIGHT_HTML_OPEN=never` so the HTML report never opens.
 - "Run e2e test": run the smallest test the request or context identifies. Ask when none is identifiable.
 
 Take the command, project, arguments, and auth state from `package.json` and the runner config. Pass the base URL the project documents; ask when it cannot be resolved.
@@ -17,4 +17,6 @@ When a changed helper, selector, or test data is used by other specs, find them 
 
 ## Debugging
 
-Report the failed tests and the failed-only log path. Rerun only when verification was requested, and then only the failed tests; diagnosis goes to the manager.
+Report the failed tests and the failed-only log path. Rerun only when verification was requested, and then only the failed tests.
+
+Diagnose a failure only when the manager asks. Run that one test with `--debug=cli` in the background until its Debugging Instructions print, then `playwright-cli attach <session-name>`. Inspect the snapshot, console, and network at the failing step; each action prints Playwright TypeScript. Report the cause and the proposed fix, usually a locator or expectation, and change no file unless asked. Stop the background run when done.

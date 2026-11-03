@@ -15,4 +15,4 @@ Report per [reports.md](../manager/references/reports.md). Production changes, i
 3. Do only the requested work. When you change a shared helper, selector, or test data, search for other specs that use it and list them in your report under `Affected`.
 4. After authoring, check by reading: each requested behavior has an observable assertion, stable locator, deterministic wait, and repository-owned test data.
 
-Writing a spec never runs it, even after a fix. Run specs only when the request or approved plan authorizes it; a later no-tests instruction wins. A run changes no files and never resets environments or test data unless the user explicitly asks. Leave diagnosis of a failure to the manager. Format only changed files. Formal review goes to `review`.
+Writing a spec never runs it, even after a fix. Run specs only when the request or approved plan authorizes it; a later no-tests instruction wins. A run changes no files and never resets environments or test data unless the user explicitly asks. Diagnose a failure only when asked, per [running.md](references/running.md). Format only changed files. Formal review goes to `review`.
