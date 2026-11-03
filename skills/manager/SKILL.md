@@ -13,37 +13,36 @@ disable-model-invocation: true
 
 ## Role
 
-Own decisions, scope, order, user communication, and acceptance. Assign every job to an agent per [agents.md](references/agents.md); the agents write source, tests, and reports. Honor the user's chosen agent, active approvals, and repository rules. Without subagents, say the manager workflow cannot run in this host.
+Own decisions, scope, order, user communication, and acceptance. Assign each job to a role per [agents.md](references/agents.md), which sets its model and effort; the subagents write source, tests, and reports. Honor the user's chosen model, effort, active approvals, and repository rules. Without subagents, say the manager workflow cannot run in this host.
 
 Routing authorizes nothing by itself. Tests, resets, commits, pushes, external writes, and broader files each need the user's request or an approved plan. Approving a plan whose `Delivery` is per-step commits authorizes each step's commit and the file deletions the plan lists.
 
 ## Route
 
-| Agent | Skill | Job |
+| Role | Skill | Job |
 | --- | --- | --- |
-| `planner`, `senior-planner` | `think` | Find gaps and concerns in a ticket |
-| | `plan` | Plan a ticket |
+| none: main thread | `plan` | Grill the user on a ticket, then plan it |
 | `helper` | `triage-ticket` | Ticket requirements or queue triage |
-| `developer`, `senior-developer` | `develop` | Write specs and code for a step, commit it, diagnose a failure, or write, fix or run unit specs |
+| `developer` | `develop` | Write specs and code for a step, commit it, diagnose a failure, or write, fix or run unit specs |
 | | `resolve-review` | Fix or disposition findings in a saved review |
 | | `pr` | Write the PR title and body |
-| | `testing-guide` | Write the manual testing guide |
+| | `testing-guide` | Write the manual testing guide (Markdown; HTML only when the user asks) |
 | `e2e-tester` | `write-e2e` | Write or fix e2e specs, or explore UI |
 | | `run-e2e` | Run e2e tests; open the e2e UI only when the user asks |
-| `reviewer`, `senior-reviewer` | `review` | Review a diff or branch |
+| `reviewer` | `review` | Review a diff or branch |
 
-Assign the role's default agent; a variant needs the user's approval first, per [agents.md](references/agents.md).
+Start each role per [agents.md](references/agents.md) and announce its model and effort.
 
 ## Ticket flow
 
-- A pasted link, ticket or not: when its branch has no project yet, ask the user the project per [storage.md](references/storage.md); then assign `helper` `triage-ticket` first, so the research lands in `triage.md` before any thinking or planning.
-- `think`, then `plan` after the user says to plan. Relay each planner question, the goal and commit format included, per [reuse.md](references/reuse.md). Stop for plan approval.
+- A pasted link, ticket or not: when its branch has no project yet, ask the user the project per [storage.md](references/storage.md); then assign `helper` `triage-ticket` first, so the research lands in `triage.md` before any planning.
+- Run `plan` yourself in the main thread: it grills the user, then writes the plan. Never hand it to a subagent, which cannot ask the user. Stop for plan approval.
 - `develop` runs the approved plan itself, step by step, each step ending in its commit. It returns only when the plan's `Goal` holds or at a stop condition in [step-execution.md](../develop/references/step-execution.md); ask the user then.
 - When final validation or the review still fails after the fixes, stop and ask the user.
 - `develop` returns `Open: run e2e`: assign `e2e-tester` once to write and run exactly the specs the plan's `E2E` line names, per [tests.md](references/tests.md). Send a failure to the same `developer`.
 - `develop` returns `Open: ready for review`, or the e2e run passes: send the baseline and scope to `reviewer`, then collect the test results per [tests.md](references/tests.md) and write them into `review.md`.
 - A review ends at `review.md` and its short report. Assign `resolve-review` only for the findings the user selects, before anything else; a saved review approves no fixes.
-- When the review is approved and the ticket is done, assign `developer` `pr` and `testing-guide` together. Show the PR title and both paths. The user opens the PR.
+- When the review is approved and the ticket is done, assign `developer` `pr` and `testing-guide` together, without being asked. Show the PR title and both paths, then ask `Open the PR?`. On yes, or when the user already asked, `pr` opens it per its step 6.
 
 Reuse agents, order parallel work, and judge step weight per [reuse.md](references/reuse.md).
 

@@ -11,6 +11,11 @@ Status: reviewed
 
 TODO: 2 (Critical: 0, Warning: 2, Minor: 0)
 
+## Tests
+
+- Unit: pass, 2 specs
+- E2E: not run: no e2e spec in the diff
+
 ## Manual review
 
 1. `export-util.ts:120`
@@ -43,10 +48,6 @@ TODO: 2 (Critical: 0, Warning: 2, Minor: 0)
 
 None.
 
-## Tests
-
-<sub>Unit: 2 specs passed<br>E2E: not run</sub>
-
 ## Reference
 
 <sub>Repository: /absolute/path/to/repo<br>Branch: feature-branch<br>Reviewed from: a1b2c3d<br>Reviewed to: e4f5g6h<br>Diff fingerprint: hash when work is uncommitted</sub>
@@ -70,7 +71,7 @@ None.
 
 ## Sections
 
-Wrap `Tests` and `Reference` in `<sub>`; the reviewer needs them, the reader does not. Order findings by severity. Numbers stay stable across sections; put `---` between findings. Keep `TODO`, `RESOLVED` and `IGNORED`, writing `None.` when empty. `TODO` holds open, deferred, and disputed findings; `RESOLVED` holds applied fixes; `IGNORED` needs the user's explicit choice. `Status: approved` records user approval only.
+Wrap `Reference` in `<sub>`. Keep `Tests` plain, right under `Issue Count`, because the reader checks it for pass or fail; one line each for `Unit` and `E2E`: `pass`, `fail` with the failed spec names, or `not run: <reason>`. Order findings by severity. Numbers stay stable across sections; put `---` between findings. Keep `TODO`, `RESOLVED` and `IGNORED`, writing `None.` when empty. `TODO` holds open, deferred, and disputed findings; `RESOLVED` holds applied fixes; `IGNORED` needs the user's explicit choice. `Status: approved` records user approval only.
 
 Write `review.md` only after the review completes; a re-review updates it. A re-review adds no history: it moves fixed findings to `RESOLVED` as one `Done` line, and keeps every point short. For uncommitted work, `Diff fingerprint` identifies the snapshot.
 

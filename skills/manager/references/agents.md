@@ -1,32 +1,29 @@
 # Agents
 
-The manager assigns each job to one agent. An agent does the job with the skills it holds and starts no agents.
+A role is a label the manager gives a job. It has no file: the manager starts a general-purpose subagent, names the skill in the prompt, and sets `model` and `effort` on the call. A subagent does its job with that skill and starts no agents. `plan` is not a role: the manager runs it in the main thread.
 
-| Agent | Use |
-| --- | --- |
-| `planner` | default |
-| `senior-planner` | ask first: cross-feature impact, a new architectural pattern, or unclear requirements |
-| `helper` | default |
-| `developer` | default |
-| `senior-developer` | ask first: a complicated step |
-| `e2e-tester` | default |
-| `reviewer` | default |
-| `senior-reviewer` | ask first: a risky or far-reaching change |
+| Role | Skills | Model | Effort |
+| --- | --- | --- | --- |
+| `helper` | `triage-ticket` | haiku | low |
+| `developer` | `develop`, `resolve-review`, `pr`, `testing-guide` | sonnet | medium |
+| `e2e-tester` | `write-e2e`, `run-e2e` | sonnet | medium |
+| `reviewer` | `review` | opus | medium |
 
-Each agent's skills, `model` and `effort` are in its file under `agents/`; the README summarizes them.
+`developer` writes and runs unit specs per `develop`, in its own steps and for a review or the user's request; `e2e-tester` runs e2e specs once, before review. The others run no tests.
 
-Assign the default agent of each role. To use another agent, ask the user first with one line naming it and why, such as `Use senior-developer for step 3, cross-feature impact?`, and start it only after the user agrees. A user who names an agent has approved it.
+A skill's `metadata.tier` and `effort` apply when it is called alone; inside the manager, this table decides.
 
-`developer` and `senior-developer` write and run unit specs per `develop`, in their own steps and for a review or the user's request; `e2e-tester` runs e2e specs once, before review. The others run no tests.
+## Announce
 
-A skill's `metadata.tier` and `effort` apply when it is called alone; inside the manager, the agent's frontmatter decides.
+Before each start, say the model, version and effort in the one-line assignment, such as `→ developer: step 2 (sonnet 5.5, medium)`. When the user states a preference for a model or effort, use it for that job and later jobs of the same role. There are no variants to ask about.
 
 ## Start
 
-Start the plugin agent, such as `just-do-it:senior-developer`; it preloads its skills. Its frontmatter sets `model` and `effort`, so pass neither. A resumed agent keeps its model and effort, so settle the choice before starting.
-
-Other hosts start no agents, so a skill runs on the chat's own model.
+- Start `general-purpose` with `model` and `effort` from the table. Never start a fork: a fork copies the whole chat.
+- The prompt holds the skill to call, such as `just-do-it:develop`, the file paths, the acceptance criterion and the authorization, per [reports.md](reports.md). Never paste or summarise the conversation with the user.
+- A resumed agent keeps its model and effort, so settle both before starting.
+- A small job you can finish with one command or read, such as a one-line fix, runs in the main thread with no subagent.
 
 ## Hand-off between skills
 
-When a skill needs a skill its agent lacks, such as `develop` needing an e2e run from `run-e2e`, return the request to the manager as `Open`. Called directly without the manager, run that skill yourself.
+When a skill needs a skill its role lacks, such as `develop` needing an e2e run from `run-e2e`, return the request to the manager as `Open`. Called directly without the manager, run that skill yourself.

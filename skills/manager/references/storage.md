@@ -12,13 +12,14 @@ Every file this plugin writes lives under `~/.just-do-it/`, so any repository ca
       checklist.md
       review.md
       pr.md
-      testing-guide-{short-description}.md
+      testing-guide-{short-description}.md   # plus .html only when the user asks
       attachments/{ticket}/        # cached ticket files
       state/
         jobs.md
-        think.md
         triage.md                  # every researched ticket or link
         diagnose.md                # optional
+        testing-guide.data.json    # only for the .html: guide content
+        testing-guide.generate.*   # only for the .html: renders the page
         context.md                 # rule files and comparable specs, searched once
         logs
 ```
@@ -34,7 +35,7 @@ One folder per product or codebase the user works on, named in lowercase words j
 1. Find a branch's project by globbing `~/.just-do-it/*/{branch}`.
 2. With no match, ask the user which project the work is for. Listing `~/.just-do-it/` first, reuse the folder whose name matches the answer ignoring case and separators; otherwise create it.
 
-`planner` and `senior-planner` ask in `think` or `plan`, whichever comes first. The manager asks when a link or a review starts the work.
+`plan` asks the user. The manager asks when a link or a review starts the work.
 
 ## Branch folder
 
