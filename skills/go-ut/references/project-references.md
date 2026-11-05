@@ -1,6 +1,6 @@
 # Project References
 
-This plugin holds no framework or domain rules; the project owns them. Before spec work, read:
+Before spec work, read:
 
 - `AGENTS.md`, `CLAUDE.md`, `.agents/rules/`, `.claude/rules/`. When the plan step lists rule files, read only those.
 - Project-local skills in `.claude/skills/` and `.agents/skills/` whose name or description matches the job, such as `testing-*`. They win over this plugin's defaults.

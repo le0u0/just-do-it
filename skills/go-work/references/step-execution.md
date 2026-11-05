@@ -17,13 +17,13 @@
 ### Per-step commits
 
 - Plan approval covers each step, its commit, and the `Deletions`.
-- When the step's unit specs pass: report `Done` (at most 20 words), commit per the commit gate, start the next step without asking.
-- Keep going until the `Goal` holds. On a failing spec, diagnose and try a different fix; never repeat a failed one.
+- When the step's unit specs pass: report `Done` (at most 20 words), commit per the commit gate, then stop. The caller starts the next step.
+- On a failing spec, diagnose and try a different fix; never repeat a failed one.
 - Stop and ask only when:
   - three different fixes for one failure have failed;
   - a step needs an unlisted deletion or a change outside the plan;
   - the plan is unclear.
-- On a stop, report the failure and what was tried.
+- On a stop, report the failure and what was tried as `Open`.
 
 ### Uncommitted delivery
 
@@ -38,7 +38,7 @@
 
 - Format each changed file with the project's file-scoped command. When the staged-file workflow would change the index in leave-uncommitted mode, use a file-scoped equivalent or report formatting as pending.
 - Preserve unrelated changes and the user's staging.
-- Report changed files, evidence, and next action; the caller records them. At the gate, show the current and next step.
+- Report changed files, evidence, and the commit SHA. At the gate, show this step.
 
 ## Commit gate
 

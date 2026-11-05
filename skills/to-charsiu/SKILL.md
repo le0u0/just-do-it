@@ -15,12 +15,7 @@ metadata:
 
 ## Do
 
-1. Restate your last message.
+1. Restate your last message, in chat only.
 2. Drop the jargon.
 3. Say it simpler and shorter, like one human talking to another.
-4. Keep every fact and number that mattered.
-
-## Don't
-
-- Write or change any file.
-- Add new content.
+4. Keep every fact and number that mattered, and nothing new.

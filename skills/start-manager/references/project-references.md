@@ -1,6 +1,6 @@
 # Project References
 
-This plugin holds no framework or domain rules; the project owns them. Before code or test work, read what applies:
+Before code or test work, read what applies:
 
 - `AGENTS.md`, `CLAUDE.md`, rules in `.agents/rules/` or `.claude/rules/` (only those the plan step lists, if any).
 - Matching project-local skills in `.claude/skills/` and `.agents/skills/` (such as `create-*`, `testing-*`); they win over this plugin's defaults.

@@ -2,9 +2,8 @@
 
 ## Scope
 
-- Use the setup from [test-setup.md](test-setup.md), only when the request or plan authorizes; a later no-tests instruction wins.
+- Use the setup from [test-setup.md](test-setup.md).
 - Focused specs only: the step's specs; on a rerun, the failed specs plus those the fix changed.
-- The full suite only when the user asks.
 
 ## Steps
 
@@ -38,5 +37,4 @@
 ## Blocked selection
 
 - Runner can't select the tests or the command is blocked: report `blocked` with the exact limit and next step.
-- Ask before running the full suite. Leave the harness and unrelated tests alone.
 - Report unrelated compilation failures without editing those specs.

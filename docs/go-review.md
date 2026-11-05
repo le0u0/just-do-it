@@ -33,5 +33,5 @@ go-review -> go-fix -> go-review
 ```
 
 - `go-fix` fixes the findings you select. A review approves no fixes by itself.
-- `go-work` finishes with `Open: ready for review`, which leads to this skill.
+- After the last `go-work` step, final validation and `go-e2e` (when planned), the manager sends the work to this skill.
 - `start-manager` saves the report as `review.md` and writes the test results into `Tests`.

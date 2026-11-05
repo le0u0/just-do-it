@@ -9,7 +9,7 @@ Report as the caller specifies. The report is the reply; write no file.
 
 ## 1. Inputs
 
-- **Requirements:** caller-supplied text, path, ticket URL, or plan. Never from a ticket key or branch name; keep them out of the report. None or unreachable: note no requirement, still apply **Correctness** in [checks.md](references/checks.md).
+- **Requirements:** caller-supplied text, path, ticket URL, or plan. Never from a ticket key or branch name. None or unreachable: note no requirement, still apply **Correctness** in [checks.md](references/checks.md).
 - **Previous review:** earlier report from the caller, if any.
 - **Baseline:** [scope-baseline.md](references/scope-baseline.md).
 
@@ -24,7 +24,7 @@ Given a previous review, return it updated in full:
 
 ## 3. Review pass
 
-- Code only; run no tests. `Tests` stays not run on a first pass; the caller fills it.
+- Code only; run no tests.
 - Read the scoped diff once, then changed functions and immediate callers. Cover every hunk.
 - Method: the repository's own review skill (method only, not its scope, delivery, format), else [review-method.md](references/review-method.md).
 - Apply the relevant [checks.md](references/checks.md) and project rules per [project-references.md](references/project-references.md).
@@ -37,14 +37,10 @@ Given a previous review, return it updated in full:
 - Omit: intentional-looking changes, lint-ignored issues, unreachable cases, style preferences, pure renames, tooling-enforced issues.
 - A missing contract limits one finding, never the review.
 - Deduplicate by root cause.
-- Keep source read-only; add no `TODO` or `FIXME` comments.
 
 ## 5. Reply
 
 1. Pick `Manual review` places per [report-format.md](references/report-format.md).
-2. Reply with the whole report; the caller saves it.
-3. End with the standard report: `Changed` is `none`; `Open` gives open issue count by severity.
-4. "No actionable findings" only after reading every hunk.
+2. End with the standard report: `Changed` is `none`; `Open` gives open issue count by severity.
 
 - Fix nothing; findings get fixed only after the user selects them, with `go-fix`.
-- Suggest no follow-up skill.

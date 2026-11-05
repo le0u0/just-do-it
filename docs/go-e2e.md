@@ -31,6 +31,6 @@ The manager calls it once, after the last step, for the specs the plan's `E2E` l
 go-work -> go-e2e -> go-review
 ```
 
-- Before it: `go-work` reports `Open: run e2e`.
+- Before it: the manager's final validation, when the plan's `E2E` line is not `none`.
 - `dev-tdd` calls it when e2e specs are asked for.
 - After it: `go-review`; a failure goes back to `go-work`.

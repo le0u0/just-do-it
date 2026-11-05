@@ -4,7 +4,7 @@ Domain notes are a glossary and ADRs.
 
 ## Rules
 
-- Read what the caller supplies and the repository's own `GLOSSARY.md` and `docs/adr/`. Leave them unedited.
+- Read what the caller supplies and the repository's own `GLOSSARY.md` and `docs/adr/`.
 - Write no files. After the user confirms in the conversation, return a new or changed term as a glossary row, or an accepted decision as an ADR; the caller saves it.
 
 ## While asking

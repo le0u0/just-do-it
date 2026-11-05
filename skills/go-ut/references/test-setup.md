@@ -3,7 +3,7 @@
 ## Find it
 
 - Before writing or running specs, find the runner config, `package.json` scripts or build files, existing specs (location, naming), and any project test rule or skill.
-- Use exactly that runner, command, placement, and convention. Install and configure nothing.
+- Use exactly that runner, command, placement, and convention.
 
 ## No setup
 

@@ -23,7 +23,7 @@ Render the guide into one HTML page the tester ticks through. Never hand-edited.
 
 ## Rules
 
-- Change the `.md` first, then rerun. Output is the `.html` only: no data or generator file.
+- Change the `.md` first, then rerun. The `.html` is the only output.
 
 ## Done when
 

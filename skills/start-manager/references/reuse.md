@@ -6,9 +6,6 @@
 
 ## Token budget
 
-- Start agents per [agents.md](agents.md); never a fork.
-- Hand off per [reports.md](reports.md): paths and criteria, nothing pasted.
-- Reuse the ticket's agent over a new one.
 - Agents follow the context cache in [project-references.md](project-references.md): read `state/context.md`, do not re-search.
 - If one command verifies it, verify it yourself; reruns and reads stay in the manager.
 

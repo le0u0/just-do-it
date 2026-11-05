@@ -7,7 +7,7 @@ description: 'Think through one ticket with the user, then plan it as a plan and
 
 ## Scope
 
-- Run in the main thread; talk to the user directly.
+- Run in the main thread, where the user can answer.
 - Write no production code, tests, or files. Return the plan and checklist in the reply; the caller saves them. Report as the caller specifies.
 - Two phases: grill, then write. User only wants gaps found: stop after the grill.
 
@@ -15,7 +15,7 @@ description: 'Think through one ticket with the user, then plan it as a plan and
 
 - Requirements come only from supplied or explicitly retrieved context. Store a supplied ticket link; the key alone says nothing.
 - Ticket URL or explicit lookup: run `go-triage` first. Its brief is context, not approved scope.
-- Follow `AGENTS.md`, `CLAUDE.md`, and project-local skills. Read the project references per [setup.md](references/setup.md) and the code the ticket likely touches.
+- Read the project references per [setup.md](references/setup.md) and the code the ticket likely touches.
 
 ## 1. Grill
 

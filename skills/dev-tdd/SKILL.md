@@ -5,13 +5,11 @@ description: 'Drive one step or behavior test-first: confirm the seam, write a f
 
 # TDD
 
-## Contract
-
-- Report as the caller specifies; default `Done` / `Open` / `Changed`. Write no plan docs.
+Report as the caller specifies; default `Done` / `Open` / `Changed`.
 
 ## Rules
 
-- Run specs only when the request or plan authorizes it; a later no-tests instruction wins.
+- Run specs only when the request or plan authorizes it; the newest instruction wins, so a request to run named specs authorizes exactly those runs, even when an earlier plan says not to run tests.
 - Follow [loop.md](references/loop.md): seams, vertical slices, red before green.
 - Unit specs go through `go-ut`; e2e specs through `go-e2e`, only when the user or plan asks.
 - Skip the loop for changes with no unit-testable behavior, such as pure styling, and say so.

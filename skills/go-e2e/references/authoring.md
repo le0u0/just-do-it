@@ -11,7 +11,7 @@
 
 - Reuse the project's data helpers.
 - Stable identity per fixture, from the domain's unique key.
-- Look up before creating. Never delete and recreate.
+- Look up before creating; reuse the record.
 
 ## Files and imports
 

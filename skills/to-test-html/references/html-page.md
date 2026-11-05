@@ -11,7 +11,7 @@
 2. **Progress:** bar "N of M steps · P pass · F fail", then Export results (primary), Load results, Reset.
 3. **Body:** Setup, groups with one-line reasons, tests.
 4. **Test:** heading `Test N: Title`, Pass / Fail toggle, optional note, checkbox steps, `Expect:` line.
-5. **Finish:** summary ("P pass, F fail, U not marked yet") and a large Export results button. Nothing else.
+5. **Finish:** summary ("P pass, F fail, U not marked yet") and a large Export results button, alone.
 
 ## Language
 
@@ -43,4 +43,4 @@
 - Type: title 28px; group heading 24px bold; test title 16px semibold; steps 16px. List: "Tests" 18px bold, group labels 16px bold dark, links 14px grey indented, current dark semibold on accent.
 - System font stack with per-script fallbacks. About 75ch lines.
 - Custom checkboxes (accent fill, dark check), focus rings, hover and active states, 150ms transitions, `prefers-reduced-motion`. Print hides controls.
-- 1280px and 390px, no horizontal scroll. Plain solid surfaces.
+- 1280px and 390px, no horizontal scroll.

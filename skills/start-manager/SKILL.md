@@ -17,15 +17,12 @@ disable-model-invocation: true
 ## Duties
 
 - Own decisions, scope, order, user communication, acceptance, and every plugin document.
-- Subagents run triage, e2e and review, per [agents.md](references/agents.md); you run `go-plan`, `go-work`, `go-fix` in the main thread.
-- Skills write no plugin docs; each returns its result in the reply. You alone save `plan.md`, `checklist.md`, `review.md`, `triage.md`, `state/diagnose.md`, per [storage.md](references/storage.md) and [written-docs.md](references/written-docs.md).
-- `to-pr`, `to-test-md`, `to-test-html`, `to-charsiu` are user-invoked: never run or mention them.
-- Honor the user's model, effort, approvals, repository rules.
+- Skills return results in the reply. You alone save `plan.md`, `checklist.md`, `review.md`, `triage.md`, `state/diagnose.md`, `commit-format.md`, and the glossary and ADRs from `go-plan`'s `Decisions`, per [storage.md](references/storage.md) and [written-docs.md](references/written-docs.md).
 - Without subagents, say the manager workflow cannot run in this host.
 
 ## Authorization
 
-- Routing authorizes nothing. Tests, resets, commits, pushes, external writes, broader files each need the user's request or an approved plan.
+- Routing authorizes nothing. Tests, resets, commits, pushes, external writes, broader files each need the user's request or an approved plan. The newest instruction wins: a request to run named specs authorizes exactly those runs, even when an earlier plan says not to run tests.
 - Approving a plan with per-step commits `Delivery` authorizes each step's commit and the deletions the plan lists.
 
 ## Route
@@ -45,12 +42,13 @@ disable-model-invocation: true
 
 1. Pasted link: ask the project per [storage.md](references/storage.md) if its branch has none. Assign `go-triage` first; save its brief as `triage.md` before planning.
 2. Run `go-plan` in the main thread (a subagent cannot ask the user). Save its plan and checklist as `plan.md`, `checklist.md`. Stop for plan approval.
-3. Run `go-work` on the approved plan, passing the plan text, step by step, each step ending in its commit.
-   - Record each step's `Done` line in `checklist.md`.
-   - Continue until the `Goal` holds or `go-work` reports a stop condition; ask the user then.
-4. Final validation or review still failing after the fixes: stop and ask the user.
-5. `go-work` reports `Open: run e2e`: assign `go-e2e` once to write and run exactly the plan's `E2E` specs, per [tests.md](references/tests.md). Fix failures with `go-work`.
-6. `Open: ready for review`, or e2e passes: send baseline, scope, and previous `review.md` (if any) to `go-review`.
+3. Loop over the approved plan's steps in order, one `go-work` call per step. Pass it the plan text and the step number.
+   - Record each step's `Done` line in `checklist.md`, then start the next step.
+   - `go-work` reports a stop condition: ask the user.
+   - After the last step, confirm the plan's `Goal` holds.
+4. Run the final validation per [validation.md](references/validation.md). Still failing after the fixes: stop and ask the user.
+5. Plan's `E2E` line is not `none`: assign `go-e2e` once to write and run exactly the plan's `E2E` specs, per [tests.md](references/tests.md). Fix failures with `go-work`.
+6. Validation done (and e2e passed when planned): send baseline, scope, and previous `review.md` (if any) to `go-review`.
    - Save its report as `review.md`; write test results into `Tests` per [tests.md](references/tests.md).
    - Only `go-review` reviews.
 7. A review ends at `review.md` and its short report. Run `go-fix` only for findings the user selects, passing the review text; a saved review approves no fixes. Record its dispositions in `review.md` and `checklist.md`.
@@ -63,7 +61,6 @@ disable-model-invocation: true
 1. Resolve repository, branch, objective, requirement source, branch folder per [storage.md](references/storage.md), review path, next authorized job. Ask only when ambiguity blocks a safe assignment.
 2. Write one checkable criterion per requested outcome; assign it per [reports.md](references/reports.md).
    - Dispatch prompt includes the report contract, commit format, attachments directory (in the branch folder).
-   - Save what a skill returns: `plan.md`, `checklist.md`, `triage.md`, `state/diagnose.md`, `commit-format.md`, and glossary and ADRs from `go-plan`'s `Decisions`.
 3. Verify each criterion yourself; "done" is a claim.
    - Check `git diff --stat`, hunks, named artifacts, and that each test command selects the right scope with an exit code.
    - Rerun a unit test only when evidence is missing or contradicts the diff and tests were authorized; ask before e2e reruns or resets.
@@ -88,7 +85,6 @@ Done when every criterion is `pass`, or `fail`/`unchecked` with the user told wh
 - On assigning: `→ <agent>: <job>`.
 - After a job, at most three lines: `<job>: done | failed | blocked. <the one thing that matters>.`; what needs the user; path of the doc to read.
 - At an approval gate, end with one question, such as `Approve step 2?`.
-- Outside observations go to `state/jobs.md`.
+- Observations outside the job go to `state/jobs.md`.
 - Open discussion: job line, then `Back to: <open topic>`. Hold raised questions until the point closes; raise a failure or blocker at once only if it changes the point.
 - Name only `plan.md`, `checklist.md`, `review.md`, by full absolute path, one per line.
-- No tables, evidence dumps, restated plans in chat.

@@ -8,12 +8,11 @@ When the user or plan authorizes tests, the manager runs unit specs of its own s
 - A rerun after a fix: the failed specs.
 - The user asks for a run or a review.
 
-- A kind with no setup is skipped per [test-setup.md](test-setup.md). Any other change triggers no run.
-- Reset environments or test data only on the user's explicit request.
+- A kind with no setup is skipped per [test-setup.md](test-setup.md).
 
 ## e2e scope
 
-- Slow: once, before review, never per step.
+- Slow: run once, before review.
 - The plan's `E2E` line in `## Testing` is the whitelist: `go-e2e` writes those specs, then runs exactly those files; put the paths in the handoff.
 - A folder, tag, or full suite only when the user asks.
 - A result counts only for the `HEAD` and diff it ran on.

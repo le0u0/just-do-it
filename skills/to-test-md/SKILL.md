@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Testing Guide
 
-Write the guide as Markdown. `to-test-html` builds the page from it.
+Write the guide as Markdown.
 
 ## Input
 
@@ -19,11 +19,10 @@ Write the guide as Markdown. `to-test-html` builds the page from it.
 1. Read `plan.md` and the diff. Use screen names users see: no file paths or component names.
 2. Write the guide per [guide-format.md](references/guide-format.md).
 3. Save as `testing-guide-{short-description}.md` in the branch folder, updating in place.
-4. Return under `Open`:
+4. Reply with the path and `Open`:
    - Behaviours in the diff or plan that no test covers.
    - Tests that cannot be done by hand, such as fetch failure or timing.
-5. Add or drop no test without the user's answer.
-6. Reply with the path and `Open`.
+5. Change the test list only on the user's answer.
 
 ## Storage
 

@@ -132,12 +132,12 @@ def check(base):
             if git(root, 'rev-parse', 'HEAD') != before['head']: errors.append('HEAD changed')
             if git(root, 'write-tree') != before['index']: errors.append('index changed')
         if case['id'].startswith('focused-') or case['id'] in ('unit-author-run', 'step-commit'):
-            runs = [event for event in events if '--help' not in event['args']]
+            runs = [event for event in events if not {'--help', '--version'} & set(event['args'])]
             expected_runs = 2 if case['id'] == 'step-commit' else 1
             if len(runs) != expected_runs: errors.append('expected %d test invocation(s)' % expected_runs)
             for event in events:
                 args = event['args']
-                if '--help' not in args and '--include='+SPEC not in args and not any(args[i:i+2] == ['--include', SPEC] for i in range(len(args))): errors.append('missing exact spec selector')
+                if not {'--help', '--version'} & set(args) and '--include='+SPEC not in args and not any(args[i:i+2] == ['--include', SPEC] for i in range(len(args))): errors.append('missing exact spec selector')
                 expected_files = after if case['id'] in ('unit-author-run', 'step-commit') else before['files']
                 if case['id'] == 'step-commit' and event is runs[0]:
                     if event['files'].get(SOURCE) != before['files'].get(SOURCE): errors.append('source changed before the red run')
@@ -146,7 +146,7 @@ def check(base):
                 if SPEC not in changed: errors.append('regression spec missing')
                 if 'remaining' not in (root/SPEC).read_text() or '-3' not in (root/SPEC).read_text(): errors.append('negative-result assertion missing')
         elif case['id'] == 'e2e-scope':
-            runs = [e for e in events if '--help' not in e['args']]
+            runs = [e for e in events if not {'--help', '--version'} & set(e['args'])]
             if len(runs) != 1: errors.append('expected exactly one e2e invocation')
             else:
                 args = runs[0]['args']
@@ -168,7 +168,7 @@ def check(base):
             if case['id'] == 'selected-findings': js += '\nif(hasItems(0)!==false || hasItems(1)!==true) process.exit(1);'
             if subprocess.run(['node','-e',js], capture_output=True).returncode: errors.append('behavior assertions failed')
             if case['id'] in ('implementation-no-tests', 'step-commit') and SPEC not in changed: errors.append('regression spec missing')
-        results.append({'case':case['id'], 'filesystem_and_command_checks':'PASS' if not errors else 'FAIL', 'errors':errors, 'changed':changed, 'runner_calls':sum('--help' not in event['args'] for event in events)})
+        results.append({'case':case['id'], 'filesystem_and_command_checks':'PASS' if not errors else 'FAIL', 'errors':errors, 'changed':changed, 'runner_calls':sum(not {'--help', '--version'} & set(event['args']) for event in events)})
     print(json.dumps(results, indent=2))
     return all(not r['errors'] for r in results)
 

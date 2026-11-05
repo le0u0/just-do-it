@@ -38,4 +38,3 @@ Return the checklist after the plan, per the [writing rules](writing-rules.md).
 
 - The caller records progress after each step, including finding IDs and dispositions.
 - List unrelated existing changes separately.
-- On resume, compare repository, branch, baseline, and HEAD with the checkout; invalidate stale evidence; keep the user's changes; ask only when drift makes scope ambiguous.

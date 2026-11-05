@@ -16,4 +16,4 @@ The project owns the rules. Read what applies:
 - The caller's glossary and ADRs, terms as written.
 - The nearest comparable spec, found by searching the checkout.
 
-Nothing applies: say so, follow the nearest spec. Link rules, never copy them.
+Nothing applies: say so, follow the nearest spec.

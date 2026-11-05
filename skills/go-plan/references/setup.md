@@ -22,4 +22,4 @@ The project owns the rules. Read what applies:
 - Glossary and ADRs, the caller's and the repository's. Terms as written; confirm with the user before adding or changing one.
 - The nearest comparable feature or spec, found by searching the checkout.
 
-Nothing applies: say so, follow the nearest comparable code. Link rules, never copy them. Name relevant rule files in a step's `Files` or `Do`.
+Nothing applies: say so, follow the nearest comparable code. Name relevant rule files in a step's `Files` or `Do`.

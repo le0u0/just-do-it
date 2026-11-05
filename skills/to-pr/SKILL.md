@@ -12,12 +12,11 @@ metadata:
 
 # PR
 
-Write the title and body for the current branch. Open the PR only when asked.
+Write the title and body for the current branch.
 
 ## Input
 
 - The branch diff against its base, and what the user said.
-- No plan or review file.
 - The project's own terms, from `GLOSSARY.md` when present.
 
 ## Steps
@@ -42,7 +41,7 @@ Write the title and body for the current branch. Open the PR only when asked.
 - Branch folder: `~/.just-do-it/{project}/{branch}/`; `{branch}` = `git branch --show-current`, `/` replaced by `-`.
 - Find it: glob `~/.just-do-it/*/{branch}`.
 - No match: ask which project. Reuse the folder matching ignoring case and separators, else create it (lowercase words joined by hyphens).
-- `pr.md` exists: update in place. No numbered or dated copy.
+- `pr.md` exists: update in place.
 
 ## Body template
 
@@ -127,7 +126,7 @@ Views:
 - Before and after proof the change works.
 - Best: screenshots, for visual changes when the environment allows.
 - Next: execution output: the exact test that failed and now passes, as pseudocode, with command and result.
-- Never invent a result. Write `not run` where none.
+- Write `not run` where there is no result.
 
 ### Merge Danger
 

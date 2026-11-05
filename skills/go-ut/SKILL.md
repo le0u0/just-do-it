@@ -5,9 +5,7 @@ description: 'Write, fix or run unit specs for changed code, following the proje
 
 # Unit Tests
 
-## Contract
-
-- Report as the caller specifies; default `Done` / `Open` / `Changed`. A run reports:
+Report as the caller specifies; default `Done` / `Open` / `Changed`. A run reports:
 
 ```text
 Status: done | failed | blocked
@@ -17,8 +15,6 @@ Changed: <files, or none>
 Open: <or none>
 ```
 
-- Write no plan docs; return all in the reply. Input is text or a path the caller names.
-
 ## Modes
 
 - **Write or fix specs:** no production change. Report production defects; `go-work` fixes them.
@@ -26,7 +22,7 @@ Open: <or none>
 
 ## Rules
 
-- Run specs only when the request or plan authorizes it; a later no-tests instruction wins. Otherwise write specs and hand back unrun.
+- Run specs only when the request or plan authorizes it; the newest instruction wins, so a request to run named specs authorizes exactly those runs, even when an earlier plan says not to run tests. Otherwise write specs and hand back unrun.
 - Focused specs only; the full suite only when the user asks.
 - Leave the protected files in `running.md` and unrelated specs unchanged.
 - e2e specs go to `go-e2e`.

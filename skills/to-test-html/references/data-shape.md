@@ -51,5 +51,5 @@ The template holds a sample guide between two markers: `const DATA=/*DATA*/{...}
 
 1. Serialize with `JSON.stringify`.
 2. Escape every `<` as `\u003c`, so `</script>` and `<!--` cannot occur.
-3. Replace the text `/*DATA*/null` once.
+3. Replace the text between `/*DATA*/` and `/*END*/` once.
 4. Add a language only when the project has one the template lacks: add it to `ALL_LANGS` and `UI`, with every key of the existing entries.

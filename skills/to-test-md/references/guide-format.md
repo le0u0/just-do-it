@@ -1,6 +1,6 @@
 # Guide Format
 
-The reader tests by hand and knows nothing about the code. Say what to do and expect, once. `to-test-html` renders the HTML page from this Markdown.
+The reader tests by hand and knows nothing about the code. Say what to do and expect, once.
 
 ```markdown
 # PROJ-123: feature name
@@ -52,13 +52,13 @@ Expect: <result>.
 
 - `Test N: descriptive title`, numbered across the guide. Parts: optional note, numbered steps, one `Expect:` line.
 - Start at the first screen that differs from the previous test.
-- Create test data inside the steps; no shared data up front.
+- Create test data inside the steps.
 - Name a default as a default ("unchecked by default"). Put what is checked after an action in the same `Expect` line.
 
 ## Steps
 
 - One action, 15 words or fewer.
-- Never say to log in or switch account when Setup or the title names it.
+- Name the account once, in Setup or the title; steps skip log-in and switching.
 
 ## Wording
 

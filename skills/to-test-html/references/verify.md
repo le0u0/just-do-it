@@ -15,5 +15,3 @@
 5. Repeat the save test with `localStorage` blocked (`addInitScript`): red warning shows, same-tab fallback restores state.
 6. Computed font sizes match the type scale in [html-page.md](html-page.md).
 7. Reload, then open a second tab: saved state is there.
-
-Safari, Firefox: `not verified` unless run.

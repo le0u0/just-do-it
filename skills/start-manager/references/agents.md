@@ -4,7 +4,6 @@
 
 - Main thread: `go-plan`, `go-work`, `go-fix`.
 - General-purpose subagent: `go-triage`, `go-e2e`, `go-review`. The prompt names the skill; `model` and `effort` are set on the call. It starts no agents.
-- No skill writes plugin docs; the manager saves what it returns.
 
 | Skill | Model | Effort |
 | --- | --- | --- |
@@ -25,8 +24,3 @@
 - Prompt: skill to call (such as `just-do-it:go-review`), file paths, acceptance criterion, authorization, per [reports.md](reports.md). Never paste the conversation.
 - A resumed agent keeps its model and effort; settle both first.
 - A one-command job, such as a one-line fix, runs in the main thread.
-
-## Hand-off between skills
-
-- A skill needing one it cannot run (`go-work` needing `go-e2e`): return `Open` to the manager.
-- Called directly without the manager: run that skill yourself.

@@ -8,7 +8,7 @@ description: 'Triage tickets, a queue, or any pasted link from live requirements
 ## Scope
 
 - Write no plugin docs: return the brief in the reply; the caller saves it. Report as the caller specifies.
-- Read-only: approve nothing, change no ticket field, post no comment, start no implementation unless asked.
+- Read-only: fetch and summarise; change ticket state, comment, or implement only when asked.
 - Planning goes to `go-plan`.
 
 ## Workflow

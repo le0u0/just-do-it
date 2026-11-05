@@ -4,10 +4,8 @@ A spec plus its tickets: Goal, Acceptance criteria, Testing, Decisions, and Out 
 
 ## Writing
 
-1. Read the project references per [setup.md](setup.md) and nearby code.
-2. Resolve behavior (current and expected), edge and error cases, roles, test data, dependencies, exclusions, design, wording.
-3. Once expected behavior is clear, ask once for an optional screenshot.
-4. Write per the [writing rules](writing-rules.md), as simple as possible, latest approved scope only. No `requirements.md`: Goal and criteria live in the plan.
+1. Once expected behavior is clear, ask once for an optional screenshot.
+2. Write per the [writing rules](writing-rules.md), as simple as possible, latest approved scope only.
 
 ```markdown
 # Plan: PROJ-123 do something
@@ -63,7 +61,7 @@ None.
 
 - **Goal:** one or two checkable lines: the behavior plus the specs that must pass.
   - The user confirms it; only a requirement change the user requests alters it.
-  - `go-work` keeps working until it holds. Never a vague aim.
+  - The manager runs the steps until it holds.
 - **Acceptance criteria:** observable results, one line each, key error and edge cases included.
 - **Steps:** one independently verifiable behavior ending in one passing commit; usually two to four, one for a small ticket.
   - Merge steps touching the same file or behavior. Add one only when it can pass its spec alone.

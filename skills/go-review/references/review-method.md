@@ -10,4 +10,4 @@ Apply both axes in the single pass; a change can pass one and fail the other.
 - Inspect callers, types, tests, state handling only to confirm an issue.
 - A finding needs a reachable trigger, impact, exact changed location, feasible fix.
 - A missing test is a defect only when required or tied to a shown regression.
-- Done when every hunk is assessed; missing evidence limits a finding, never skips the review.
+- Missing evidence limits a finding, never skips the review.

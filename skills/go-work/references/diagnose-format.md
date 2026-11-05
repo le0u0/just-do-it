@@ -2,7 +2,6 @@
 
 ## Output
 
-- Return in the reply; write no file.
 - One line per point, at most 15 words, fragments. Code, identifiers, paths, error strings exact.
 
 ```markdown

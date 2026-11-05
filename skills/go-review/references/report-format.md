@@ -86,5 +86,4 @@ None.
 - Keep `TODO`, `RESOLVED`, `IGNORED`; `None.` when empty.
   - `TODO`: open, deferred, disputed. `RESOLVED`: applied fixes. `IGNORED`: needs the user's explicit choice.
 - `Status: approved` records user approval only.
-- Reply only after the review completes. Re-review returns the supplied report in full, no history.
 - Uncommitted work: `Diff fingerprint` identifies the snapshot.

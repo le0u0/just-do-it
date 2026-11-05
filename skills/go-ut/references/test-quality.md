@@ -1,14 +1,10 @@
 # Test Quality
 
-The project's own test rules win where they conflict. Read before the first spec.
-
 ## A good test
 
 - Verifies behavior through a public interface, so code can change entirely and the test survives.
 - Reads like a spec ("user can checkout with valid cart"), ignoring internal structure.
 - One logical assertion.
-- Uses the domain terms of `GLOSSARY.md` and any glossary the caller passes; respects `docs/adr/` for the area touched.
-- See [examples.md](examples.md) and [mocking.md](mocking.md).
 
 ## Anti-patterns
 
