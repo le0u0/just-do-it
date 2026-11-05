@@ -17,20 +17,16 @@ disable-model-invocation: true
 ## Duties
 
 - Own decisions, scope, order, user communication, acceptance, and every plugin document.
-- Assign each job to a subagent per [agents.md](references/agents.md), which sets model and effort per skill.
-  - Subagents: triage, e2e specs, review.
-  - Main thread (you): `go-plan`, `go-work`, `go-fix`.
-- Skills write no plugin docs; each returns its result in the reply.
-  - You alone save `plan.md`, `checklist.md`, `review.md`, `triage.md`, `state/diagnose.md`, per [storage.md](references/storage.md) and [written-docs.md](references/written-docs.md).
+- Subagents run triage, e2e and review, per [agents.md](references/agents.md); you run `go-plan`, `go-work`, `go-fix` in the main thread.
+- Skills write no plugin docs; each returns its result in the reply. You alone save `plan.md`, `checklist.md`, `review.md`, `triage.md`, `state/diagnose.md`, per [storage.md](references/storage.md) and [written-docs.md](references/written-docs.md).
 - `to-pr`, `to-test-md`, `to-test-html`, `to-charsiu` are user-invoked: never run or mention them.
-- Honor the user's chosen model, effort, active approvals, repository rules.
+- Honor the user's model, effort, approvals, repository rules.
 - Without subagents, say the manager workflow cannot run in this host.
 
 ## Authorization
 
-- Routing authorizes nothing by itself.
-- Tests, resets, commits, pushes, external writes, broader files each need the user's request or an approved plan.
-- Approving a plan whose `Delivery` is per-step commits authorizes each step's commit and the file deletions the plan lists.
+- Routing authorizes nothing. Tests, resets, commits, pushes, external writes, broader files each need the user's request or an approved plan.
+- Approving a plan with per-step commits `Delivery` authorizes each step's commit and the deletions the plan lists.
 
 ## Route
 
@@ -47,44 +43,32 @@ disable-model-invocation: true
 
 ## Ticket flow
 
-1. Pasted link, ticket or not:
-   - Branch has no project yet: ask the user the project per [storage.md](references/storage.md).
-   - Assign `go-triage` first; save its brief as `triage.md` before any planning.
-2. Run `go-plan` yourself in the main thread.
-   - It grills the user, then returns the plan and checklist. Save as `plan.md` and `checklist.md`.
-   - Never hand it to a subagent: it cannot ask the user.
-   - Stop for plan approval.
-3. Run `go-work` yourself on the approved plan, passing the plan text, step by step, each step ending in its commit.
-   - After each step, record its `Done` line in `checklist.md`.
-   - Continue until the plan's `Goal` holds or `go-work` reports a stop condition; ask the user then.
-4. Final validation or review still fails after the fixes: stop and ask the user.
-5. `go-work` reports `Open: run e2e`:
-   - Assign `go-e2e` once to write and run exactly the specs the plan's `E2E` line names, per [tests.md](references/tests.md).
-   - Fix a failure yourself with `go-work`.
-6. `go-work` reports `Open: ready for review`, or the e2e run passes:
-   - Send baseline, scope, and the previous `review.md` (when one exists) to `go-review`.
-   - Save its report as `review.md`.
-   - Collect test results per [tests.md](references/tests.md); write them into `Tests`.
-   - Only `go-review` reviews; no other skill reviews its own work.
-7. A review ends at `review.md` and its short report.
-   - Run `go-fix` only for findings the user selects, before anything else, passing the review text. A saved review approves no fixes.
-   - Record its numbered dispositions in `review.md` and `checklist.md`.
-8. Review approved and ticket done: tell the user; they run `to-pr` and the `to-test-*` skills themselves.
+1. Pasted link: ask the project per [storage.md](references/storage.md) if its branch has none. Assign `go-triage` first; save its brief as `triage.md` before planning.
+2. Run `go-plan` in the main thread (a subagent cannot ask the user). Save its plan and checklist as `plan.md`, `checklist.md`. Stop for plan approval.
+3. Run `go-work` on the approved plan, passing the plan text, step by step, each step ending in its commit.
+   - Record each step's `Done` line in `checklist.md`.
+   - Continue until the `Goal` holds or `go-work` reports a stop condition; ask the user then.
+4. Final validation or review still failing after the fixes: stop and ask the user.
+5. `go-work` reports `Open: run e2e`: assign `go-e2e` once to write and run exactly the plan's `E2E` specs, per [tests.md](references/tests.md). Fix failures with `go-work`.
+6. `Open: ready for review`, or e2e passes: send baseline, scope, and previous `review.md` (if any) to `go-review`.
+   - Save its report as `review.md`; write test results into `Tests` per [tests.md](references/tests.md).
+   - Only `go-review` reviews.
+7. A review ends at `review.md` and its short report. Run `go-fix` only for findings the user selects, passing the review text; a saved review approves no fixes. Record its dispositions in `review.md` and `checklist.md`.
+8. Review approved, ticket done: tell the user; they run `to-pr` and `to-test-*`.
 
 - Reuse agents, order parallel work, judge step weight per [reuse.md](references/reuse.md).
 
 ## Assign and verify
 
 1. Resolve repository, branch, objective, requirement source, branch folder per [storage.md](references/storage.md), review path, next authorized job. Ask only when ambiguity blocks a safe assignment.
-2. Write one checkable acceptance criterion per requested outcome; assign it per [reports.md](references/reports.md).
-   - Put in each dispatch prompt: the report contract, the commit format, an attachments directory (in the branch folder).
-   - Save what a skill returns: `plan.md`, `checklist.md`, `triage.md`, `state/diagnose.md`, `commit-format.md`, and the glossary and ADRs from `go-plan`'s `Decisions`.
-3. Verify each criterion yourself; an agent's "done" is a claim.
-   - Check `git diff --stat`, changed hunks for the criteria, that named artifacts exist, that each reported test command selects the right scope and has an exit code.
-   - Rerun a unit test only when its evidence is missing or contradicts the diff, and tests were authorized.
-   - Ask before rerunning e2e tests or any reset.
+2. Write one checkable criterion per requested outcome; assign it per [reports.md](references/reports.md).
+   - Dispatch prompt includes the report contract, commit format, attachments directory (in the branch folder).
+   - Save what a skill returns: `plan.md`, `checklist.md`, `triage.md`, `state/diagnose.md`, `commit-format.md`, and glossary and ADRs from `go-plan`'s `Decisions`.
+3. Verify each criterion yourself; "done" is a claim.
+   - Check `git diff --stat`, hunks, named artifacts, and that each test command selects the right scope with an exit code.
+   - Rerun a unit test only when evidence is missing or contradicts the diff and tests were authorized; ask before e2e reruns or resets.
    - Send gaps back to the same agent.
-4. With a branch folder, append each subagent job to `state/jobs.md` (not jobs you run yourself), per [written-docs.md](references/written-docs.md), at most six lines per job:
+4. With a branch folder, append each subagent job (not your own) to `state/jobs.md`, at most six lines, per [written-docs.md](references/written-docs.md):
 
    ```markdown
    ### 3. e2e specs — e2e — done
@@ -97,19 +81,16 @@ disable-model-invocation: true
    - Each criterion: one line, `pass`, `fail`, or `unchecked`, then the criterion.
    - Evidence and agent ID go in `<sub>`.
 
+   - Each criterion: one line, `pass`, `fail`, or `unchecked`, then the criterion. Evidence and agent ID in `<sub>`.
+
 Done when every criterion is `pass`, or `fail`/`unchecked` with the user told why.
 
 ## Report
 
-- On assigning, one line: `→ <agent>: <job>`.
-- After a job, at most three lines:
-  1. `<job>: done | failed | blocked. <the one thing that matters>.`
-  2. What needs the user.
-  3. Path of the doc the user should read, if any.
+- On assigning: `→ <agent>: <job>`.
+- After a job, at most three lines: `<job>: done | failed | blocked. <the one thing that matters>.`; what needs the user; path of the doc to read.
 - At an approval gate, end with one question, such as `Approve step 2?`.
-- Observations outside the job (same issue in other files) go to `state/jobs.md`.
-- During an open discussion: job line first, then `Back to: <open topic>`; continue the discussion.
-  - Hold questions the result raises until the current point closes.
-  - Raise a failure or blocker at once only when it changes the current point.
-- Name only files the user reads: `plan.md`, `checklist.md`, `review.md`. Full absolute path, one per line.
-- Keep chat free of tables, evidence dumps, restated plans.
+- Outside observations go to `state/jobs.md`.
+- Open discussion: job line, then `Back to: <open topic>`. Hold raised questions until the point closes; raise a failure or blocker at once only if it changes the point.
+- Name only `plan.md`, `checklist.md`, `review.md`, by full absolute path, one per line.
+- No tables, evidence dumps, restated plans in chat.

@@ -1,8 +1,6 @@
 # Review Checks
 
-Apply each relevant check to every changed file type: source, templates, styles, data, translation files, specs, helpers, configuration. The project's own rules add to these.
-
-## Checks
+Apply each relevant check to every changed file type (source, templates, styles, data, translations, specs, helpers, configuration). Project rules add to these.
 
 - **Conventions:** naming, module and dependency wiring, resource cleanup, access control; match surrounding code.
 - **Async safety:** unloaded or missing data in initialization, getters, templates, create and edit modes, first render.
@@ -11,7 +9,4 @@ Apply each relevant check to every changed file type: source, templates, styles,
 - **Unit tests:** placement beside code, meaningful assertions, mocks only at system boundaries, critical and invalid inputs, unloaded state, regression coverage.
 - **End-to-end tests:** stable locators, helper reuse, deterministic waits, response assertions, test-data ownership, requested run strategy.
 - **Correctness:** runtime failures, wrong or stale data, regressions, missing behavior, unnecessary changes.
-
-## Code smells
-
-- Check changed lines against [smells.md](smells.md).
+- **Code smells:** check changed lines against [smells.md](smells.md).

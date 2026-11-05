@@ -2,11 +2,9 @@
 
 ## Who runs what
 
-- Main thread (manager): `go-plan`, `go-work`, `go-fix`.
-- General-purpose subagent: `go-triage`, `go-e2e`, `go-review`.
-  - The prompt names the skill; `model` and `effort` are set on the call.
-  - A subagent does its job with that skill and starts no agents.
-- No skill writes plugin docs: each returns its result in the reply; the manager saves it.
+- Main thread: `go-plan`, `go-work`, `go-fix`.
+- General-purpose subagent: `go-triage`, `go-e2e`, `go-review`. The prompt names the skill; `model` and `effort` are set on the call. It starts no agents.
+- No skill writes plugin docs; the manager saves what it returns.
 
 | Skill | Model | Effort |
 | --- | --- | --- |
@@ -14,26 +12,21 @@
 | `go-e2e` | sonnet | medium |
 | `go-review` | opus | medium |
 
-## Tests
-
-- The manager writes and runs unit specs per `go-work`: in its own steps, for a review, for the user's request.
-- `go-e2e` runs e2e specs once, before review.
-- The other subagents run no tests.
+- The manager writes and runs unit specs per `go-work`; `go-e2e` runs e2e once, before review. Other subagents run no tests.
 
 ## Announce
 
-- Before each start, say model, version, effort in the one-line assignment, such as `→ e2e: write specs (sonnet 5.5, medium)`.
-- User states a model or effort preference: use it for that job and later jobs of the same skill.
-- There are no variants to ask about.
+- Before each start, say model, version, effort in the assignment line: `→ e2e: write specs (sonnet 5.5, medium)`.
+- A user preference for model or effort applies to that and later jobs of the same skill.
 
 ## Start
 
-- Start `general-purpose` with `model` and `effort` from the table. Never start a fork: a fork copies the whole chat.
-- The prompt holds: the skill to call (such as `just-do-it:go-review`), file paths, acceptance criterion, authorization, per [reports.md](reports.md). Never paste or summarise the conversation with the user.
-- A resumed agent keeps its model and effort; settle both before starting.
-- A small job finishable with one command or read, such as a one-line fix, runs in the main thread with no subagent.
+- `general-purpose` with `model` and `effort` from the table. Never a fork: it copies the whole chat.
+- Prompt: skill to call (such as `just-do-it:go-review`), file paths, acceptance criterion, authorization, per [reports.md](reports.md). Never paste the conversation.
+- A resumed agent keeps its model and effort; settle both first.
+- A one-command job, such as a one-line fix, runs in the main thread.
 
 ## Hand-off between skills
 
-- A skill needs a skill it cannot run itself, such as `go-work` needing an e2e run from `go-e2e`: return the request to the manager as `Open`.
+- A skill needing one it cannot run (`go-work` needing `go-e2e`): return `Open` to the manager.
 - Called directly without the manager: run that skill yourself.

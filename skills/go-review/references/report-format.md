@@ -2,12 +2,10 @@
 
 ## Style
 
-- Fragments: drop articles, filler, hedging.
-- Code, identifiers, paths, error strings stay exact.
-- Present state only: no history, dates, how a decision was reached.
+- Fragments; code, identifiers, paths, error strings exact. Present state only.
 - Reference detail goes in `<sub>`.
-- Issue, Fix, Done: main points. One line each, at most 20 words, no file location.
-- Never mention a ticket, its requirements, or its progress.
+- Issue, Fix, Done: one line each, at most 20 words, no file location.
+- Never mention a ticket, its requirements, or progress.
 
 ## Template
 
@@ -64,21 +62,16 @@ None.
 
 ## Fields
 
-- **Issue Count:** open `TODO` findings only, with severity split. Count nothing resolved or ignored.
+- **Issue Count:** open `TODO` only, with severity split.
 - **Heading:** number, severity, owning class or file.
-- **Issue:** trigger and impact, one line.
-- **Fix:** corrective action, one line; one alternative at most.
-- **Done / Status:** only in `RESOLVED`.
-  - Added by the caller from `go-fix` results, or alone when a re-review finds an author's fix.
-  - `Done`: the final change.
-  - `Status`: `fixed (e4f5g6h)`, `fixed, tested`, `fixed, not tested`, `deferred`, `disputed`, or `ignored by user`.
-- **Manual review:** above `TODO`, so the reader knows where to look first.
-  - Pick by risk, not size: logic, state, data flow, permissions.
-  - Skip renames, templates, styles, generated code, specs.
-  - At most seven, riskiest first.
-  - Each: `file:line`, then `-> ` one sentence of at most 20 words, in plain words a five-year-old follows: what the code does and what could go wrong, with an everyday picture, no jargon or code names.
-  - Pick from the diff even when `TODO` is empty. `None.` only when the diff is a few low-risk lines.
-- **Tests:** written by the caller from the unit and e2e reports, never by `go-review`. Starts as `Unit: not run` and `E2E: not run`.
+- **Issue:** trigger and impact. **Fix:** corrective action; one alternative at most.
+- **Done / Status:** only in `RESOLVED`; added by the caller from `go-fix` results, or by a re-review that finds an author's fix.
+  - `Status`: `fixed (e4f5g6h)`, `fixed, tested`, `fixed, not tested`, `deferred`, `disputed`, `ignored by user`.
+- **Manual review:** above `TODO`; where to look first.
+  - Pick by risk (logic, state, data flow, permissions), not size; skip renames, templates, styles, generated code, specs.
+  - At most seven, riskiest first, even when `TODO` is empty. `None.` only for a few low-risk lines.
+  - Each: `file:line`, then `-> ` one sentence of at most 20 words a five-year-old follows: what the code does, what could go wrong, an everyday picture, no jargon or code names.
+- **Tests:** written by the caller, never `go-review`. Starts `Unit: not run`, `E2E: not run`.
 
 ## Severity
 
@@ -88,18 +81,10 @@ None.
 
 ## Sections
 
-- Wrap `Reference` in `<sub>`.
-- Keep `Tests` plain, right under `Issue Count`: the reader checks it for pass or fail.
-  - One line each for `Unit` and `E2E`: `pass`, `fail` with failed spec names, or `not run: <reason>`.
-- Order findings by severity. Numbers stay stable across sections; `---` between findings.
-- Keep `TODO`, `RESOLVED`, `IGNORED`; write `None.` when empty.
-  - `TODO`: open, deferred, disputed findings.
-  - `RESOLVED`: applied fixes.
-  - `IGNORED`: needs the user's explicit choice.
+- `Reference` in `<sub>`. `Tests` plain, under `Issue Count`: `Unit` and `E2E` lines, each `pass`, `fail` with spec names, or `not run: <reason>`.
+- Findings by severity; numbers stable across sections; `---` between findings.
+- Keep `TODO`, `RESOLVED`, `IGNORED`; `None.` when empty.
+  - `TODO`: open, deferred, disputed. `RESOLVED`: applied fixes. `IGNORED`: needs the user's explicit choice.
 - `Status: approved` records user approval only.
-
-## Reply
-
-- Reply with the report only after the review completes.
-- Re-review: return the supplied report updated in full, with no history. Fixed findings move to `RESOLVED` as one `Done` line; every point stays short.
+- Reply only after the review completes. Re-review returns the supplied report in full, no history.
 - Uncommitted work: `Diff fingerprint` identifies the snapshot.

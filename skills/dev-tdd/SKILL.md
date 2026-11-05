@@ -21,8 +21,8 @@ description: 'Drive one step or behavior test-first: confirm the seam, write a f
 Per behavior of the step (a direct request is one step):
 
 1. Confirm the seam per `loop.md`. The step's `Test` names it; with no plan, return it as `Open` and proceed once confirmed.
-2. Red: call `go-ut` to write one spec and run it.
-   - When running is authorized, the red run is required even for a one-line fix: watch it fail for the right reason before touching production code. A spec for behavior the code already has may pass at once.
+2. Red: call `go-ut` to write one spec; its focused run is the red run, so run nothing else.
+   - When running is authorized, the red run is required even for a one-line fix: watch it fail for the right reason before touching production code. A spec for behavior the code already has may pass at once: run it once, never rerun it before the fix, and put `red not observed` in `Open`.
    - `no unit test setup`: write and run no specs; continue with 3.
 3. Green: write the smallest production change, matching nearby code, that the spec requires. Call `go-ut` to run the focused spec; on failure fix the code.
 4. Repeat for the next behavior.

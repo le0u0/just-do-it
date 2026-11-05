@@ -7,64 +7,49 @@ description: 'Think through one ticket with the user, then plan it as a plan and
 
 ## Scope
 
-- Talk to the user directly: run in the main thread, not a subagent.
-- Write no production code, tests, or files. Return the plan and checklist in the reply; the caller saves them.
-- Report as the caller specifies.
-- Two phases in one context: grill, then write.
-- User only wants gaps found: stop after the grill, return no plan.
+- Run in the main thread; talk to the user directly.
+- Write no production code, tests, or files. Return the plan and checklist in the reply; the caller saves them. Report as the caller specifies.
+- Two phases: grill, then write. User only wants gaps found: stop after the grill.
 
 ## Inputs
 
-- Take requirements only from supplied or explicitly retrieved context.
-- Store a supplied ticket link. The key alone says nothing about requirements.
+- Requirements come only from supplied or explicitly retrieved context. Store a supplied ticket link; the key alone says nothing.
 - Ticket URL or explicit lookup: run `go-triage` first. Its brief is context, not approved scope.
-- Follow the repository's `AGENTS.md`, `CLAUDE.md`, and project-local skills.
-- Read the project references per [setup.md](references/setup.md) and the code the ticket likely touches, enough to judge feasibility.
+- Follow `AGENTS.md`, `CLAUDE.md`, and project-local skills. Read the project references per [setup.md](references/setup.md) and the code the ticket likely touches.
 
 ## 1. Grill
 
-Interview the user until nothing is silently assumed. Treat the ticket as a design tree: each decision branches into the decisions that hang off it.
+Treat the ticket as a design tree: each decision branches into the decisions that hang off it.
 
-- Work in rounds.
-  - The **frontier** is every open decision whose prerequisites are settled.
+- Work in rounds. The **frontier** is every open decision whose prerequisites are settled.
   - Ask the whole frontier in one round, numbered, most important first.
-  - A question that depends on another open one waits for a later round.
-- Per question: a recommended answer and one line on why it matters. Word it so "yes" accepts the recommendation.
-- Find facts yourself in the code, docs, and ticket. Ask only decisions.
-- Look for:
-  - Missing or conflicting requirements, unclear acceptance criteria.
-  - Edge and error cases, roles and permissions, test data, dependencies.
-  - Design and wording, risks to existing behavior, simpler alternatives.
+  - A question that depends on an open one waits.
+- Per question: a recommended answer and one line on why it matters. Word it so "yes" accepts.
+- Find facts yourself in code, docs, and ticket. Ask only decisions.
+- Look for: missing or conflicting requirements, unclear criteria, edge and error cases, roles, test data, dependencies, design and wording, risks to existing behavior, simpler alternatives.
 - Include in the tree:
-  - The commit format, when the project does not specify one (see Commit format).
+  - The commit format, when the project has none (see Commit format).
   - A checkable `Goal`.
-  - A glossary term clash, and an ADR-worthy decision per [domain-docs.md](references/domain-docs.md).
+  - Glossary term clashes and ADR-worthy decisions per [domain-docs.md](references/domain-docs.md).
   - Boundaries, probed with a concrete edge-case scenario.
-- Done when the frontier is empty and the user confirms shared understanding. Then ask the user to say plan, unless they already asked for one.
+- Done when the frontier is empty and the user confirms shared understanding. Then ask them to say plan, unless they already did.
 
 ## Commit format
 
-- Use the format the project specifies in `AGENTS.md`, `CLAUDE.md`, rules, or project-local skills, else the one the caller supplies.
-- Neither exists: ask in the grill, with an example such as `feat: xyz` or `[PROJ-123] feat: xyz`.
-- Return the answer as a `Commit format` line (one line plus an example) under `Decisions` for the caller to save.
+- Use the project's format (`AGENTS.md`, `CLAUDE.md`, rules, project-local skills), else the caller's.
+- Neither: ask in the grill, with an example such as `feat: xyz` or `[PROJ-123] feat: xyz`.
+- Return the answer under `Decisions` as a `Commit format` line (one line plus an example) for the caller to save.
 
 ## 2. Write
 
-1. Read [plan-format.md](references/plan-format.md).
-   - Return the plan, then the checklist per [checklist-format.md](references/checklist-format.md).
-   - Record the grill's decisions under `Decisions`.
-   - Bug ticket whose diagnosis would clutter the plan: also return a diagnosis per [diagnose-format.md](references/diagnose-format.md).
-2. Check the unit and e2e test setup per [setup.md](references/setup.md). No setup: write `none: no setup` in the `Test` or `E2E` line.
-3. Make each step concrete enough for `go-work` to run without new design decisions:
-   - Affected files.
-   - Public test seams. The user approves them with the plan.
-   - Test authoring and run authorization.
-   - The one-line commit message.
-   - Delivery mode.
-4. List every file a step deletes under `Deletions`. Deletions are the only thing the plan asks approval for.
-5. Requirement changed by the user later: revise `Goal`, steps, and `Deletions`, return the whole plan again.
-6. New term or hard-to-reverse decision found while writing: go to the user first; propose it for the caller to save per [domain-docs.md](references/domain-docs.md) only after they confirm.
-7. Show the plan and checklist in the reply for approval, and stop.
+1. Read [plan-format.md](references/plan-format.md). Return the plan, then the checklist per [checklist-format.md](references/checklist-format.md). Record the grill's decisions under `Decisions`.
+2. Bug ticket whose diagnosis would clutter the plan: also return a diagnosis per [diagnose-format.md](references/diagnose-format.md).
+3. Check unit and e2e setup per [setup.md](references/setup.md). No setup: `none: no setup` in the `Test` or `E2E` line.
+4. Make each step concrete enough for `go-work` to run without new design decisions: affected files, public test seams (approved with the plan), test authoring and run authorization, the one-line commit message, delivery mode.
+5. List every file a step deletes under `Deletions`; deletions are the only thing the plan asks approval for.
+6. User changes the requirement: revise `Goal`, steps, and `Deletions`, return the whole plan again.
+7. New term or hard-to-reverse decision: ask the user; propose it per [domain-docs.md](references/domain-docs.md) only after they confirm.
+8. Show the plan and checklist for approval, and stop.
 
 ## Done when
 

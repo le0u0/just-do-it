@@ -44,6 +44,7 @@
 
 Applies for per-step commits, or when the user asks.
 
+- Run no spec just before the commit: the green run is the evidence.
 - Use the plan's `Commit` message exactly: one line, no body or trailer. No other approval needed.
 - Scope changed: propose a new one-line message and get approval first.
 - No plan message: the project's commit format, else `<type>: <description>`.

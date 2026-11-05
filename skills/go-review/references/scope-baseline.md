@@ -3,29 +3,27 @@
 ## Baseline order
 
 1. User-supplied baseline.
-2. `Reviewed to` SHA from the previous review the caller supplied.
+2. `Reviewed to` SHA from the caller's previous review.
 3. An evidenced Git parent, for a first review.
 4. Ask when uncertain.
 
-- Before reviewing, confirm the baseline resolves and the diff is not empty; otherwise stop and say so.
-- Saved SHA missing, invalid, or not an ancestor of `HEAD`: stop and ask. Never fall back to a larger range.
+- Confirm the baseline resolves and the diff is not empty; otherwise stop and say so.
+- Saved SHA missing, invalid, or not an ancestor of `HEAD`: stop and ask. Never widen the range.
 
 ## Range
 
 - Changes after the baseline through `HEAD`, plus staged, unstaged, untracked source or test changes.
-- Review the full plan scope from its initial baseline only when asked.
+- Full plan scope from its initial baseline only when asked.
 
 ## Refs
 
-- Resolve refs locally first.
-- First review: reuse the `Initial baseline` of a caller-supplied plan when it matches this checkout.
-- Fetch only when a ref is missing locally or the user asks for a remote comparison. Never enumerate all remote branches.
+- Resolve locally first. First review: reuse a caller-supplied plan's `Initial baseline` when it matches this checkout.
+- Fetch only when a ref is missing locally or a remote comparison is asked; never enumerate remote branches.
 
 ## Parent branch
 
-- Never infer it from the branch name: a branch created from A compares with A, not the default branch.
-- Check reflog and candidate ancestry; a tracking branch alone is not proof.
-- Still ambiguous: ask one question.
+- Never infer it from the branch name: a branch created from A compares with A.
+- Check reflog and candidate ancestry; a tracking branch is not proof. Still ambiguous: ask one question.
 
 ## Exclude
 

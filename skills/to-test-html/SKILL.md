@@ -6,28 +6,26 @@ disable-model-invocation: true
 
 # Testing Guide HTML
 
-Render the testing guide Markdown into one HTML page the tester ticks through. The page is generated, never hand-edited.
+Render the guide into one HTML page the tester ticks through. Never hand-edited.
 
 ## Input
 
-- `testing-guide-{short-description}.md` in `~/.just-do-it/{project}/{branch}/`.
-- `{branch}`: `git branch --show-current`, each `/` replaced by `-`. Find the folder: glob `~/.just-do-it/*/{branch}`.
+- `testing-guide-{short-description}.md` in `~/.just-do-it/{project}/{branch}/` (`{branch}` = `git branch --show-current`, `/` replaced by `-`; glob `~/.just-do-it/*/{branch}`).
 - Guide missing: stop, tell the user to run `to-test-md` first, write nothing.
 
 ## Steps
 
-1. Read the guide. Convert it to the data JSON per [data-shape.md](references/data-shape.md).
-2. Fill [qa-page-template.html](references/qa-page-template.html) per the same file. Save as `testing-guide-{short-description}.html` beside the guide. Update in place when it exists.
+1. Convert the guide to data JSON per [data-shape.md](references/data-shape.md).
+2. Fill [qa-template.html](references/qa-template.html) per the same file. Save as `testing-guide-{short-description}.html` beside the guide, updating in place.
 3. Build the page per [html-page.md](references/html-page.md).
 4. Verify per [verify.md](references/verify.md).
-5. Reply with the path, what you verified, and what you could not verify.
+5. Reply with the path, what you verified, what you could not.
 
 ## Rules
 
-- A later change goes into the `.md` first, then rerun this skill.
-- No data or generator file. The only output is the `.html`.
+- Change the `.md` first, then rerun. Output is the `.html` only: no data or generator file.
 
 ## Done when
 
 - The `.html` sits beside the guide and opens with no console error.
-- Each check in `verify.md` is `pass`, `fail` or `not verified`.
+- Each `verify.md` check is `pass`, `fail` or `not verified`.

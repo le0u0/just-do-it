@@ -26,11 +26,11 @@ Write the title and body for the current branch. Open the PR only when asked.
 2. Write the body with the template below. No preambles; short prose.
 3. Save the body as `pr.md` in the branch folder (see Storage).
 4. Reply with the title, the body, and the path.
-5. Only when asked to open or create the PR:
-   1. Read the host from `git remote get-url origin` and the base branch from `git symbolic-ref refs/remotes/origin/HEAD`. Ask when either is unclear.
-   2. Push the current branch if it has no remote copy. Never force-push.
-   3. Open the PR with the host's CLI, such as `gh pr create --base <base> --title <title> --body-file <path>`.
-   4. With no CLI, give the new-PR URL and say the PR is not opened:
+5. Only when asked to open the PR:
+   1. Host: `git remote get-url origin`. Base: `git symbolic-ref refs/remotes/origin/HEAD`. Ask when unclear.
+   2. Push the branch if it has no remote copy. Never force-push.
+   3. Open with the host's CLI, e.g. `gh pr create --base <base> --title <title> --body-file <path>`.
+   4. No CLI: give the new-PR URL and say it is not opened:
       - GitHub: `<repo-url>/compare/<base>...<branch>`
       - Bitbucket: `<repo-url>/pull-requests/new?source=<branch>&dest=<base>`
       - GitLab: `<repo-url>/-/merge_requests/new?merge_request[source_branch]=<branch>`
@@ -39,10 +39,9 @@ Write the title and body for the current branch. Open the PR only when asked.
 
 ## Storage
 
-- Branch folder: `~/.just-do-it/{project}/{branch}/`. `{branch}` is `git branch --show-current` with each `/` replaced by `-`.
+- Branch folder: `~/.just-do-it/{project}/{branch}/`; `{branch}` = `git branch --show-current`, `/` replaced by `-`.
 - Find it: glob `~/.just-do-it/*/{branch}`.
-- No match: ask which project. Reuse the folder matching ignoring case and separators, else create it.
-- Project names: lowercase words joined by hyphens.
+- No match: ask which project. Reuse the folder matching ignoring case and separators, else create it (lowercase words joined by hyphens).
 - `pr.md` exists: update in place. No numbered or dated copy.
 
 ## Body template
@@ -70,9 +69,8 @@ Write the title and body for the current branch. Open the PR only when asked.
 
 ### Summary
 
-- Pick the smallest view that makes the key point clear. One, sometimes several, rarely all.
-- Put each visual next to the short text it supports.
-- Keep only the calls, files, props, states, and boundaries that matter.
+- Smallest view that makes the point; one, sometimes several.
+- Each visual sits next to the short text it supports. Keep only what matters.
 
 Views:
 
@@ -97,22 +95,7 @@ Views:
   ```
 
 - UI structure: component tree, with state and module boundaries that matter.
-
-  ```text
-  <SessionPage> (apps/example/src/routes/session.tsx)
-    useSessionEvents()
-    <SessionToolbar>
-      <RunSkillButton> (packages/ui)
-  ```
-
-- File responsibility or broad refactor: shallow file tree.
-
-  ```text
-  src/
-  ├── commands/       # parses user actions
-  ├── sessions/       # owns session state
-  └── transport/      # sends API requests
-  ```
+- File responsibility or broad refactor: shallow file tree, one comment per folder.
 
 - Component interaction or data flow: Mermaid.
 
@@ -126,7 +109,7 @@ Views:
       Daemon-->>UI: stream result
   ```
 
-- A change to an existing shape: a `diff` block of that shape, not of the files.
+- A change to an existing shape (logic, component, file or call tree): a `diff` of that shape, not of the files.
 
   ```diff
    on(save)
@@ -137,18 +120,16 @@ Views:
   +  invalidate cache
   ```
 
-  The same works for a component tree (`+    <RunSkillButton />`), a file tree (`+│   └── show-me.ts`), or a call tree (`+    expandSkillMention`).
-
-- Whole block: when most of it is new, when omitted context would hide ownership or order, or when the user needs a copyable target shape.
+- Whole block: when most of it is new, omitted context would hide ownership or order, or the user needs a copyable target shape.
 
 ### Evidence
 
-- Show before and after proof that the change works.
-- Best: screenshots, when the change is visual and the environment allows.
-- Next: execution output. Show the exact test that failed and now passes, as pseudocode, with command and result.
-- Never invent a result. Write `not run` where there is none.
+- Before and after proof the change works.
+- Best: screenshots, for visual changes when the environment allows.
+- Next: execution output: the exact test that failed and now passes, as pseudocode, with command and result.
+- Never invent a result. Write `not run` where none.
 
 ### Merge Danger
 
-- **Door:** two-way when a revert is cheap. One-way when destructive or hard to reverse, such as data migrations.
-- **Blast Radius:** impact if it goes wrong, such as layout shift, consumer breakage, mobile responsiveness.
+- **Door:** two-way when a revert is cheap; one-way when destructive or hard to reverse (data migrations).
+- **Blast Radius:** impact if it goes wrong: layout shift, consumer breakage, mobile responsiveness.

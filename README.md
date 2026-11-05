@@ -1,6 +1,6 @@
 # just-do-it
 
-A manager that plans, builds, tests and reviews a ticket with subagents. It works in any project: the process lives here, the rules come from your repo (`AGENTS.md`, `CLAUDE.md`, project skills).
+A manager that plans, builds, tests and reviews a ticket with subagents. The process lives here; the rules come from your repo (`AGENTS.md`, `CLAUDE.md`, project skills).
 
 ## Install
 
@@ -15,15 +15,15 @@ A manager that plans, builds, tests and reviews a ticket with subagents. It work
 /just-do-it:start-manager on
 ```
 
-- Describe the work. The manager assigns jobs to subagents, runs the rest itself, checks the result, and reports in a few lines.
-- End it with `/just-do-it:start-manager off`.
-- Every skill also works on its own. `go-*` skills return their result in the reply and write no files: `/go-plan` prints the plan, `/go-work` just implements.
+- Describe the work. The manager assigns subagents, runs the rest, checks results, reports briefly.
+- End with `/just-do-it:start-manager off`.
+- Every skill also works alone. `go-*` skills return results in the reply and write no files.
 
 ## Manager
 
-- Runs `go-plan`, `go-work` and `go-fix` itself, in the main thread, so it can ask you questions directly.
-- Starts a subagent per other job, naming the skill and setting model and effort. It announces both each time. Tell it a preference and it uses that.
-- Saves every document the skills return, in `~/.just-do-it/{project}/{branch}/`.
+- Runs `go-plan`, `go-work` and `go-fix` in the main thread, so it can ask you questions.
+- Starts a subagent per other job and announces model and effort. Tell it a preference and it uses that.
+- Saves every returned document in `~/.just-do-it/{project}/{branch}/`.
 - More in [architecture](docs/architecture/ARCHITECTURE.md).
 
 | Skill | Model |
@@ -42,7 +42,7 @@ A manager that plans, builds, tests and reviews a ticket with subagents. It work
 | `to-test-html` | QA page built from that guide |
 | `to-charsiu` | Restate the last message in plain language |
 
-`to-*` skills never run on their own: you call them.
+`to-*` skills never run on their own.
 
 ## Credits
 

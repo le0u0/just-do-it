@@ -115,8 +115,8 @@ dialog .acts{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
  </div>
 </dialog>
 <script>
-/* DATA: the to-test-html skill replaces the placeholder below with the guide JSON (see data-shape.md). Nothing else in this file changes per ticket. */
-const DATA=/*DATA*/null;
+// DATA: sample guide so this file previews as is. The to-test-html skill swaps the JSON between the DATA and END markers on the next line for the guide (see data-shape.md). Nothing else changes per ticket.
+const DATA=/*DATA*/{"ticket": "SAMPLE-1", "link": "https://example.com/SAMPLE-1", "slug": "sample", "languages": ["en", "zh"], "related": [{"key": "SAMPLE-2", "link": "https://example.com/SAMPLE-2", "role": "blocks"}], "title": {"en": "Sample feature", "zh": "範例功能"}, "setup": [{"id": "AC_1", "text": {"en": "Account that can edit items.", "zh": "可以編輯項目的帳號。"}}], "groups": [{"name": {"en": "Basics", "zh": "基本"}, "why": {"en": "The core path first.", "zh": "先測主要流程。"}, "tests": [{"title": {"en": "Open the item", "zh": "開啟項目"}, "steps": [{"en": "Items: open the first item.", "zh": "項目：開啟第一個項目。"}, {"en": "Item: click Edit.", "zh": "項目：按編輯。"}], "expect": {"en": "The edit form shows.", "zh": "顯示編輯表單。"}}, {"title": {"en": "Save a change", "zh": "儲存變更"}, "note": {"en": "Uses the item from Test 1.", "zh": "沿用測試 1 的項目。"}, "steps": [{"en": "Form: change the name.", "zh": "表單：修改名稱。"}, {"en": "Form: click Save.", "zh": "表單：按儲存。"}], "expect": {"en": "The new name shows in the list.", "zh": "列表顯示新名稱。"}}]}]}/*END*/;
 /* Languages this template has UI strings for. DATA.languages picks which show; one entry hides the switch. Add a language here and in UI below. */
 const ALL_LANGS=[{k:"en",lc:"en",name:"English"},{k:"zh",lc:"zh-Hant",name:"繁體中文"}];
 const LANGS=DATA?ALL_LANGS.filter(l=>(DATA.languages||["en"]).indexOf(l.k)>-1):ALL_LANGS.slice(0,1);

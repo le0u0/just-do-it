@@ -4,17 +4,13 @@ Cache every attachment of every fetched ticket, any type, including embedded ima
 
 ## Location
 
-- `attachments/{ticket}/` in the directory the caller names, else the system temp directory.
-- Original file names.
+- `attachments/{ticket}/` in the directory the caller names, else the system temp directory. Original file names.
 - Create a ticket's folder only when it has a file.
-- Look there before downloading. Reuse cached files.
+- Reuse files already there; download only the rest.
 
 ## Download
 
-- **With the tracker's MCP:** use its attachment download tool with that folder as output path. Run any returned download command at once; such links often expire.
-- **Without MCP:** use the tracker's REST API with an API token from the environment, writing to `<cache directory>/attachments/<ticket>/<filename>`.
-
-## Rules
-
+- **With the tracker's MCP:** its attachment download tool, that folder as output path. Run any returned download command at once; links often expire.
+- **Without MCP:** the tracker's REST API with an API token from the environment, to `<cache directory>/attachments/<ticket>/<filename>`.
 - Never print or save the token.
-- Download fails or variable unset: list the file as missing, with the cause.
+- Failed download or unset variable: list the file as missing, with the cause.

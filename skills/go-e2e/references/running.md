@@ -4,25 +4,19 @@
 
 - Take command, project, arguments, and auth state from `package.json` and the runner config.
 - Pass the documented base URL. Unresolvable: ask.
-- Run exactly the spec files the handoff names (the plan's `E2E` line), by file argument and name filter.
-- Prefix `PLAYWRIGHT_HTML_OPEN=never`.
-- Folder, tag, or full suite only when the user asks.
-- Open the e2e UI only when asked.
+- Run exactly the spec files the handoff names (the plan's `E2E` line), by file argument and name filter. Prefix `PLAYWRIGHT_HTML_OPEN=never`.
+- Folder, tag, full suite, or e2e UI only when asked.
 - Runner cannot select by file: report `blocked`.
 
 ## Report
 
-- Run without a pipe. Report the real exit code, or unknown.
-- Report this run's result only, never a cached one.
-- `Result`: counts, such as `12 specs, 0 failed`, with each failed spec file and test name.
-- Failed-only log in the system temp directory: name, error, top stack lines of failed tests only. Report its path.
-- State the symptom. Leave the cause to the caller.
+- Run without a pipe. Report the real exit code, or unknown, for this run only.
+- `Result`: counts, such as `12 specs, 0 failed`, plus each failed spec file and test name.
+- Failed-only log in the system temp directory (name, error, top stack lines). Report its path.
+- State the symptom; leave the cause to the caller.
 - `Affected`: other specs using the changed code, helpers, or selectors, unrun.
 - Check wrapper scripts for file writes first. Compare the worktree before and after.
-
-## Rerun
-
-- Only failed tests, only when verification was requested.
+- Rerun only failed tests, only when verification was requested.
 
 ## Debug
 
