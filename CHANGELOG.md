@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.0](https://github.com/le0u0/just-do-it/compare/v1.2.0...v1.3.0) (2026-11-05)
+
+
+### Features
+
+* use playwright-cli in e2e exploration, debugging and runs ([92c4406](https://github.com/le0u0/just-do-it/commit/92c44068521f1ab3ab1138aeb8594b24ac04fb07))
+
+
+### Bug Fixes
+
+* gate e2e explore through the test on --debug=cli support ([8cff7f1](https://github.com/le0u0/just-do-it/commit/8cff7f1b95022b9d14d1337d0d97a4381476a8a0))
+
 ## [1.2.0](https://github.com/le0u0/just-do-it/compare/v1.1.0...v1.2.0) (2026-11-03)
 
 
