@@ -18,7 +18,6 @@ Every file this plugin writes lives under `~/.just-do-it/`, so any repository ca
         jobs.md
         triage.md                  # every researched ticket or link
         diagnose.md                # optional
-        context.md                 # rule files and comparable specs, searched once
         logs
 ```
 

@@ -51,7 +51,6 @@ flowchart TD
 ### Handoffs
 
 - Subagents are general-purpose agents, never forks. They get only the text or paths the job needs.
-- `state/context.md` caches the rule files and comparable specs, so later agents skip the search.
 - The manager writes and runs unit specs per step through `go-work`. `go-e2e` writes and runs e2e specs once, before review.
 - Agents report in at most eight lines. The manager announces a job in one line and reports in at most three.
 - Subagent job detail: `state/jobs.md`. The manager's own jobs: `checklist.md`.

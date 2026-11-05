@@ -6,7 +6,6 @@
 
 ## Token budget
 
-- Agents follow the context cache in [project-references.md](project-references.md): read `state/context.md`, do not re-search.
 - If one command verifies it, verify it yourself; reruns and reads stay in the manager.
 
 ## Reuse

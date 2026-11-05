@@ -2,7 +2,7 @@
 
 ## Handoff
 
-- Send paths or the text the job needs: current plan step, files, review text or path, `state/context.md`. Skills read nothing from storage.
+- Send paths or the text the job needs: current plan step, files, review text or path, and the glossary and ADR text the job needs. Skills read nothing from storage.
 - State job, acceptance criteria, test authorization, commit rules in at most twelve lines. The agent has none of the conversation.
 
 ## Report
