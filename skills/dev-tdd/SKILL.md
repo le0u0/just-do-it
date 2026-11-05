@@ -24,6 +24,6 @@ Per behavior of the step (a direct request is one step):
 2. Red: call `go-ut` to write one spec; its focused run is the red run, so run nothing else.
    - When running is authorized, the red run is required even for a one-line fix: watch it fail for the right reason before touching production code. A spec for behavior the code already has may pass at once: run it once, never rerun it before the fix, and put `red not observed` in `Open`.
    - `no unit test setup`: write and run no specs; continue with 3.
-3. Green: write the smallest production change, matching nearby code, that the spec requires. Confirm it landed (`git diff` shows the production file) before running. Call `go-ut` to run the focused spec; on failure fix the code.
+3. Green: write the smallest production change, matching nearby code, that the spec requires. Run the spec only after `git diff` shows the change landed; never chain an edit and a run with `;`. Call `go-ut` to run the focused spec; on failure fix the code.
 4. Repeat for the next behavior.
 5. When the step's specs pass, report it done with `Done` of at most 20 words. Name the spec that failed before and the run that passed after; when red was not observed, `Open` says so.
