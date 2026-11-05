@@ -8,14 +8,14 @@
 
 ## Explore
 
-Start from the test, so auth and seed setup apply.
+Start from the test, so auth and seed setup apply. Needs `--debug=cli` in `npx playwright test --help`; else go to step 3.
 
 1. Run the closest spec or seed in the background:
    ```bash
    PLAYWRIGHT_HTML_OPEN=never npx playwright test <file> --debug=cli
    ```
-2. Wait for `Debugging Instructions`, then `playwright-cli attach <session>` and `resume`.
-3. No test yet: find the base URL, then `playwright-cli open <url> --headed`.
+2. Wait for `Debugging Instructions`, then `playwright-cli attach <session>` and `resume`. This is exploring, not a test run: report no pass or fail.
+3. No test, or no `--debug=cli`: find the base URL, then `playwright-cli open <url> --headed`, and sign in with the project's auth.
    - Documented URL first, else listening dev servers.
    - Several servers: ask. None: report, never start one.
 4. `snapshot` for refs, then act on them.
