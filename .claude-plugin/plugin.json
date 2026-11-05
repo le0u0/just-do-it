@@ -1,7 +1,7 @@
 {
   "name": "just-do-it",
   "displayName": "just-do-it",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "description": "Project-agnostic manager and skills for ticket-driven development: plan, work, test, review.",
   "author": {
     "name": "Leo Ho"
