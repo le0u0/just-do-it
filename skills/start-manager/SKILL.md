@@ -71,7 +71,7 @@ disable-model-invocation: true
 4. With a branch folder, append each subagent job (not your own) to `state/jobs.md`, at most six lines, per [written-docs.md](references/written-docs.md):
 
    ```markdown
-   ### 3. e2e specs — e2e — done
+   ### 3. e2e specs — go-e2e — done
 
    - pass: tab hidden when flag off
    - fail: share dialog guard missing
@@ -80,8 +80,6 @@ disable-model-invocation: true
 
    - Each criterion: one line, `pass`, `fail`, or `unchecked`, then the criterion.
    - Evidence and agent ID go in `<sub>`.
-
-   - Each criterion: one line, `pass`, `fail`, or `unchecked`, then the criterion. Evidence and agent ID in `<sub>`.
 
 Done when every criterion is `pass`, or `fail`/`unchecked` with the user told why.
 
