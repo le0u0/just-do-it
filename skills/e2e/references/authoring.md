@@ -1,29 +1,41 @@
 # E2E Authoring
 
-## Setup
+## Process
 
-- Explore the flow first per [exploration.md](exploration.md), and write from the recorded locators and steps, not from source alone.
-- Adapt generated code to the closest spec; drop APIs the repository's runner version lacks. Generated code has actions but no assertions: add one for each expected outcome.
-- Write one scenario at a time: walk its steps in the live app, then write its test.
-- Match the closest spec's auth state, test data, imports, and helpers.
-- For test-specific records, reuse the project's data helpers. Give each fixture a stable identity from the domain's real unique key, look up before creating, and never delete and recreate fixtures. Rerun behavior is unverified until a run job runs it.
+- Write from explored locators and steps, never from source alone.
+- One scenario at a time: walk it live, then write its test.
+- Adapt generated code to the closest spec: auth state, imports, helpers.
+- Match the closest spec's actions too, such as Enter vs button click. A click that works while exploring can be swallowed in a run (cooldown without the project's auth state).
+- Drop APIs the runner version lacks.
+
+## Test data
+
+- Reuse the project's data helpers.
+- Give each fixture a stable identity from the domain's unique key.
+- Look up before creating. Never delete and recreate.
 
 ## Files and imports
 
-- Keep tests, hooks, and assertions in the spec file. Put utilities, data builders, setup, and interaction mechanics where the project keeps them.
-- Search the project's shared helpers first and reuse a fitting one; never copy its logic.
-- Ticket-specific functions go in one util beside the spec, named per the project's convention. Ask for a name when there is none. Keep ticket data out of shared helpers.
-- Import only from shared helpers or the current folder's utils, never from another test folder or a spec. When another test needs a function, move its reusable part to the shared helpers first.
-- Before finishing, check the diff for inline utilities, copied helper logic, cross-test imports, and ticket data in shared helpers. Do not refactor unrelated tests.
+- Tests, hooks, and assertions stay in the spec.
+- Reuse a fitting shared helper. Never copy its logic.
+- Ticket-specific functions go in one util beside the spec, named per project convention. None: ask.
+- No ticket data in shared helpers.
+- Never import from another test folder or spec. Move the reusable part to shared helpers first.
 
 ## Locators
 
-Follow the project's locator contract, such as test IDs, roles, or labels. With no contract, prefer in order: role with accessible name, label, visible text, test ID. Never replace an available stable selector with text or class selectors. Use a class selector only when no stable contract can exist, and say why. Report a missing selector to `develop`; never add one to production code yourself.
+- Follow the project's locator contract.
+- No contract, in order: role with name, label, visible text, test ID.
+- Class selector only when no stable contract can exist. Say why.
 
-## Actions, waits, and assertions
+## Waits
 
-- Rely on the runner's actionability checks; assert visibility only when it is the behavior under test.
-- Wait on the final UI state. When asserting an HTTP request, start the project's response helper before the action.
-- Use condition-based waits, never fixed sleeps, `networkidle`, or `waitForSelector`; use web-first assertions or a locator's `waitFor()`. Retry wrappers only for a documented irreducible race.
-- After a login or navigation step, wait for the URL and one element on the destination.
-- Keep assertions observable and scoped to the requested behavior.
+- Use web-first assertions or `waitFor()`.
+- Never fixed sleeps, `networkidle`, or `waitForSelector`.
+- After login or navigation: wait for the URL and one element on the destination.
+- HTTP assertion: start the project's response helper before the action.
+
+## Before finishing
+
+- Each requested behavior has one observable assertion.
+- Diff has no inline utilities, copied helpers, cross-test imports, or ticket data in shared helpers.
