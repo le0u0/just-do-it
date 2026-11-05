@@ -1,12 +1,14 @@
 # Unit Test Setup
 
-Before writing or running unit specs, find what the project uses: the runner config, the `package.json` scripts or build files, the existing spec files with their location and naming, and any project test rule or skill.
+## Find it
 
-Write and run with exactly that runner, command, placement, and convention. Install and configure nothing.
+- Before writing or running specs, find the runner config, `package.json` scripts or build files, existing specs (location, naming), and any project test rule or skill.
+- Use exactly that runner, command, placement, and convention. Install and configure nothing.
 
-When there is no runner, no script, and no existing spec:
-- Skip writing and running specs.
-- Say `no unit test setup` in the report.
-- Set one up only when the user asks.
+## No setup
 
-When the setup is partial, such as a runner without a script, ask the user.
+- No runner, script, or existing spec: skip writing and running specs, say `no unit test setup`, set one up only when the user asks.
+
+## Partial setup
+
+- Such as a runner without a script: ask the user.

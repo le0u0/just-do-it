@@ -5,7 +5,7 @@
 - Write from explored locators and steps, never from source alone.
 - One scenario at a time: walk it live, then write its test.
 - Adapt generated code to the closest spec: auth state, imports, helpers.
-- Match the closest spec's actions too, such as Enter vs button click. A click that works while exploring can be swallowed in a run (cooldown without the project's auth state).
+- Match the closest spec's actions too, such as Enter vs button click: a click that works while exploring can be swallowed in a run.
 - Drop APIs the runner version lacks.
 
 ## Test data

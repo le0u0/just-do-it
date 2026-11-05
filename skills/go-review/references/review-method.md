@@ -1,12 +1,30 @@
 # Standards and Requirements
 
-Apply both axes in the single review pass.
+Apply both axes in the single review pass. A change can pass one and fail the other.
 
-- **Standards:** check changed hunks against repository instructions and cite the rule. Omit preferences, generic refactors, and checks tooling enforces. A documented rule is a firm finding; a smell is only a "possible" one.
-- **Requirements:** compare expected behavior with changed control flow and outcomes: missing behavior, wrong implementation, or consequential scope creep. Quote the requirement line for each finding. Without requirements, skip this axis. A change can pass one axis and fail the other, so check both.
+## Standards
+
+- Check changed hunks against repository instructions; cite the rule.
+- Omit preferences, generic refactors, checks tooling enforces.
+- Documented rule: firm finding. Smell: "possible" only.
+
+## Requirements
+
+- Compare expected behavior with changed control flow and outcomes: missing behavior, wrong implementation, consequential scope creep.
+- Quote the requirement line for each finding.
+- No requirements: skip this axis.
 
 ## Evidence
 
-Inspect callers, types, tests, and state handling only to confirm an issue. A finding needs a reachable trigger, impact, an exact changed location, and a feasible fix. A missing test is not a defect unless required or tied to a shown regression.
+- Inspect callers, types, tests, state handling only to confirm an issue.
+- A finding needs:
+  1. a reachable trigger
+  2. impact
+  3. an exact changed location
+  4. a feasible fix
+- A missing test is a defect only when required or tied to a shown regression.
 
-Done when every changed hunk is assessed. Missing evidence limits a finding; it never skips the review.
+## Done
+
+- Every changed hunk assessed.
+- Missing evidence limits a finding; it never skips the review.

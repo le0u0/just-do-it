@@ -1,10 +1,12 @@
 # Domain Docs
 
-Domain notes are a glossary and ADRs. Read those the caller supplies and the repository's own `GLOSSARY.md` and `docs/adr/`, if present, and leave them unedited. This skill writes no files: it returns a confirmed term or ADR in the reply, and the caller saves it.
+Domain notes are a glossary and ADRs.
 
-## When docs change
+## Rules
 
-Only after the user confirms in the conversation: return a new or changed term as a glossary row, and an accepted decision as an ADR, for the caller to save.
+- Read what the caller supplies and the repository's own `GLOSSARY.md` and `docs/adr/`, if present. Leave them unedited.
+- This skill writes no files: return a confirmed term or ADR in the reply, the caller saves it.
+- Return a new or changed term as a glossary row, and an accepted decision as an ADR, only after the user confirms in the conversation.
 
 ## While asking
 
@@ -14,7 +16,7 @@ Only after the user confirms in the conversation: return a new or changed term a
 
 ## Glossary
 
-`glossary.md` is one table:
+One table:
 
 ```markdown
 | Term | Meaning | Avoid |
@@ -22,8 +24,10 @@ Only after the user confirms in the conversation: return a new or changed term a
 | Export button | Toolbar button that downloads the current view. | Download link |
 ```
 
-Return a row only after the user confirms the term and its meaning. Keep one sentence per meaning and no implementation details.
+- Return a row only after the user confirms the term and its meaning.
+- One sentence per meaning, no implementation details.
 
 ## ADR
 
-Offer one only when the decision is hard to reverse, surprising without context, and a real trade-off. After the user accepts, return the ADR: a title, then one to three sentences of context, decision, and why.
+- Offer one only when the decision is hard to reverse, surprising without context, and a real trade-off.
+- After the user accepts, return a title, then one to three sentences: context, decision, why.

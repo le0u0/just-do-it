@@ -1,10 +1,13 @@
 # Good and Bad Tests
 
-Illustrations in TypeScript. The project's own language, runner and conventions win.
+TypeScript illustrations. The project's language, runner and conventions win.
 
 ## Good tests
 
-Test through real interfaces, not mocks of internal parts.
+- Test real interfaces, not mocks of internals.
+- Test behavior callers care about, through the public API only.
+- Survive internal refactors; describe what, not how.
+- One logical assertion per test.
 
 ```typescript
 // GOOD: observable behavior
@@ -16,15 +19,9 @@ test("user can checkout with valid cart", async () => {
 });
 ```
 
-- Tests behavior callers care about.
-- Uses the public API only.
-- Survives internal refactors.
-- Describes what, not how.
-- One logical assertion per test.
+## Implementation-detail tests
 
-## Bad tests
-
-**Implementation-detail tests** are coupled to internal structure.
+Coupled to internal structure.
 
 ```typescript
 // BAD: asserts how checkout works inside
@@ -37,12 +34,11 @@ test("checkout calls paymentService.process", async () => {
 
 Red flags:
 
-- Mocking internal collaborators.
-- Testing private methods.
+- Mocking internal collaborators or testing private methods.
 - Asserting call counts or order.
-- The test breaks on a refactor that keeps behavior.
-- The test name describes how, not what.
-- Verifying through external means instead of the interface.
+- Breaking on a behavior-preserving refactor.
+- A name that says how, not what.
+- Verifying outside the interface:
 
 ```typescript
 // BAD: bypasses the interface to verify
@@ -60,7 +56,9 @@ test("createUser makes user retrievable", async () => {
 });
 ```
 
-**Tautological tests** restate the implementation, so they pass by construction.
+## Tautological tests
+
+Restate the implementation, so they pass by construction.
 
 ```typescript
 // BAD: expected value is recomputed the way the code computes it

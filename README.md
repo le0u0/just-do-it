@@ -15,19 +15,22 @@ A manager that plans, builds, tests and reviews a ticket with subagents. It work
 /just-do-it:start-manager on
 ```
 
-Describe the work. The manager assigns jobs to subagents, runs the rest itself, checks the result, and reports in a few lines. Run `/just-do-it:start-manager off` to end it. Every skill also works on its own: `go-*` skills return their result in the reply and write no files, so `/go-plan` prints the plan and `/go-work` just implements.
+- Describe the work. The manager assigns jobs to subagents, runs the rest itself, checks the result, and reports in a few lines.
+- End it with `/just-do-it:start-manager off`.
+- Every skill also works on its own. `go-*` skills return their result in the reply and write no files: `/go-plan` prints the plan, `/go-work` just implements.
 
-## Subagents
+## Manager
 
-The manager starts a subagent per job, naming the skill and setting the model and effort per skill. It announces both each time; tell it a preference and it uses that.
+- Runs `go-plan`, `go-work` and `go-fix` itself, in the main thread, so it can ask you questions directly.
+- Starts a subagent per other job, naming the skill and setting model and effort. It announces both each time. Tell it a preference and it uses that.
+- Saves every document the skills return, in `~/.just-do-it/{project}/{branch}/`.
+- More in [architecture](docs/architecture/ARCHITECTURE.md).
 
 | Skill | Model |
 | --- | --- |
 | `go-review` | opus medium |
 | `go-e2e` | sonnet medium |
 | `go-triage` | haiku low |
-
-The manager runs `go-plan`, `go-work` and `go-fix` itself, in the main thread, so it can ask you questions directly, and saves every document the skills return.
 
 ## Skills you call
 
@@ -39,9 +42,7 @@ The manager runs `go-plan`, `go-work` and `go-fix` itself, in the main thread, s
 | `to-test-html` | QA page built from that guide |
 | `to-charsiu` | Restate the last message in plain language |
 
-`to-*` skills never run on their own; you call them.
-
-Plugin docs are saved in `~/.just-do-it/{project}/{branch}/`. More in [architecture](docs/architecture/ARCHITECTURE.md).
+`to-*` skills never run on their own: you call them.
 
 ## Credits
 

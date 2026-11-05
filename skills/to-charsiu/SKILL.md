@@ -16,7 +16,7 @@ metadata:
 ## Do
 
 1. Restate your last message.
-2. Drop the jargon. Speak plainly.
+2. Drop the jargon.
 3. Say it simpler and shorter, like one human talking to another.
 4. Keep every fact and number that mattered.
 

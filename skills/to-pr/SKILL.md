@@ -12,21 +12,21 @@ metadata:
 
 # PR
 
-Write the title and body for the current branch. Open the PR only when the user asks.
+Write the title and body for the current branch. Open the PR only when asked.
 
 ## Input
 
-- The branch diff against its base, and what the user told you.
-- No plan or review file is needed.
-- Use the project's own terms, from `GLOSSARY.md` when present.
+- The branch diff against its base, and what the user said.
+- No plan or review file.
+- The project's own terms, from `GLOSSARY.md` when present.
 
 ## Steps
 
 1. Write the title as one line in the project's commit format.
-2. Write the body with the template below. Skip preambles and keep prose short.
+2. Write the body with the template below. No preambles; short prose.
 3. Save the body as `pr.md` in the branch folder (see Storage).
 4. Reply with the title, the body, and the path.
-5. Only when the user asked to open or create the PR:
+5. Only when asked to open or create the PR:
    1. Read the host from `git remote get-url origin` and the base branch from `git symbolic-ref refs/remotes/origin/HEAD`. Ask when either is unclear.
    2. Push the current branch if it has no remote copy. Never force-push.
    3. Open the PR with the host's CLI, such as `gh pr create --base <base> --title <title> --body-file <path>`.
@@ -40,10 +40,10 @@ Write the title and body for the current branch. Open the PR only when the user 
 ## Storage
 
 - Branch folder: `~/.just-do-it/{project}/{branch}/`. `{branch}` is `git branch --show-current` with each `/` replaced by `-`.
-- Find it by globbing `~/.just-do-it/*/{branch}`.
-- No match: ask the user which project, reuse the folder whose name matches ignoring case and separators, else create it.
-- Project names are lowercase words joined by hyphens.
-- `pr.md` exists: update it in place. Never add a numbered or dated copy.
+- Find it: glob `~/.just-do-it/*/{branch}`.
+- No match: ask which project. Reuse the folder matching ignoring case and separators, else create it.
+- Project names: lowercase words joined by hyphens.
+- `pr.md` exists: update in place. No numbered or dated copy.
 
 ## Body template
 
@@ -70,7 +70,11 @@ Write the title and body for the current branch. Open the PR only when the user 
 
 ### Summary
 
-Pick the smallest view that makes the key point clear. Use one, sometimes several, rarely all. Place each visual next to the short text it supports. Keep only the calls, files, props, states, and boundaries that matter.
+- Pick the smallest view that makes the key point clear. One, sometimes several, rarely all.
+- Put each visual next to the short text it supports.
+- Keep only the calls, files, props, states, and boundaries that matter.
+
+Views:
 
 - Logic or algorithm: pseudocode.
 
@@ -139,12 +143,12 @@ Pick the smallest view that makes the key point clear. Use one, sometimes severa
 
 ### Evidence
 
-- Show concrete proof the change works, before and after.
-- Best: screenshots, when the environment allows and the change is visual.
-- Next: execution output. Show the exact test that failed and now passes, as pseudocode, with the command and result.
+- Show before and after proof that the change works.
+- Best: screenshots, when the change is visual and the environment allows.
+- Next: execution output. Show the exact test that failed and now passes, as pseudocode, with command and result.
 - Never invent a result. Write `not run` where there is none.
 
 ### Merge Danger
 
-- **Door:** two-way when a revert is cheap. One-way for destructive or hard-to-reverse changes, such as data migrations.
-- **Blast Radius:** the scope of impact if it goes wrong, such as layout shift, breakage for consumers, mobile responsiveness.
+- **Door:** two-way when a revert is cheap. One-way when destructive or hard to reverse, such as data migrations.
+- **Blast Radius:** impact if it goes wrong, such as layout shift, consumer breakage, mobile responsiveness.

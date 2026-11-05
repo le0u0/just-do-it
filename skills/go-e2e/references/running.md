@@ -13,11 +13,11 @@
 ## Report
 
 - Run without a pipe. Report the real exit code, or unknown.
-- This run's result only, never a cached one.
-- Failed tests and the failed-only log path, saved in the system temp directory, holding only the failed tests' output (name, error, top stack lines).
-- State the symptom and leave the cause to the caller.
-- Report `Result` as counts, such as `12 specs, 0 failed`, with each failed spec file and test name.
-- List other specs that use the changed code, helpers, or selectors under `Affected`, unrun.
+- Report this run's result only, never a cached one.
+- `Result`: counts, such as `12 specs, 0 failed`, with each failed spec file and test name.
+- Failed-only log in the system temp directory: name, error, top stack lines of failed tests only. Report its path.
+- State the symptom. Leave the cause to the caller.
+- `Affected`: other specs using the changed code, helpers, or selectors, unrun.
 - Check wrapper scripts for file writes first. Compare the worktree before and after.
 
 ## Rerun

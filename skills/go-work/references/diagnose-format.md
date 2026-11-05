@@ -1,6 +1,9 @@
 # Diagnose Doc
 
-Return a diagnosis in the reply in this shape; write no file, the caller saves it. Every point is one line, at most 15 words, in fragments; code, identifiers, paths, and error strings stay exact:
+## Output
+
+- Return in the reply; write no file.
+- One line per point, at most 15 words, fragments. Code, identifiers, paths, error strings exact.
 
 ```markdown
 # Diagnose: PROJ-123 question
@@ -25,7 +28,9 @@ Return a diagnosis in the reply in this shape; write no file, the caller saves i
 <sub>Repository: /absolute/path/to/repo<br>Branch: PROJ-123-do-something<br>HEAD: a1b2c3d</sub>
 ```
 
-`Conclusions` come first, at most five bullets, only what affects scope, design, risk, or validation. `Rejected` is one short reason each. Label each evidence line fact, inference, or unverified.
+## Sections
 
-The diagnosis is evidence, not authorization.
-
+- `Conclusions`: first, at most five bullets, only what affects scope, design, risk, or validation.
+- `Rejected`: one short reason each.
+- `Evidence`: label each fact, inference, or unverified.
+- The diagnosis is evidence, not authorization.

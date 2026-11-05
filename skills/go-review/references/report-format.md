@@ -1,6 +1,15 @@
 # Review Report
 
-Write fragments: drop articles, filler and hedging; code, identifiers, paths and error strings stay exact; keep to the present state, with no history, dates or how a decision was reached. Reference detail goes in `<sub>`. Issue, Fix and Done are the main points: one line each, at most 20 words, no file location. The report never mentions a ticket, its requirements, or its progress.
+## Style
+
+- Fragments: drop articles, filler, hedging.
+- Code, identifiers, paths, error strings stay exact.
+- Present state only: no history, dates, how a decision was reached.
+- Reference detail goes in `<sub>`.
+- Issue, Fix, Done: main points. One line each, at most 20 words, no file location.
+- Never mention a ticket, its requirements, or its progress.
+
+## Template
 
 ```markdown
 # Code review
@@ -55,22 +64,42 @@ None.
 
 ## Fields
 
-- **Issue Count:** open `TODO` findings only, with their severity split. Count nothing resolved or ignored.
-- **Heading:** number, severity, and the owning class or file.
+- **Issue Count:** open `TODO` findings only, with severity split. Count nothing resolved or ignored.
+- **Heading:** number, severity, owning class or file.
 - **Issue:** trigger and impact, one line.
-- **Fix:** the corrective action, one line; one alternative at most.
-- **Done / Status:** only in `RESOLVED`. Added by the caller from `go-fix` results, or alone when a re-review finds an author's fix. `Done` is the final change. `Status` is such as `fixed (e4f5g6h)`, `fixed, tested`, `fixed, not tested`, `deferred`, `disputed`, or `ignored by user`.
-- **Manual review:** sits above `TODO`, so the reader knows where to look first. Pick by risk, not size: logic, state, data flow, permissions. Skip renames, templates, styles, generated code, and specs. At most seven, riskiest first. Each is `file:line`, then `-> ` one sentence of at most 20 words in the plain words a five-year-old follows: what the code does and what could go wrong, with an everyday picture and no jargon or code names. Pick them from the diff even when `TODO` is empty. `None.` only when the diff is a few low-risk lines.
+- **Fix:** corrective action, one line; one alternative at most.
+- **Done / Status:** only in `RESOLVED`.
+  - Added by the caller from `go-fix` results, or alone when a re-review finds an author's fix.
+  - `Done`: the final change.
+  - `Status`: `fixed (e4f5g6h)`, `fixed, tested`, `fixed, not tested`, `deferred`, `disputed`, or `ignored by user`.
+- **Manual review:** above `TODO`, so the reader knows where to look first.
+  - Pick by risk, not size: logic, state, data flow, permissions.
+  - Skip renames, templates, styles, generated code, specs.
+  - At most seven, riskiest first.
+  - Each: `file:line`, then `-> ` one sentence of at most 20 words, in plain words a five-year-old follows: what the code does and what could go wrong, with an everyday picture, no jargon or code names.
+  - Pick from the diff even when `TODO` is empty. `None.` only when the diff is a few low-risk lines.
 - **Tests:** written by the caller from the unit and e2e reports, never by `go-review`. Starts as `Unit: not run` and `E2E: not run`.
 
 ## Severity
 
-- Critical: data loss, security breach, corruption, or blocking runtime failure.
-- Warning: incorrect behavior, regression, or missing requirement.
+- Critical: data loss, security breach, corruption, blocking runtime failure.
+- Warning: incorrect behavior, regression, missing requirement.
 - Minor: low-risk maintainability or convention issue.
 
 ## Sections
 
-Wrap `Reference` in `<sub>`. Keep `Tests` plain, right under `Issue Count`, because the reader checks it for pass or fail; one line each for `Unit` and `E2E`: `pass`, `fail` with the failed spec names, or `not run: <reason>`. Order findings by severity. Numbers stay stable across sections; put `---` between findings. Keep `TODO`, `RESOLVED` and `IGNORED`, writing `None.` when empty. `TODO` holds open, deferred, and disputed findings; `RESOLVED` holds applied fixes; `IGNORED` needs the user's explicit choice. `Status: approved` records user approval only.
+- Wrap `Reference` in `<sub>`.
+- Keep `Tests` plain, right under `Issue Count`: the reader checks it for pass or fail.
+  - One line each for `Unit` and `E2E`: `pass`, `fail` with failed spec names, or `not run: <reason>`.
+- Order findings by severity. Numbers stay stable across sections; `---` between findings.
+- Keep `TODO`, `RESOLVED`, `IGNORED`; write `None.` when empty.
+  - `TODO`: open, deferred, disputed findings.
+  - `RESOLVED`: applied fixes.
+  - `IGNORED`: needs the user's explicit choice.
+- `Status: approved` records user approval only.
 
-Reply with the report only after the review completes; a re-review returns the supplied report updated in full. A re-review adds no history: it moves fixed findings to `RESOLVED` as one `Done` line, and keeps every point short. For uncommitted work, `Diff fingerprint` identifies the snapshot.
+## Reply
+
+- Reply with the report only after the review completes.
+- Re-review: return the supplied report updated in full, with no history. Fixed findings move to `RESOLVED` as one `Done` line; every point stays short.
+- Uncommitted work: `Diff fingerprint` identifies the snapshot.

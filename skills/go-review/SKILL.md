@@ -5,47 +5,62 @@ description: 'Review a branch, diff or work-in-progress change against the proje
 
 # Review
 
-Report as the caller specifies. The review report itself is your reply; write no file for it.
+- Report as the caller specifies.
+- The review report is the reply; write no file for it.
 
 ## 1. Inputs
 
-- **Requirements:** what the caller supplied (text, a named file path, a ticket URL, or a plan). Take them from that source alone, never from a ticket key or branch name, and keep them out of the report. With none, or when the ticket is unreachable, note no requirement and still apply the **Correctness** check in [checks.md](references/checks.md).
-- **Previous review:** the earlier report the caller supplied, as text or a named path, if any.
+- **Requirements:** caller-supplied text, named file path, ticket URL, or plan.
+  - Take them from that source alone, never from a ticket key or branch name.
+  - Keep them out of the report.
+  - With none, or an unreachable ticket: note no requirement, still apply **Correctness** in [checks.md](references/checks.md).
+- **Previous review:** the earlier report the caller supplied, as text or named path, if any.
 - **Baseline:** [scope-baseline.md](references/scope-baseline.md).
 
 ## 2. Re-review
 
-When the caller supplied a previous review for this repository and branch, return it updated in full:
+With a previous review for this repository and branch, return it updated in full.
 
-- Recheck each `TODO`. Fixed: move it to `RESOLVED` as one `Done` line of at most 20 words plus `Status: fixed (<short SHA>)`. Still present: keep its two lines, each at most 20 words.
-- Look for new findings only in changes after `Reviewed to`, numbered after the last one.
-- Update `Issue Count` (open `TODO` only), `Manual review` and `Reviewed to`; leave `Tests` as the caller wrote it.
+- Recheck each `TODO`:
+  - Fixed: move to `RESOLVED` as one `Done` line of at most 20 words plus `Status: fixed (<short SHA>)`.
+  - Still present: keep its two lines, each at most 20 words.
+- Find new findings only in changes after `Reviewed to`; number them after the last one.
+- Update `Issue Count` (open `TODO` only), `Manual review`, `Reviewed to`.
+- Leave `Tests` as the caller wrote it.
+- Read the test results in the previous review. A reported failure the fix does not address is a finding; check by reading code.
 
 ## 3. Review pass
 
-Review the code only; the caller writes the unit and e2e results into `Tests`. Leave `Tests` as not run on a first pass; you run no tests. On a re-review, read the test results in the previous review; for each reported failure, check by reading code that the developer's fix addresses it.
-
-Do the review pass:
-
+- Review code only. Run no tests. Leave `Tests` as not run on a first pass; the caller fills it.
 - Read the scoped diff once, then changed functions and immediate callers as needed. Cover every changed hunk.
-- When the repository has its own review skill, such as a review skill in `.claude/skills/` or `.agents/skills/`, use its method only, not its scope, delivery, or format. Otherwise use [review-method.md](references/review-method.md). Always apply the relevant [checks.md](references/checks.md), and the project's own rules per [project-references.md](references/project-references.md).
-- Check that changed code follows guidance in the comments of the modified files.
-- For a risky hunk, such as a changed condition or a removed guard, run `git log -L` or `git blame` on it and flag a change that undoes earlier intent. Skip this for other hunks.
-
-On a re-review, a reported test failure in `Tests` that the fix does not address is a finding.
+- Method:
+  - Repository has its own review skill (`.claude/skills/`, `.agents/skills/`): use its method only, not its scope, delivery, or format.
+  - Otherwise: [review-method.md](references/review-method.md).
+- Always apply the relevant [checks.md](references/checks.md) and the project's rules per [project-references.md](references/project-references.md).
+- Check changed code follows guidance in the comments of modified files.
+- Risky hunk (changed condition, removed guard): run `git log -L` or `git blame`; flag a change that undoes earlier intent. Skip for other hunks.
 
 ## 4. Filter
 
-- Keep only findings introduced or exposed by the change, on lines the change touched.
-- Keep a finding only when you confirmed it is real and will be hit in practice; a guess sends the fix after a false lead.
-- Omit changes that look intentional, issues silenced by a lint-ignore comment, unreachable cases, style preferences, pure renames that keep behavior, and issues tooling enforces. A missing contract limits one finding, never the review.
+- Keep findings introduced or exposed by the change, on touched lines.
+- Keep only findings confirmed real and hit in practice. A guess sends the fix after a false lead.
+- Omit:
+  - changes that look intentional
+  - issues silenced by a lint-ignore comment
+  - unreachable cases
+  - style preferences
+  - pure renames that keep behavior
+  - issues tooling enforces
+- A missing contract limits one finding, never the review.
 - Deduplicate by root cause.
-- Keep source read-only; add no `TODO` or `FIXME` comments to code.
+- Keep source read-only; add no `TODO` or `FIXME` comments.
 
 ## 5. Reply
 
-- Pick the places worth a human read for `Manual review`, per [report-format.md](references/report-format.md).
-- Reply with the whole review report in that format. Write no `review.md` or `checklist.md`; the caller saves them.
-- End with the standard report: `Changed` is `none`, and `Open` gives the open issue count by severity. Say "No actionable findings" only after reading every hunk.
-- Fix nothing and start no fix job. A review ends at the report; findings get fixed only after the user selects them, with `go-fix`.
+1. Pick places worth a human read for `Manual review`, per [report-format.md](references/report-format.md).
+2. Reply with the whole report in that format. Write no `review.md` or `checklist.md`; the caller saves them.
+3. End with the standard report: `Changed` is `none`; `Open` gives open issue count by severity.
+4. Say "No actionable findings" only after reading every hunk.
+
+- Fix nothing, start no fix job. Findings get fixed only after the user selects them, with `go-fix`.
 - Suggest no follow-up skill.

@@ -5,12 +5,16 @@ description: 'E2E tests with Playwright: author specs and test data, explore UI 
 
 # E2E
 
-Write specs and test data in the repository only; write no plugin docs (plan, checklist, review, triage). Report as the caller specifies.
+## Scope
+
+- Write specs and test data in the repository only.
+- Write no plugin docs (plan, checklist, review, triage).
+- Report as the caller specifies.
 
 ## Workflow
 
 1. Find the e2e setup per [setup.md](references/setup.md). None: write and run nothing, say so.
-2. Read the project references for e2e per [setup.md](references/setup.md):
+2. Read the project references per [setup.md](references/setup.md):
    - Rules and project-local e2e skills.
    - Runner config, `package.json` scripts, closest spec.
    - Auth state, test data, helpers, base URL.
