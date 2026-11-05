@@ -18,8 +18,10 @@ button{font:inherit;color:inherit;cursor:pointer}
 .btn.primary:hover{background:var(--accent-d);border-color:var(--accent-d)}
 .top{flex:none;width:100%;max-width:1180px;margin:0 auto}
 header{padding:20px 16px 4px;position:relative}
-.lang{position:absolute;top:20px;right:16px;display:flex;gap:6px}
-.lang .btn{min-height:36px;padding:4px 12px;font-size:14px}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--surface)}
+.seg .btn{border:0;border-radius:0;min-height:36px;padding:4px 14px;font-size:14px}
+.seg .btn+.btn{border-left:1px solid var(--border)}
+.lang{position:absolute;top:20px;right:16px}
 h1{font-size:28px;line-height:1.25;margin:0 0 6px;padding-right:220px}
 header p{margin:0}
 .lead{font-weight:600}
@@ -48,10 +50,8 @@ h2{font-size:24px;font-weight:700;margin:40px 0 4px;line-height:1.25}
 .test{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin:14px 0;scroll-margin-top:8px}
 .th{display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:space-between}
 h3{font-size:16px;font-weight:600;margin:0;flex:1 1 240px}
-.pf{display:flex;gap:6px}
-.pf .btn{min-height:36px;padding:4px 14px;font-size:14px}
-.pf .btn[data-r="pass"][aria-pressed="true"]{background:var(--pass-bg);border-color:var(--pass);color:var(--pass)}
-.pf .btn[data-r="fail"][aria-pressed="true"]{background:var(--fail-bg);border-color:var(--fail);color:var(--fail)}
+.pf .btn[data-r="pass"][aria-pressed="true"]{background:var(--pass-bg);color:var(--pass)}
+.pf .btn[data-r="fail"][aria-pressed="true"]{background:var(--fail-bg);color:var(--fail)}
 .note{margin:8px 0 0;color:var(--grey);font-style:italic}
 .steps{list-style:none;margin:10px 0 0;padding:0}
 .steps li{margin:4px 0}
@@ -84,7 +84,7 @@ dialog .acts{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
 <body>
 <div class="top">
  <header>
-  <div class="lang" id="lang" role="group"></div>
+  <div class="lang seg" id="lang" role="group"></div>
   <h1 id="h1"></h1>
   <p class="lead" id="lead"></p>
   <p class="sub" id="rel"></p>
@@ -160,8 +160,8 @@ function save(){
 /* build the page once; language switching only toggles visibility */
 function build(){
  $("#h1").innerHTML=bi(DATA.title);
- $("#lead").innerHTML=(DATA.link?'<a href="'+esc(DATA.link)+'">'+esc(DATA.ticket)+"</a>":esc(DATA.ticket))+" "+ui("qa");
- if(DATA.related&&DATA.related.length)$("#rel").innerHTML=ui("rel")+" "+DATA.related.map(r=>(r.link?'<a href="'+esc(r.link)+'">'+esc(r.key)+"</a>":esc(r.key))+(r.role?" ("+esc(r.role)+")":"")).join(" · ");
+ $("#lead").innerHTML=(DATA.link?'<a href="'+esc(DATA.link)+'" target="_blank" rel="noopener noreferrer">'+esc(DATA.ticket)+"</a>":esc(DATA.ticket))+" "+ui("qa");
+ if(DATA.related&&DATA.related.length)$("#rel").innerHTML=ui("rel")+" "+DATA.related.map(r=>(r.link?'<a href="'+esc(r.link)+'" target="_blank" rel="noopener noreferrer">'+esc(r.key)+"</a>":esc(r.key))+(r.role?" ("+esc(r.role)+")":"")).join(" · ");
  $("#hint").innerHTML=ui("hint");
  $("#b-export").innerHTML=ui("exp");$("#b-load").innerHTML=ui("load");$("#b-reset").innerHTML=ui("reset");
  $("#dlg-t").innerHTML=ui("exp");$("#dlg-l").innerHTML=ui("con");$("#dlg-cancel").innerHTML=ui("cancel");$("#dlg-ok").innerHTML=ui("ok");
@@ -176,7 +176,7 @@ function build(){
   tests.filter(x=>x.g===gi).forEach(x=>{
    const t=x.t;
    nav+='<a href="#'+x.id+'" data-id="'+x.id+'"><span>'+x.n+". "+bi(t.title)+'</span><span class="mk" data-mk="'+x.id+'"></span></a>';
-   doc+='<article class="test" id="'+x.id+'"><div class="th"><h3>'+ui("test")+" "+x.n+": "+bi(t.title)+'</h3><div class="pf" role="group">'
+   doc+='<article class="test" id="'+x.id+'"><div class="th"><h3>'+ui("test")+" "+x.n+": "+bi(t.title)+'</h3><div class="pf seg" role="group">'
     +["pass","fail"].map(r=>'<button type="button" class="btn" data-r="'+r+'" data-id="'+x.id+'" aria-pressed="false">'+ui(r)+"</button>").join("")+"</div></div>";
    if(t.note)doc+='<p class="note">'+bi(t.note)+"</p>";
    doc+='<ol class="steps">'+t.steps.map((s,i)=>'<li><label><input type="checkbox" data-k="'+x.id+"."+i+'"><span>'+bi(s)+"</span></label></li>").join("")
