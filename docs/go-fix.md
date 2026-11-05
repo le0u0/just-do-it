@@ -37,4 +37,4 @@ go-review -> go-fix -> go-review
 
 - It fixes only what `go-review` found and you chose.
 - It calls `go-work` and `go-ut` for the code and specs, and `go-e2e` for e2e findings.
-- `start-manager` records the dispositions in `review.md` and `checklist.md`.
+- `justaway` records the dispositions in `review.md` and `checklist.md`.

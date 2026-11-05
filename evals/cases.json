@@ -7,7 +7,7 @@
   },
   {
     "id": "unit-author-run",
-    "skill": "start-manager",
+    "skill": "justaway",
     "request": "Add a regression assertion in src/main/webapp/app/counter.spec.ts that remaining(2, 5) equals -3. Then run only that spec. Leave production and test bootstrap unchanged.",
     "checks": "Manager writes the spec and then runs only that spec itself, both through go-work and go-ut, in that order, starting no subagent. Spec contains a meaningful negative-result assertion and a Covered/Not Covered comment above the describe before the one exact runner invocation. No test runs before the spec is written. Production, bootstrap, configuration, HEAD, and index stay unchanged."
   },
@@ -49,7 +49,7 @@
   },
   {
     "id": "manager-review-routing",
-    "skill": "start-manager",
+    "skill": "justaway",
     "request": "Use the manager to review working-tree changes against HEAD using requirements in {task}/plan.md. Save {task}/review.md. Do not run tests.",
     "checks": "Manager assigns one review subagent, which returns the report. Manager saves it as the exact final review.md path and inspects that file. No intermediate report, review or report writing, source edits, tests, commits, or extra review passes beyond the host review-tool pass."
   },

@@ -6,8 +6,8 @@ Shared terms for this plugin.
 
 | Term | Meaning |
 | --- | --- |
-| Manager | `start-manager`, the main thread. Assigns triage, e2e and review to subagents, runs `go-plan`, `go-work` and `go-fix`, saves every plugin doc, verifies results, decides the next step. |
-| Skill | An action, such as `go-review`. `go-*` do work and return results in the reply; `dev-*` drive a method; `start-*` start a mode; `to-*` are user-invoked and model-blocked. |
+| Manager | `justaway`, the main thread. Assigns triage, e2e and review to subagents, runs `go-plan`, `go-work` and `go-fix`, saves every plugin doc, verifies results, decides the next step. |
+| Skill | An action, such as `go-review`. `go-*` do work and return results in the reply; `dev-*` drive a method; `justaway` starts manager mode; `to-*` are user-invoked and model-blocked. |
 
 ## Skill structure
 

@@ -2,7 +2,7 @@
 
 ## Agents and skills
 
-- `start-manager` runs in the main thread.
+- `justaway` runs in the main thread.
 - It runs `go-plan` (needs the user), `go-work` and `go-fix` itself.
 - Other jobs go to a subagent running one skill, with the model and effort `agents.md` sets.
 - Skills return results in the reply. Only the manager saves docs.
@@ -10,7 +10,7 @@
 
 ```mermaid
 flowchart TD
-    U([User]) <--> M[start-manager<br/>main thread]
+    U([User]) <--> M[justaway<br/>main thread]
     M -->|ticket triage| H[go-triage]
     M -->|write and run e2e tests| E[go-e2e]
     M -->|review job| R[go-review]
@@ -61,7 +61,7 @@ flowchart TD
   - Trade-off: the main thread's context grows and runs on the session's model.
 - Other agents stay alive per ticket. Later work goes by SendMessage to the recorded ID in `jobs.md`. A gone agent is replaced by a fresh one reading the plan, `checklist.md` and `jobs.md`.
 - An agent's "done" is a claim: the manager checks diff, artifacts, tests.
-- The manager sets `model` and `effort` per skill and announces them. The user can override. See [agents.md](../../skills/start-manager/references/agents.md).
+- The manager sets `model` and `effort` per skill and announces them. The user can override. See [agents.md](../../skills/justaway/references/agents.md).
 
 ### Plan and tests
 

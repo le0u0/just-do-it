@@ -35,4 +35,4 @@ go-triage -> go-plan -> go-work
 
 - `go-triage` supplies the requirements brief before the grill.
 - `go-work` builds from the approved plan.
-- `start-manager` saves the returned plan and checklist as `plan.md` and `checklist.md`.
+- `justaway` saves the returned plan and checklist as `plan.md` and `checklist.md`.

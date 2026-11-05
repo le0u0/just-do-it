@@ -12,11 +12,11 @@ A manager that plans, builds, tests and reviews a ticket with subagents. The pro
 ## Use
 
 ```text
-/just-do-it:start-manager on
+/just-do-it:justaway on
 ```
 
 - Describe the work. The manager assigns subagents, runs the rest, checks results, reports briefly.
-- End with `/just-do-it:start-manager off`.
+- End with `/just-do-it:justaway off`.
 - Every skill also works alone. `go-*` skills return results in the reply and write no files.
 
 ## Manager

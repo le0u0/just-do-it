@@ -1,11 +1,11 @@
 ---
-name: start-manager
-description: 'Plans, builds, tests and reviews a ticket by running some skills itself and assigning others to subagents, verifies results, and reports briefly. `/start-manager on` turns manager mode on for the session; `/start-manager off` turns it off.'
+name: justaway
+description: 'Plans, builds, tests and reviews a ticket by running some skills itself and assigning others to subagents, verifies results, and reports briefly. `/justaway on` turns manager mode on for the session; `/justaway off` turns it off.'
 argument-hint: on|off
 disable-model-invocation: true
 ---
 
-# Start Manager
+# Justaway
 
 ## Manager mode
 

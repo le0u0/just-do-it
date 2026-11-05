@@ -34,4 +34,4 @@ go-triage -> go-plan
 ```
 
 - `go-plan` takes the brief as context, not as approved scope.
-- `start-manager` saves the returned brief as `triage.md`.
+- `justaway` saves the returned brief as `triage.md`.

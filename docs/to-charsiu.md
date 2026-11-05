@@ -33,5 +33,5 @@ any reply -> to-charsiu
 ```
 
 - It is standalone and sits in no chain.
-- Use it after any skill, including `start-manager` reports.
+- Use it after any skill, including `justaway` reports.
 - Follows `bro` from cursor/plugins.

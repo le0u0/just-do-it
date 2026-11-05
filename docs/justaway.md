@@ -1,6 +1,6 @@
-# start-manager
+# justaway
 
-Turns the session into a manager that runs the whole ticket flow. You call it with `/start-manager on`; the model never starts it.
+Turns the session into a manager that runs the whole ticket flow. You call it with `/justaway on`; the model never starts it.
 
 ## DO IT
 
@@ -14,11 +14,11 @@ Turns the session into a manager that runs the whole ticket flow. You call it wi
 
 | Situation | Use |
 | --- | --- |
-| A ticket from triage to review | `start-manager` |
+| A ticket from triage to review | `justaway` |
 | One job, such as a plan or a review | that `go-*` skill directly |
 | Finished ticket needs a PR or guide | `to-pr`, `to-test-md` yourself |
 
-- `/start-manager off` returns the session to normal.
+- `/justaway off` returns the session to normal.
 - Without subagents it says the workflow cannot run.
 
 ## WORK IT
