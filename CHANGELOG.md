@@ -1,5 +1,30 @@
 # Changelog
 
+## [2.0.0](https://github.com/le0u0/just-do-it/compare/v1.3.0...v2.0.0) (2026-11-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* `/start-manager on|off` is now `/justaway on|off`.
+* skill names changed, and `/manager on|off` is now `/start-manager on|off`. Skills no longer write plan.md, review.md or triage.md; only the manager saves them.
+
+### Features
+
+* add spec guardrails and red/green evidence to dev-tdd ([1cf5882](https://github.com/le0u0/just-do-it/commit/1cf5882756823d61d5631ebd9a770806081572c3))
+
+
+### Bug Fixes
+
+* confirm the production change landed before the green run and the commit ([36ae635](https://github.com/le0u0/just-do-it/commit/36ae6350c7fa39493cb8517eedc722a0fe96b7b4))
+* make QA template language and Pass/Fail buttons segmented, open links in a new tab ([87f6d19](https://github.com/le0u0/just-do-it/commit/87f6d198427e9f716934fdc442988a86a9d1d227))
+* run the spec only after the edit is confirmed, never chained with ; ([74649d7](https://github.com/le0u0/just-do-it/commit/74649d7202100a223f4652d80ded83865116734a))
+
+
+### Code Refactoring
+
+* rename skills to go-/dev-/start-/to- and make the manager own docs ([4fdf23a](https://github.com/le0u0/just-do-it/commit/4fdf23a05a37e4ce62d791b6d82fae4b0bd1f81d))
+* rename start-manager to justaway ([22cd036](https://github.com/le0u0/just-do-it/commit/22cd036e256258e4291e30cda44c75e7e67ef1b7))
+
 ## [1.3.0](https://github.com/le0u0/just-do-it/compare/v1.2.0...v1.3.0) (2026-11-05)
 
 
