@@ -4,11 +4,10 @@ Turns the session into a manager that runs the whole ticket flow. You call it wi
 
 ## DO IT
 
-- Runs `go-plan`, `go-work` and `go-fix` itself in the main thread, calling `go-work` once per plan step and running the final validation.
+- Writes the specs and code itself: runs `go-plan`, `go-work` and `go-fix` in the main thread, calling `go-work` once per plan step and running the final validation.
 - Sends `go-triage`, `go-e2e` and `go-review` to subagents, and announces each model and effort.
 - Saves every plugin doc the skills return: `plan.md`, `checklist.md`, `review.md`, `triage.md`, `state/diagnose.md`, `state/jobs.md`.
 - Checks each result itself: diff, artifacts, and test exit codes.
-- Never runs or mentions `to-pr`, `to-test-md`, `to-test-html` or `to-charsiu`.
 - Never commits, pushes or resets unless you or an approved plan said so.
 
 ## USE IT
