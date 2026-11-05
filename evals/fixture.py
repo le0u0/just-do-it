@@ -108,11 +108,6 @@ with open('runner-events.jsonl','a') as out: out.write(json.dumps({'args':sys.ar
             (root / 'playwright/helpers/widget.u.ts').write_text('export const widget = 2;\n')
         if case['id'] == 'step-commit':
             (task / 'plan.md').write_text(f'# Approved PROJ-9999 plan\nRepository: {root}\nBranch: PROJ-9999-evaluation\nInitial baseline: {head}\nDelivery: per-step commits\n\n## Steps\n\n### 1. Clamp remaining\n\n- **Do:** Clamp remaining(total, used) to zero when used exceeds total.\n- **Test:** Spec: remaining(2, 5) is 0. Run: yes.\n- **Commit:** `fix: clamp remaining to zero`\n- <sub>**Files:** {SOURCE}, {SPEC}</sub>\n')
-        if case['id'] == 'pr-text':
-            (root / SOURCE).write_text('export function remaining(total, used) { return Math.max(0, total - used); }\nexport function greeting(name) { return `Hello ${name}`; }\nexport function hasItems(count) { return count >= 0; }\n')
-            (root / SPEC).write_text("import { remaining } from './counter';\ndescribe('remaining', () => { it('subtracts used', () => { expect(remaining(5, 2)).toBe(3); }); it('clamps to zero', () => { expect(remaining(2, 5)).toBe(0); }); });\n")
-            review = task / 'review.md'
-            review.write_text(review.read_text().replace('Status: reviewed', 'Status: approved'))
         before = {'files': snapshot(root), 'task': {p.name:p.read_text() for p in task.iterdir()}, 'head': head, 'index': git(root, 'write-tree')}
         (home / 'before.json').write_text(json.dumps(before, indent=2))
         (home / 'request.txt').write_text(case['request'].replace('{task}', str(task)))
@@ -137,12 +132,12 @@ def check(base):
             if git(root, 'rev-parse', 'HEAD') != before['head']: errors.append('HEAD changed')
             if git(root, 'write-tree') != before['index']: errors.append('index changed')
         if case['id'].startswith('focused-') or case['id'] in ('unit-author-run', 'step-commit'):
-            runs = [event for event in events if '--help' not in event['args']]
+            runs = [event for event in events if not {'--help', '--version'} & set(event['args'])]
             expected_runs = 2 if case['id'] == 'step-commit' else 1
             if len(runs) != expected_runs: errors.append('expected %d test invocation(s)' % expected_runs)
             for event in events:
                 args = event['args']
-                if '--help' not in args and '--include='+SPEC not in args and not any(args[i:i+2] == ['--include', SPEC] for i in range(len(args))): errors.append('missing exact spec selector')
+                if not {'--help', '--version'} & set(args) and '--include='+SPEC not in args and not any(args[i:i+2] == ['--include', SPEC] for i in range(len(args))): errors.append('missing exact spec selector')
                 expected_files = after if case['id'] in ('unit-author-run', 'step-commit') else before['files']
                 if case['id'] == 'step-commit' and event is runs[0]:
                     if event['files'].get(SOURCE) != before['files'].get(SOURCE): errors.append('source changed before the red run')
@@ -151,25 +146,21 @@ def check(base):
                 if SPEC not in changed: errors.append('regression spec missing')
                 if 'remaining' not in (root/SPEC).read_text() or '-3' not in (root/SPEC).read_text(): errors.append('negative-result assertion missing')
         elif case['id'] == 'e2e-scope':
-            runs = [e for e in events if '--help' not in e['args']]
+            runs = [e for e in events if not {'--help', '--version'} & set(e['args'])]
             if len(runs) != 1: errors.append('expected exactly one e2e invocation')
             else:
                 args = runs[0]['args']
                 if not any(a.endswith('playwright/tests/widget.spec.ts') for a in args): errors.append('plan spec not selected')
                 if any('other.spec' in a for a in args) or any(a.rstrip('/').endswith('playwright/tests') for a in args): errors.append('ran more than the plan spec')
         elif events: errors.append('unauthorized runner invocation')
-        if case['id'] in ('review-inline', 'manager-review-routing'):
-            if not (task / 'review.md').exists(): errors.append('review report missing')
+        if case['id'] == 'manager-review-routing' and not (task / 'review.md').exists(): errors.append('review report missing')
+        if case['id'] in ('review-precise', 'review-inline'):
+            if (task / 'review.md').exists(): errors.append('go-review wrote review.md')
             if case['id'] == 'review-inline' and (task / 'plan.md').exists(): errors.append('unrequested plan created')
-        if case['id'] == 'pr-text':
-            pr = task / 'pr.md'
-            if not pr.exists(): errors.append('pr.md missing')
-            elif any(h not in pr.read_text() for h in ('Summary', 'Evidence', 'Merge Danger')): errors.append('pr.md missing a section')
         if case['id'] == 'no-test-setup' and (root / SPEC).exists(): errors.append('spec created without a test setup')
         if case['id'] == 'approval-only':
             for name, original in before['task'].items():
-                expected = original.replace('Status: reviewed', 'Status: approved') if name == 'review.md' else original
-                if (task/name).read_text() != expected: errors.append('unexpected artifact content: '+name)
+                if (task/name).read_text() != original: errors.append('unexpected artifact content: '+name)
         if case['id'] in ('implementation-no-tests', 'selected-findings', 'step-commit'):
             # Evaluate behavior, not the spelling of the proposed implementation.
             js = (root/SOURCE).read_text().replace('export ', '')
@@ -177,7 +168,7 @@ def check(base):
             if case['id'] == 'selected-findings': js += '\nif(hasItems(0)!==false || hasItems(1)!==true) process.exit(1);'
             if subprocess.run(['node','-e',js], capture_output=True).returncode: errors.append('behavior assertions failed')
             if case['id'] in ('implementation-no-tests', 'step-commit') and SPEC not in changed: errors.append('regression spec missing')
-        results.append({'case':case['id'], 'filesystem_and_command_checks':'PASS' if not errors else 'FAIL', 'errors':errors, 'changed':changed, 'runner_calls':sum('--help' not in event['args'] for event in events)})
+        results.append({'case':case['id'], 'filesystem_and_command_checks':'PASS' if not errors else 'FAIL', 'errors':errors, 'changed':changed, 'runner_calls':sum(not {'--help', '--version'} & set(event['args']) for event in events)})
     print(json.dumps(results, indent=2))
     return all(not r['errors'] for r in results)
 

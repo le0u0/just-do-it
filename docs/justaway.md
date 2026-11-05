@@ -1,0 +1,40 @@
+# justaway
+
+Turns the session into a manager that runs the whole ticket flow. You call it with `/justaway on`; the model never starts it.
+
+## DO IT
+
+- Writes the specs and code itself: runs `go-plan`, `go-work` and `go-fix` in the main thread, calling `go-work` once per plan step and running the final validation.
+- Sends `go-triage`, `go-e2e` and `go-review` to subagents, and announces each model and effort.
+- Saves every plugin doc the skills return: `plan.md`, `checklist.md`, `review.md`, `triage.md`, `state/diagnose.md`, `state/jobs.md`.
+- Checks each result itself: diff, artifacts, and test exit codes.
+- Never commits, pushes or resets unless you or an approved plan said so.
+
+## USE IT
+
+| Situation | Use |
+| --- | --- |
+| A ticket from triage to review | `justaway` |
+| One job, such as a plan or a review | that `go-*` skill directly |
+| Finished ticket needs a PR or guide | `to-pr`, `to-test-md` yourself |
+
+- `/justaway off` returns the session to normal.
+- Without subagents it says the workflow cannot run.
+
+## WORK IT
+
+- It asks the project once, then triages before planning.
+- It stops for plan approval, and only fixes findings you select.
+- Replies stay at three lines: job, what needs you, doc path.
+- `state/jobs.md` holds each subagent job with evidence and agent ID.
+- It ends the ticket by telling you to run the `to-*` skills.
+
+## FIT IT
+
+```text
+go-triage -> go-plan -> go-work -> go-e2e -> go-review -> go-fix -> go-review
+```
+
+- It saves the output of every step to `~/.just-do-it/{project}/{branch}/`.
+- It reuses one subagent per skill for the ticket.
+- After approval, you run `to-pr`, `to-test-md`, `to-test-html`.

@@ -1,6 +1,6 @@
 # just-do-it
 
-A manager that plans, builds, tests and reviews a ticket with subagents. It works in any project: the process lives here, the rules come from your repo (`AGENTS.md`, `CLAUDE.md`, project skills).
+A manager that plans, builds, tests and reviews a ticket with subagents. The process lives here; the rules come from your repo (`AGENTS.md`, `CLAUDE.md`, project skills).
 
 ## Install
 
@@ -12,27 +12,41 @@ A manager that plans, builds, tests and reviews a ticket with subagents. It work
 ## Use
 
 ```text
-/just-do-it:manager on
+/just-do-it:justaway on
 ```
 
-Describe the work. The manager assigns jobs to subagents, runs the rest itself, checks the result, and reports in a few lines. Run `/just-do-it:manager off` to end it. Every skill also works on its own.
+- Describe the work. The manager assigns subagents, runs the rest, checks results, reports briefly.
+- End with `/just-do-it:justaway off`.
+- Every skill also works alone. `go-*` skills return results in the reply and write no files.
 
-## Subagents
+## Manager
 
-The manager starts a subagent per job, naming the skill and setting the model and effort per skill. It announces both each time; tell it a preference and it uses that.
+- Runs `go-plan`, `go-work` and `go-fix` in the main thread, so it can ask you questions.
+- Starts a subagent per other job and announces model and effort. Tell it a preference and it uses that.
+- Saves every returned document in `~/.just-do-it/{project}/{branch}/`.
+- More in [architecture](docs/architecture/ARCHITECTURE.md).
+- Each skill has a doc in [`docs/`](docs/), such as [`docs/go-review.md`](docs/go-review.md): what it does, when to use it, signs it works, and its chain.
 
 | Skill | Model |
 | --- | --- |
-| `review` | opus medium |
-| `e2e` | sonnet medium |
-| `triage-ticket` | haiku low |
+| `go-review` | opus medium |
+| `go-e2e` | sonnet medium |
+| `go-triage` | haiku low |
 
-The manager runs `plan`, `develop`, `resolve-review`, `pr` and `testing-guide` itself, in the main thread, so it can ask you questions directly.
+## Skills you call
 
-Plugin docs are saved in `~/.just-do-it/{project}/{branch}/`. More in [architecture](docs/architecture/ARCHITECTURE.md).
+| Skill | Job |
+| --- | --- |
+| `dev-tdd` | Test-first loop over `go-ut` and `go-e2e` |
+| `to-pr` | PR title and body |
+| `to-test-md` | Manual testing guide as Markdown |
+| `to-test-html` | QA page built from that guide |
+| `to-charsiu` | Restate the last message in plain language |
+
+`to-*` skills never run on their own.
 
 ## Credits
 
-- `develop` follows Matt Pocock's [tdd](https://github.com/mattpocock/skills/tree/main/skills/engineering/tdd) skill.
-- `pr` follows Matt Pocock's [pr](https://github.com/mattpocock/skills/tree/main/skills/engineering/pr) skill.
-- `e2e` borrows from lackeyjb's [playwright-skill](https://github.com/lackeyjb/playwright-skill).
+- `dev-tdd` follows Matt Pocock's [tdd](https://github.com/mattpocock/skills/tree/main/skills/engineering/tdd) skill.
+- `to-pr` follows Matt Pocock's [pr](https://github.com/mattpocock/skills/tree/main/skills/engineering/pr) skill.
+- `go-e2e` borrows from lackeyjb's [playwright-skill](https://github.com/lackeyjb/playwright-skill).

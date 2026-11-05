@@ -2,32 +2,36 @@
 
 ## Agents and skills
 
-`manager` runs in the main thread. It runs `plan` itself, since planning needs the user, and runs `develop`, `resolve-review`, `pr` and `testing-guide` itself, and assigns the other jobs to a subagent that runs one skill, with the model and effort `agents.md` sets for that skill.
+- `justaway` runs in the main thread.
+- It runs `go-plan` (needs the user), `go-work` and `go-fix` itself.
+- Other jobs go to a subagent running one skill, with the model and effort `agents.md` sets.
+- Skills return results in the reply. Only the manager saves docs.
+- `to-*` skills are user-invoked. The manager never runs them.
 
 ```mermaid
 flowchart TD
-    U([User]) <--> M[manager<br/>main thread]
-    M -->|ticket triage| H[triage-ticket]
-    M -->|write and run e2e tests| E[e2e]
-    M -->|review job| R[review]
+    U([User]) <--> M[justaway<br/>main thread]
+    M -->|ticket triage| H[go-triage]
+    M -->|write and run e2e tests| E[go-e2e]
+    M -->|review job| R[go-review]
 ```
 
 ## Ticket flow
 
 ```mermaid
 flowchart LR
-    T[Ticket] --> TH[plan: grill<br/>question rounds]
+    T[Ticket] --> TH[go-plan: grill<br/>question rounds]
     TH -->|user answers| TH
-    TH -->|user says plan| PL[plan: write<br/>plan.md, checklist.md]
-    PL -->|user approves plan| S[develop<br/>write specs and code]
+    TH -->|user says plan| PL[go-plan returns plan,<br/>manager saves plan.md, checklist.md]
+    PL -->|user approves plan| S[go-work<br/>calls dev-tdd]
     S -->|spec, code, run: repeat per behavior| S
     S -->|stuck: ask user| U2([User])
-    S -->|last step passed| E2[e2e<br/>write and run once]
-    E2 --> RV[review]
+    S -->|last step passed| E2[go-e2e<br/>write and run once]
+    E2 --> RV[go-review]
     RV --> UT2[manager unit run + e2e<br>report to manager, who fills Tests in review.md]
-    RV -->|selected findings| RS[resolve-review]
+    RV -->|selected findings| RS[go-fix]
     RS -->|re-review| RV
-    RV -->|approved| PR[pr + testing-guide]
+    RV -->|approved| PR[user runs to-pr,<br/>to-test-md, to-test-html]
 ```
 
 ## Manager loop
@@ -44,14 +48,38 @@ flowchart TD
 
 ## Why this structure
 
-- **Small handoffs.** Subagents start as general-purpose agents, never as a fork of the main thread, and receive paths only. `state/context.md` holds the rule files and comparable specs the manager found, so later agents skip the search.
-- **Fewer agents, fewer re-reads.** Each new agent re-reads rules, plan, and diff. The manager writes the unit specs and code for a step and runs the specs itself, and `e2e` writes and runs the e2e specs once, before review.
-- **The manager develops.** A plan step runs in the main thread, so a 12-step ticket starts no development agent. `checklist.md` carries progress between steps. Trade-off: the main thread's context grows over the ticket, and it runs on the session's model instead of sonnet medium. Within a ticket, other agents stay alive and get later work by SendMessage to the same ID, so a re-test or re-review does not re-read the rules, plan, and diff. Finished agents cost nothing while idle. The manager records each ID in `jobs.md`; if an agent is gone, it starts a fresh one that reads the plan, `checklist.md`, and `jobs.md`.
-- **Plan approval is the gate.** With per-step commits, approving the plan approves every step, its one-line commit message, and the file deletions in `Deletions`. `plan` confirms a checkable `Goal` with the user, and only the user's requirement change alters it. `develop` keeps working until the goal holds. It stops and asks only after three different fixes fail, when a step needs an unlisted deletion or a change outside the plan, or when the plan is unclear.
-- **The test author runs the test.** The manager writes unit specs test-first, one behavior at a time, and runs them in the same loop; for a review it runs them and reports to the manager, who writes the result into `review.md`. `e2e` writes and runs the e2e specs. Runs cover only the specs the task changed; other specs that may be affected are reported, not run.
-- **Plugin files live outside the repo.** Each project gets one folder, `~/.just-do-it/{project}/`, holding its glossary and ADRs in `docs/` and one folder per branch with its plan, checklist, review, PR text, commit format, `state/` and `attachments/`.
-- **Review reuse.** The same `review` subagent re-reviews the ticket and updates `review.md` in place. Trade-off: a re-review carries its earlier findings, so it is less independent than a fresh read.
-- **Manager verifies, not trusts.** An agent's "done" is a claim. The manager checks the diff, artifacts, and test result itself before reporting.
-- **Short reports.** Agents report in at most eight lines; the manager announces a job in one line and reports it in at most three. Detail on subagent jobs lives in `state/jobs.md` in the branch folder; the manager's own jobs are tracked in `checklist.md` only.
-- **Model by skill.** The manager sets `model` and `effort` per skill on each start and announces them; the user can override. See [agents.md](../../skills/manager/references/agents.md).
-- **Claude Code first.** Subagents work only in Claude Code. Skills stay plain `SKILL.md` files, so other hosts run them directly on the chat's own model, with no subagents.
+### Handoffs
+
+- Subagents are general-purpose agents, never forks. They get only the text or paths the job needs.
+- The manager writes and runs unit specs per step through `go-work`. `go-e2e` writes and runs e2e specs once, before review.
+- Agents report in at most eight lines. The manager announces a job in one line and reports in at most three.
+- Subagent job detail: `state/jobs.md`. The manager's own jobs: `checklist.md`.
+
+### Manager
+
+- A plan step runs in the main thread: no development agent per step. `checklist.md` carries progress.
+  - Trade-off: the main thread's context grows and runs on the session's model.
+- Other agents stay alive per ticket. Later work goes by SendMessage to the recorded ID in `jobs.md`. A gone agent is replaced by a fresh one reading the plan, `checklist.md` and `jobs.md`.
+- An agent's "done" is a claim: the manager checks diff, artifacts, tests.
+- The manager sets `model` and `effort` per skill and announces them. The user can override. See [agents.md](../../skills/justaway/references/agents.md).
+
+### Plan and tests
+
+- Plan approval is the gate. Per-step commits: approval covers every step, its one-line commit message and the `Deletions`.
+- `go-plan` confirms a checkable `Goal` with the user. Only a user requirement change alters it.
+- `go-work` works until the goal holds. It asks only when:
+  1. Three different fixes failed.
+  2. A step needs an unlisted deletion or an out-of-plan change.
+  3. The plan is unclear.
+- The author runs the test: the manager runs unit specs in the loop and, for a review, writes the result into `review.md`. Only changed specs run; other possibly affected ones are reported.
+
+### Review and storage
+
+- One `go-review` subagent re-reviews the ticket, given the previous `review.md`. The manager saves its full report over it. Only `go-review` reviews.
+  - Trade-off: it carries its earlier findings, so it is less independent than a fresh read.
+- Plugin files live outside the repo: `~/.just-do-it/{project}/` holds `docs/` (glossary, ADRs) and one folder per branch (plan, checklist, review, PR text, commit format, `state/`, `attachments/`).
+
+### Skills
+
+- A skill reads only its own `references/`; others are called by name.
+- Claude Code first: subagents work only there. Skills are plain `SKILL.md` files, so other hosts run them directly, without subagents.

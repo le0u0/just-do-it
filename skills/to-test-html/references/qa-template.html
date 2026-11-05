@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QA Test</title>
+<style id="lcss"></style>
+<style>
+:root{--accent:#faaa6c;--accent-d:#e8924f;--bg:#faf7f2;--surface:#fff;--text:#2b2622;--grey:#6b625a;--border:#ddd3c6;--pass:#1f7a3d;--pass-bg:#e3f4e8;--fail:#b3261e;--fail-bg:#fbe5e3}
+*{box-sizing:border-box}
+body{margin:0;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);color:var(--text);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif}
+a{color:var(--text)}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--text);outline-offset:2px}
+.btn{border:1px solid var(--border);background:var(--surface);border-radius:8px;padding:8px 14px;min-height:40px;transition:background-color 150ms,border-color 150ms}
+.btn:hover{background:#f3ece2;border-color:#c9bcab}
+.btn.primary,.btn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);font-weight:600}
+.btn.primary:hover{background:var(--accent-d);border-color:var(--accent-d)}
+.top{flex:none;width:100%;max-width:1180px;margin:0 auto}
+header{padding:20px 16px 4px;position:relative}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--surface)}
+.seg .btn{border:0;border-radius:0;min-height:36px;padding:4px 14px;font-size:14px}
+.seg .btn+.btn{border-left:1px solid var(--border)}
+.lang{position:absolute;top:20px;right:16px}
+h1{font-size:28px;line-height:1.25;margin:0 0 6px;padding-right:220px}
+header p{margin:0}
+.lead{font-weight:600}
+.sub{color:var(--grey)}
+.progress{padding:8px 16px 12px;display:flex;flex-wrap:wrap;align-items:center;gap:12px;border-bottom:1px solid var(--border)}
+.bar{flex:1 1 220px;height:10px;background:#e9e1d5;border-radius:6px;overflow:hidden}
+.bar>i{display:block;height:100%;width:0;background:var(--accent);transition:width 150ms}
+.ptext{font-size:14px;color:var(--grey);white-space:nowrap}
+.warn{padding:4px 16px;color:var(--fail);font-weight:600}
+.warn[hidden]{display:none}
+.layout{flex:1;min-height:0;width:100%;max-width:1180px;margin:0 auto;padding:0 16px;display:grid;grid-template-columns:260px minmax(0,1fr);gap:32px}
+nav,main{overflow:auto;padding:16px 0 48px}
+main{scroll-behavior:smooth}
+#doc{max-width:75ch}
+nav .nt{font-size:18px;font-weight:700;margin:0 0 8px}
+nav .ng{font-size:16px;font-weight:700;margin:14px 0 4px}
+nav a{display:flex;gap:6px;align-items:baseline;font-size:14px;color:var(--grey);text-decoration:none;padding:4px 8px;margin-left:12px;border-radius:6px;transition:background-color 150ms}
+nav a:hover{background:#f0e8dc;color:var(--text)}
+nav a.cur{background:var(--accent);color:var(--text);font-weight:600}
+nav .mk{margin-left:auto;font-weight:700}
+nav .mk.pass{color:var(--pass)}nav .mk.fail{color:var(--fail)}
+h2{font-size:24px;font-weight:700;margin:40px 0 4px;line-height:1.25}
+#doc>h2:first-child{margin-top:0}
+.why{margin:0 0 12px;color:var(--grey)}
+.setup ul{margin:8px 0 0;padding-left:20px}
+.test{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin:14px 0;scroll-margin-top:8px}
+.th{display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:space-between}
+h3{font-size:16px;font-weight:600;margin:0;flex:1 1 240px}
+.pf .btn[data-r="pass"][aria-pressed="true"]{background:var(--pass-bg);color:var(--pass)}
+.pf .btn[data-r="fail"][aria-pressed="true"]{background:var(--fail-bg);color:var(--fail)}
+.note{margin:8px 0 0;color:var(--grey);font-style:italic}
+.steps{list-style:none;margin:10px 0 0;padding:0}
+.steps li{margin:4px 0}
+.steps label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;padding:3px 4px;border-radius:6px;transition:background-color 150ms}
+.steps label:hover{background:#faf3e8}
+.steps input{appearance:none;-webkit-appearance:none;flex:none;width:22px;height:22px;margin:2px 0 0;border:2px solid #b9ab99;border-radius:6px;background:#fff;display:grid;place-content:center;cursor:pointer;transition:background-color 150ms,border-color 150ms}
+.steps input::after{content:"";width:6px;height:11px;border:solid var(--text);border-width:0 2.5px 2.5px 0;transform:rotate(45deg) scale(0);margin-top:-2px;transition:transform 150ms}
+.steps input:checked{background:var(--accent);border-color:var(--accent)}
+.steps input:checked::after{transform:rotate(45deg) scale(1)}
+.steps input:checked+span{color:var(--grey)}
+.expect{margin:10px 0 0;font-weight:600}
+dialog{border:1px solid var(--border);border-radius:12px;padding:20px;width:min(520px,calc(100vw - 32px));background:var(--surface);color:var(--text)}
+dialog::backdrop{background:rgba(43,38,34,.45)}
+dialog h2{margin:0 0 8px;font-size:20px}
+dialog label{display:block;font-weight:600;margin:12px 0 4px}
+dialog textarea{width:100%;min-height:120px;font:inherit;padding:8px;border:1px solid var(--border);border-radius:8px;resize:vertical}
+dialog .acts{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
+#file{display:none}
+@media (max-width:820px){
+ .layout{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);gap:0}
+ nav{max-height:112px;padding:8px 0}
+ nav .nt,nav .ng{display:inline-block;margin:4px 8px 4px 0}
+ nav a{display:inline-flex;margin:2px 4px 2px 0;background:#f0e8dc}
+ h1{padding-right:0;margin-top:44px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media print{body{height:auto;overflow:visible;display:block}.lang,.progress,nav,.pf,dialog,.warn{display:none!important}.layout{display:block}main{overflow:visible}.test{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="top">
+ <header>
+  <div class="lang seg" id="lang" role="group"></div>
+  <h1 id="h1"></h1>
+  <p class="lead" id="lead"></p>
+  <p class="sub" id="rel"></p>
+  <p class="sub" id="hint"></p>
+ </header>
+ <div class="progress">
+  <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+  <span class="ptext" id="ptext"></span>
+  <button class="btn primary" type="button" id="b-export"></button>
+  <button class="btn" type="button" id="b-load"></button>
+  <button class="btn" type="button" id="b-reset"></button>
+  <input type="file" id="file" accept="application/json,.json" tabindex="-1" aria-hidden="true">
+ </div>
+ <div class="warn" id="warn" hidden></div>
+</div>
+<div class="layout">
+ <nav id="nav"></nav>
+ <main id="main"><div id="doc"></div></main>
+</div>
+<dialog id="dlg" aria-labelledby="dlg-t">
+ <h2 id="dlg-t"></h2>
+ <p id="dlg-sum"></p>
+ <label for="concerns" id="dlg-l"></label>
+ <textarea id="concerns"></textarea>
+ <div class="acts">
+  <button class="btn" type="button" id="dlg-cancel"></button>
+  <button class="btn primary" type="button" id="dlg-ok"></button>
+ </div>
+</dialog>
+<script>
+// DATA: sample guide so this file previews as is. The to-test-html skill swaps the JSON between the DATA and END markers on the next line for the guide (see data-shape.md). Nothing else changes per ticket.
+const DATA=/*DATA*/{"ticket": "SAMPLE-1", "link": "https://example.com/SAMPLE-1", "slug": "sample", "languages": ["en", "zh"], "related": [{"key": "SAMPLE-2", "link": "https://example.com/SAMPLE-2", "role": "blocks"}], "title": {"en": "Sample feature", "zh": "範例功能"}, "setup": [{"id": "AC_1", "text": {"en": "Account that can edit items.", "zh": "可以編輯項目的帳號。"}}], "groups": [{"name": {"en": "Basics", "zh": "基本"}, "why": {"en": "The core path first.", "zh": "先測主要流程。"}, "tests": [{"title": {"en": "Open the item", "zh": "開啟項目"}, "steps": [{"en": "Items: open the first item.", "zh": "項目：開啟第一個項目。"}, {"en": "Item: click Edit.", "zh": "項目：按編輯。"}], "expect": {"en": "The edit form shows.", "zh": "顯示編輯表單。"}}, {"title": {"en": "Save a change", "zh": "儲存變更"}, "note": {"en": "Uses the item from Test 1.", "zh": "沿用測試 1 的項目。"}, "steps": [{"en": "Form: change the name.", "zh": "表單：修改名稱。"}, {"en": "Form: click Save.", "zh": "表單：按儲存。"}], "expect": {"en": "The new name shows in the list.", "zh": "列表顯示新名稱。"}}]}]}/*END*/;
+/* Languages this template has UI strings for. DATA.languages picks which show; one entry hides the switch. Add a language here and in UI below. */
+const ALL_LANGS=[{k:"en",lc:"en",name:"English"},{k:"zh",lc:"zh-Hant",name:"繁體中文"}];
+const LANGS=DATA?ALL_LANGS.filter(l=>(DATA.languages||["en"]).indexOf(l.k)>-1):ALL_LANGS.slice(0,1);
+const UI={
+ en:{hint:"Found an issue? Export results with your concerns and attach the file to the ticket.",qa:"QA Test",rel:"Related:",exp:"Export results",load:"Load results",reset:"Reset",
+  prog:(n,m,p,f)=>n+" of "+m+" steps · "+p+" pass · "+f+" fail",tests:"Tests",setup:"Setup",pass:"Pass",fail:"Fail",test:"Test",expect:"Expect:",
+  sum:(p,f,u)=>p+" pass · "+f+" fail · "+u+" not marked",con:"Concerns",cancel:"Cancel",ok:"Export",rc:"Reset all ticks, results and concerns?",
+  bad:"That file is not a results file.",warn:"Progress cannot be saved in this browser. Export results before closing this page.",lang:"Language",nm:"not marked"},
+ zh:{hint:"發現問題？請匯出結果並填寫你的疑慮，然後把檔案附加到工單。",qa:"QA 測試",rel:"相關工單：",exp:"匯出結果",load:"載入結果",reset:"重設",
+  prog:(n,m,p,f)=>"已完成 "+n+" / "+m+" 步 · "+p+" 通過 · "+f+" 失敗",tests:"測試",setup:"準備",pass:"通過",fail:"失敗",test:"測試",expect:"預期結果：",
+  sum:(p,f,u)=>p+" 通過 · "+f+" 失敗 · "+u+" 未標記",con:"疑慮",cancel:"取消",ok:"匯出",rc:"要重設所有勾選、結果和疑慮嗎？",
+  bad:"這不是結果檔案。",warn:"此瀏覽器無法儲存進度。關閉本頁前請先匯出結果。",lang:"語言",nm:"未標記"}
+};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const bi=o=>LANGS.map(l=>'<span data-l="'+l.k+'">'+esc(o[l.k]!=null?o[l.k]:o[LANGS[0].k])+'</span>').join("");
+const ui=k=>bi(Object.fromEntries(LANGS.map(l=>[l.k,UI[l.k][k]])));
+if(!DATA){document.body.innerHTML='<p style="padding:24px;font:16px/1.5 sans-serif">No guide data. Generate this page with the to-test-html skill.</p>';throw new Error("no DATA")}
+const KEY="qa-"+DATA.ticket;
+let lang=LANGS[0].k,state={steps:{},results:{},concerns:""},blocked=false;
+const tests=[];
+DATA.groups.forEach((g,gi)=>g.tests.forEach(t=>tests.push({id:"test-"+(tests.length+1),n:tests.length+1,g:gi,t:t})));
+const totalSteps=tests.reduce((a,x)=>a+x.t.steps.length,0);
+const lc=()=>LANGS.find(l=>l.k===lang).lc;
+/* storage: localStorage, else window.name */
+function load(){
+ let raw=null;
+ try{raw=localStorage.getItem(KEY)}catch(e){blocked=true}
+ if(blocked){const p="QA:"+KEY+":";if(window.name.indexOf(p)===0)raw=window.name.slice(p.length)}
+ if(raw){try{const s=JSON.parse(raw);if(s&&s.steps&&s.results)state={steps:s.steps,results:s.results,concerns:s.concerns||""}}catch(e){}}
+ let l=null;try{l=localStorage.getItem(KEY+":lang")}catch(e){}
+ if(!LANGS.some(x=>x.k===l))l=(LANGS.find(x=>(navigator.language||"").indexOf(x.k)===0)||LANGS[0]).k;
+ lang=l;
+}
+function save(){
+ const raw=JSON.stringify(state);
+ if(!blocked){try{localStorage.setItem(KEY,raw);return}catch(e){blocked=true}}
+ window.name="QA:"+KEY+":"+raw;
+ $("#warn").hidden=false;
+}
+/* build the page once; language switching only toggles visibility */
+function build(){
+ $("#h1").innerHTML=bi(DATA.title);
+ $("#lead").innerHTML=(DATA.link?'<a href="'+esc(DATA.link)+'" target="_blank" rel="noopener noreferrer">'+esc(DATA.ticket)+"</a>":esc(DATA.ticket))+" "+ui("qa");
+ if(DATA.related&&DATA.related.length)$("#rel").innerHTML=ui("rel")+" "+DATA.related.map(r=>(r.link?'<a href="'+esc(r.link)+'" target="_blank" rel="noopener noreferrer">'+esc(r.key)+"</a>":esc(r.key))+(r.role?" ("+esc(r.role)+")":"")).join(" · ");
+ $("#hint").innerHTML=ui("hint");
+ $("#b-export").innerHTML=ui("exp");$("#b-load").innerHTML=ui("load");$("#b-reset").innerHTML=ui("reset");
+ $("#dlg-t").innerHTML=ui("exp");$("#dlg-l").innerHTML=ui("con");$("#dlg-cancel").innerHTML=ui("cancel");$("#dlg-ok").innerHTML=ui("ok");
+ $("#warn").innerHTML=ui("warn");
+ if(LANGS.length>1)$("#lang").innerHTML=LANGS.map(l=>'<button class="btn" type="button" data-lang="'+l.k+'">'+esc(l.name)+"</button>").join("");
+ let nav='<p class="nt">'+ui("tests")+"</p>",doc='<section class="setup"><h2>'+ui("setup")+"</h2><ul>";
+ DATA.setup.forEach(s=>{doc+="<li><strong>"+esc(s.id)+"</strong>: "+bi(s.text)+"</li>"});
+ doc+="</ul></section>";
+ DATA.groups.forEach((g,gi)=>{
+  nav+='<p class="ng">'+bi(g.name)+"</p>";
+  doc+="<h2>"+bi(g.name)+'</h2><p class="why">'+bi(g.why)+"</p>";
+  tests.filter(x=>x.g===gi).forEach(x=>{
+   const t=x.t;
+   nav+='<a href="#'+x.id+'" data-id="'+x.id+'"><span>'+x.n+". "+bi(t.title)+'</span><span class="mk" data-mk="'+x.id+'"></span></a>';
+   doc+='<article class="test" id="'+x.id+'"><div class="th"><h3>'+ui("test")+" "+x.n+": "+bi(t.title)+'</h3><div class="pf seg" role="group">'
+    +["pass","fail"].map(r=>'<button type="button" class="btn" data-r="'+r+'" data-id="'+x.id+'" aria-pressed="false">'+ui(r)+"</button>").join("")+"</div></div>";
+   if(t.note)doc+='<p class="note">'+bi(t.note)+"</p>";
+   doc+='<ol class="steps">'+t.steps.map((s,i)=>'<li><label><input type="checkbox" data-k="'+x.id+"."+i+'"><span>'+bi(s)+"</span></label></li>").join("")
+    +'</ol><p class="expect">'+ui("expect")+" "+bi(t.expect)+"</p></article>";
+  });
+ });
+ $("#nav").innerHTML=nav;$("#doc").innerHTML=doc;
+}
+function counts(){
+ let p=0,f=0,n=0;
+ tests.forEach(x=>{const r=state.results[x.id];if(r==="pass")p++;else if(r==="fail")f++});
+ for(const k in state.steps)if(state.steps[k])n++;
+ return {p:p,f:f,u:tests.length-p-f,n:n};
+}
+function sync(){
+ document.querySelectorAll("input[data-k]").forEach(i=>{i.checked=!!state.steps[i.dataset.k]});
+ tests.forEach(x=>{
+  const r=state.results[x.id];
+  document.querySelectorAll('.pf button[data-id="'+x.id+'"]').forEach(b=>b.setAttribute("aria-pressed",String(r===b.dataset.r)));
+  const m=document.querySelector('[data-mk="'+x.id+'"]');m.className="mk"+(r?" "+r:"");m.textContent=r==="pass"?"✓":r==="fail"?"✗":"";
+ });
+ const c=counts();
+ $("#ptext").textContent=UI[lang].prog(c.n,totalSteps,c.p,c.f);
+ $("#bar").style.width=(100*c.n/totalSteps)+"%";
+}
+function setLang(l){
+ lang=l;try{localStorage.setItem(KEY+":lang",l)}catch(e){}
+ document.documentElement.lang=lc();
+ $("#lcss").textContent='[data-l]:not([data-l="'+l+'"]){display:none}';
+ document.querySelectorAll("[data-lang]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.lang===l)));
+ document.title=DATA.title[l]+" · "+DATA.ticket+" "+UI[l].qa;
+ $("#lang").setAttribute("aria-label",UI[l].lang);
+ $("#nav").setAttribute("aria-label",UI[l].tests);
+ sync();
+}
+/* export / load */
+function result(){
+ const c=counts();
+ return {ticket:DATA.ticket,guide:DATA.slug,language:lc(),exportedAt:new Date().toISOString(),
+  summary:{pass:c.p,fail:c.f,notMarked:c.u},concerns:state.concerns||"",
+  tests:tests.map(x=>({id:x.id,title:x.t.title[lang],result:state.results[x.id]||"not marked",
+   steps:x.t.steps.map((s,i)=>({done:!!state.steps[x.id+"."+i],text:s[lang]})),expect:x.t.expect[lang]})),state:state};
+}
+function download(){
+ const d=new Date(),p=n=>String(n).padStart(2,"0");
+ const a=document.createElement("a");
+ a.href=URL.createObjectURL(new Blob([JSON.stringify(result(),null,2)],{type:"application/json"}));
+ a.download=DATA.ticket+"-qa-results-"+d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate())+".json";
+ document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+function openDlg(){const c=counts();$("#dlg-sum").textContent=UI[lang].sum(c.p,c.f,c.u);$("#concerns").value=state.concerns||"";$("#dlg").showModal()}
+/* nav highlight: main is the scroller */
+let locked=false;
+function setCur(id){document.querySelectorAll("nav a").forEach(a=>{const on=a.dataset.id===id;a.classList.toggle("cur",on);on?a.setAttribute("aria-current","true"):a.removeAttribute("aria-current")})}
+function spy(){
+ if(locked)return;
+ const m=$("#main"),top=m.getBoundingClientRect().top,line=m.clientHeight*0.3;if(!tests.length)return;let id=tests[0].id;
+ for(const x of tests)if(document.getElementById(x.id).getBoundingClientRect().top-top<=line)id=x.id;
+ if(m.scrollTop+m.clientHeight>=m.scrollHeight-2)id=tests[tests.length-1].id;
+ setCur(id);
+}
+function init(){
+ load();build();setLang(lang);
+ if(blocked)$("#warn").hidden=false;
+ $("#lang").addEventListener("click",e=>{const b=e.target.closest("[data-lang]");if(b)setLang(b.dataset.lang)});
+ $("#doc").addEventListener("change",e=>{const k=e.target.dataset.k;if(k){state.steps[k]=e.target.checked;save();sync()}});
+ $("#doc").addEventListener("click",e=>{
+  const b=e.target.closest("button[data-r]");if(!b)return;
+  const id=b.dataset.id;if(state.results[id]===b.dataset.r)delete state.results[id];else state.results[id]=b.dataset.r;
+  save();sync();
+ });
+ $("#b-export").onclick=openDlg;
+ $("#nav").addEventListener("click",e=>{const a=e.target.closest("a[data-id]");if(!a)return;e.preventDefault();locked=true;setCur(a.dataset.id);document.getElementById(a.dataset.id).scrollIntoView({block:"start"})});
+ ["wheel","touchstart","keydown"].forEach(ev=>window.addEventListener(ev,()=>{locked=false},{passive:true}));
+ $("#main").addEventListener("scroll",spy,{passive:true});window.addEventListener("resize",spy);
+ $("#concerns").addEventListener("input",e=>{state.concerns=e.target.value;save()});
+ $("#dlg-cancel").onclick=()=>$("#dlg").close();
+ $("#dlg-ok").onclick=()=>{state.concerns=$("#concerns").value;save();download();$("#dlg").close()};
+ $("#b-reset").onclick=()=>{if(confirm(UI[lang].rc)){state={steps:{},results:{},concerns:""};save();sync()}};
+ $("#b-load").onclick=()=>$("#file").click();
+ $("#file").addEventListener("change",e=>{
+  const f=e.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{const j=JSON.parse(r.result);if(!j.state.steps||!j.state.results)throw 0;
+   state={steps:j.state.steps,results:j.state.results,concerns:j.state.concerns!=null?j.state.concerns:(j.concerns||"")};save();sync()}catch(x){alert(UI[lang].bad)}};
+  r.readAsText(f);e.target.value="";
+ });
+ spy();
+}
+init();
+</script>
+</body>
+</html>
