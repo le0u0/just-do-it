@@ -25,6 +25,7 @@ A manager that plans, builds, tests and reviews a ticket with subagents. The pro
 - Starts a subagent per other job and announces model and effort. Tell it a preference and it uses that.
 - Saves every returned document in `~/.just-do-it/{project}/{branch}/`.
 - More in [architecture](docs/architecture/ARCHITECTURE.md).
+- Each skill has a doc in [`docs/`](docs/), such as [`docs/go-review.md`](docs/go-review.md): what it does, when to use it, signs it works, and its chain.
 
 | Skill | Model |
 | --- | --- |
