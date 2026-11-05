@@ -1,9 +1,6 @@
 ---
 name: pr
 description: 'Write the pull request title and body for a finished branch: a visual summary, before and after evidence, and merge danger. Text, and opens the PR when asked. Use for "pr", "create a PR", "open a PR", "write the PR", "PR text" or "commit, push, pr".'
-effort: medium
-metadata:
-  tier: standard
 ---
 
 # PR

@@ -19,12 +19,12 @@ One static file: inline CSS and JS, no framework, no build step, no external req
 ## Export and load
 
 - Export results opens a native `<dialog>`: title, one summary line ("1 pass · 1 fail · 9 not marked"), a "Concerns" label, one textarea, Cancel and Export. Escape and Cancel close it without a download. The download happens only from Export, as `TICKET-qa-results-YYYY-MM-DD.json`.
-- The JSON holds `ticket`, `guide`, `language`, `exportedAt`, `summary {pass, fail, notMarked}`, `concerns`, `tests[{id, title, result, steps[{done, text}], expect}]` in the tester's language, and `state` for Load results to restore.
+- The JSON holds `ticket`, `guide`, `language`, `exportedAt`, `summary {pass, fail, notMarked}`, `concerns`, `tests[{id, title, result, steps[{done, text}], expect}]` in the reader's language, and `state` for Load results to restore.
 - Load results accepts that file. Reset asks for confirmation.
 
 ## Saving progress
 
-Save ticks, Pass/Fail and the concerns text in `localStorage`. When it is blocked (`file://` in some browsers, preview panes), fall back to `window.name`, and show one red line, only in that case, telling the tester to export before closing.
+Save ticks, Pass/Fail and the concerns text in `localStorage`. When it is blocked (`file://` in some browsers, preview panes), fall back to `window.name`, and show one red line, only in that case, telling the reader to export before closing.
 
 ## Navigation
 
@@ -34,7 +34,7 @@ Save ticks, Pass/Fail and the concerns text in `localStorage`. When it is blocke
 
 ## Design
 
-A tool the tester uses while working, so product register. When the Impeccable skill is installed, load it first; with no `PRODUCT.md` in the project, return `Open` asking whether to skip its init.
+A tool the reader uses while working, so product register. When the Impeccable skill is installed, load it first; with no `PRODUCT.md` in the project, return `Open` asking whether to skip its init.
 
 - One accent on warm neutrals: the project's theme color from its style tokens, else one restrained accent. Dark text on the accent; the accent never colors body text. Green and red only for Pass and Fail.
 - Type: page title 28px; group heading 24px bold; test title 16px semibold; steps 16px. In the list: "Tests" 18px bold, group labels 16px bold dark, test links 14px regular grey and indented, the current one dark semibold on the accent.

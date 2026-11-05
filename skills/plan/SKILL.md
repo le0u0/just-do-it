@@ -1,9 +1,6 @@
 ---
 name: plan
 description: 'Think through one ticket with the user, then plan it into plan.md and checklist.md for approval, with no code changes. Use for "plan PROJ-123", "think through PROJ-123", "what is unclear here" or "break this into steps".'
-effort: high
-metadata:
-  tier: advanced
 ---
 
 # Plan

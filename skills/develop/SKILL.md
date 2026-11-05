@@ -1,9 +1,6 @@
 ---
 name: develop
 description: 'Implement production code and its unit specs from a request or an approved plan, following the project''s own rules and skills; also write, fix or run unit specs alone. Use for "implement step 2", "build this feature", "add unit tests", "fix this spec" or "run the unit tests for X".'
-effort: medium
-metadata:
-  tier: standard
 ---
 
 # Develop
@@ -25,7 +22,7 @@ Report per [reports.md](../manager/references/reports.md); a test run reports th
 - Keep working until the plan's `Goal` holds, step by step. Delete only files the plan's `Deletions` lists; ask for any other deletion.
 - Run specs only when the request or approved plan authorizes it; a later no-tests instruction wins. Without authorization, write the specs and hand back unrun.
 - Leave the protected files listed in [running.md](references/running.md) and unrelated specs unchanged.
-- End-to-end coverage goes to `e2e-tester` (`write-e2e`), only when the user or plan asks.
+- End-to-end coverage goes to `e2e`, only when the user or plan asks.
 
 ## Workflow
 

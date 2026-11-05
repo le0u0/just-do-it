@@ -1,9 +1,6 @@
 ---
 name: review
 description: 'Review a branch, diff or work-in-progress change against the project''s standards and the supplied objective or bug, and save review.md. Use for "review my branch" or "review this diff".'
-effort: medium
-metadata:
-  tier: advanced
 ---
 
 # Review
@@ -26,7 +23,7 @@ When `review.md` exists for this repository and branch, update it in place:
 
 ## 3. Review pass
 
-Review the code only; the manager writes the testers' results into `Tests`. Leave `Tests` as not run on a first pass; you run no tests. On a re-review, read the test results the manager wrote in `review.md`; for each reported failure, check by reading code that the developer's fix addresses it.
+Review the code only; the manager writes the unit and e2e results into `Tests`. Leave `Tests` as not run on a first pass; you run no tests. On a re-review, read the test results the manager wrote in `review.md`; for each reported failure, check by reading code that the developer's fix addresses it.
 
 Do the review pass:
 
@@ -40,7 +37,7 @@ On a re-review, a reported test failure in `Tests` that the fix does not address
 ## 4. Filter
 
 - Keep only findings introduced or exposed by the change, on lines the change touched.
-- Keep a finding only when you confirmed it is real and will be hit in practice; a guess sends the developer after a false lead.
+- Keep a finding only when you confirmed it is real and will be hit in practice; a guess sends the fix after a false lead.
 - Omit changes that look intentional, issues silenced by a lint-ignore comment, unreachable cases, style preferences, pure renames that keep behavior, and issues tooling enforces. A missing contract limits one finding, never the review.
 - Deduplicate by root cause.
 - Keep source read-only; add no `TODO` or `FIXME` comments to code.

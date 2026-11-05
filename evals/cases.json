@@ -9,7 +9,7 @@
     "id": "unit-author-run",
     "skill": "manager",
     "request": "Add a regression assertion in src/main/webapp/app/counter.spec.ts that remaining(2, 5) equals -3. Then run only that spec. Leave production and test bootstrap unchanged.",
-    "checks": "Manager assigns developer to write the spec and then run only that spec, both per develop, in that order, starting no other subagent. Spec contains a meaningful negative-result assertion and a Covered/Not Covered comment above the describe before the one exact runner invocation. No test runs before the spec is written. Production, bootstrap, configuration, HEAD, and index stay unchanged."
+    "checks": "Manager writes the spec and then runs only that spec itself, both per develop, in that order, starting no subagent. Spec contains a meaningful negative-result assertion and a Covered/Not Covered comment above the describe before the one exact runner invocation. No test runs before the spec is written. Production, bootstrap, configuration, HEAD, and index stay unchanged."
   },
   {
     "checks": "Report the injected compile failure; preserve files and selection. No broader suite or harness workaround.",
@@ -18,7 +18,7 @@
     "skill": "develop"
   },
   {
-    "checks": "Review-resolver lead updates the artifact directly. Only Status changes from reviewed to approved; findings and evidence stay byte-identical; no test commands.",
+    "checks": "Resolve-review updates the artifact directly. Only Status changes from reviewed to approved; findings and evidence stay byte-identical; no test commands.",
     "id": "approval-only",
     "request": "Set the existing review status to approved. Review path: {task}/review.md.",
     "skill": "resolve-review"
@@ -37,33 +37,33 @@
   },
   {
     "id": "ensure-repeat",
-    "skill": "write-e2e",
+    "skill": "e2e",
     "request": "Provision widget PW-WIDGET-001 with label Example for playwright/tests/widget.spec.ts through a reusable domain ensure helper and wire it into the spec. Do not run browser tests.",
-    "checks": "E2E-test-writer lead authors directly. First ensure creates; repeated ensure reuses same record. No legacy setup, package, or config changes. Spec invokes helper; authoring remains uncommitted."
+    "checks": "E2E authors directly. First ensure creates; repeated ensure reuses same record. No legacy setup, package, or config changes. Spec invokes helper; authoring remains uncommitted."
   },
   {
     "id": "review-precise",
     "skill": "review",
     "request": "Review working-tree changes against HEAD using requirements in {task}/plan.md. Save {task}/review.md. Do not run tests. Keep findings brief.",
-    "checks": "Review lead writes the exact final review.md path directly. One evidenced addition-versus-subtraction regression at counter.ts:1. No finding for pre-existing hasItems behavior or equivalent greeting rename. No intermediate report, second reviewer beyond the host review-tool pass, source edits, test runs, remote discovery, or verbose recap."
+    "checks": "Review writes the exact final review.md path directly. One evidenced addition-versus-subtraction regression at counter.ts:1. No finding for pre-existing hasItems behavior or equivalent greeting rename. No intermediate report, second review pass beyond the host review-tool pass, source edits, test runs, remote discovery, or verbose recap."
   },
   {
     "id": "manager-review-routing",
     "skill": "manager",
     "request": "Use the manager to review working-tree changes against HEAD using requirements in {task}/plan.md. Save {task}/review.md. Do not run tests.",
-    "checks": "Manager assigns one reviewer agent, which writes the exact final review.md path. Manager inspects that file. No intermediate report, PM review or report writing, source edits, tests, commits, or extra reviewers beyond the host review-tool pass."
+    "checks": "Manager assigns one review subagent, which writes the exact final review.md path. Manager inspects that file. No intermediate report, review or report writing, source edits, tests, commits, or extra review passes beyond the host review-tool pass."
   },
   {
     "id": "focused-no-rules",
     "skill": "develop",
     "request": "Run only src/main/webapp/app/counter.spec.ts. Report the result.",
-    "checks": "Develop lead runs it in test-run mode directly. Use available CLAUDE.md despite missing .agents/rules. Execute one focused command; preserve all files and existing bootstrap edits. No request to install or create rules."
+    "checks": "Develop runs it in test-run mode directly. Use available CLAUDE.md despite missing .agents/rules. Execute one focused command; preserve all files and existing bootstrap edits. No request to install or create rules."
   },
   {
     "id": "review-inline",
     "skill": "review",
     "request": "Review working-tree changes against HEAD. remaining must return total minus used. greeting must preserve the supplied name, including whitespace. Save {task}/review.md. Do not run tests.",
-    "checks": "Review lead writes the exact final review.md path directly. Complete review using inline requirements without requesting or creating plan.md. Report only arithmetic regression, cite user request as requirement source, preserve source and index."
+    "checks": "Review writes the exact final review.md path directly. Complete review using inline requirements without requesting or creating plan.md. Report only arithmetic regression, cite user request as requirement source, preserve source and index."
   },
   {
     "id": "step-commit",
@@ -79,9 +79,9 @@
   },
   {
     "id": "e2e-scope",
-    "skill": "run-e2e",
+    "skill": "e2e",
     "request": "The last step is done. Run the e2e specs the plan names in {task}/plan.md. Report the result.",
-    "checks": "E2E-test-runner lead runs exactly the spec file the plan's Testing section names its E2E line, with one command and a file argument, never the folder or the full suite. It reports other specs that use the changed helper under Affected without running them. No file changes, reset, or reuse of an earlier result."
+    "checks": "E2E runs exactly the spec file the plan's Testing section names its E2E line, with one command and a file argument, never the folder or the full suite. It reports other specs that use the changed helper under Affected without running them. No file changes, reset, or reuse of an earlier result."
   },
   {
     "id": "no-test-setup",
