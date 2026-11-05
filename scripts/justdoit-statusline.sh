@@ -1,6 +1,6 @@
 #!/bin/bash
 # just-do-it status line: runs the command given as arguments (your existing
-# status line, e.g. caveman's), then appends [JUSTDOIT] while manager mode is on.
+# status line, e.g. caveman's), then appends [JUSTDOIT] while manager mode is on (`/start-manager on`).
 #
 # settings.json:
 #   "statusLine": { "type": "command",

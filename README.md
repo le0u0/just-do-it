@@ -12,10 +12,10 @@ A manager that plans, builds, tests and reviews a ticket with subagents. It work
 ## Use
 
 ```text
-/just-do-it:manager on
+/just-do-it:start-manager on
 ```
 
-Describe the work. The manager assigns jobs to subagents, runs the rest itself, checks the result, and reports in a few lines. Run `/just-do-it:manager off` to end it. Every skill also works on its own.
+Describe the work. The manager assigns jobs to subagents, runs the rest itself, checks the result, and reports in a few lines. Run `/just-do-it:start-manager off` to end it. Every skill also works on its own: `go-*` skills return their result in the reply and write no files, so `/go-plan` prints the plan and `/go-work` just implements.
 
 ## Subagents
 
@@ -23,16 +23,28 @@ The manager starts a subagent per job, naming the skill and setting the model an
 
 | Skill | Model |
 | --- | --- |
-| `review` | opus medium |
-| `e2e` | sonnet medium |
-| `triage-ticket` | haiku low |
+| `go-review` | opus medium |
+| `go-e2e` | sonnet medium |
+| `go-triage` | haiku low |
 
-The manager runs `plan`, `develop`, `resolve-review`, `pr` and `testing-guide` itself, in the main thread, so it can ask you questions directly.
+The manager runs `go-plan`, `go-work` and `go-fix` itself, in the main thread, so it can ask you questions directly, and saves every document the skills return.
+
+## Skills you call
+
+| Skill | Job |
+| --- | --- |
+| `dev-tdd` | Test-first loop over `go-ut` and `go-e2e` |
+| `to-pr` | PR title and body |
+| `to-test-md` | Manual testing guide as Markdown |
+| `to-test-html` | QA page built from that guide |
+| `to-charsiu` | Restate the last message in plain language |
+
+`to-*` skills never run on their own; you call them.
 
 Plugin docs are saved in `~/.just-do-it/{project}/{branch}/`. More in [architecture](docs/architecture/ARCHITECTURE.md).
 
 ## Credits
 
-- `develop` follows Matt Pocock's [tdd](https://github.com/mattpocock/skills/tree/main/skills/engineering/tdd) skill.
-- `pr` follows Matt Pocock's [pr](https://github.com/mattpocock/skills/tree/main/skills/engineering/pr) skill.
-- `e2e` borrows from lackeyjb's [playwright-skill](https://github.com/lackeyjb/playwright-skill).
+- `dev-tdd` follows Matt Pocock's [tdd](https://github.com/mattpocock/skills/tree/main/skills/engineering/tdd) skill.
+- `to-pr` follows Matt Pocock's [pr](https://github.com/mattpocock/skills/tree/main/skills/engineering/pr) skill.
+- `go-e2e` borrows from lackeyjb's [playwright-skill](https://github.com/lackeyjb/playwright-skill).

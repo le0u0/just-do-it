@@ -1,6 +1,6 @@
 import type { Register } from 'claude-code'
 
-const MANAGER = /^\/(?:just-do-it:)?manager(?:\s+(on|off))?\s*$/i
+const MANAGER = /^\/(?:just-do-it:)?start-manager(?:\s+(on|off))?\s*$/i
 const SCRIPT = 'justdoit-statusline.sh'
 const flagPath = (home: string | undefined, id: string) =>
   `${home}/.claude/.justdoit-manager-${id}`

@@ -108,11 +108,6 @@ with open('runner-events.jsonl','a') as out: out.write(json.dumps({'args':sys.ar
             (root / 'playwright/helpers/widget.u.ts').write_text('export const widget = 2;\n')
         if case['id'] == 'step-commit':
             (task / 'plan.md').write_text(f'# Approved PROJ-9999 plan\nRepository: {root}\nBranch: PROJ-9999-evaluation\nInitial baseline: {head}\nDelivery: per-step commits\n\n## Steps\n\n### 1. Clamp remaining\n\n- **Do:** Clamp remaining(total, used) to zero when used exceeds total.\n- **Test:** Spec: remaining(2, 5) is 0. Run: yes.\n- **Commit:** `fix: clamp remaining to zero`\n- <sub>**Files:** {SOURCE}, {SPEC}</sub>\n')
-        if case['id'] == 'pr-text':
-            (root / SOURCE).write_text('export function remaining(total, used) { return Math.max(0, total - used); }\nexport function greeting(name) { return `Hello ${name}`; }\nexport function hasItems(count) { return count >= 0; }\n')
-            (root / SPEC).write_text("import { remaining } from './counter';\ndescribe('remaining', () => { it('subtracts used', () => { expect(remaining(5, 2)).toBe(3); }); it('clamps to zero', () => { expect(remaining(2, 5)).toBe(0); }); });\n")
-            review = task / 'review.md'
-            review.write_text(review.read_text().replace('Status: reviewed', 'Status: approved'))
         before = {'files': snapshot(root), 'task': {p.name:p.read_text() for p in task.iterdir()}, 'head': head, 'index': git(root, 'write-tree')}
         (home / 'before.json').write_text(json.dumps(before, indent=2))
         (home / 'request.txt').write_text(case['request'].replace('{task}', str(task)))
@@ -158,18 +153,14 @@ def check(base):
                 if not any(a.endswith('playwright/tests/widget.spec.ts') for a in args): errors.append('plan spec not selected')
                 if any('other.spec' in a for a in args) or any(a.rstrip('/').endswith('playwright/tests') for a in args): errors.append('ran more than the plan spec')
         elif events: errors.append('unauthorized runner invocation')
-        if case['id'] in ('review-inline', 'manager-review-routing'):
-            if not (task / 'review.md').exists(): errors.append('review report missing')
+        if case['id'] == 'manager-review-routing' and not (task / 'review.md').exists(): errors.append('review report missing')
+        if case['id'] in ('review-precise', 'review-inline'):
+            if (task / 'review.md').exists(): errors.append('go-review wrote review.md')
             if case['id'] == 'review-inline' and (task / 'plan.md').exists(): errors.append('unrequested plan created')
-        if case['id'] == 'pr-text':
-            pr = task / 'pr.md'
-            if not pr.exists(): errors.append('pr.md missing')
-            elif any(h not in pr.read_text() for h in ('Summary', 'Evidence', 'Merge Danger')): errors.append('pr.md missing a section')
         if case['id'] == 'no-test-setup' and (root / SPEC).exists(): errors.append('spec created without a test setup')
         if case['id'] == 'approval-only':
             for name, original in before['task'].items():
-                expected = original.replace('Status: reviewed', 'Status: approved') if name == 'review.md' else original
-                if (task/name).read_text() != expected: errors.append('unexpected artifact content: '+name)
+                if (task/name).read_text() != original: errors.append('unexpected artifact content: '+name)
         if case['id'] in ('implementation-no-tests', 'selected-findings', 'step-commit'):
             # Evaluate behavior, not the spelling of the proposed implementation.
             js = (root/SOURCE).read_text().replace('export ', '')
