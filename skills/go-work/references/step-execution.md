@@ -49,4 +49,5 @@ Applies for per-step commits, or when the user asks.
 - Scope changed: propose a new one-line message and get approval first.
 - No plan message: the project's commit format, else `<type>: <description>`.
 - Stage only the step's files or hunks; stop if unrelated staged changes would enter.
+- Before committing, `git diff --stat` lists the step's production and spec files.
 - Record the SHA. Never push.
