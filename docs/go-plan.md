@@ -4,11 +4,24 @@ Think through one ticket with you, then return a plan and checklist for approval
 
 ## DO IT
 
-- Takes a ticket (link or pasted requirements), plus `AGENTS.md`, `CLAUDE.md` and project-local skills.
-- Grills you in rounds: each round asks every open decision whose prerequisites are settled, numbered, each with a recommended answer.
-- Returns the plan (Goal, acceptance criteria, testing, decisions, steps, deletions) and the checklist in the reply.
-- Writes no code, tests or files. The caller saves the plan.
-- Stops after the grill when you only want gaps found.
+```mermaid
+flowchart LR
+    IN([ticket + AGENTS.md,<br/>CLAUDE.md, local skills]) --> G[grill rounds]
+    G -->|you answer| G
+    G -->|you say plan| P([plan + checklist<br/>in the reply])
+    G -->|gaps only wanted| S([stop after grill])
+```
+
+| Step | Does |
+| --- | --- |
+| Takes | A ticket (link or pasted requirements), plus `AGENTS.md`, `CLAUDE.md` and project-local skills |
+| Grills | In rounds: each round asks every open decision whose prerequisites are settled, numbered, each with a recommended answer |
+| Returns | The plan (Goal, acceptance criteria, testing, decisions, steps, deletions) and the checklist in the reply |
+| Stops | After the grill when you only want gaps found |
+
+| Gives | Never |
+| --- | --- |
+| Plan and checklist in the reply | Writes code, tests or files. The caller saves the plan |
 
 ## USE IT
 
@@ -21,18 +34,24 @@ Think through one ticket with you, then return a plan and checklist for approval
 
 ## WORK IT
 
-- It asks questions in numbered rounds, each with a recommended answer, and doesn't ask what the code already answers.
-- A ticket link triggers `go-triage` first.
-- The session ends only when you say the picture is shared and then say plan.
-- Every acceptance criterion maps to a step with a named failing test.
-- Every step has a one-line commit message.
+| Sign | Means |
+| --- | --- |
+| Questions come in numbered rounds, each with a recommended answer, and none the code already answers | Grill is efficient |
+| A ticket link triggers `go-triage` first | Requirements are read |
+| The session ends only when you say the picture is shared and then say plan | You are in control |
+| Every acceptance criterion maps to a step with a named failing test | Plan is testable |
+| Every step has a one-line commit message | Plan is committable |
 
 ## FIT IT
 
-```text
-go-triage -> go-plan -> go-work
+```mermaid
+flowchart LR
+    T[go-triage] --> P[go-plan]
+    P --> W[go-work]
 ```
 
-- `go-triage` supplies the requirements brief before the grill.
-- `go-work` builds from the approved plan.
-- `justaway` saves the returned plan and checklist as `plan.md` and `checklist.md`.
+| Link | What happens |
+| --- | --- |
+| `go-triage` | Supplies the requirements brief before the grill |
+| `go-work` | Builds from the approved plan |
+| `justaway` | Saves the returned plan and checklist as `plan.md` and `checklist.md` |

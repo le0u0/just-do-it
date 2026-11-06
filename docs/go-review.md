@@ -1,15 +1,36 @@
 # go-review
 
-Review a branch, diff or work-in-progress change and return the review report. The manager runs it as a subagent; you can also call it directly. It is the only skill that reviews.
+Review a branch, diff or work-in-progress change and return the review report. It runs in the main thread, called by the manager or directly, and starts its own review agents. It is the only skill that reviews.
 
 ## DO IT
 
-- Takes requirements (text, path, ticket URL or plan), an optional previous review, and an optional baseline.
-- Reads the scoped diff, every hunk, then changed functions and their callers.
-- Keeps only findings the change introduced or exposed, judged against the project's standards.
-- Returns the whole report in the reply: issue count, a `Manual review` list, `TODO`, `RESOLVED`, `IGNORED` and a reference line.
-- On a re-review, returns the previous report updated in full.
-- Runs no tests, edits no source, and writes no files. `Tests` stays "not run" for the manager to fill.
+```mermaid
+flowchart LR
+    IN([requirements, baseline,<br/>previous review]) --> G[go-triage<br/>haiku: ticket text,<br/>diff stat, paths]
+    G --> T{tier}
+    T -->|Quick| Q[1 hunter<br/>verifies its own]
+    T -->|Standard / Deep| H[2-3 hunters<br/>sonnet, by lens]
+    H --> V[verifier<br/>opus: disprove each]
+    Q --> R([report])
+    V --> R
+```
+
+| Tier | When | Agents |
+| --- | --- | --- |
+| Quick | ≤150 lines, ≤3 files, no risky path | 1 sonnet hunter, verifies its own |
+| Standard | everything else | Correctness + Contract hunters (sonnet), 1 verifier (opus) |
+| Deep | auth, billing, schema, secrets, CI, release, installers, `REVIEW.md` paths, or >1000 lines | + Security hunter |
+
+| Re-review step | Does |
+| --- | --- |
+| Open finding, file untouched | Stays in `TODO`, no agent |
+| Open finding, file touched | Haiku recheck: `fixed`, `open`, or `unclear` (verifier decides) |
+| New changes | Hunted alone; earlier findings passed as known |
+| Round 4+ | No new hunting; asks you to reconsider the approach |
+
+| Gives | Never |
+| --- | --- |
+| Full report in the reply: `TODO`, `RESOLVED`, `IGNORED`, `PRE-EXISTING` (uncounted), reference with `Tier`, `Round` | Runs tests, edits source, writes files. `Tests` stays "not run" for the manager |
 
 ## USE IT
 
@@ -21,17 +42,23 @@ Review a branch, diff or work-in-progress change and return the review report. T
 
 ## WORK IT
 
-- The baseline is stated, and the diff is not empty.
-- Every hunk is read before it says "no actionable findings".
-- Findings cite the changed lines and say what breaks.
-- A re-review moves fixed items to `RESOLVED` and numbers new findings after the last.
+| Sign | Means |
+| --- | --- |
+| Baseline stated, diff not empty | Right range reviewed |
+| Every hunk read before "no actionable findings" | Nothing skipped |
+| Each finding cites lines and what breaks | Verified, not a guess |
+| Fixed items in `RESOLVED`, new ones numbered after the last | Re-review worked |
 
 ## FIT IT
 
-```text
-go-review -> go-fix -> go-review
+```mermaid
+flowchart LR
+    W[go-work + go-e2e] --> R[go-review]
+    R -->|findings| F[go-fix]
+    F -->|re-review| R
 ```
 
-- `go-fix` fixes the findings you select. A review approves no fixes by itself.
-- After the last `go-work` step, final validation and `go-e2e` (when planned), the manager sends the work to this skill.
-- `justaway` saves the report as `review.md` and writes the test results into `Tests`.
+| Caller | What happens |
+| --- | --- |
+| You, directly | Report only; ask for `go-fix` when you want fixes |
+| `justaway` | Sends every finding to `go-fix`, re-reviews once, saves `review.md`, fills `Tests` |
