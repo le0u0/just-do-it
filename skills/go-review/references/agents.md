@@ -23,19 +23,22 @@ Each call sets `model` and `effort` from this table, whatever model runs the mai
 
 Lenses from [review-method.md](review-method.md):
 
-- **Correctness:** Logic, State and data, Async and lifecycle, Failure paths.
-- **Contract:** Contract, Regression, Requirements, and the Standards axis.
-- **Security:** Security, and Regression on access or data paths.
+| Hunter | ID prefix | Lenses |
+| --- | --- | --- |
+| Correctness | `R` | Logic, State and data, Async and lifecycle, Failure paths |
+| Contract | `K` | Contract, Regression, Requirements, and the Standards axis |
+| Security | `S` | Security, and Regression on access or data paths |
 
 ## Start
 
 - `general-purpose` subagent; never a fork. Fresh for every review; never resume an earlier review's agent.
 - Fetch prompt names `just-do-it:go-triage`, the Fetch job, and each ask with its refs, paths or URLs.
-- Prompt, at most twelve lines: role, repository path, baseline and range, absolute path of the role's reference in this skill, requirement text or path, project rule paths, known findings. Never paste the diff or the conversation.
-- Hunters of one review get the same prompt, except role and lenses, in that order.
+- Prompt: role, repository path, baseline and range, absolute path of the role's reference in this skill, requirement text or path, project rule paths. Agents read the diff themselves.
+- Payloads (candidates for the verifier, known findings for hunters, open findings for recheck) go in one file in system temp; the prompt names its path.
+- Hunters of one review get the same prompt, except role, ID prefix and lenses, in that order.
 
 ## Recheck
 
 Input: each open finding's number, heading, `Issue`, `Fix`, and the delta command for its file.
 
-Per finding, one line: `<number>: fixed | open | unclear — <at most 12 words>`. `fixed` only when the delta removes the cited trigger; otherwise `open`, or `unclear` when the delta changes the code but not plainly.
+Per finding, one line: `<number>: fixed | open — <at most 12 words>`. `fixed` only when the delta plainly removes the cited trigger; anything less is `open`.

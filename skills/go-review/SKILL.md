@@ -16,6 +16,7 @@ One `go-triage` Fetch call (per [agents.md](references/agents.md)) gathers every
 - Ticket text, when the requirement is a ticket URL or key, including linked tickets.
 - Baseline evidence, unless the user supplied the baseline.
 - Diff facts for the range.
+- File text of `REVIEW.md`, for the risky paths it marks.
 - Re-review: delta files from `Reviewed to`, checked against the files of open `TODO` findings.
 
 Decide from its facts yourself: the baseline per [scope-baseline.md](references/scope-baseline.md), then the tier.
@@ -37,11 +38,10 @@ Decide from its facts yourself: the baseline per [scope-baseline.md](references/
 
 Given a previous review, return it updated in full. Delta: `git diff <Reviewed to>` through the working tree.
 
-1. **Round cap:** previous `Round` is 3 or more: run step 2 only; hunt nothing new. Say in `Open`: `round cap: reconsider the approach`.
+1. **Round cap:** previous `Round` is 3 or more: run 4.2 and 4.4 only; hunt nothing new. Say in `Open`: `round cap: reconsider the approach`.
 2. **Open findings:** a `TODO` whose file the delta files leave untouched stays as written. The rest go to one recheck agent per [agents.md](references/agents.md).
    - `fixed`: move to `RESOLVED` as one `Done` line (at most 20 words) plus `Status: fixed (<short SHA>)`.
    - `open`: keep its two lines.
-   - `unclear`: send to the verifier with the new candidates.
 3. **New code:** hunt the delta only, at the tier the delta's own diff facts give. Pass every earlier finding (all sections) as known.
 4. New findings numbered after the last. Update `Issue Count` (open `TODO` only), `Reviewed to`, `Round`. Leave `Tests` as written.
 
@@ -49,7 +49,7 @@ Given a previous review, return it updated in full. Delta: `git diff <Reviewed t
 
 ## 5. Reply
 
-End with the standard report per [report-format.md](references/report-format.md): `Changed` is `none`; `Open` gives open issue count by severity.
+End the reply with the report per [report-format.md](references/report-format.md). A caller's handoff lines go above it: `Changed: none`; `Open:` open issue count by severity.
 
 - Report only and end the reply with the report. `go-fix` applies fixes when the caller or user asks for them.
 - No subagents in this host: run each role's reference yourself, in order (hunters, then verifier).

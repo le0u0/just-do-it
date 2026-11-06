@@ -24,7 +24,7 @@ flowchart LR
 | Re-review step | Does |
 | --- | --- |
 | Open finding, file untouched | Stays in `TODO`, no agent |
-| Open finding, file touched | Haiku recheck: `fixed`, `open`, or `unclear` (verifier decides) |
+| Open finding, file touched | Haiku recheck: `fixed`, or `open` when unsure |
 | New changes | Hunted alone; earlier findings passed as known |
 | Round 4+ | No new hunting; asks you to reconsider the approach |
 

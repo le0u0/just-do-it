@@ -81,6 +81,7 @@ Facts only, for another skill to judge. No brief, no opinion, no file written, n
 | Diff facts | `git diff --stat` for the given range plus working tree, untracked files, changed paths |
 | Delta files | Paths changed between two given refs, and which of the given paths are among them |
 | Code search | Each hit as `path:line` with the line, for the given symbol or text |
+| File text | Each given file verbatim, or `missing` |
 
 - Run only read-only commands; never fetch a remote unless the caller asks.
 - Return in the order asked, one heading per ask; `none` when empty; quote command output, do not summarize it.

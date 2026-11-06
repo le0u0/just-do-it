@@ -22,7 +22,7 @@ flowchart LR
 | Job | Does |
 | --- | --- |
 | Triage | Returns the requirements brief |
-| Fetch | Called as a haiku low subagent by other skills (`go-review`, and any skill that needs it) to do search and fetching: ticket text; git facts (baseline evidence, `git diff --stat`, changed paths, files a delta touches); code search (where a symbol is used). Returns raw facts only, no judgement, writes nothing |
+| Fetch | Called as a haiku low subagent by other skills (`go-review`, and any skill that needs it) to do search and fetching: ticket text; git facts (baseline evidence, `git diff --stat`, changed paths, files a delta touches); code search (where a symbol is used); file text (such as `REVIEW.md`). Returns raw facts only, no judgement, writes nothing |
 
 | Gives | Never |
 | --- | --- |

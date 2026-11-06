@@ -56,6 +56,7 @@ disable-model-invocation: true
    - Only `go-review` reviews.
 7. Run `go-fix` on every `TODO` finding without asking, passing the review text with every finding accepted. Record its dispositions in `review.md` and `checklist.md`.
    - Send the fixed code to `go-review` once more with the previous `review.md`; save the updated report.
+   - `Tests` now predates the fixes: rerun per [tests.md](references/tests.md) `Review request` when tests are authorized; else set each line to `not run: stale after fixes`.
    - Findings still open (deferred, disputed, unfixable) belong to the user; list them in the short report.
 8. Review approved, ticket done: tell the user; they run `to-pr` and `to-test-*`.
 

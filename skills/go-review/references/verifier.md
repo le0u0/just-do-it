@@ -11,8 +11,7 @@ Precision: keep only candidates that hold end to end. You get candidates, not th
 - Omit: intentional-looking changes, lint-ignored issues, unreachable cases, style preferences, pure renames, tooling-enforced issues.
 - A missing contract limits one finding, never the review.
 - Deduplicate by root cause across hunters.
-- `unclear` recheck items: decide `fixed` or `open`.
 
 ## Return
 
-Findings as [report-format.md](report-format.md) blocks, unnumbered, most severe first; pre-existing ones last under `Pre-existing`. Then one line per dropped candidate: `C<n>: dropped — <at most 10 words>`. Then recheck decisions, if any.
+Findings as [report-format.md](report-format.md) blocks, unnumbered, most severe first; pre-existing ones last under `Pre-existing`. Then one line per dropped candidate: `<candidate ID>: dropped — <at most 10 words>`.

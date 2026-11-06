@@ -24,9 +24,10 @@ Find candidates under your lenses. High recall: report what you cannot rule out;
 At most 15 candidates, most likely first, nothing else:
 
 ```text
-C1 | path:line[, path:line] | lens | trigger: <input or state> -> <wrong result> | evidence: <what in the code shows it> | new | pre-existing
+<prefix>1 | path:line[, path:line] | lens | trigger: <input or state> -> <wrong result> | evidence: <what in the code shows it> | new | pre-existing
 ```
 
+- `<prefix>`: the ID prefix the caller gave you, such as `R1`, `R2`.
 - `pre-existing`: the bug sits in code the change did not touch and does not newly reach.
 - None: `no candidates`.
 
