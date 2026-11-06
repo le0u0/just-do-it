@@ -23,13 +23,6 @@ TODO: 2 (Critical: 0, Warning: 2, Minor: 0)
 - Unit: pass, 2 specs
 - E2E: not run: no e2e spec in the diff
 
-## Manual review
-
-1. `export-util.ts:120`
-   -> When the box is full, it throws everything out. Should it say "full"?
-2. `layout.ts:1149`
-   -> Two screens share one notebook. Does a bad save keep the old page?
-
 ## TODO
 
 ### 1. Warning — ProfileFormComponent
@@ -55,9 +48,13 @@ TODO: 2 (Critical: 0, Warning: 2, Minor: 0)
 
 None.
 
+## PRE-EXISTING
+
+None.
+
 ## Reference
 
-<sub>Repository: /absolute/path/to/repo<br>Branch: feature-branch<br>Reviewed from: a1b2c3d<br>Reviewed to: e4f5g6h<br>Diff fingerprint: hash when work is uncommitted</sub>
+<sub>Repository: /absolute/path/to/repo<br>Branch: feature-branch<br>Reviewed from: a1b2c3d<br>Reviewed to: e4f5g6h<br>Diff fingerprint: hash when work is uncommitted<br>Tier: Standard<br>Round: 1</sub>
 ```
 
 ## Fields
@@ -67,10 +64,6 @@ None.
 - **Issue:** trigger and impact. **Fix:** corrective action; one alternative at most.
 - **Done / Status:** only in `RESOLVED`; added by the caller from `go-fix` results, or by a re-review that finds an author's fix.
   - `Status`: `fixed (e4f5g6h)`, `fixed, tested`, `fixed, not tested`, `deferred`, `disputed`, `ignored by user`.
-- **Manual review:** above `TODO`; where to look first.
-  - Pick by risk (logic, state, data flow, permissions), not size; skip renames, templates, styles, generated code, specs.
-  - At most seven, riskiest first, even when `TODO` is empty. `None.` only for a few low-risk lines.
-  - Each: `file:line`, then `-> ` one sentence of at most 20 words a five-year-old follows: what the code does, what could go wrong, an everyday picture, no jargon or code names.
 - **Tests:** written by the caller, never `go-review`. Starts `Unit: not run`, `E2E: not run`.
 
 ## Severity
@@ -83,7 +76,8 @@ None.
 
 - `Reference` in `<sub>`. `Tests` plain, under `Issue Count`: `Unit` and `E2E` lines, each `pass`, `fail` with spec names, or `not run: <reason>`.
 - Findings by severity; numbers stable across sections; `---` between findings.
-- Keep `TODO`, `RESOLVED`, `IGNORED`; `None.` when empty.
-  - `TODO`: open, deferred, disputed. `RESOLVED`: applied fixes. `IGNORED`: needs the user's explicit choice.
+- Keep `TODO`, `RESOLVED`, `IGNORED`, `PRE-EXISTING`; `None.` when empty.
+  - `TODO`: open, deferred, disputed. `RESOLVED`: applied fixes. `IGNORED`: needs the user's explicit choice. `PRE-EXISTING`: real bugs the change did not introduce or expose; not counted, not sent to `go-fix` unless the user asks.
+- `Round`: 1 on a first review, plus 1 per re-review. `Tier`: the tier this round ran.
 - `Status: approved` records user approval only.
 - Uncommitted work: `Diff fingerprint` identifies the snapshot.

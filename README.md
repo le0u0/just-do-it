@@ -29,7 +29,7 @@ A manager that plans, builds, tests and reviews a ticket with subagents. The pro
 
 | Skill | Model |
 | --- | --- |
-| `go-review` | opus medium |
+| `go-review` | main thread; hunters sonnet medium, verifier opus medium, recheck haiku low |
 | `go-e2e` | sonnet medium |
 | `go-triage` | haiku low |
 

@@ -8,21 +8,33 @@ Mock example. Ticket, paths, SHAs, and outcomes are fictional.
 
 Second Save click sends no request while the first is pending. `profile-form.component.spec` passes.
 
-## Acceptance criteria
-
-- First Save click submits one update; repeated clicks submit no more.
-- Save stays disabled during the request.
-- Success closes the edit flow. Failure shows the existing error and permits retry.
-
 ## Steps
 
 ### 1. Guard Save while pending
 
-- **Do:** Add a pending guard to the submit path. Disable Save while pending.
-- **Test:** Spec: repeated clicks send one request. Spec: Save works again after a failed request. Run: yes.
+- **Do:** Ignore Save clicks while a save is running.
+- **Do:** Disable Save until the request ends.
+- **Test:** Repeated clicks send one request. Save works again after a failed request. Run: yes.
 - **Commit:** `fix: prevent duplicate profile saves`
 - **Blocked by:** none
 - <sub>**Files:** `src/app/profile/profile-form.component.ts`, `src/app/profile/profile-form.component.html`, `src/app/profile/profile-form.component.spec.ts`</sub>
+
+## Acceptance criteria
+
+### Saving
+
+- First Save click submits one update.
+- Repeated clicks submit nothing more.
+- Save stays disabled during the request.
+
+### After the request
+
+- Success closes the edit flow.
+- Failure shows the existing error and permits retry.
+
+## Out of scope
+
+- Other forms.
 
 ## Testing
 
@@ -36,10 +48,6 @@ Second Save click sends no request while the first is pending. `profile-form.com
 ## Deletions
 
 None.
-
-## Out of scope
-
-- Other forms.
 
 ## Open
 

@@ -39,5 +39,5 @@ Shared terms for this plugin.
 | Term | Meaning |
 | --- | --- |
 | Self-check | A skill checking its own work. Not a review. |
-| Formal review | `go-review`'s single pass of the project's review skill (else standards and requirements) and review checks. |
+| Formal review | `go-review`'s hunters and verifier applying the project's review skill (else standards and requirements) and review checks. |
 | Review baseline | Where review starts: a user-supplied baseline, else the saved `Reviewed to` SHA, else the parent branch. Never the default branch by assumption. |
