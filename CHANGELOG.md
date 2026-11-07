@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.1.0](https://github.com/le0u0/just-do-it/compare/v2.0.0...v2.1.0) (2026-11-07)
+
+
+### Features
+
+* multi-agent go-review with tiers, verifier and cheap re-review ([33f719f](https://github.com/le0u0/just-do-it/commit/33f719f2ed522e95cb2d6c78ce24d1f058c8f2c4))
+* multi-agent go-review with tiers, verifier and triage fetch ([492958b](https://github.com/le0u0/just-do-it/commit/492958b17597aa7018ff90e2850fa7d4365c122c))
+
+
+### Bug Fixes
+
+* close review gaps found by dogfooding go-review ([4bc6397](https://github.com/le0u0/just-do-it/commit/4bc6397bf8af16a73321a213e5b12030874b190f))
+
 ## [2.0.0](https://github.com/le0u0/just-do-it/compare/v1.3.0...v2.0.0) (2026-11-05)
 
 
