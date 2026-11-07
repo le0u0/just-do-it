@@ -17,7 +17,7 @@ disable-model-invocation: true
 ## Duties
 
 - Own decisions, scope, order, user communication, acceptance, and every plugin document.
-- Write the specs and code yourself: run `go-plan`, `go-work` and `go-fix` in the main thread. Send `go-triage`, `go-e2e` and `go-review` to subagents.
+- Write the specs and code yourself: run `go-plan`, `go-work` and `go-fix` in the main thread. Run `go-review` in the main thread too; it starts its own review agents. Send `go-triage` and `go-e2e` to subagents.
 - Skills return results in the reply. You alone save `plan.md`, `checklist.md`, `review.md`, `triage.md`, `state/diagnose.md`, `commit-format.md`, and the glossary and ADRs from `go-plan`'s `Decisions`, per [storage.md](references/storage.md) and [written-docs.md](references/written-docs.md).
 - Without subagents, say the manager workflow cannot run in this host.
 
@@ -25,6 +25,8 @@ disable-model-invocation: true
 
 - Routing authorizes nothing. Tests, resets, commits, pushes, external writes, broader files each need the user's request or an approved plan. The newest instruction wins: a request to run named specs authorizes exactly those runs, even when an earlier plan says not to run tests.
 - Approving a plan with per-step commits `Delivery` authorizes each step's commit and the deletions the plan lists.
+- Approving a plan also authorizes `go-fix` on every finding of that ticket's review.
+- A review request authorizes the unit and e2e runs in [tests.md](references/tests.md) `Review request`.
 
 ## Route
 
@@ -33,15 +35,15 @@ disable-model-invocation: true
 | main thread | `go-plan` | Grill the user on a ticket, then plan it |
 | main thread | `go-work` | Write specs and code for a step, diagnose a failure, or write, fix or run unit specs |
 | main thread | `go-fix` | Fix or disposition findings in a review |
+| main thread | `go-review` | Review a diff or branch; starts its own review agents |
 | subagent | `go-triage` | Ticket requirements or queue triage |
 | subagent | `go-e2e` | Write or fix e2e specs, explore UI, or run e2e tests; open the e2e UI only when the user asks |
-| subagent | `go-review` | Review a diff or branch |
 
 - Start each subagent per [agents.md](references/agents.md); announce its model and effort.
 
 ## Ticket flow
 
-1. Pasted link: ask the project per [storage.md](references/storage.md) if its branch has none. Assign `go-triage` first; save its brief as `triage.md` before planning.
+1. Pasted link, even inside a review request: ask the project per [storage.md](references/storage.md) if its branch has none. Assign `go-triage` first, fetching live again when `triage.md` exists, since the requirement may have changed. Save the whole updated brief as `triage.md` before planning or reviewing.
 2. Run `go-plan` in the main thread (a subagent cannot ask the user). Save its plan and checklist as `plan.md`, `checklist.md`. Stop for plan approval.
 3. Loop over the approved plan's steps in order, one `go-work` call per step. Pass it the plan text and the step number.
    - Record each step's `Done` line in `checklist.md`, then start the next step.
@@ -52,10 +54,23 @@ disable-model-invocation: true
 6. Validation done (and e2e passed when planned): send baseline, scope, and previous `review.md` (if any) to `go-review`.
    - Save its report as `review.md`; write test results into `Tests` per [tests.md](references/tests.md).
    - Only `go-review` reviews.
-7. A review ends at `review.md` and its short report. Run `go-fix` only for findings the user selects, passing the review text; a saved review approves no fixes. Record its dispositions in `review.md` and `checklist.md`.
+7. Run `go-fix` on every `TODO` finding without asking, passing the review text with every finding accepted. Record its dispositions in `review.md` and `checklist.md`.
+   - Send the fixed code to `go-review` once more with the previous `review.md`; save the updated report.
+   - `Tests` now predates the fixes: rerun per [tests.md](references/tests.md) `Review request` when tests are authorized; else set each line to `not run: stale after fixes`.
+   - Findings still open (deferred, disputed, unfixable) belong to the user; list them in the short report.
 8. Review approved, ticket done: tell the user; they run `to-pr` and `to-test-*`.
 
 - Reuse agents, order parallel work, judge step weight per [reuse.md](references/reuse.md).
+
+## Review request
+
+A review asked for on its own, outside the plan steps:
+
+1. Requirement exists: `triage.md` or `plan.md` in the branch folder, or text the user gave in this request.
+2. None exists: ask the user for a ticket link or the requirement, or whether to review without one. Wait for the answer, then assign.
+3. User pastes a link or new text with the request: run ticket flow step 1 first, then send the refreshed requirement to `go-review`.
+4. Save the report as `review.md`, then run the tests per [tests.md](references/tests.md) `Review request` and write them into `Tests`.
+5. End with the report. Fixes start when the user asks, through `go-fix`.
 
 ## Assign and verify
 

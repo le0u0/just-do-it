@@ -2,14 +2,13 @@
 
 ## Who runs what
 
-- Main thread: `go-plan`, `go-work`, `go-fix`.
-- General-purpose subagent: `go-triage`, `go-e2e`, `go-review`. The prompt names the skill; `model` and `effort` are set on the call. It starts no agents.
+- Main thread: `go-plan`, `go-work`, `go-fix`, `go-review`. `go-review` starts its own agents with the models its skill sets.
+- General-purpose subagent: `go-triage`, `go-e2e`. The prompt names the skill; `model` and `effort` are set on the call. It starts no agents.
 
 | Skill | Model | Effort |
 | --- | --- | --- |
 | `go-triage` | haiku | low |
 | `go-e2e` | sonnet | medium |
-| `go-review` | opus | medium |
 
 - The manager writes and runs unit specs per `go-work`; `go-e2e` runs e2e once, before review. Other subagents run no tests.
 

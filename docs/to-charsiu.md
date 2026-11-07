@@ -6,9 +6,20 @@ Restates the last message in plain human language. You call it; the model and th
 
 ## DO IT
 
-- Restates the last message with no jargon, simpler and shorter, like one person talking to another.
-- Keeps every fact and number that mattered.
-- Never writes or changes a file, and never adds new content.
+```mermaid
+flowchart LR
+    M([last message]) --> R[restate: no jargon,<br/>simpler, shorter]
+    R --> O([plain version])
+```
+
+| Does | Detail |
+| --- | --- |
+| Restates | The last message with no jargon, simpler and shorter, like one person talking to another |
+| Keeps | Every fact and number that mattered |
+
+| Gives | Never |
+| --- | --- |
+| Plain restatement | Writes or changes a file, adds new content |
 
 ## USE IT
 
@@ -20,18 +31,23 @@ Restates the last message in plain human language. You call it; the model and th
 
 ## WORK IT
 
-- The restatement is shorter than the original.
-- No jargon is left.
-- Numbers, names and decisions are unchanged.
-- Nothing new is added.
-- No files change.
+| Sign | Means |
+| --- | --- |
+| The restatement is shorter than the original | Simpler |
+| No jargon is left | Plain |
+| Numbers, names and decisions are unchanged | Facts kept |
+| Nothing new is added | Faithful |
+| No files change | Read-only |
 
 ## FIT IT
 
-```text
-any reply -> to-charsiu
+```mermaid
+flowchart LR
+    A[any reply] --> C[to-charsiu]
 ```
 
-- It is standalone and sits in no chain.
-- Use it after any skill, including `justaway` reports.
-- Follows `bro` from cursor/plugins.
+| Topic | What happens |
+| --- | --- |
+| Chain | It is standalone and sits in no chain |
+| Use | After any skill, including `justaway` reports |
+| Credit | Follows `bro` from cursor/plugins |

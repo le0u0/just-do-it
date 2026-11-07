@@ -51,7 +51,7 @@
     "id": "manager-review-routing",
     "skill": "justaway",
     "request": "Use the manager to review working-tree changes against HEAD using requirements in {task}/plan.md. Save {task}/review.md. Do not run tests.",
-    "checks": "Manager assigns one review subagent, which returns the report. Manager saves it as the exact final review.md path and inspects that file. No intermediate report, review or report writing, source edits, tests, commits, or extra review passes beyond the host review-tool pass."
+    "checks": "Manager runs go-review in the main thread; go-review starts its own Fetch, hunter and verifier agents per its tier and returns the report. Manager saves it as the exact final review.md path and inspects that file. No intermediate report, review or report writing, source edits, tests, commits, or extra review passes beyond the host review-tool pass."
   },
   {
     "id": "focused-no-rules",

@@ -19,7 +19,7 @@ When the user or plan authorizes tests, the manager runs unit specs of its own s
 
 ## Review request
 
-Unit specs always run. e2e runs when `review.md` has no e2e result for the current `HEAD` and diff, unless the user skips it. In order:
+Each kind runs when `review.md` has no result of that kind for the current `HEAD` and diff, unless the user skips it. In order:
 
 1. `go-review` returns the report; save it as `review.md`.
 2. Run `go-ut` on the specs in the diff; assign `go-e2e` the plan's `E2E` specs (no plan: the e2e specs in the diff).

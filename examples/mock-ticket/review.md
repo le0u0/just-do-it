@@ -13,13 +13,6 @@ TODO: 2 (Critical: 0, Warning: 2, Minor: 0)
 - Unit: mock, not run
 - E2E: not run
 
-## Manual review
-
-1. `profile-form.component.ts:123`
-   -> The button waits for a reply that never comes. Does it wake up again?
-2. `profile-form.component.ts:145`
-   -> The helper may hide the "sorry" note. Is it still shown?
-
 ## TODO
 
 ### 1. Warning — ProfileFormComponent
@@ -42,6 +35,10 @@ None.
 
 None.
 
+## PRE-EXISTING
+
+None.
+
 ## Reference
 
-<sub>Repository: /example/repo<br>Branch: PROJ-9999-prevent-duplicate-save<br>Reviewed from: a1b2c3d<br>Reviewed to: a1b2c3d</sub>
+<sub>Repository: /example/repo<br>Branch: PROJ-9999-prevent-duplicate-save<br>Reviewed from: a1b2c3d<br>Reviewed to: a1b2c3d<br>Tier: Quick<br>Round: 1</sub>
