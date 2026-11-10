@@ -23,7 +23,7 @@ Shared terms for this plugin.
 | --- | --- |
 | Ticket | A task ID such as `PROJ-123`. Requirements come from supplied or retrieved context, never the key alone. |
 | Project folder | `~/.just-do-it/{project}/`: one per product or codebase, with `docs/` and branch folders. |
-| Branch folder | `~/.just-do-it/{project}/{branch}/`: `plan.md`, `checklist.md`, `commit-format.md`, `review.md`, `pr.md`, the testing guide (`.md`, `.html`), `attachments/`, and `state/` for plugin files. The manager saves what `go-*` return; `to-*` write their own. |
+| Branch folder | `~/.just-do-it/{project}/{branch}/`: `plan.md`, `checklist.md`, `commit-format.md`, `review.md`, `pr-{base}.md`, the testing guide (`.md`, `.html`), `attachments/`, and `state/` for plugin files. The manager saves what `go-*` return; `to-*` write their own. |
 | Step | A reviewable milestone in an approved plan. Uncommitted unless the user approves a commit. |
 | Test-driven slice | One behavior: one failing test through a public seam, then the minimum code to pass it. |
 | Temporary contract | A feature-local stand-in until a real dependency exists, with a ticket-linked `FIXME` and removal condition. |

@@ -15,7 +15,7 @@ flowchart LR
 | Step | Does |
 | --- | --- |
 | Takes | A ticket (link or pasted requirements), plus `AGENTS.md`, `CLAUDE.md` and project-local skills |
-| Grills | In rounds: each round asks every open decision whose prerequisites are settled, numbered, each with a recommended answer |
+| Grills | In rounds: each round asks every open decision whose prerequisites are settled, numbered, each with a recommended answer on its own line below the question |
 | Returns | The plan (Goal, acceptance criteria, testing, decisions, steps, deletions) and the checklist in the reply |
 | Stops | After the grill when you only want gaps found |
 

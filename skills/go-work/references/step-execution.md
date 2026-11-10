@@ -13,6 +13,7 @@
 
 - Run workflow step 3 of `SKILL.md` (`dev-tdd`) for the whole step until its specs pass.
 - A failing spec stays in the step's scope: leave bootstrap, configuration, and unrelated specs alone.
+- An existing spec that the step's change breaks is in scope: fix the code, and rerun that spec before reporting `Done`.
 
 ### Per-step commits
 
@@ -45,7 +46,7 @@
 Applies for per-step commits, or when the user asks.
 
 - Run no spec just before the commit: the green run is the evidence.
-- Use the plan's `Commit` message exactly: one line, no body or trailer. No other approval needed.
+- Use the plan's `Commit` message exactly: one line, no body or trailer unless the user's newest instruction says otherwise. No other approval needed.
 - Scope changed: propose a new one-line message and get approval first.
 - No plan message: the project's commit format, else `<type>: <description>`.
 - Stage only the step's files or hunks; stop if unrelated staged changes would enter.

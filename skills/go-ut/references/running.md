@@ -20,6 +20,7 @@
    - A helper rewrote files: stop using it, undo only this run's changes from captured content, keep earlier edits, report it.
    - Never use a broad checkout or reset.
 5. Report each command, exit code, and outcome.
+6. Slow runs (selection impossible, full suite only): before each rerun, list every known cause and fix them all in one run; read the failure for the real cause before changing the spec or mock again.
 
 ## On failure
 

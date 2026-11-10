@@ -11,7 +11,7 @@ Every file this plugin writes lives under `~/.just-do-it/`, so any repository ca
       plan.md
       checklist.md
       review.md
-      pr.md
+      pr-{base}.md
       testing-guide-{short-description}.md   # written by to-test-md; to-test-html writes the .html beside it
       attachments/{ticket}/        # cached ticket files
       state/
@@ -24,7 +24,7 @@ Every file this plugin writes lives under `~/.just-do-it/`, so any repository ca
 ## Rules
 
 - The user reads files above `state/`; the plugin keeps the rest in `state/`.
-- The manager saves every doc a `go-*` skill returns; user-invoked `to-*` skills write `pr.md` and the testing guide themselves, in the same branch folder.
+- The manager saves every doc a `go-*` skill returns; user-invoked `to-*` skills write `pr-{base}.md` and the testing guide themselves, in the same branch folder.
 - Write only files listed here: create when missing, update in place otherwise. Never a numbered or dated copy.
 
 ## Project folder
