@@ -32,7 +32,7 @@ Decide from its facts yourself: the baseline per [scope-baseline.md](references/
 1. Start every hunter of the tier in parallel, per [agents.md](references/agents.md) and [hunter.md](references/hunter.md).
 2. Collect their candidates. Quick: the single hunter returns findings; skip step 3.
 3. Start one verifier with all candidates, per [verifier.md](references/verifier.md).
-4. Number the verifier's findings by severity; place them per [report-format.md](references/report-format.md).
+4. Number the verifier's findings by severity; place them per [report-format.md](references/report-format.md). Relay the verifier's dropped lines in the reply above the report.
 
 ## 4. Re-review
 
