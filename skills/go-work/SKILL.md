@@ -23,6 +23,7 @@ Report as the caller specifies; default `Done` / `Open` / `Changed`. A test run 
   2. Related to the unpushed `HEAD` commit (same file or purpose): `git commit --amend --no-edit`.
   3. Otherwise one new commit.
   4. Never amend a pushed commit.
+- Claim only what you read or ran. Say "seen in a listing" for the rest.
 - Review is `go-review`'s job; the caller sends finished work there.
 
 ## Workflow
@@ -31,4 +32,6 @@ Report as the caller specifies; default `Done` / `Open` / `Changed`. A test run 
 2. Ask once when the request omits a choice a project skill asks for, such as a variant or target folder.
 3. Call `dev-tdd` once per step (a direct request is one step). It leaves the step's specs passing.
 4. Run typecheck regularly; spec runs happen inside `dev-tdd` and `go-ut`.
+   - Passing specs and lint prove no typing. Typecheck every config the project defines, strictest included, plus editor diagnostics when a tool offers them; cover spec files too.
+   - Errors in files you touched are yours to fix, or report in `Open` when pre-existing and out of scope.
 5. Self-check by reading: each behavior maps to a changed file and a spec; the diff has nothing unrelated.

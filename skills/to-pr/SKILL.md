@@ -1,6 +1,6 @@
 ---
 name: to-pr
-description: 'Write the pull request title and body for a finished branch: a visual summary, before and after evidence, and merge danger. Saves pr.md, and opens the PR when asked. Use for "pr", "create a PR", "open a PR", "write the PR", "PR text" or "commit, push, pr".'
+description: 'Write the pull request title and body for a finished branch: a visual summary, before and after evidence, and merge danger. Saves pr-<base>.md, and opens the PR when asked. Use for "pr", "create a PR", "open a PR", "write the PR", "PR text" or "commit, push, pr".'
 disable-model-invocation: true
 metadata:
   credits:
@@ -16,17 +16,19 @@ Write the title and body for the current branch.
 
 ## Input
 
-- The branch diff against its base, and what the user said.
+- The diff of the commits this PR adds, and what the user said.
+  - Base: the branch the PR targets. Ask when unclear; `origin/HEAD` is only a guess.
+  - Commits already in the base or in another remote branch are not part of this PR; list the candidates and ask when unsure.
 - The project's own terms, from `GLOSSARY.md` when present.
 
 ## Steps
 
 1. Write the title as one line in the project's commit format.
 2. Write the body with the template below. No preambles; short prose.
-3. Save the body as `pr.md` in the branch folder (see Storage).
+3. Save the body as `pr-{base}.md` in the branch folder (see Storage); `{base}` is the base branch with `/` replaced by `-`.
 4. Reply with the title, the body, and the path.
 5. Only when asked to open the PR:
-   1. Host: `git remote get-url origin`. Base: `git symbolic-ref refs/remotes/origin/HEAD`. Ask when unclear.
+   1. Host: `git remote get-url origin`. Base: as in Input.
    2. Push the branch if it has no remote copy. Never force-push.
    3. Open with the host's CLI, e.g. `gh pr create --base <base> --title <title> --body-file <path>`.
    4. No CLI: give the new-PR URL and say it is not opened:
@@ -41,7 +43,7 @@ Write the title and body for the current branch.
 - Branch folder: `~/.just-do-it/{project}/{branch}/`; `{branch}` = `git branch --show-current`, `/` replaced by `-`.
 - Find it: glob `~/.just-do-it/*/{branch}`.
 - No match: ask which project. Reuse the folder matching ignoring case and separators, else create it (lowercase words joined by hyphens).
-- `pr.md` exists: update in place.
+- `pr-{base}.md` exists: update in place. One file per target base.
 
 ## Body template
 

@@ -25,6 +25,7 @@ Treat the ticket as a design tree: each decision branches into the decisions tha
   - Ask the whole frontier in one round, numbered, most important first.
   - A question that depends on an open one waits.
 - Per question: a recommended answer and one line on why it matters. Word it so "yes" accepts.
+  - Put the question and the recommendation on separate lines, never in one sentence.
 - Find facts yourself in code, docs, and ticket. Ask only decisions.
 - Look for: missing or conflicting requirements, unclear criteria, edge and error cases, roles, test data, dependencies, design and wording, risks to existing behavior, simpler alternatives.
 - Include in the tree:

@@ -34,4 +34,4 @@ Open: <or none>
 3. Read [test-quality.md](references/test-quality.md) and [examples.md](references/examples.md), plus [mocking.md](references/mocking.md) when a spec needs a mock.
 4. Write one spec for one behavior in the spec file the project places beside the code, with the coverage comment from `test-quality.md`.
 5. Run the focused spec per `running.md`; report the result.
-6. Self-check by reading: setup reaches the intended state; assertions would fail on the regression; no mock of the code's own modules; no expected value recomputed from the code's formula. Format only changed files.
+6. Self-check by reading: setup reaches the intended state; assertions would fail on the regression; no mock of the code's own modules; no expected value recomputed from the code's formula. Rewrite a spec that fails this check, and rerun it when running is authorized, before reporting. Format only changed files.

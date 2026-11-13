@@ -61,7 +61,7 @@ None.
 
 - **Issue Count:** open `TODO` only, with severity split.
 - **Heading:** number, severity, owning class or file.
-- **Issue:** trigger and impact. **Fix:** corrective action; one alternative at most.
+- **Issue:** trigger and impact; start with `Unconfirmed:` when reachability is unsettled. **Fix:** corrective action; one alternative at most.
 - **Done / Status:** only in `RESOLVED`; added by the caller from `go-fix` results, or by a re-review that finds an author's fix.
   - `Status`: `fixed (e4f5g6h)`, `fixed, tested`, `fixed, not tested`, `deferred`, `disputed`, `ignored by user`.
 - **Tests:** written by the caller, never `go-review`. Starts `Unit: not run`, `E2E: not run`.
