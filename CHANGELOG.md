@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.2.0](https://github.com/le0u0/just-do-it/compare/v2.1.0...v2.2.0) (2026-11-13)
+
+
+### Features
+
+* tighten skills after QA log: typecheck, scope, guard drops ([6a2a809](https://github.com/le0u0/just-do-it/commit/6a2a8095cf258603dd2b68db86bad233e2a27616))
+* tighten skills after QA log: typecheck, scope, per-base pr file ([17192ed](https://github.com/le0u0/just-do-it/commit/17192ed700ef4197bd0af8d15aa435afc82eb2af))
+
+
+### Bug Fixes
+
+* go-review verifier names guards and keeps unconfirmed findings ([b1fc3aa](https://github.com/le0u0/just-do-it/commit/b1fc3aad6e05d0d52f42059b16087e5c63697ed0))
+
 ## [2.1.0](https://github.com/le0u0/just-do-it/compare/v2.0.0...v2.1.0) (2026-11-07)
 
 
