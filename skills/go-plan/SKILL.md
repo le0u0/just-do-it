@@ -50,7 +50,7 @@ Treat the ticket as a design tree: each decision branches into the decisions tha
 5. List every file a step deletes under `Deletions`; deletions are the only thing the plan asks approval for.
 6. User changes the requirement: revise `Goal`, steps, and `Deletions`, return the whole plan again.
 7. New term or hard-to-reverse decision: ask the user; propose it per [domain-docs.md](references/domain-docs.md) only after they confirm.
-8. Show the plan and checklist for approval, and stop.
+8. Return the plan and checklist, and stop. The caller saves them, then asks for approval.
 
 ## Done when
 

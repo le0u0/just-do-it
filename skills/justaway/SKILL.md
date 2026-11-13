@@ -44,7 +44,9 @@ disable-model-invocation: true
 ## Ticket flow
 
 1. Pasted link, even inside a review request: ask the project per [storage.md](references/storage.md) if its branch has none. Assign `go-triage` first, fetching live again when `triage.md` exists, since the requirement may have changed. Save the whole updated brief as `triage.md` before planning or reviewing.
-2. Run `go-plan` in the main thread (a subagent cannot ask the user). Save its plan and checklist as `plan.md`, `checklist.md`. Stop for plan approval.
+2. Run `go-plan` in the main thread (a subagent cannot ask the user). It returns the plan in the reply and writes no files, so the save is yours:
+   1. Save `plan.md`, `checklist.md`, and `commit-format.md` when `Decisions` has a `Commit format` line.
+   2. Only then ask for plan approval, naming the saved paths. Never ask before the files exist; showing the plan in chat is not saving it.
 3. Loop over the approved plan's steps in order, one `go-work` call per step. Pass it the plan text and the step number.
    - Record each step's `Done` line in `checklist.md`, then start the next step.
    - `go-work` reports a stop condition: ask the user.
