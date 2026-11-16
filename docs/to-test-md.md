@@ -13,7 +13,7 @@ flowchart LR
 
 | Step | Does |
 | --- | --- |
-| Reads | `plan.md` and the diff from the plan's baseline; the ticket key and link come from the plan's `Requirement source` |
+| Reads | `plan.md` and its baseline diff, or supplied requirements and diff; the ticket URL comes from triage or supplied requirements |
 | Saves | `testing-guide-{short-description}.md` in `~/.just-do-it/{project}/{branch}/`, updating in place |
 | Format | Before you start, groups, numbered tests, one `You should see:` line each |
 | Wording | Uses screen names, never file paths or component names |
@@ -36,7 +36,7 @@ flowchart LR
 
 | Sign | Means |
 | --- | --- |
-| Every acceptance criterion in `plan.md` has a test | Full coverage |
+| Each acceptance criterion has a test, or appears in `Open` if it cannot be tested by hand | Coverage and gaps visible |
 | Every step is 15 words or fewer, one action each | Easy to follow |
 | Tests are grouped by purpose, with a one-line reason | Easy to scan |
 | The reply gives the path and an `Open` list | Gaps visible |

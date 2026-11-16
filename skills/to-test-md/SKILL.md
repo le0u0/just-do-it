@@ -10,17 +10,17 @@ Write the guide as Markdown.
 
 ## Input
 
-- `plan.md` in the branch folder. Missing: ask for it, or for requirements and diff.
-- The diff from the plan's initial baseline.
-- Ticket key and link, from the plan's `Requirement source`.
+- `plan.md` in the branch folder. Missing: ask for it, or for requirements and diff; use their acceptance criteria in place of the plan.
+- The diff from the plan's initial baseline, or the supplied diff when there is no plan.
+- Ticket key from the plan's `Requirement source`. Get its URL from the matching source in `state/triage.md` or supplied requirements; if unavailable, omit the link and report it in `Open`.
 
 ## Steps
 
-1. Read `plan.md` and the diff. Use screen names users see: no file paths or component names.
+1. Read the plan and diff, or the supplied requirements and diff. Use screen names users see: no file paths or component names.
 2. Write the guide per [guide-format.md](references/guide-format.md).
 3. Save as `testing-guide-{short-description}.md` in the branch folder, updating in place.
 4. Reply with the path and `Open`:
-   - Behaviours in the diff or plan that no test covers.
+   - Behaviours in the diff, plan or supplied requirements that no test covers.
    - Tests that cannot be done by hand, such as fetch failure or timing.
 5. Change the test list only on the user's answer.
 
@@ -31,5 +31,5 @@ Write the guide as Markdown.
 
 ## Done when
 
-- Every acceptance criterion in `plan.md` has a test.
+- Every acceptance criterion from the plan or supplied requirements has a test, or is listed in `Open` if it cannot be tested by hand.
 - Every step is 15 words or fewer.

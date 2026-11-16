@@ -28,7 +28,7 @@ You should see: <result>.
 
 ## Title and related
 
-- Title: feature name. Lead line: ticket key as a link; no ticket, a short feature description.
+- Title: feature name. Lead line: ticket key as a link when its URL is known; otherwise the plain key. No ticket: a short feature description.
 - `Related: KEY (role) · KEY`: one line after the lead, each a link on the ticket's site, from `Linked:` in `state/triage.md`. None: omit.
 
 ## Before you start

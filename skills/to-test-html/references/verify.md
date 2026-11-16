@@ -15,3 +15,4 @@
 5. Repeat the save test with `localStorage` blocked (`addInitScript`): red warning shows, same-tab fallback restores state.
 6. Computed font sizes match the type scale in [html-page.md](html-page.md).
 7. Reload, then open a second tab: saved state is there.
+8. Regenerate after wording and test-order changes: matching test IDs keep their results and notes; new tests are unmarked. For an existing pre-ID guide, check migration from its exact old DATA hash, including a removed test.

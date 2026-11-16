@@ -11,7 +11,6 @@
 2. **Progress:** bar of marked tests, "P pass · F fail · U not marked", then Export report (primary), Reset. No import.
 3. **Body:** Before you start (only when the guide has it), groups with one-line reasons, tests. A thin divider line above every group heading except the first.
 4. **Test:** heading `Test N: Title`, Pass / Fail toggle, optional guide note, numbered steps, and a tinted `You should see:` box. Show the optional tester note textarea only when marked Fail; retain its contents if the status changes.
-5. **Finish:** summary ("P pass, F fail, U not marked yet") and a large Export report button, alone.
 
 ## Language
 
