@@ -16,7 +16,7 @@ Render the guide into one HTML page the tester ticks through. Never hand-edited.
 ## Steps
 
 1. Convert the guide to data JSON per [data-shape.md](references/data-shape.md), English text only.
-2. Translate per `Translate` in the same file: one haiku subagent adds `zh` to every text.
+2. Translate per `Translate` in the same file: one `fast` subagent adds `zh` to every text.
 3. Fill [qa-template.html](references/qa-template.html) per the same file. Save as `testing-guide-{short-description}.html` beside the guide, updating in place.
 4. Build the page per [html-page.md](references/html-page.md).
 5. Verify per [verify.md](references/verify.md).

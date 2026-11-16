@@ -16,9 +16,9 @@ flowchart TD
     M -->|ticket triage| H[go-triage]
     M -->|write and run e2e tests| E[go-e2e]
     M -->|runs itself| R[go-review<br/>main thread]
-    R -->|fetch: haiku| H2[go-triage Fetch]
-    R -->|hunt: sonnet| HU[hunters]
-    R -->|verify: opus| V[verifier]
+    R -->|fetch: fast| H2[go-triage Fetch]
+    R -->|hunt: standard| HU[hunters]
+    R -->|verify: reasoning| V[verifier]
 ```
 
 ## Ticket flow
@@ -92,7 +92,7 @@ flowchart TD
 
 | Topic | Rule |
 | --- | --- |
-| Agents | `go-review` runs in the main thread and starts its own agents: sonnet hunters split by lens, one opus verifier that tries to disprove each candidate, a haiku recheck of earlier findings on re-review |
+| Agents | `go-review` runs in the main thread and starts its own agents: `standard` hunters split by lens, one `reasoning` verifier that tries to disprove each candidate, a `fast` recheck of earlier findings on re-review (mapped per [agents.md](../../skills/justaway/references/agents.md#host-mapping)) |
 | Tier | Quick, Standard, Deep, from diff size and risky paths; Quick is one hunter that verifies its own |
 | Re-review | Gets the previous `review.md`, hunts only the delta, rechecks only findings in touched files, and stops hunting after round 3 |
 | Saving | The manager saves the full report over `review.md`. Only `go-review` reviews |
