@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.4.0](https://github.com/le0u0/just-do-it/compare/v2.3.0...v2.4.0) (2026-11-16)
+
+
+### Features
+
+* add Antigravity plugin support and host model tier mapping ([f2af1de](https://github.com/le0u0/just-do-it/commit/f2af1de5abc23d9b980c28525f4a4db42b80c4e4))
+* add Antigravity plugin support and host model tier mapping ([70afe75](https://github.com/le0u0/just-do-it/commit/70afe755d3700ecea8672d7357163beaa7513565))
+
 ## [2.3.0](https://github.com/le0u0/just-do-it/compare/v2.2.0...v2.3.0) (2026-11-16)
 
 
