@@ -7,7 +7,8 @@ Builds a single-file HTML QA page from the testing guide Markdown. You call it; 
 ```mermaid
 flowchart LR
     G[testing-guide-<br/>short-description.md] --> J[convert to JSON<br/>per data-shape.md]
-    J --> T[swap into<br/>references/qa-template.html]
+    J --> Z[haiku adds zh,<br/>terms from repo i18n]
+    Z --> T[swap into<br/>references/qa-template.html]
     T --> H[save .html<br/>beside the guide]
     H --> V[verify per verify.md]
     V --> O([pass, fail,<br/>or not verified])
@@ -16,6 +17,7 @@ flowchart LR
 | Step | Does |
 | --- | --- |
 | Reads | `testing-guide-{short-description}.md` in `~/.just-do-it/{project}/{branch}/` |
+| Translates | A haiku subagent adds `zh`, using terms from the repo i18n, then the branch folder; unmatched terms are reported in `Open` |
 | Converts | To JSON per `data-shape.md`, and swaps that JSON into `references/qa-template.html` |
 | Saves | `testing-guide-{short-description}.html` beside the guide, updating in place |
 | Verifies | The page per `verify.md`, and reports `pass`, `fail` or `not verified` |
@@ -39,7 +41,7 @@ flowchart LR
 | Sign | Means |
 | --- | --- |
 | The `.html` sits beside the guide and opens with no console error | Page works |
-| Testers can tick steps, mark Pass or Fail, and export results with concerns | Usable for QA |
+| Testers can mark Pass or Fail, add notes to failed tests, and export a readable HTML report | Usable for QA |
 | Progress survives a reload | State kept |
 | Language and Pass/Fail buttons are segmented controls, and links open in a new tab | UI as designed |
 | Each `verify.md` check is reported honestly | Honest result |

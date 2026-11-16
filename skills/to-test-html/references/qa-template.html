@@ -43,8 +43,8 @@ nav a:hover{background:#f0e8dc;color:var(--text)}
 nav a.cur{background:var(--accent);color:var(--text);font-weight:600}
 nav .mk{margin-left:auto;font-weight:700}
 nav .mk.pass{color:var(--pass)}nav .mk.fail{color:var(--fail)}
-h2{font-size:24px;font-weight:700;margin:40px 0 4px;line-height:1.25}
-#doc>h2:first-child{margin-top:0}
+h2{font-size:24px;font-weight:700;margin:40px 0 4px;padding-top:32px;border-top:1px solid var(--border);line-height:1.25}
+#doc>h2:first-child{margin-top:0;padding-top:0;border-top:0}
 .why{margin:0 0 12px;color:var(--grey)}
 .setup ul{margin:8px 0 0;padding-left:20px}
 .test{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin:14px 0;scroll-margin-top:8px}
@@ -53,23 +53,13 @@ h3{font-size:16px;font-weight:600;margin:0;flex:1 1 240px}
 .pf .btn[data-r="pass"][aria-pressed="true"]{background:var(--pass-bg);color:var(--pass)}
 .pf .btn[data-r="fail"][aria-pressed="true"]{background:var(--fail-bg);color:var(--fail)}
 .note{margin:8px 0 0;color:var(--grey);font-style:italic}
-.steps{list-style:none;margin:10px 0 0;padding:0}
-.steps li{margin:4px 0}
-.steps label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;padding:3px 4px;border-radius:6px;transition:background-color 150ms}
-.steps label:hover{background:#faf3e8}
-.steps input{appearance:none;-webkit-appearance:none;flex:none;width:22px;height:22px;margin:2px 0 0;border:2px solid #b9ab99;border-radius:6px;background:#fff;display:grid;place-content:center;cursor:pointer;transition:background-color 150ms,border-color 150ms}
-.steps input::after{content:"";width:6px;height:11px;border:solid var(--text);border-width:0 2.5px 2.5px 0;transform:rotate(45deg) scale(0);margin-top:-2px;transition:transform 150ms}
-.steps input:checked{background:var(--accent);border-color:var(--accent)}
-.steps input:checked::after{transform:rotate(45deg) scale(1)}
-.steps input:checked+span{color:var(--grey)}
-.expect{margin:10px 0 0;font-weight:600}
-dialog{border:1px solid var(--border);border-radius:12px;padding:20px;width:min(520px,calc(100vw - 32px));background:var(--surface);color:var(--text)}
-dialog::backdrop{background:rgba(43,38,34,.45)}
-dialog h2{margin:0 0 8px;font-size:20px}
-dialog label{display:block;font-weight:600;margin:12px 0 4px}
-dialog textarea{width:100%;min-height:120px;font:inherit;padding:8px;border:1px solid var(--border);border-radius:8px;resize:vertical}
-dialog .acts{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
-#file{display:none}
+.steps{margin:10px 0 0;padding-left:24px}
+.steps li{margin:6px 0}
+.sc{font-weight:600}
+.expect{margin:14px 0 0;padding:10px 14px;background:#f6efe3;border-left:3px solid var(--accent);border-radius:0 6px 6px 0}
+.expect b{display:block;font-size:13px;font-weight:600;color:var(--grey);margin-bottom:2px}
+.tn{display:block;width:100%;margin:12px 0 0;min-height:60px;font:inherit;padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text);resize:vertical}
+.tn[hidden]{display:none}
 @media (max-width:820px){
  .layout{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);gap:0}
  nav{max-height:112px;padding:8px 0}
@@ -78,7 +68,7 @@ dialog .acts{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
  h1{padding-right:0;margin-top:44px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
-@media print{body{height:auto;overflow:visible;display:block}.lang,.progress,nav,.pf,dialog,.warn{display:none!important}.layout{display:block}main{overflow:visible}.test{break-inside:avoid}}
+@media print{body{height:auto;overflow:visible;display:block}.lang,.progress,nav,.pf,.warn{display:none!important}.layout{display:block}main{overflow:visible}.test{break-inside:avoid}}
 </style>
 </head>
 <body>
@@ -94,9 +84,7 @@ dialog .acts{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
   <div class="bar" aria-hidden="true"><i id="bar"></i></div>
   <span class="ptext" id="ptext"></span>
   <button class="btn primary" type="button" id="b-export"></button>
-  <button class="btn" type="button" id="b-load"></button>
   <button class="btn" type="button" id="b-reset"></button>
-  <input type="file" id="file" accept="application/json,.json" tabindex="-1" aria-hidden="true">
  </div>
  <div class="warn" id="warn" hidden></div>
 </div>
@@ -104,51 +92,89 @@ dialog .acts{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
  <nav id="nav"></nav>
  <main id="main"><div id="doc"></div></main>
 </div>
-<dialog id="dlg" aria-labelledby="dlg-t">
- <h2 id="dlg-t"></h2>
- <p id="dlg-sum"></p>
- <label for="concerns" id="dlg-l"></label>
- <textarea id="concerns"></textarea>
- <div class="acts">
-  <button class="btn" type="button" id="dlg-cancel"></button>
-  <button class="btn primary" type="button" id="dlg-ok"></button>
- </div>
-</dialog>
+<template id="rpt">
+<style id="lcss"></style>
+<style>
+:root{--accent:#faaa6c;--bg:#faf7f2;--surface:#fff;--text:#2b2622;--grey:#6b625a;--border:#ddd3c6;--pass:#1f7a3d;--fail:#b3261e;--fail-bg:#fbe5e3;--tint:#f6efe3}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif}
+a{color:var(--text)}
+.rp{max-width:75ch;margin:0 auto;padding:32px 16px 64px;position:relative}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--surface);position:absolute;top:32px;right:16px}
+.seg button{font:inherit;color:inherit;cursor:pointer;border:0;background:var(--surface);padding:4px 14px;min-height:36px;font-size:14px}
+.seg button+button{border-left:1px solid var(--border)}
+.seg button[aria-pressed="true"]{background:var(--accent);font-weight:600}
+h1{font-size:28px;line-height:1.25;margin:0 0 4px;padding-right:200px}
+.sub{color:var(--grey);margin:0}
+.sum{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0 8px}
+.sum div{flex:1 1 120px;border:1px solid var(--border);background:var(--surface);border-radius:10px;padding:12px 14px}
+.sum b{display:block;font-size:28px;line-height:1.2}
+.sum span{color:var(--grey);font-size:14px}
+.sum .f b{color:var(--fail)}.sum .p b{color:var(--pass)}
+details{margin:36px 0 10px;padding-top:28px;border-top:1px solid var(--border)}
+summary{font-size:22px;font-weight:700;cursor:pointer}
+.t{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--grey);border-radius:0 10px 10px 0;padding:14px 16px;margin:12px 0;break-inside:avoid}
+.t.fail{border-left-color:var(--fail)}.t.pass{border-left-color:var(--pass)}
+.t h3{font-size:16px;margin:0 0 6px}
+.t ol{margin:6px 0 0;padding-left:24px}.t li{margin:4px 0}
+.sc{font-weight:600}
+.see{margin:12px 0 0;padding:10px 14px;background:var(--tint);border-left:3px solid var(--accent);border-radius:0 6px 6px 0}
+.see b,.note b{display:block;font-size:13px;color:var(--grey);margin-bottom:2px}
+.note{margin:12px 0 0;padding:10px 14px;background:var(--fail-bg);border-radius:6px}
+.t.pass .note{background:var(--tint)}
+.ok{color:var(--grey)}
+@media (max-width:600px){h1{padding-right:0;margin-top:44px}}
+@media print{body{background:#fff}.rp{padding:0;max-width:none}.seg{display:none}summary{break-after:avoid}}
+</style>
+<main class="rp">
+ <div class="seg" role="group">{{LANGBTNS}}</div>
+ {{BODY}}
+</main>
+<script>
+(function(){var LC=JSON.parse('{{LC}}'),s=document.getElementById("lcss");
+function set(l){s.textContent='[data-l]:not([data-l="'+l+'"]){display:none}';document.documentElement.lang=LC[l];
+document.querySelectorAll("[data-lang]").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.lang===l))})}
+document.querySelector(".seg").addEventListener("click",function(e){var b=e.target.closest("[data-lang]");if(b)set(b.dataset.lang)});
+set("{{L}}")})();
+</script>
+</template>
 <script>
 // DATA: sample guide so this file previews as is. The to-test-html skill swaps the JSON between the DATA and END markers on the next line for the guide (see data-shape.md). Nothing else changes per ticket.
-const DATA=/*DATA*/{"ticket": "SAMPLE-1", "link": "https://example.com/SAMPLE-1", "slug": "sample", "languages": ["en", "zh"], "related": [{"key": "SAMPLE-2", "link": "https://example.com/SAMPLE-2", "role": "blocks"}], "title": {"en": "Sample feature", "zh": "範例功能"}, "setup": [{"text": {"en": "Account that can edit items.", "zh": "可以編輯項目的帳號。"}}], "groups": [{"name": {"en": "Basics", "zh": "基本"}, "why": {"en": "The core path first.", "zh": "先測主要流程。"}, "tests": [{"title": {"en": "Open the item", "zh": "開啟項目"}, "steps": [{"en": "Items: open the first item.", "zh": "項目：開啟第一個項目。"}, {"en": "Item: click Edit.", "zh": "項目：按編輯。"}], "expect": {"en": "The edit form shows.", "zh": "顯示編輯表單。"}}, {"title": {"en": "Save a change", "zh": "儲存變更"}, "note": {"en": "Uses the item from Test 1.", "zh": "沿用測試 1 的項目。"}, "steps": [{"en": "Form: change the name.", "zh": "表單：修改名稱。"}, {"en": "Form: click Save.", "zh": "表單：按儲存。"}], "expect": {"en": "The new name shows in the list.", "zh": "列表顯示新名稱。"}}]}]}/*END*/;
+const DATA=/*DATA*/{"ticket": "SAMPLE-1", "link": "https://example.com/SAMPLE-1", "slug": "sample", "languages": ["en", "zh"], "related": [{"key": "SAMPLE-2", "link": "https://example.com/SAMPLE-2", "role": "blocks"}], "title": {"en": "Sample feature", "zh": "範例功能"}, "setup": [{"text": {"en": "Account: can edit items.", "zh": "帳號：可以編輯項目。"}}], "groups": [{"name": {"en": "Basics", "zh": "基本"}, "why": {"en": "The core path first.", "zh": "先測主要流程。"}, "tests": [{"title": {"en": "Open the item", "zh": "開啟項目"}, "steps": [{"en": "Items: open the first item.", "zh": "項目：開啟第一個項目。"}, {"en": "Item: click Edit.", "zh": "項目：按編輯。"}], "expect": {"en": "The edit form shows.", "zh": "顯示編輯表單。"}}, {"title": {"en": "Save a change", "zh": "儲存變更"}, "note": {"en": "Uses the item from Test 1.", "zh": "沿用測試 1 的項目。"}, "steps": [{"en": "Form: change the name.", "zh": "表單：修改名稱。"}, {"en": "Form: click Save.", "zh": "表單：按儲存。"}], "expect": {"en": "The new name shows in the list.", "zh": "列表顯示新名稱。"}}]}]}/*END*/;
 /* Languages this template has UI strings for. DATA.languages picks which show; one entry hides the switch. Add a language here and in UI below. */
 const ALL_LANGS=[{k:"en",lc:"en",name:"English"},{k:"zh",lc:"zh-Hant",name:"繁體中文"}];
 const LANGS=DATA?ALL_LANGS.filter(l=>(DATA.languages||["en"]).indexOf(l.k)>-1):ALL_LANGS.slice(0,1);
 const UI={
- en:{hint:"Found an issue? Export results with your concerns and attach the file to the ticket.",qa:"QA Test",rel:"Related:",exp:"Export results",load:"Load results",reset:"Reset",
-  prog:(n,m,p,f)=>n+" of "+m+" steps · "+p+" pass · "+f+" fail",tests:"Tests",setup:"Before you start",pass:"Pass",fail:"Fail",test:"Test",expect:"You should see:",
-  sum:(p,f,u)=>p+" pass · "+f+" fail · "+u+" not marked",con:"Concerns",cancel:"Cancel",ok:"Export",rc:"Reset all ticks, results and concerns?",
-  bad:"That file is not a results file.",warn:"Progress cannot be saved in this browser. Export results before closing this page.",lang:"Language",nm:"not marked"},
- zh:{hint:"發現問題？請匯出結果並填寫你的疑慮，然後把檔案附加到工單。",qa:"QA 測試",rel:"相關工單：",exp:"匯出結果",load:"載入結果",reset:"重設",
-  prog:(n,m,p,f)=>"已完成 "+n+" / "+m+" 步 · "+p+" 通過 · "+f+" 失敗",tests:"測試",setup:"準備",pass:"通過",fail:"失敗",test:"測試",expect:"預期結果：",
-  sum:(p,f,u)=>p+" 通過 · "+f+" 失敗 · "+u+" 未標記",con:"疑慮",cancel:"取消",ok:"匯出",rc:"要重設所有勾選、結果和疑慮嗎？",
-  bad:"這不是結果檔案。",warn:"此瀏覽器無法儲存進度。關閉本頁前請先匯出結果。",lang:"語言",nm:"未標記"}
+ en:{hint:"Found an issue? Mark it Fail and add a note. Then export the report and attach it to the ticket.",qa:"QA Test",rel:"Related:",exp:"Export report",reset:"Reset",
+  prog:(p,f,u)=>p+" pass · "+f+" fail · "+u+" not marked",tests:"Tests",setup:"Before you start",pass:"Pass",fail:"Fail",test:"Test",expect:"You should see:",
+  rc:"Reset all results and notes?",
+  warn:"Progress cannot be saved in this browser. Export the report before closing this page.",lang:"Language",nm:"not marked",
+  note:"Note (optional)",tnote:"Tester's note",rep:"QA Report",failed:"Failed",nmk:"Not marked",passed:"Passed"},
+ zh:{hint:"發現問題？請標記為失敗並寫下備註，然後匯出報告並附加到工單。",qa:"QA 測試",rel:"相關工單：",exp:"匯出報告",reset:"重設",
+  prog:(p,f,u)=>p+" 通過 · "+f+" 失敗 · "+u+" 未標記",tests:"測試",setup:"開始前",pass:"通過",fail:"失敗",test:"測試",expect:"你應該看到：",
+  rc:"要重設所有結果和備註嗎？",
+  warn:"此瀏覽器無法儲存進度。關閉本頁前請先匯出報告。",lang:"語言",nm:"未標記",
+  note:"備註（選填）",tnote:"測試者備註",rep:"QA 報告",failed:"失敗",nmk:"未標記",passed:"通過"}
 };
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const tr=(o,k)=>o[k]!=null?o[k]:o[LANGS[0].k];
 const bi=o=>LANGS.map(l=>'<span data-l="'+l.k+'">'+esc(tr(o,l.k))+'</span>').join("");
+const sh=o=>LANGS.map(l=>{const t=tr(o,l.k),m=t.match(/^([^:：]{1,24}[:：])\s*([\s\S]*)$/);return'<span data-l="'+l.k+'">'+(m?'<b class="sc">'+esc(m[1])+"</b> "+esc(m[2]):esc(t))+"</span>"}).join("");
 const ui=k=>bi(Object.fromEntries(LANGS.map(l=>[l.k,UI[l.k][k]])));
 if(!DATA){document.body.innerHTML='<p style="padding:24px;font:16px/1.5 sans-serif">No guide data. Generate this page with the to-test-html skill.</p>';throw new Error("no DATA")}
 const sig=(s=>{let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return(h>>>0).toString(36)})(JSON.stringify(DATA.groups));
 const KEY="qa-"+DATA.ticket+"-"+sig;
-let lang=LANGS[0].k,state={steps:{},results:{},concerns:""},blocked=false;
+let lang=LANGS[0].k,state={results:{},notes:{}},blocked=false;
 const tests=[];
 DATA.groups.forEach((g,gi)=>g.tests.forEach(t=>tests.push({id:"test-"+(tests.length+1),n:tests.length+1,g:gi,t:t})));
-const totalSteps=tests.reduce((a,x)=>a+x.t.steps.length,0);
 const lc=()=>LANGS.find(l=>l.k===lang).lc;
 /* storage: localStorage, else window.name */
 function load(){
  let raw=null;
  try{raw=localStorage.getItem(KEY)}catch(e){blocked=true}
  if(blocked){const p="QA:"+KEY+":";if(window.name.indexOf(p)===0)raw=window.name.slice(p.length)}
- if(raw){try{const s=JSON.parse(raw);if(s&&s.steps&&s.results)state={steps:s.steps,results:s.results,concerns:s.concerns||""}}catch(e){}}
+ if(raw){try{const s=JSON.parse(raw);if(s&&s.results)state={results:s.results,notes:s.notes||{}}}catch(e){}}
  let l=null;try{l=localStorage.getItem(KEY+":lang")}catch(e){}
  if(!LANGS.some(x=>x.k===l))l=(LANGS.find(x=>(navigator.language||"").indexOf(x.k)===0)||LANGS[0]).k;
  lang=l;
@@ -165,13 +191,13 @@ function build(){
  $("#lead").innerHTML=(DATA.link?'<a href="'+esc(DATA.link)+'" target="_blank" rel="noopener noreferrer">'+esc(DATA.ticket)+"</a>":esc(DATA.ticket))+" "+ui("qa");
  if(DATA.related&&DATA.related.length)$("#rel").innerHTML=ui("rel")+" "+DATA.related.map(r=>(r.link?'<a href="'+esc(r.link)+'" target="_blank" rel="noopener noreferrer">'+esc(r.key)+"</a>":esc(r.key))+(r.role?" ("+esc(r.role)+")":"")).join(" · ");
  $("#hint").innerHTML=ui("hint");
- $("#b-export").innerHTML=ui("exp");$("#b-load").innerHTML=ui("load");$("#b-reset").innerHTML=ui("reset");
- $("#dlg-t").innerHTML=ui("exp");$("#dlg-l").innerHTML=ui("con");$("#dlg-cancel").innerHTML=ui("cancel");$("#dlg-ok").innerHTML=ui("ok");
+ $("#b-export").innerHTML=ui("exp");$("#b-reset").innerHTML=ui("reset");
  $("#warn").innerHTML=ui("warn");
  if(LANGS.length>1)$("#lang").innerHTML=LANGS.map(l=>'<button class="btn" type="button" data-lang="'+l.k+'">'+esc(l.name)+"</button>").join("");
- let nav='<p class="nt">'+ui("tests")+"</p>",doc='<section class="setup"><h2>'+ui("setup")+"</h2><ul>";
- DATA.setup.forEach(s=>{doc+="<li>"+(s.id?"<strong>"+esc(s.id)+"</strong>: ":"")+bi(s.text)+"</li>"});
- doc+="</ul></section>";
+ let nav='<p class="nt">'+ui("tests")+"</p>",doc="";
+ if(DATA.setup&&DATA.setup.length){doc+='<section class="setup"><h2>'+ui("setup")+"</h2><ul>";
+  DATA.setup.forEach(s=>{doc+="<li>"+bi(s.text)+"</li>"});
+  doc+="</ul></section>"}
  DATA.groups.forEach((g,gi)=>{
   nav+='<p class="ng">'+bi(g.name)+"</p>";
   doc+="<h2>"+bi(g.name)+'</h2><p class="why">'+bi(g.why)+"</p>";
@@ -181,55 +207,63 @@ function build(){
    doc+='<article class="test" id="'+x.id+'"><div class="th"><h3>'+ui("test")+" "+x.n+": "+bi(t.title)+'</h3><div class="pf seg" role="group">'
     +["pass","fail"].map(r=>'<button type="button" class="btn" data-r="'+r+'" data-id="'+x.id+'" aria-pressed="false">'+ui(r)+"</button>").join("")+"</div></div>";
    if(t.note)doc+='<p class="note">'+bi(t.note)+"</p>";
-   doc+='<ol class="steps">'+t.steps.map((s,i)=>'<li><label><input type="checkbox" data-k="'+x.id+"."+i+'"><span>'+bi(s)+"</span></label></li>").join("")
-    +'</ol><p class="expect">'+ui("expect")+" "+bi(t.expect)+"</p></article>";
+   doc+='<ol class="steps">'+t.steps.map(s=>"<li>"+sh(s)+"</li>").join("")
+    +'</ol><p class="expect"><b>'+ui("expect")+"</b>"+bi(t.expect)+'</p><textarea class="tn" data-note="'+x.id+'" rows="2" hidden></textarea></article>';
   });
  });
  $("#nav").innerHTML=nav;$("#doc").innerHTML=doc;
 }
 function counts(){
- let p=0,f=0,n=0;
+ let p=0,f=0;
  tests.forEach(x=>{const r=state.results[x.id];if(r==="pass")p++;else if(r==="fail")f++});
- tests.forEach(x=>x.t.steps.forEach((s,i)=>{if(state.steps[x.id+"."+i])n++}));
- return {p:p,f:f,u:tests.length-p-f,n:n};
+ return {p:p,f:f,u:tests.length-p-f};
 }
 function sync(){
- document.querySelectorAll("input[data-k]").forEach(i=>{i.checked=!!state.steps[i.dataset.k]});
  tests.forEach(x=>{
   const r=state.results[x.id];
   document.querySelectorAll('.pf button[data-id="'+x.id+'"]').forEach(b=>b.setAttribute("aria-pressed",String(r===b.dataset.r)));
   const m=document.querySelector('[data-mk="'+x.id+'"]');m.className="mk"+(r?" "+r:"");m.textContent=r==="pass"?"✓":r==="fail"?"✗":"";
  });
+ document.querySelectorAll("textarea[data-note]").forEach(t=>{const v=state.notes[t.dataset.note]||"";if(t.value!==v)t.value=v;t.placeholder=UI[lang].note;t.setAttribute("aria-label",UI[lang].note);t.hidden=state.results[t.dataset.note]!=="fail"});
  const c=counts();
- $("#ptext").textContent=UI[lang].prog(c.n,totalSteps,c.p,c.f);
- $("#bar").style.width=(100*c.n/totalSteps)+"%";
+ $("#ptext").textContent=UI[lang].prog(c.p,c.f,c.u);
+ $("#bar").style.width=(100*(c.p+c.f)/tests.length)+"%";
 }
 function setLang(l){
  lang=l;try{localStorage.setItem(KEY+":lang",l)}catch(e){}
  document.documentElement.lang=lc();
  $("#lcss").textContent='[data-l]:not([data-l="'+l+'"]){display:none}';
  document.querySelectorAll("[data-lang]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.lang===l)));
- document.title=tr(DATA.title,l)+" · "+DATA.ticket+" "+UI[l].qa;
+ document.title=UI[l].qa+" · "+tr(DATA.title,l)+" · "+DATA.ticket;
  $("#lang").setAttribute("aria-label",UI[l].lang);
  $("#nav").setAttribute("aria-label",UI[l].tests);
  sync();
 }
-/* export / load */
-function result(){
- const c=counts();
- return {ticket:DATA.ticket,guide:DATA.slug,language:lc(),exportedAt:new Date().toISOString(),
-  summary:{pass:c.p,fail:c.f,notMarked:c.u},concerns:state.concerns||"",
-  tests:tests.map(x=>({id:x.id,title:tr(x.t.title,lang),result:state.results[x.id]||"not marked",
-   steps:x.t.steps.map((s,i)=>({done:!!state.steps[x.id+"."+i],text:tr(s,lang)})),expect:tr(x.t.expect,lang)})),sig:sig,state:state};
+/* export */
+/* report: fills <template id="rpt"> with the results; the reader can switch language inside it */
+function card(x,kind){
+ const n=kind==="fail"?(state.notes[x.id]||"").trim():"";
+ return '<article class="t '+kind+'"><h3>'+ui("test")+" "+x.n+": "+bi(x.t.title)+"</h3><ol>"+x.t.steps.map(s=>"<li>"+sh(s)+"</li>").join("")+'</ol><p class="see"><b>'+ui("expect")+"</b>"+bi(x.t.expect)+"</p>"
+  +(n?'<p class="note"><b>'+ui("tnote")+"</b>"+esc(n).replace(/\n/g,"<br>")+"</p>":"")+"</article>";
+}
+function report(){
+ const by=r=>tests.filter(x=>(state.results[x.id]||"nm")===r),fl=by("fail"),nm=by("nm"),ps=by("pass");
+ const d=new Date(),p=n=>String(n).padStart(2,"0"),day=d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate());
+ const sec=(k,list,content)=>'<details'+(k==='failed'?' open':'')+'><summary>'+ui(k)+" ("+list.length+")</summary>"+content+"</details>";
+ let b="<h1>"+bi(DATA.title)+'</h1><p class="sub">'+(DATA.link?'<a href="'+esc(DATA.link)+'">'+esc(DATA.ticket)+"</a>":esc(DATA.ticket))+" · "+ui("rep")+" · "+day+"</p>";
+ b+='<div class="sum"><div class="f"><b>'+fl.length+"</b><span>"+ui("failed")+"</span></div><div><b>"+nm.length+"</b><span>"+ui("nmk")+'</span></div><div class="p"><b>'+ps.length+"</b><span>"+ui("passed")+"</span></div></div>";
+ b+=sec("failed",fl,fl.map(x=>card(x,"fail")).join(""))+sec("nmk",nm,nm.map(x=>card(x,"nm")).join(""))+sec("passed",ps,ps.length?'<p class="ok">'+ui("tests")+" "+ps.map(x=>x.n).join(", ")+"</p>":"");
+ const lc=Object.fromEntries(LANGS.map(l=>[l.k,l.lc]));
+ const inner=$("#rpt").innerHTML.split("{{LANGBTNS}}").join(LANGS.length>1?LANGS.map(l=>'<button type="button" data-lang="'+l.k+'">'+esc(l.name)+"</button>").join(""):"")
+  .split("{{BODY}}").join(b).split("{{LC}}").join(JSON.stringify(lc)).split("{{L}}").join(lang);
+ return {html:'<!doctype html><html lang="'+lc[lang]+'"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>'+UI[lang].rep+" · "+esc(tr(DATA.title,lang))+" · "+esc(DATA.ticket)+"</title></head><body>"+inner+"</body></html>",day:day};
 }
 function download(){
- const d=new Date(),p=n=>String(n).padStart(2,"0");
- const a=document.createElement("a");
- a.href=URL.createObjectURL(new Blob([JSON.stringify(result(),null,2)],{type:"application/json"}));
- a.download=DATA.ticket+"-qa-results-"+d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate())+".json";
+ const r=report(),a=document.createElement("a");
+ a.href=URL.createObjectURL(new Blob([r.html],{type:"text/html"}));
+ a.download=DATA.ticket+"-qa-report-"+r.day+".html";
  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 }
-function openDlg(){const c=counts();$("#dlg-sum").textContent=UI[lang].sum(c.p,c.f,c.u);$("#concerns").value=state.concerns||"";$("#dlg").showModal()}
 /* nav highlight: main is the scroller */
 let locked=false;
 function setCur(id){document.querySelectorAll("nav a").forEach(a=>{const on=a.dataset.id===id;a.classList.toggle("cur",on);on?a.setAttribute("aria-current","true"):a.removeAttribute("aria-current")})}
@@ -244,27 +278,17 @@ function init(){
  load();build();setLang(lang);
  if(blocked)$("#warn").hidden=false;
  $("#lang").addEventListener("click",e=>{const b=e.target.closest("[data-lang]");if(b)setLang(b.dataset.lang)});
- $("#doc").addEventListener("change",e=>{const k=e.target.dataset.k;if(k){state.steps[k]=e.target.checked;save();sync()}});
  $("#doc").addEventListener("click",e=>{
   const b=e.target.closest("button[data-r]");if(!b)return;
   const id=b.dataset.id;if(state.results[id]===b.dataset.r)delete state.results[id];else state.results[id]=b.dataset.r;
   save();sync();
  });
- $("#b-export").onclick=openDlg;
+ $("#b-export").onclick=download;
  $("#nav").addEventListener("click",e=>{const a=e.target.closest("a[data-id]");if(!a)return;e.preventDefault();locked=true;setCur(a.dataset.id);document.getElementById(a.dataset.id).scrollIntoView({block:"start"})});
  ["wheel","touchstart","keydown"].forEach(ev=>window.addEventListener(ev,()=>{locked=false},{passive:true}));
  $("#main").addEventListener("scroll",spy,{passive:true});window.addEventListener("resize",spy);
- $("#concerns").addEventListener("input",e=>{state.concerns=e.target.value;save()});
- $("#dlg-cancel").onclick=()=>$("#dlg").close();
- $("#dlg-ok").onclick=()=>{state.concerns=$("#concerns").value;save();download();$("#dlg").close()};
- $("#b-reset").onclick=()=>{if(confirm(UI[lang].rc)){state={steps:{},results:{},concerns:""};save();sync()}};
- $("#b-load").onclick=()=>$("#file").click();
- $("#file").addEventListener("change",e=>{
-  const f=e.target.files[0];if(!f)return;const r=new FileReader();
-  r.onload=()=>{try{const j=JSON.parse(r.result);if(!j.state.steps||!j.state.results||j.guide!==DATA.slug||(j.sig!==undefined&&j.sig!==sig))throw 0;
-   state={steps:j.state.steps,results:j.state.results,concerns:j.state.concerns!=null?j.state.concerns:(j.concerns||"")};save();sync()}catch(x){alert(UI[lang].bad)}};
-  r.readAsText(f);e.target.value="";
- });
+ $("#doc").addEventListener("input",e=>{const id=e.target.dataset&&e.target.dataset.note;if(!id)return;if(e.target.value)state.notes[id]=e.target.value;else delete state.notes[id];save()});
+ $("#b-reset").onclick=()=>{if(confirm(UI[lang].rc)){state={results:{},notes:{}};save();sync()}};
  spy();
 }
 init();

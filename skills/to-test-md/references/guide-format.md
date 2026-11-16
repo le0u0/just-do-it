@@ -33,6 +33,7 @@ You should see: <result>.
 
 ## Before you start
 
+- Nothing to name (no special account or organisation): omit the whole section.
 - At most 3 lines, as short noun phrases. More means the item belongs in a test.
 - Accounts and organisations only. A device is not a starting item: say it in the test note or step 1.
 - Add an account only for another organisation or role. Rights are changed by hand in the project's settings.
@@ -55,6 +56,7 @@ You should see: <result>.
 
 - `Test N: descriptive title`, numbered across the guide. Parts: optional note, numbered steps, one `You should see:` line.
 - Start at the first screen that differs from the previous test.
+- Size: 3 to 8 steps. More than 8: split at a natural break. Fewer than 3 and the same start screen as a neighbour: merge into one test; put each check in the `You should see` line, one short sentence each.
 - Create test data inside the steps.
 - Name a default as a default ("unchecked by default"). Put what is checked after an action in the same `You should see` line.
 
