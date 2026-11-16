@@ -10,16 +10,16 @@ Count changed lines and files from the fetched diff facts, excluding paths in [s
 
 ## Roles
 
-Each call sets `model` and `effort` from this table, whatever model runs the main thread.
+Each call maps the role's tier per [host mapping](../../justaway/references/agents.md#host-mapping), whatever model runs the main thread.
 
-| Role | Model | Effort | Quick | Standard | Deep |
-| --- | --- | --- | --- | --- | --- |
-| Fetch: `go-triage` Fetch job | haiku | low | 1 | 1 | 1 |
-| Hunter: Correctness | sonnet | medium | 1, all lenses, verifies its own | 1 | 1 |
-| Hunter: Contract | sonnet | medium | — | 1 | 1 |
-| Hunter: Security | sonnet | medium | — | — | 1 |
-| Verifier | opus | medium | — | 1 | 1 |
-| Recheck (re-review only) | haiku | low | 1 | 1 | 1 |
+| Role | Tier | Quick | Standard | Deep |
+| --- | --- | --- | --- | --- |
+| Fetch: `go-triage` Fetch job | `fast` | 1 | 1 | 1 |
+| Hunter: Correctness | `standard` | 1, all lenses, verifies its own | 1 | 1 |
+| Hunter: Contract | `standard` | — | 1 | 1 |
+| Hunter: Security | `standard` | — | — | 1 |
+| Verifier | `reasoning` | — | 1 | 1 |
+| Recheck (re-review only) | `fast` | 1 | 1 | 1 |
 
 Lenses from [review-method.md](review-method.md):
 

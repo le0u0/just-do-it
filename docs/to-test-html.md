@@ -7,7 +7,7 @@ Builds a single-file HTML QA page from the testing guide Markdown. You call it; 
 ```mermaid
 flowchart LR
     G[testing-guide-<br/>short-description.md] --> J[convert to JSON<br/>per data-shape.md]
-    J --> Z[haiku adds zh,<br/>terms from repo i18n]
+    J --> Z[fast subagent adds zh,<br/>terms from repo i18n]
     Z --> T[swap into<br/>references/qa-template.html]
     T --> H[save .html<br/>beside the guide]
     H --> V[verify per verify.md]
@@ -17,7 +17,7 @@ flowchart LR
 | Step | Does |
 | --- | --- |
 | Reads | `testing-guide-{short-description}.md` in `~/.just-do-it/{project}/{branch}/` |
-| Translates | A haiku subagent adds `zh`, using terms from the repo i18n, then the branch folder; unmatched terms are reported in `Open` |
+| Translates | A `fast` subagent adds `zh`, using terms from the repo i18n, then the branch folder; unmatched terms are reported in `Open` |
 | Converts | To JSON per `data-shape.md`, and swaps that JSON into `references/qa-template.html` |
 | Saves | `testing-guide-{short-description}.html` beside the guide, updating in place |
 | Verifies | The page per `verify.md`, and reports `pass`, `fail` or `not verified` |

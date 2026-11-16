@@ -22,7 +22,7 @@ flowchart LR
 | Job | Does |
 | --- | --- |
 | Triage | Returns the requirements brief |
-| Fetch | Called as a haiku low subagent by other skills (`go-review`, and any skill that needs it) to do search and fetching: ticket text; git facts (baseline evidence, `git diff --stat`, changed paths, files a delta touches); code search (where a symbol is used); file text (such as `REVIEW.md`). Returns raw facts only, no judgement, writes nothing |
+| Fetch | Called as a `fast` subagent by other skills (`go-review`, and any skill that needs it) to do search and fetching: ticket text; git facts (baseline evidence, `git diff --stat`, changed paths, files a delta touches); code search (where a symbol is used); file text (such as `REVIEW.md`). Returns raw facts only, no judgement, writes nothing |
 
 | Gives | Never |
 | --- | --- |
@@ -35,7 +35,7 @@ flowchart LR
 | "Triage PROJ-123", "what does this ticket need", "go through my queue", a pasted URL | `go-triage` |
 | You want the ticket turned into a plan | `go-plan` |
 | The manager gets a pasted link | It runs `go-triage` first, so the research exists before any planning |
-| `go-review`, or any skill that needs ticket text, git facts or code search | Calls the `go-triage` Fetch job as a haiku low subagent |
+| `go-review`, or any skill that needs ticket text, git facts or code search | Calls the `go-triage` Fetch job as a `fast` subagent |
 
 ## WORK IT
 

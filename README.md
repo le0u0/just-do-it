@@ -4,10 +4,32 @@ A manager that plans, builds, tests and reviews a ticket with subagents. The pro
 
 ## Install
 
+<details>
+<summary>Claude Code</summary>
+
 ```text
 /plugin marketplace add le0u0/le0u0.ai
 /plugin install just-do-it@le0u0.ai
 ```
+
+</details>
+
+<details>
+<summary>Antigravity</summary>
+
+```bash
+agy plugin install https://github.com/le0u0/just-do-it
+```
+
+Or from a local clone:
+
+```bash
+agy plugin install /path/to/just-do-it
+```
+
+> Note: The `[JUSTDOIT]` status line badge (`hooks/` + `scripts/`) is Claude Code only and is not used in Antigravity.
+
+</details>
 
 ## Use
 
@@ -32,12 +54,18 @@ flowchart LR
     M --> D[(~/.just-do-it/<br/>project/branch)]
 ```
 
-| Where | Runs | Model |
+| Where | Runs | Tier |
 | --- | --- | --- |
 | Main thread | `go-plan`, `go-work`, `go-fix`, so it can ask you questions | your session's |
-| Main thread | `go-review`, which starts its own agents | Fetch haiku low, hunters sonnet medium, verifier opus medium, recheck haiku low |
-| Subagent | `go-e2e` | sonnet medium |
-| Subagent | `go-triage` | haiku low |
+| Main thread | `go-review`, which starts its own agents | Fetch `fast`, hunters `standard`, verifier `reasoning`, recheck `fast` |
+| Subagent | `go-e2e` | `standard` |
+| Subagent | `go-triage` | `fast` |
+
+| Tier | Claude | Antigravity (`swarm`) |
+| --- | --- | --- |
+| `fast` | `haiku (low)` | `flash (low)` |
+| `standard` | `sonnet (medium)` | `hydrogen (medium)` |
+| `reasoning` | `opus (medium)` | `argon (medium)` |
 
 | Also | Detail |
 | --- | --- |

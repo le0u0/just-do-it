@@ -53,7 +53,7 @@ The template holds a sample guide between two markers: `const DATA=/*DATA*/{...}
 
 The guide's languages are always `en` and `zh` (Traditional Chinese). The main session writes `en`; a subagent writes `zh`, so the main session never spends tokens on it.
 
-1. Spawn one `Agent` with `model: "haiku"`. Give it the repository path and the list of English texts (every `title`, `setup`, `name`, `why`, `note`, step and `expect`), each with a key.
+1. Spawn one `fast` subagent (per [host mapping](../../justaway/references/agents.md#host-mapping)). Give it the repository path and the list of English texts (every `title`, `setup`, `name`, `why`, `note`, step and `expect`), each with a key.
 2. It first greps the repository's translation files (i18n, locales, `zh*.json`) for each menu, button and field name, and uses the repo's own Chinese term. No match: it then greps the branch folder (`~/.just-do-it/{project}/{branch}/`, see [storage.md](../../justaway/references/storage.md); present when the manager ran the work) for the term in `state/triage.md`, `plan.md` and `attachments/`. Still no match: it translates plainly and marks the key `guess`.
 3. It returns `{key: zh}` only, plus the `guess` keys. Add them as `zh`; report the `guess` keys under `Open`.
 
