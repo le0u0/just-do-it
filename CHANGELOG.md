@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.5.0](https://github.com/le0u0/just-do-it/compare/v2.4.0...v2.5.0) (2026-11-16)
+
+
+### Features
+
+* add Codex plugin support ([e2c9a5a](https://github.com/le0u0/just-do-it/commit/e2c9a5a6b72e177543a3180d0ba30d12139c8182))
+* add Codex plugin support ([d79bbc3](https://github.com/le0u0/just-do-it/commit/d79bbc326b8a9f9bb75f6dfdd24c53592b05705c))
+
 ## [2.4.0](https://github.com/le0u0/just-do-it/compare/v2.3.0...v2.4.0) (2026-11-16)
 
 
