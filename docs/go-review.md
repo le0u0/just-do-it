@@ -2,6 +2,8 @@
 
 Review a branch, diff or work-in-progress change and return the review report. It runs in the main thread, called by the manager or directly, and starts its own review agents. It is the only skill that reviews.
 
+Subagents are required; an unavailable agent blocks the review.
+
 ## DO IT
 
 ```mermaid

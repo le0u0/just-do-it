@@ -10,8 +10,9 @@ Render the guide into one HTML page the tester ticks through. Never hand-edited.
 
 ## Input
 
-- `testing-guide-{short-description}.md` in `~/.just-do-it/{project}/{branch}/` (`{branch}` = `git branch --show-current`, `/` replaced by `-`; glob `~/.just-do-it/*/{branch}`).
+- `testing-guide-{short-description}.md` in the user-supplied task directory, else `~/.just-do-it/{project}/{branch}/` (`{branch}` = `git branch --show-current`, `/` replaced by `-`; glob `~/.just-do-it/*/{branch}`).
 - Guide missing: stop, tell the user to run `to-test-md` first, write nothing.
+- Start the translation worker whether `justaway` is on or off. If that worker cannot start, report blocked and write no HTML.
 
 ## Steps
 
@@ -25,6 +26,7 @@ Render the guide into one HTML page the tester ticks through. Never hand-edited.
 ## Rules
 
 - Change the `.md` first, then rerun. The `.html` is the only output.
+- Apply the shared [storage permission rules](../justaway/references/storage.md#rules) before writing. On a blocked save, report the target path as unsaved and stop before serving or verification.
 
 ## Done when
 

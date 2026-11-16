@@ -13,7 +13,7 @@ Shared terms for this plugin.
 
 | Term | Meaning |
 | --- | --- |
-| Reference | A file in a skill's `references/`, linked from `SKILL.md`, read for one branch of its workflow. Only its own skill reads it. |
+| Reference | A file in a skill's `references/`, linked from `SKILL.md`, read for one branch of its workflow. Shared host/storage references may be explicitly linked by other skills. |
 | Project references | Rules, project-local skills and comparable code in the repository. Read, never copied. |
 | Project-local skill | A skill in the repository (`.agents/skills/`, `.claude/skills/`). Wins over this plugin's defaults. |
 

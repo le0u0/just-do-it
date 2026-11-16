@@ -9,6 +9,8 @@ Report as the caller specifies. The report is the reply; write no file.
 
 Run in the main thread as coordinator: pick the tier, start the review agents, assemble the report. Never read hunks yourself; agents read the code.
 
+Start the review team whether `justaway` is on or off. If an agent is unavailable or cannot start, report blocked and stop; never perform its review role yourself.
+
 ## 1. Fetch
 
 One `go-triage` Fetch call (per [agents.md](references/agents.md)) gathers everything at once. Ask only what is missing:
@@ -52,4 +54,3 @@ Given a previous review, return it updated in full. Delta: `git diff <Reviewed t
 End the reply with the report per [report-format.md](references/report-format.md). A caller's handoff lines go above it: `Changed: none`; `Open:` open issue count by severity.
 
 - Report only and end the reply with the report. `go-fix` applies fixes when the caller or user asks for them.
-- No subagents in this host: run each role's reference yourself, in order (hunters, then verifier).

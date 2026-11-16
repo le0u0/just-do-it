@@ -69,7 +69,7 @@ flowchart TD
 | --- | --- |
 | Plan step | Runs in the main thread: no development agent per step. `checklist.md` carries progress |
 | Trade-off | The main thread's context grows and runs on the session's model |
-| Other agents | Stay alive per ticket. Later work goes by SendMessage to the recorded ID in `jobs.md`. A gone agent is replaced by a fresh one reading the plan, `checklist.md` and `jobs.md` |
+| Other agents | Reuse per ticket through the active host's follow-up tool and the recorded ID in `jobs.md`. Release idle workers when capacity requires; replace a gone agent with a fresh one reading the plan, `checklist.md` and `jobs.md` |
 | "Done" | An agent's "done" is a claim: the manager checks diff, artifacts, tests |
 | Model and effort | The manager sets `model` and `effort` per skill and announces them. The user can override. See [agents.md](../../skills/justaway/references/agents.md) |
 
@@ -96,11 +96,11 @@ flowchart TD
 | Tier | Quick, Standard, Deep, from diff size and risky paths; Quick is one hunter that verifies its own |
 | Re-review | Gets the previous `review.md`, hunts only the delta, rechecks only findings in touched files, and stops hunting after round 3 |
 | Saving | The manager saves the full report over `review.md`. Only `go-review` reviews |
-| Storage | Plugin files live outside the repo: `~/.just-do-it/{project}/` holds `docs/` (glossary, ADRs) and one folder per branch (plan, checklist, review, PR text, commit format, `state/`, `attachments/`) |
+| Storage | Plugin files default to `~/.just-do-it/{project}/`, outside the repo. A user-supplied task directory wins; [storage rules](../../skills/justaway/references/storage.md#rules) handle blocked writes without false save claims |
 
 ### Skills
 
 | Topic | Rule |
 | --- | --- |
-| References | A skill reads only its own `references/`; others are called by name |
-| Hosts | Claude Code first: subagents work only there. Skills are plain `SKILL.md` files, so other hosts run them directly, without subagents |
+| References | A skill reads its own `references/` and explicitly linked shared host/storage rules; other skills are resolved by name and absolute `SKILL.md` path |
+| Dispatch | Required subagents and their lifecycle follow the [host mapping](../../skills/justaway/references/agents.md#host-mapping); unavailable agents block the job |

@@ -19,7 +19,7 @@ disable-model-invocation: true
 - Own decisions, scope, order, user communication, acceptance, and every plugin document.
 - Write the specs and code yourself: run `go-plan`, `go-work` and `go-fix` in the main thread. Run `go-review` in the main thread too; it starts its own review agents. Send `go-triage` and `go-e2e` to subagents.
 - Skills return results in the reply. You alone save `plan.md`, `checklist.md`, `review.md`, `triage.md`, `state/diagnose.md`, `commit-format.md`, and the glossary and ADRs from `go-plan`'s `Decisions`, per [storage.md](references/storage.md) and [written-docs.md](references/written-docs.md).
-- Without subagents, say the manager workflow cannot run in this host.
+- Subagents are required. An unavailable agent or failed launch blocks the delegated job; report it and stop. Never perform that job in the main thread.
 
 ## Authorization
 

@@ -1,6 +1,6 @@
 # Storage
 
-Every file this plugin writes lives under `~/.just-do-it/`, so any repository can reach it. The repository receives only the source and test changes the job requires.
+Plugin documents default to `~/.just-do-it/`. The repository receives only the source and test changes the job requires. A user-supplied task directory wins.
 
 ```text
 ~/.just-do-it/
@@ -23,6 +23,9 @@ Every file this plugin writes lives under `~/.just-do-it/`, so any repository ca
 
 ## Rules
 
+- Resolve the directory and write permission before saving. Outside the sandbox's writable roots, use the host's approval flow; an approved plan does not grant filesystem access.
+- Approval unavailable or denied: report the blocked path and return the unsaved content. Do not claim it was saved, ask for plan approval, or advance a manager step that requires the file. Continue only after access or an explicit writable task directory is supplied.
+- Keep an explicit task directory for the whole job and pass it to subagents and `to-*` skills. Never silently move documents into the repository or plugin cache.
 - The user reads files above `state/`; the plugin keeps the rest in `state/`.
 - The manager saves every doc a `go-*` skill returns; user-invoked `to-*` skills write `pr-{base}.md` and the testing guide themselves, in the same branch folder.
 - Write only files listed here: create when missing, update in place otherwise. Never a numbered or dated copy.

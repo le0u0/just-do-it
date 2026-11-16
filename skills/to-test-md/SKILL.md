@@ -26,6 +26,7 @@ Write the guide as Markdown.
 
 ## Storage
 
+- Apply the shared [storage permission rules](../justaway/references/storage.md#rules) before writing; a user-supplied task directory wins. On a blocked save, return the guide as unsaved with the blocked path.
 - Branch folder: glob `~/.just-do-it/*/{branch}` (`{branch}` = `git branch --show-current`, `/` replaced by `-`). No match: ask which project.
 - `state/triage.md` there has the `Linked:` line.
 
