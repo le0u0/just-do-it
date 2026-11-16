@@ -54,5 +54,5 @@ flowchart LR
 | Link | What happens |
 | --- | --- |
 | Input | It fixes only what `go-review` found and you chose |
-| Calls | `go-work` and `go-ut` for the code and specs, `go-e2e` for e2e findings |
+| Calls | `go-work` and `go-ut` for the code and specs; e2e findings are handed back as `Open` |
 | `justaway` | Records the dispositions in `review.md` and `checklist.md` |

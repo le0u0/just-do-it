@@ -26,7 +26,7 @@ flowchart LR
 
 | Gives | Never |
 | --- | --- |
-| Brief in the reply | Changes a ticket field, posts a comment, approves anything, writes files (read-only) |
+| Brief in the reply | Changes a ticket field, posts a comment, approves anything, writes files (read-only; attachments are cached) |
 
 ## USE IT
 

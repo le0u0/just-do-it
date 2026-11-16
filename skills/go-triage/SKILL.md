@@ -1,6 +1,6 @@
 ---
 name: go-triage
-description: 'Triage tickets, a queue, or any pasted link from live requirements, comments and image attachments, and return the brief in the reply, with no files written. Also fetches raw facts for other skills: ticket text, git facts, code search. Use for "triage PROJ-123", "what does this ticket need", "go through my queue", a pasted URL, or when a skill needs search or fetching done cheaply.'
+description: 'Triage tickets, a queue, or any pasted link from live requirements, comments and image attachments, and return the brief in the reply, with no files written except cached attachments. Also fetches raw facts for other skills: ticket text, git facts, code search. Use for "triage PROJ-123", "what does this ticket need", "go through my queue", a pasted URL, or when a skill needs search or fetching done cheaply.'
 ---
 
 # Triage Ticket

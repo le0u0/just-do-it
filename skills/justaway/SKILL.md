@@ -47,7 +47,7 @@ disable-model-invocation: true
 2. Run `go-plan` in the main thread (a subagent cannot ask the user). It returns the plan in the reply and writes no files, so the save is yours:
    1. Save `plan.md`, `checklist.md`, and `commit-format.md` when `Decisions` has a `Commit format` line.
    2. Only then ask for plan approval, naming the saved paths. Never ask before the files exist; showing the plan in chat is not saving it.
-3. Loop over the approved plan's steps in order, one `go-work` call per step. Pass it the plan text and the step number.
+3. On approval, set `Status: approved` in `plan.md`. Loop over the approved plan's steps in order, one `go-work` call per step. Pass it the plan text and the step number.
    - Record each step's `Done` line in `checklist.md`, then start the next step.
    - `go-work` reports a stop condition: ask the user.
    - After the last step, confirm the plan's `Goal` holds.

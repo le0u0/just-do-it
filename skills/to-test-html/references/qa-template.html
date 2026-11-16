@@ -132,10 +132,12 @@ const UI={
 };
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const bi=o=>LANGS.map(l=>'<span data-l="'+l.k+'">'+esc(o[l.k]!=null?o[l.k]:o[LANGS[0].k])+'</span>').join("");
+const tr=(o,k)=>o[k]!=null?o[k]:o[LANGS[0].k];
+const bi=o=>LANGS.map(l=>'<span data-l="'+l.k+'">'+esc(tr(o,l.k))+'</span>').join("");
 const ui=k=>bi(Object.fromEntries(LANGS.map(l=>[l.k,UI[l.k][k]])));
 if(!DATA){document.body.innerHTML='<p style="padding:24px;font:16px/1.5 sans-serif">No guide data. Generate this page with the to-test-html skill.</p>';throw new Error("no DATA")}
-const KEY="qa-"+DATA.ticket;
+const sig=(s=>{let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return(h>>>0).toString(36)})(JSON.stringify(DATA.groups));
+const KEY="qa-"+DATA.ticket+"-"+sig;
 let lang=LANGS[0].k,state={steps:{},results:{},concerns:""},blocked=false;
 const tests=[];
 DATA.groups.forEach((g,gi)=>g.tests.forEach(t=>tests.push({id:"test-"+(tests.length+1),n:tests.length+1,g:gi,t:t})));
@@ -188,7 +190,7 @@ function build(){
 function counts(){
  let p=0,f=0,n=0;
  tests.forEach(x=>{const r=state.results[x.id];if(r==="pass")p++;else if(r==="fail")f++});
- for(const k in state.steps)if(state.steps[k])n++;
+ tests.forEach(x=>x.t.steps.forEach((s,i)=>{if(state.steps[x.id+"."+i])n++}));
  return {p:p,f:f,u:tests.length-p-f,n:n};
 }
 function sync(){
@@ -207,7 +209,7 @@ function setLang(l){
  document.documentElement.lang=lc();
  $("#lcss").textContent='[data-l]:not([data-l="'+l+'"]){display:none}';
  document.querySelectorAll("[data-lang]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.lang===l)));
- document.title=DATA.title[l]+" · "+DATA.ticket+" "+UI[l].qa;
+ document.title=tr(DATA.title,l)+" · "+DATA.ticket+" "+UI[l].qa;
  $("#lang").setAttribute("aria-label",UI[l].lang);
  $("#nav").setAttribute("aria-label",UI[l].tests);
  sync();
@@ -217,8 +219,8 @@ function result(){
  const c=counts();
  return {ticket:DATA.ticket,guide:DATA.slug,language:lc(),exportedAt:new Date().toISOString(),
   summary:{pass:c.p,fail:c.f,notMarked:c.u},concerns:state.concerns||"",
-  tests:tests.map(x=>({id:x.id,title:x.t.title[lang],result:state.results[x.id]||"not marked",
-   steps:x.t.steps.map((s,i)=>({done:!!state.steps[x.id+"."+i],text:s[lang]})),expect:x.t.expect[lang]})),state:state};
+  tests:tests.map(x=>({id:x.id,title:tr(x.t.title,lang),result:state.results[x.id]||"not marked",
+   steps:x.t.steps.map((s,i)=>({done:!!state.steps[x.id+"."+i],text:tr(s,lang)})),expect:tr(x.t.expect,lang)})),sig:sig,state:state};
 }
 function download(){
  const d=new Date(),p=n=>String(n).padStart(2,"0");
@@ -259,7 +261,7 @@ function init(){
  $("#b-load").onclick=()=>$("#file").click();
  $("#file").addEventListener("change",e=>{
   const f=e.target.files[0];if(!f)return;const r=new FileReader();
-  r.onload=()=>{try{const j=JSON.parse(r.result);if(!j.state.steps||!j.state.results)throw 0;
+  r.onload=()=>{try{const j=JSON.parse(r.result);if(!j.state.steps||!j.state.results||j.guide!==DATA.slug||(j.sig!==undefined&&j.sig!==sig))throw 0;
    state={steps:j.state.steps,results:j.state.results,concerns:j.state.concerns!=null?j.state.concerns:(j.concerns||"")};save();sync()}catch(x){alert(UI[lang].bad)}};
   r.readAsText(f);e.target.value="";
  });

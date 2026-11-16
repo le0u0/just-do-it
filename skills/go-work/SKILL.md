@@ -20,7 +20,7 @@ Report as the caller specifies; default `Done` / `Open` / `Changed`. A test run 
 - Commit only per the plan's per-step delivery, or when the user approves the work and the exact one-line message.
 - A small follow-up to committed work amends instead of adding a commit:
   1. List unpushed commits (`git log @{u}..HEAD`, or `origin/HEAD..HEAD` with no upstream).
-  2. Related to the unpushed `HEAD` commit (same file or purpose): `git commit --amend --no-edit`.
+  2. Related to the unpushed `HEAD` commit (same file or purpose) and the plan does not use per-step commits: `git commit --amend --no-edit`. Per-step commits: never amend; one new commit with the plan's message.
   3. Otherwise one new commit.
   4. Never amend a pushed commit.
 - Claim only what you read or ran. Say "seen in a listing" for the rest.
