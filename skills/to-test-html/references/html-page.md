@@ -38,7 +38,6 @@
 
 ## Design
 
-- Product register. Impeccable installed: load it first; no `PRODUCT.md`: return `Open` asking whether to skip its init.
 - Color: one accent on warm neutrals (project theme color, else restrained). Dark text on it, never accent body text. Green and red only for Pass and Fail.
 - Type: title 28px; group heading 24px bold; test title 16px semibold; steps 16px. List: "Tests" 18px bold, group labels 16px bold dark, links 14px grey indented, current dark semibold on accent.
 - System font stack with per-script fallbacks. About 75ch lines.
