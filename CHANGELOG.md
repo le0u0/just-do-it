@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.3.0](https://github.com/le0u0/just-do-it/compare/v2.2.0...v2.3.0) (2026-11-16)
+
+
+### Features
+
+* export QA reports as PDF ([4896a38](https://github.com/le0u0/just-do-it/commit/4896a38be82ed257dd472e78dc8981a387a49adb))
+* harden workflow skills, hooks, and QA guide/HTML reports ([1c9aeca](https://github.com/le0u0/just-do-it/commit/1c9aecaaaec06a3d5c74955982668e482c751906))
+* improve QA guide and HTML reports ([b631a2d](https://github.com/le0u0/just-do-it/commit/b631a2d64f74618d03641406cbc79da4df71d73f))
+* plain-word test guide format for non-technical support staff ([0c415da](https://github.com/le0u0/just-do-it/commit/0c415da0b47cde78322134cefb1db28d09e21d4a))
+* preserve QA test results by ID and align to-test-md inputs ([e6b16c4](https://github.com/le0u0/just-do-it/commit/e6b16c4cb10fa5568793a824233e87cbb94be13e))
+
+
+### Bug Fixes
+
+* harden hooks config dir, review delta, per-step commits and QA template state ([1c9f8b6](https://github.com/le0u0/just-do-it/commit/1c9f8b6c620647a8d70d5ea90f421bf4604df85f))
+* justaway saves plan.md and checklist.md before asking approval ([e4ac487](https://github.com/le0u0/just-do-it/commit/e4ac487f295beb0a4268fc84b77f861391fb55f9))
+* to-pr always saves pr file to branch folder, never the repo ([43eb13a](https://github.com/le0u0/just-do-it/commit/43eb13af4f5190c62562f39d9f253ead34b2839f))
+* to-test-html no longer loads Impeccable ([b72ed86](https://github.com/le0u0/just-do-it/commit/b72ed865ffb96906046bacd60ceb5be327733b7e))
+
 ## [2.2.0](https://github.com/le0u0/just-do-it/compare/v2.1.0...v2.2.0) (2026-11-13)
 
 
