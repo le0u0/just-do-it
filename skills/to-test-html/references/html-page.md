@@ -21,11 +21,9 @@
 
 ## Export report
 
-- Example output: [qa-report-template.html](qa-report-template.html). The page template remains the source for generated reports.
-- Export report immediately downloads `TICKET-qa-report-YYYY-MM-DD.html`.
-- The report is one HTML file built from the page's `<template id="rpt">`, with its own en / zh switch, opening in the language the tester used. It holds: title and ticket link, date, three counts (Failed, Not marked, Passed).
-- Failed, Not marked and Passed sections are expandable and collapsible. Failed starts expanded; the others start collapsed. Failed and Not marked tests are full cards; failed cards include the tester's note when present. Passed tests are one line of numbers.
-- Browser titles start with `QA Test` and `QA Report`, respectively, followed by the feature and ticket.
+- Export report downloads `TICKET-qa-report-YYYY-MM-DD.pdf` directly using the bundled html2pdf.js library. The report uses the selected language.
+- The report uses the full width for the feature title, then shows the ticket, date, and failed test cards with steps, expected result and tester notes. When none failed, say so. Omit summary counts and passed and unmarked test details.
+- The compressed bundled library and its license notices remain inline for offline use. PDF export requires a browser with `DecompressionStream`.
 - No JSON, no import. Reset asks for confirmation.
 
 ## Saving progress

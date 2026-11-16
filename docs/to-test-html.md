@@ -41,7 +41,7 @@ flowchart LR
 | Sign | Means |
 | --- | --- |
 | The `.html` sits beside the guide and opens with no console error | Page works |
-| Testers can mark Pass or Fail, add notes to failed tests, and export a readable HTML report | Usable for QA |
+| Testers can mark Pass or Fail, add notes to failed tests, and export a readable PDF report | Usable for QA |
 | Progress survives a reload | State kept |
 | Language and Pass/Fail buttons are segmented controls, and links open in a new tab | UI as designed |
 | Each `verify.md` check is reported honestly | Honest result |
