@@ -36,11 +36,11 @@ Decide from its facts yourself: the baseline per [scope-baseline.md](references/
 
 ## 4. Re-review
 
-Given a previous review, return it updated in full. Delta: `git diff <Reviewed to>` through the working tree.
+Given a previous review, return it updated in full. Delta: `git diff <Reviewed to>` through the working tree. Uncommitted work has no SHA: a `Diff fingerprint` equal to the previous one means no delta; otherwise hunt only files the fixes touched.
 
 1. **Round cap:** previous `Round` is 3 or more: run 4.2 and 4.4 only; hunt nothing new. Say in `Open`: `round cap: reconsider the approach`.
 2. **Open findings:** a `TODO` whose file the delta files leave untouched stays as written. The rest go to one recheck agent per [agents.md](references/agents.md).
-   - `fixed`: move to `RESOLVED` as one `Done` line (at most 20 words) plus `Status: fixed (<short SHA>)`.
+   - `fixed`: move to `RESOLVED` as one `Done` line (at most 20 words) plus `Status: fixed (<short SHA>)`; uncommitted fix: `fixed, not tested`.
    - `open`: keep its two lines.
 3. **New code:** hunt the delta only, at the tier the delta's own diff facts give. Pass every earlier finding (all sections) as known.
 4. New findings numbered after the last. Update `Issue Count` (open `TODO` only), `Reviewed to`, `Round`. Leave `Tests` as written.

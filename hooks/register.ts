@@ -2,17 +2,20 @@ import type { Register } from 'claude-code'
 
 const MANAGER = /^\/(?:just-do-it:)?justaway(?:\s+(on|off))?\s*$/i
 const SCRIPT = 'justdoit-statusline.sh'
-const flagPath = (home: string | undefined, id: string) =>
-  `${home}/.claude/.justdoit-manager-${id}`
+// Same resolution as the status line script: CLAUDE_CONFIG_DIR, else ~/.claude.
+const configDir = async ($: { env: { get(name: string): Promise<string | undefined> } }) =>
+  (await $.env.get('CLAUDE_CONFIG_DIR')) || `${await $.env.get('HOME')}/.claude`
+const flagPath = (dir: string, id: string) => `${dir}/.justdoit-manager-${id}`
+const quote = (s: string) => `'${s.replace(/'/g, `'\\''`)}'`
 
 export const register: Register = on => {
   // Each session: keeps the status line wrapper script current, and wraps the
   // user's own statusLine command with it unless already wrapped.
   on('session.start', async ($, e, next) => {
     try {
-      const home = await $.env.get('HOME')
-      const script = `${home}/.claude/hooks/${SCRIPT}`
-      const settingsPath = `${home}/.claude/settings.json`
+      const dir = await configDir($)
+      const script = `${dir}/hooks/${SCRIPT}`
+      const settingsPath = `${dir}/settings.json`
       const shipped = await $.fs.read(`${$.plugin.root}/scripts/${SCRIPT}`)
       const installed = await $.fs.read(script).catch(() => '')
 
@@ -20,14 +23,24 @@ export const register: Register = on => {
         await $.fs.write(script, shipped)
       }
 
-      const settings = JSON.parse(await $.fs.read(settingsPath).catch(() => '{}'))
+      // Only a missing file is an empty config; any other read error aborts so
+      // the user's settings are never overwritten.
+      const raw = await $.fs.read(settingsPath).catch((err: { code?: string }) => {
+        if (err?.code === 'ENOENT') return '{}'
+        throw err
+      })
+      const settings = JSON.parse(raw)
       const current: string = settings.statusLine?.command ?? ''
 
       if (!current.includes(SCRIPT)) {
         settings.statusLine = {
           ...settings.statusLine,
           type: 'command',
-          command: `bash "${script}" ${current}`.trim(),
+          // The user's command runs as one argument, so pipes, `&&` and env
+          // prefixes keep binding to it and not to the wrapper.
+          command: current
+            ? `bash "${script}" bash -c ${quote(current)}`
+            : `bash "${script}"`,
         }
         await $.fs.write(settingsPath, `${JSON.stringify(settings, null, 2)}\n`)
       }
@@ -42,10 +55,13 @@ export const register: Register = on => {
     const match = MANAGER.exec(e.text.trim())
 
     if (match) {
-      const home = await $.env.get('HOME')
-      const isOn = match[1]?.toLowerCase() !== 'off'
+      try {
+        const isOn = match[1]?.toLowerCase() !== 'off'
 
-      await $.fs.write(flagPath(home, await $.session.id()), isOn ? 'on' : 'off')
+        await $.fs.write(flagPath(await configDir($), await $.session.id()), isOn ? 'on' : 'off')
+      } catch {
+        // Status badge is optional; never block the prompt.
+      }
     }
 
     return next(e)
@@ -53,8 +69,11 @@ export const register: Register = on => {
 
   // Removes this session's flag file so they do not pile up.
   on('session.end', async ($, e, next) => {
-    const home = await $.env.get('HOME')
-    await $.process.run(['rm', '-f', flagPath(home, e.sessionId)]).catch(() => {})
+    try {
+      await $.process.run(['rm', '-f', flagPath(await configDir($), e.sessionId)])
+    } catch {
+      // Flag cleanup is best effort.
+    }
 
     return next(e)
   })

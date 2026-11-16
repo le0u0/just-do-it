@@ -11,7 +11,8 @@
 1. No console errors. No horizontal scroll at 390px.
 2. Each left-list link lands with its heading in view and its link highlighted, the last two included.
 3. Language switch changes every visible string and leaves none of another language. The choice survives a reload.
-4. Tick steps, mark a Fail, open Export results, type concerns, Cancel (no download), reopen (text kept), export (file correct, reader's language), Reset, Load results (state restored).
+4. Confirm notes appear only for failed tests and survive status changes. Export directly to PDF. Check failed steps, expected results, notes, no-failure message, selected language, and absence of summary counts and passed and unmarked details. Check reset.
 5. Repeat the save test with `localStorage` blocked (`addInitScript`): red warning shows, same-tab fallback restores state.
 6. Computed font sizes match the type scale in [html-page.md](html-page.md).
 7. Reload, then open a second tab: saved state is there.
+8. Regenerate after wording and test-order changes: matching test IDs keep their results and notes; new tests are unmarked. For an existing pre-ID guide, check migration from its exact old DATA hash, including a removed test.

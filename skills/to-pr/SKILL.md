@@ -25,8 +25,8 @@ Write the title and body for the current branch.
 
 1. Write the title as one line in the project's commit format.
 2. Write the body with the template below. No preambles; short prose.
-3. Save the body as `pr-{base}.md` in the branch folder (see Storage); `{base}` is the base branch with `/` replaced by `-`.
-4. Reply with the title, the body, and the path.
+3. Save the body as `pr-{base}.md` in the branch folder (see Storage); `{base}` is the base branch with `/` replaced by `-`. Always save before replying. Never write into the repository.
+4. Reply with the title, the body, and the path. The reply must end with the saved path; no path means step 3 did not run.
 5. Only when asked to open the PR:
    1. Host: `git remote get-url origin`. Base: as in Input.
    2. Push the branch if it has no remote copy. Never force-push.

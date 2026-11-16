@@ -7,29 +7,28 @@
 
 ## Structure
 
-1. **Header:** h1 feature name; lead line `<ticket link> QA Test`; related line if any; "Found an issue? Export results with your concerns and attach the file to the ticket."; language switch top right.
-2. **Progress:** bar "N of M steps · P pass · F fail", then Export results (primary), Load results, Reset.
-3. **Body:** Setup, groups with one-line reasons, tests.
-4. **Test:** heading `Test N: Title`, Pass / Fail toggle, optional note, checkbox steps, `Expect:` line.
-5. **Finish:** summary ("P pass, F fail, U not marked yet") and a large Export results button, alone.
+1. **Header:** h1 feature name; lead line `<ticket link> QA Test`; related line if any; "Found an issue? Mark it Fail and add a note. Then export the report and attach it to the ticket."; language switch top right.
+2. **Progress:** bar of marked tests, "P pass · F fail · U not marked", then Export report (primary), Reset. No import.
+3. **Body:** Before you start (only when the guide has it), groups with one-line reasons, tests. A thin divider line above every group heading except the first.
+4. **Test:** heading `Test N: Title`, Pass / Fail toggle, optional guide note, numbered steps, and a tinted `You should see:` box. Show the optional tester note textarea only when marked Fail; retain its contents if the status changes.
 
 ## Language
 
-- Every string, including buttons, dialog, counts, nav and Pass/Fail, exists in every language.
+- Every string, including buttons, counts, nav and Pass/Fail, exists in every language.
 - One `aria-pressed` button per language, in its own name. Remember the choice; default `navigator.language`.
 - Set `html lang` and the title. Hide inactive languages with CSS so print shows one.
 
-## Export and load
+## Export report
 
-- Export results opens a native `<dialog>`: title, summary line ("1 pass · 1 fail · 9 not marked"), "Concerns" textarea, Cancel, Export.
-- Escape and Cancel close with no download. Only Export downloads `TICKET-qa-results-YYYY-MM-DD.json`.
-- JSON: `ticket`, `guide`, `language`, `exportedAt`, `summary {pass, fail, notMarked}`, `concerns`, `tests[{id, title, result, steps[{done, text}], expect}]` in the reader's language, and `state` for Load results.
-- Load results accepts that file. Reset asks for confirmation.
+- Export report downloads `TICKET-qa-report-YYYY-MM-DD.pdf` directly using the bundled html2pdf.js library. The report uses the selected language.
+- The report uses the full width for the feature title, then shows the ticket, date, and failed test cards with steps, expected result and tester notes. When none failed, say so. Omit summary counts and passed and unmarked test details.
+- The compressed bundled library and its license notices remain inline for offline use. PDF export requires a browser with `DecompressionStream`.
+- No JSON, no import. Reset asks for confirmation.
 
 ## Saving progress
 
-- Ticks, Pass/Fail and concerns go to `localStorage`.
-- Blocked (`file://`, preview panes): fall back to `window.name` and show one red line, only then, saying to export before closing.
+- Pass/Fail and notes go to `localStorage`.
+- Blocked (`file://`, preview panes): fall back to `window.name` and show one red line, only then, saying to export the report before closing.
 
 ## Navigation
 
@@ -38,9 +37,8 @@
 
 ## Design
 
-- Product register. Impeccable installed: load it first; no `PRODUCT.md`: return `Open` asking whether to skip its init.
 - Color: one accent on warm neutrals (project theme color, else restrained). Dark text on it, never accent body text. Green and red only for Pass and Fail.
 - Type: title 28px; group heading 24px bold; test title 16px semibold; steps 16px. List: "Tests" 18px bold, group labels 16px bold dark, links 14px grey indented, current dark semibold on accent.
 - System font stack with per-script fallbacks. About 75ch lines.
-- Custom checkboxes (accent fill, dark check), focus rings, hover and active states, 150ms transitions, `prefers-reduced-motion`. Print hides controls.
+- Focus rings, hover and active states, 150ms transitions, `prefers-reduced-motion`. Print hides controls.
 - 1280px and 390px, no horizontal scroll.

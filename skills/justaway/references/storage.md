@@ -32,7 +32,7 @@ Every file this plugin writes lives under `~/.just-do-it/`, so any repository ca
 - One per product or codebase, lowercase words joined by hyphens (`acme-billing`); any spelling of a name reaches one folder.
 
 1. Find a branch's project: glob `~/.just-do-it/*/{branch}`.
-2. No match: ask the user which project. Reuse the folder matching the answer ignoring case and separators, else create it.
+2. No match, several matches, or no branch name (detached HEAD): ask the user which project. Reuse the folder matching the answer ignoring case and separators, else create it.
 
 - The manager asks when a link or review starts the work.
 
