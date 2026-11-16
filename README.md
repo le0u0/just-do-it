@@ -2,6 +2,8 @@
 
 A manager that plans, builds, tests and reviews a ticket with subagents. The process lives here; the rules come from your repo (`AGENTS.md`, `CLAUDE.md`, project skills).
 
+Supports Claude Code, Codex and Antigravity.
+
 ## Install
 
 <details>
@@ -10,6 +12,16 @@ A manager that plans, builds, tests and reviews a ticket with subagents. The pro
 ```text
 /plugin marketplace add le0u0/le0u0.ai
 /plugin install just-do-it@le0u0.ai
+```
+
+</details>
+
+<details>
+<summary>Codex</summary>
+
+```bash
+codex plugin marketplace add le0u0/le0u0.ai
+codex plugin add just-do-it@le0u0-ai
 ```
 
 </details>
@@ -33,15 +45,15 @@ agy plugin install /path/to/just-do-it
 
 ## Use
 
-```text
-/just-do-it:justaway on
-```
+`justaway on` starts manager mode; `justaway off` stops it.
+
+`go-*`, `dev-*` and `to-*` work without manager mode. `go-review` starts its own review team; `to-test-html` starts its translation worker. `justaway` coordinates the full ticket workflow.
 
 | Step | What happens |
 | --- | --- |
 | Describe the work | The manager assigns subagents, runs the rest, checks results, reports briefly |
-| Done | `/just-do-it:justaway off` |
-| One job only | Call any skill alone; `go-*` skills return results in the reply and write no files |
+| Done | Turn manager mode off |
+| One job only | Call a skill directly in the current thread; `go-*` skills return results in the reply and write no files |
 
 ## Manager
 
@@ -61,11 +73,13 @@ flowchart LR
 | Subagent | `go-e2e` | `standard` |
 | Subagent | `go-triage` | `fast` |
 
-| Tier | Claude | Antigravity (`swarm`) |
-| --- | --- | --- |
-| `fast` | `haiku (low)` | `flash (low)` |
-| `standard` | `sonnet (medium)` | `hydrogen (medium)` |
-| `reasoning` | `opus (medium)` | `argon (medium)` |
+| Tier | Claude | Codex | Antigravity (`swarm`) |
+| --- | --- | --- | --- |
+| `fast` | `haiku (low)` | `luna (low)` | `flash (low)` |
+| `standard` | `sonnet (medium)` | `terra (medium)` | `hydrogen (medium)` |
+| `reasoning` | `opus (medium)` | `sol (medium)` | `argon (medium)` |
+
+Model families resolve from the host's current catalog. User model and effort preferences win.
 
 | Also | Detail |
 | --- | --- |

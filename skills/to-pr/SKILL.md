@@ -40,6 +40,7 @@ Write the title and body for the current branch.
 
 ## Storage
 
+- Apply the shared [storage permission rules](../justaway/references/storage.md#rules) before writing; a user-supplied task directory wins. On a blocked save, report the unsaved content and path; do not open a PR or claim a saved path.
 - Branch folder: `~/.just-do-it/{project}/{branch}/`; `{branch}` = `git branch --show-current`, `/` replaced by `-`.
 - Find it: glob `~/.just-do-it/*/{branch}`.
 - No match: ask which project. Reuse the folder matching ignoring case and separators, else create it (lowercase words joined by hyphens).

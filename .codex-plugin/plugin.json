@@ -1,0 +1,15 @@
+{
+  "name": "just-do-it",
+  "version": "2.4.0",
+  "description": "Project-agnostic manager and skills for ticket-driven development: plan, work, test, review.",
+  "author": {
+    "name": "Leo Ho"
+  },
+  "repository": "https://github.com/le0u0/just-do-it",
+  "skills": "./skills/",
+  "hooks": "./hooks/codex-hooks.json",
+  "interface": {
+    "displayName": "just-do-it",
+    "shortDescription": "Plan, build, test and review tickets"
+  }
+}
