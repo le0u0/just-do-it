@@ -12,7 +12,7 @@ The template holds a sample guide between two markers: `const DATA=/*DATA*/{...}
   "languages": ["en", "zh"],
   "related": [{ "key": "PROJ-100", "link": "https://...", "role": "blocks" }],
   "title": { "en": "Feature name", "zh": "功能名稱" },
-  "setup": [{ "id": "AC_1", "text": { "en": "...", "zh": "..." } }],
+  "setup": [{ "text": { "en": "...", "zh": "..." } }],
   "groups": [
     {
       "name": { "en": "...", "zh": "..." },
@@ -42,9 +42,9 @@ The template holds a sample guide between two markers: `const DATA=/*DATA*/{...}
 ## Convert the guide
 
 1. `# PROJ-123: feature name` gives `ticket` and `title`. The `[PROJ-123](link)` line gives `link`.
-2. `## Setup` bullets `- AC_1: text` give `setup`.
-3. Each `## Group:` heading gives `name`; its one-line paragraph gives `why`.
-4. Each `### Test N:` gives `title`; optional paragraph `note`; numbered steps `steps`; `Expect:` line `expect`.
+2. `## Before you start` bullets give `setup`, one `text` each.
+3. Each later `##` heading gives `name`; its one-line paragraph gives `why`.
+4. Each `### Test N:` gives `title`; optional paragraph `note`; numbered steps `steps`; `You should see:` line `expect`.
 5. Keep the guide's wording. Translate extra languages with the project's translation files.
 
 ## Substitute

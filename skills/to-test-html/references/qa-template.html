@@ -116,13 +116,13 @@ dialog .acts{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
 </dialog>
 <script>
 // DATA: sample guide so this file previews as is. The to-test-html skill swaps the JSON between the DATA and END markers on the next line for the guide (see data-shape.md). Nothing else changes per ticket.
-const DATA=/*DATA*/{"ticket": "SAMPLE-1", "link": "https://example.com/SAMPLE-1", "slug": "sample", "languages": ["en", "zh"], "related": [{"key": "SAMPLE-2", "link": "https://example.com/SAMPLE-2", "role": "blocks"}], "title": {"en": "Sample feature", "zh": "範例功能"}, "setup": [{"id": "AC_1", "text": {"en": "Account that can edit items.", "zh": "可以編輯項目的帳號。"}}], "groups": [{"name": {"en": "Basics", "zh": "基本"}, "why": {"en": "The core path first.", "zh": "先測主要流程。"}, "tests": [{"title": {"en": "Open the item", "zh": "開啟項目"}, "steps": [{"en": "Items: open the first item.", "zh": "項目：開啟第一個項目。"}, {"en": "Item: click Edit.", "zh": "項目：按編輯。"}], "expect": {"en": "The edit form shows.", "zh": "顯示編輯表單。"}}, {"title": {"en": "Save a change", "zh": "儲存變更"}, "note": {"en": "Uses the item from Test 1.", "zh": "沿用測試 1 的項目。"}, "steps": [{"en": "Form: change the name.", "zh": "表單：修改名稱。"}, {"en": "Form: click Save.", "zh": "表單：按儲存。"}], "expect": {"en": "The new name shows in the list.", "zh": "列表顯示新名稱。"}}]}]}/*END*/;
+const DATA=/*DATA*/{"ticket": "SAMPLE-1", "link": "https://example.com/SAMPLE-1", "slug": "sample", "languages": ["en", "zh"], "related": [{"key": "SAMPLE-2", "link": "https://example.com/SAMPLE-2", "role": "blocks"}], "title": {"en": "Sample feature", "zh": "範例功能"}, "setup": [{"text": {"en": "Account that can edit items.", "zh": "可以編輯項目的帳號。"}}], "groups": [{"name": {"en": "Basics", "zh": "基本"}, "why": {"en": "The core path first.", "zh": "先測主要流程。"}, "tests": [{"title": {"en": "Open the item", "zh": "開啟項目"}, "steps": [{"en": "Items: open the first item.", "zh": "項目：開啟第一個項目。"}, {"en": "Item: click Edit.", "zh": "項目：按編輯。"}], "expect": {"en": "The edit form shows.", "zh": "顯示編輯表單。"}}, {"title": {"en": "Save a change", "zh": "儲存變更"}, "note": {"en": "Uses the item from Test 1.", "zh": "沿用測試 1 的項目。"}, "steps": [{"en": "Form: change the name.", "zh": "表單：修改名稱。"}, {"en": "Form: click Save.", "zh": "表單：按儲存。"}], "expect": {"en": "The new name shows in the list.", "zh": "列表顯示新名稱。"}}]}]}/*END*/;
 /* Languages this template has UI strings for. DATA.languages picks which show; one entry hides the switch. Add a language here and in UI below. */
 const ALL_LANGS=[{k:"en",lc:"en",name:"English"},{k:"zh",lc:"zh-Hant",name:"繁體中文"}];
 const LANGS=DATA?ALL_LANGS.filter(l=>(DATA.languages||["en"]).indexOf(l.k)>-1):ALL_LANGS.slice(0,1);
 const UI={
  en:{hint:"Found an issue? Export results with your concerns and attach the file to the ticket.",qa:"QA Test",rel:"Related:",exp:"Export results",load:"Load results",reset:"Reset",
-  prog:(n,m,p,f)=>n+" of "+m+" steps · "+p+" pass · "+f+" fail",tests:"Tests",setup:"Setup",pass:"Pass",fail:"Fail",test:"Test",expect:"Expect:",
+  prog:(n,m,p,f)=>n+" of "+m+" steps · "+p+" pass · "+f+" fail",tests:"Tests",setup:"Before you start",pass:"Pass",fail:"Fail",test:"Test",expect:"You should see:",
   sum:(p,f,u)=>p+" pass · "+f+" fail · "+u+" not marked",con:"Concerns",cancel:"Cancel",ok:"Export",rc:"Reset all ticks, results and concerns?",
   bad:"That file is not a results file.",warn:"Progress cannot be saved in this browser. Export results before closing this page.",lang:"Language",nm:"not marked"},
  zh:{hint:"發現問題？請匯出結果並填寫你的疑慮，然後把檔案附加到工單。",qa:"QA 測試",rel:"相關工單：",exp:"匯出結果",load:"載入結果",reset:"重設",
@@ -170,7 +170,7 @@ function build(){
  $("#warn").innerHTML=ui("warn");
  if(LANGS.length>1)$("#lang").innerHTML=LANGS.map(l=>'<button class="btn" type="button" data-lang="'+l.k+'">'+esc(l.name)+"</button>").join("");
  let nav='<p class="nt">'+ui("tests")+"</p>",doc='<section class="setup"><h2>'+ui("setup")+"</h2><ul>";
- DATA.setup.forEach(s=>{doc+="<li><strong>"+esc(s.id)+"</strong>: "+bi(s.text)+"</li>"});
+ DATA.setup.forEach(s=>{doc+="<li>"+(s.id?"<strong>"+esc(s.id)+"</strong>: ":"")+bi(s.text)+"</li>"});
  doc+="</ul></section>";
  DATA.groups.forEach((g,gi)=>{
   nav+='<p class="ng">'+bi(g.name)+"</p>";

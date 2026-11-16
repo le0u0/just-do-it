@@ -9,8 +9,8 @@
 
 1. **Header:** h1 feature name; lead line `<ticket link> QA Test`; related line if any; "Found an issue? Export results with your concerns and attach the file to the ticket."; language switch top right.
 2. **Progress:** bar "N of M steps · P pass · F fail", then Export results (primary), Load results, Reset.
-3. **Body:** Setup, groups with one-line reasons, tests.
-4. **Test:** heading `Test N: Title`, Pass / Fail toggle, optional note, checkbox steps, `Expect:` line.
+3. **Body:** Before you start, groups with one-line reasons, tests.
+4. **Test:** heading `Test N: Title`, Pass / Fail toggle, optional note, checkbox steps, `You should see:` line.
 5. **Finish:** summary ("P pass, F fail, U not marked yet") and a large Export results button, alone.
 
 ## Language

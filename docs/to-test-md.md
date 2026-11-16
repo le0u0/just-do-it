@@ -15,7 +15,7 @@ flowchart LR
 | --- | --- |
 | Reads | `plan.md` and the diff from the plan's baseline; the ticket key and link come from the plan's `Requirement source` |
 | Saves | `testing-guide-{short-description}.md` in `~/.just-do-it/{project}/{branch}/`, updating in place |
-| Format | Setup, groups, numbered tests, one `Expect:` line each |
+| Format | Before you start, groups, numbered tests, one `You should see:` line each |
 | Wording | Uses screen names, never file paths or component names |
 | Returns | In `Open`: behaviours no test covers, and tests that cannot be done by hand |
 
