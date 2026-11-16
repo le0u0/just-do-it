@@ -3,7 +3,7 @@
 ## Who runs what
 
 - Main thread: `go-plan`, `go-work`, `go-fix`, `go-review`. `go-review` starts its own agents with the models its skill sets.
-- General-purpose subagent: `go-triage`, `go-e2e`. The prompt names the skill; the host's model and effort from `Host mapping` are set on the call. It starts no agents.
+- General-purpose subagent: `go-triage`, `go-e2e`. The prompt names the skill; the host's model and effort (if supported) from `Host mapping` are set on the call. It starts no agents.
 
 | Skill | Tier |
 | --- | --- |
@@ -19,7 +19,7 @@
 
 ## Start
 
-- `general-purpose` with the model (and effort, if supported) from `Host mapping`. Never a fork: it copies the whole chat.
+- Spawn via the host's subagent tool per [Host mapping](#host-mapping). Never a fork: it copies the whole chat.
 - Prompt: skill to call (such as `just-do-it:go-review`), file paths, acceptance criterion, authorization, per [reports.md](reports.md). Never paste the conversation.
 - A resumed agent keeps its model and effort; settle both first.
 - A one-command job, such as a one-line fix, runs in the main thread.
@@ -34,4 +34,7 @@ Map each tier to the active host's model and effort:
 | `standard` | `sonnet (medium)` | `hydrogen (medium)` |
 | `reasoning` | `opus (medium)` | `argon (medium)` |
 
-On Antigravity, spawn subagents via `swarm` (`swarm(action="models", all=true)` to resolve the matching model). If `swarm` is unavailable, stop and report it in chat immediately.
+| Host | Spawn & model | Wait / reuse | Cleanup | Unavailable |
+| --- | --- | --- | --- | --- |
+| Claude | `general-purpose` (`model`, `effort` if supported) | `SendMessage` by ID | — | `go-review`: main thread |
+| Antigravity | `swarm(action="add")` (`model` from `swarm(action="models", all=true)`; effort in `model`) | `swarm_wait`; reuse `@<name>` via `post_message` | `swarm(action="kill")` | `justaway`: stop; `go-review`: main thread |

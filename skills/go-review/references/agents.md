@@ -31,7 +31,7 @@ Lenses from [review-method.md](review-method.md):
 
 ## Start
 
-- `general-purpose` subagent; never a fork. Fresh for every review; never resume an earlier review's agent.
+- Fresh subagent per [host mapping](../../justaway/references/agents.md#host-mapping); never a fork. Fresh for every review; never resume an earlier review's agent, and clean up finished workers.
 - Fetch prompt names `just-do-it:go-triage`, the Fetch job, and each ask with its refs, paths or URLs.
 - Prompt: role, repository path, baseline and range, absolute path of the role's reference in this skill, requirement text or path, project rule paths. Agents read the diff themselves.
 - Payloads (candidates for the verifier, known findings for hunters, open findings for recheck) go in one file in system temp; the prompt names its path.
