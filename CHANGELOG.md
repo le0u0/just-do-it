@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.6.0](https://github.com/le0u0/just-do-it/compare/v2.5.0...v2.6.0) (2026-11-17)
+
+
+### Features
+
+* add backend handoff skill ([67b77d8](https://github.com/le0u0/just-do-it/commit/67b77d83a1612be81a2bf5fd31c9ac42dab3aab5))
+* add backend handoff skill ([d7cc716](https://github.com/le0u0/just-do-it/commit/d7cc716e7f1cc9649d3a06462c7ee59b3d99438a))
+
 ## [2.5.0](https://github.com/le0u0/just-do-it/compare/v2.4.0...v2.5.0) (2026-11-16)
 
 
