@@ -33,14 +33,6 @@ codex plugin add just-do-it@le0u0-ai
 agy plugin install https://github.com/le0u0/just-do-it
 ```
 
-Or from a local clone:
-
-```bash
-agy plugin install /path/to/just-do-it
-```
-
-> Note: The `[JUSTDOIT]` status line badge (`hooks/` + `scripts/`) is Claude Code only and is not used in Antigravity.
-
 </details>
 
 ## Use
@@ -96,6 +88,7 @@ Model families resolve from the host's current catalog. User model and effort pr
 | `to-test-md` | Manual testing guide as Markdown |
 | `to-test-html` | QA page built from that guide |
 | `to-charsiu` | Restate the last message in plain language |
+| `ask-be` | Backend API issue or requirement report |
 
 `to-*` skills never run on their own.
 
