@@ -16,7 +16,7 @@ The caller that launches an agent chooses its model and effort. `go-review` and 
 
 ## Announce
 
-- Before each start, say the resolved model and effort, if supported, in the assignment line.
+- Before each start, emit the assignment line with resolved model and effort (if supported): `→ <agent> (<model>, <effort>): <job>` (or `→ <agent> (<model>): <job>` when effort is unsupported).
 - A user preference for model or effort applies to that and later jobs of the same skill.
 
 ## Start
@@ -46,4 +46,4 @@ Map each tier to the active host's model and effort:
 | --- | --- | --- | --- |
 | Claude | `general-purpose` (`model`, `effort` if supported) | `SendMessage` by ID | — |
 | Codex | `spawn_agent` with fresh context, `model` and supported effort; or `collaboration.spawn_agent(fork_turns="none", model, reasoning_effort)` | `wait` / `send_input`; or `collaboration.wait_agent` / `collaboration.followup_task` (plain `send_message` does not wake idle workers) | `close_agent` when exposed; otherwise the host's documented completion/cleanup |
-| Antigravity | `swarm(action="add")` (`model` from `swarm(action="models", all=true)`; effort in `model`) | `swarm_wait`; reuse `@<name>` via `post_message` | `swarm(action="kill")` |
+| Antigravity | `swarm(action="add")` (`model` from `swarm(action="models", all=true)`; effort in `model`) for non-MCP jobs; for MCP jobs (`go-triage` on tracker tickets), `define_subagent(EnableMCPTools=true)` + `invoke_subagent` (`Model: flash` for `fast`, `inherit` or `pro` for `standard`/`reasoning`) | Reactive wakeup on reply; follow up via `@<name>` (`swarm`) or `send_message` (`invoke_subagent`) | `swarm(action="kill")` / `manage_subagents(Action="kill")` |

@@ -19,6 +19,7 @@ One `go-triage` Fetch call (per [agents.md](references/agents.md)) gathers every
 - Baseline evidence, unless the user supplied the baseline.
 - Diff facts for the range.
 - File text of `REVIEW.md`, for the risky paths it marks.
+- Paths of project-local review skills in `.claude/skills/` and `.agents/skills/` (if any).
 - Re-review: delta files from `Reviewed to`, checked against the files of open `TODO` findings.
 
 Decide from its facts yourself: the baseline per [scope-baseline.md](references/scope-baseline.md), then the tier.

@@ -72,7 +72,7 @@ A review asked for on its own, outside the plan steps:
 2. None exists: ask the user for a ticket link or the requirement, or whether to review without one. Wait for the answer, then assign.
 3. User pastes a link or new text with the request: run ticket flow step 1 first, then send the refreshed requirement to `go-review`.
 4. Save the report as `review.md`, then run the tests per [tests.md](references/tests.md) `Review request` and write them into `Tests`.
-5. End with the report. Fixes start when the user asks, through `go-fix`.
+5. End with the short [Report](#report) (at most three lines plus the saved `review.md` path; do not print the full review inline). Fixes start when the user asks, through `go-fix`.
 
 ## Assign and verify
 
