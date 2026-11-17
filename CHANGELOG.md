@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.6.1](https://github.com/le0u0/just-do-it/compare/v2.6.0...v2.6.1) (2026-11-17)
+
+
+### Bug Fixes
+
+* **justaway,go-review:** fix Antigravity MCP dispatch, report output, announcements, and local review skills ([e86a1fc](https://github.com/le0u0/just-do-it/commit/e86a1fc37966df4b7343329412cb0ce9a88e30a8))
+* **justaway,go-review:** fix Antigravity MCP dispatch, report output, announcements, and local review skills ([616434c](https://github.com/le0u0/just-do-it/commit/616434c89bb5360f3e5ca223a31095f7eb650c52))
+
 ## [2.6.0](https://github.com/le0u0/just-do-it/compare/v2.5.0...v2.6.0) (2026-11-17)
 
 
