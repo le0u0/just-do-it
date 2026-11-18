@@ -33,6 +33,7 @@ Treat the ticket as a design tree: each decision branches into the decisions tha
   - A checkable `Goal`.
   - Glossary term clashes and ADR-worthy decisions per [domain-docs.md](references/domain-docs.md).
   - Boundaries, probed with a concrete edge-case scenario.
+  - E2E scenario when E2E setup exists and UI or user flows change: check `docs/e2e-path.md` in storage for the E2E folder path (if missing, find the folder via `go-triage` `Folder scan` and record the path in `docs/e2e-path.md`). Check the E2E folder listing first — do not read specific spec files at first — then suggest concrete scenario(s) and ask the user to confirm before writing the plan.
 - Done when the frontier is empty and the user confirms shared understanding. Then ask them to say plan, unless they already did.
 
 ## Commit format

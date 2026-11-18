@@ -13,19 +13,19 @@
 
 ## Spec files
 
-Unless project rules say otherwise, put a coverage comment directly above each new or changed top-level `describe`, for the whole unit:
+Unless project rules say otherwise, put a concise coverage comment (`to-charsiu` style: plain human language, no jargon, group related behaviors into a few short bullets — never a method-by-method or input-by-input dump) directly above each new or changed top-level `describe`, for the whole unit:
 
 ```ts
 /**
  * Covered:
- * - <behavior the spec tests>
+ * - <short plain-language summary of tested behavior>
  *
  * Not Covered:
- * - <behavior that should be tested but is not>
+ * - <short plain-language summary of untested behavior>
  */
 describe('...', () => {
 ```
 
-- `Covered`: every behavior tested, old and new.
-- `Not Covered`: behaviors that should be tested but are not, including unchanged ones outside scope. Omit when empty.
+- `Covered`: every behavior tested, old and new, in brief plain-language bullets.
+- `Not Covered`: behaviors that should be tested but are not, including unchanged ones outside scope, in brief plain-language bullets. Omit when empty.
 - A changed behavior is done when it has setup and a meaningful assertion for the regression and relevant missing, invalid, unloaded, and edge inputs, and the comment is accurate.

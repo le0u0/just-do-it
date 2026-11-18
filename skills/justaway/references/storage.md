@@ -5,7 +5,7 @@ Plugin documents default to `~/.just-do-it/`. The repository receives only the s
 ```text
 ~/.just-do-it/
   {project}/
-    docs/                          # glossary.md and adr/, shared by every branch
+    docs/                          # glossary.md, adr/, and e2e-path.md (shared by every branch)
     {branch}/
       commit-format.md
       plan.md

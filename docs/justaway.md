@@ -47,7 +47,7 @@ flowchart LR
 | A review with no saved requirement stops and asks you for one, or whether to review without | No blind review |
 | It stops for plan approval, then fixes every review finding itself and leaves what it cannot fix for you | Gate, then fixes |
 | A review request runs any unit or e2e tests that have no result for the current code | Tests are current |
-| Replies stay at three lines: job, what needs you, doc path | Short replies |
+| Replies stay at three lines (except plan approval, which prints a short summary of Goal, steps, and test scope): job, what needs you, doc path | Short replies |
 | `state/jobs.md` holds each subagent job with evidence and agent ID | Jobs are traceable |
 | It ends the ticket by telling you to run the `to-*` skills | Handoff to you |
 
