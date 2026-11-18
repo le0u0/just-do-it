@@ -53,7 +53,7 @@ agy plugin install https://github.com/le0u0/just-do-it
 flowchart LR
     U([You]) <--> M[justaway<br/>main thread]
     M --> MT[go-plan, go-work,<br/>go-fix, go-review]
-    M --> SA[subagents:<br/>go-triage, go-e2e]
+    M --> SA[subagents:<br/>to-triage, go-e2e]
     MT -->|go-review starts| RA[Fetch, hunters,<br/>verifier]
     M --> D[(~/.just-do-it/<br/>project/branch)]
 ```
@@ -63,7 +63,7 @@ flowchart LR
 | Main thread | `go-plan`, `go-work`, `go-fix`, so it can ask you questions | your session's |
 | Main thread | `go-review`, which starts its own agents | Fetch `fast`, hunters `standard`, verifier `reasoning`, recheck `fast` |
 | Subagent | `go-e2e` | `standard` |
-| Subagent | `go-triage` | `fast` |
+| Subagent | `to-triage` | `fast` |
 
 | Tier | Claude | Codex | Antigravity (`swarm`) |
 | --- | --- | --- | --- |
@@ -88,7 +88,7 @@ Model families resolve from the host's current catalog. User model and effort pr
 | `to-test-md` | Manual testing guide as Markdown |
 | `to-test-html` | QA page built from that guide |
 | `to-charsiu` | Restate the last message in plain language |
-| `ask-be` | Backend API issue or requirement report |
+| `to-handoff` | Cross-team issue, requirement, or handoff report (BE, FE, DevOps, etc.) |
 
 `to-*` skills never run on their own.
 

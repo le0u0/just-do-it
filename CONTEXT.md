@@ -40,7 +40,7 @@ Shared terms for this plugin.
 | --- | --- |
 | Self-check | A skill checking its own work. Not a review. |
 | Formal review | `go-review`'s hunters and verifier applying the project's review skill (else standards and requirements) and review checks. |
-| Fetch | `go-triage`'s second job: raw facts (ticket text, git facts, code search, file text) for another skill, on the `fast` tier. No judgement. |
+| Fetch | `to-triage`'s second job: raw facts (ticket text, git facts, code search, file text) for another skill, on the `fast` tier. No judgement. |
 | Tier | How many review agents run: Quick (one self-verifying hunter), Standard (two hunters, one verifier), Deep (adds a security hunter). Set by diff size and risky paths. |
 | Round | Review count on one change: 1 for the first review, plus 1 per re-review. After round 3, re-review only checks fixes. |
 | Pre-existing | A real bug the change did not introduce or expose. Listed under `PRE-EXISTING`, not counted, not sent to `go-fix` unless the user asks. |

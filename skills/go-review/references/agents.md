@@ -14,7 +14,7 @@ Each call maps the role's tier per [host mapping](../../justaway/references/agen
 
 | Role | Tier | Quick | Standard | Deep |
 | --- | --- | --- | --- | --- |
-| Fetch: `go-triage` Fetch job | `fast` | 1 | 1 | 1 |
+| Fetch: `to-triage` Fetch job | `fast` | 1 | 1 | 1 |
 | Hunter: Correctness | `standard` | 1, all lenses, verifies its own | 1 | 1 |
 | Hunter: Contract | `standard` | — | 1 | 1 |
 | Hunter: Security | `standard` | — | — | 1 |
@@ -32,12 +32,12 @@ Lenses from [review-method.md](review-method.md):
 ## Start
 
 - Announce each worker launch before starting per [Announce](../../justaway/references/agents.md#announce).
-- Fresh subagent per [host mapping](../../justaway/references/agents.md#host-mapping); never a fork. Fresh for every review; never resume an earlier review's agent, and clean up finished workers.
-- Fetch prompt names `go-triage` and its absolute `SKILL.md` path, the Fetch job, and each ask with its refs, paths or URLs.
+- Start each hunter, verifier, and recheck worker fresh per [host mapping](../../justaway/references/agents.md#host-mapping) (avoid forks and avoid resuming earlier review workers), and clean them up when done. Reuse the session's `to-triage` worker for `Fetch` when available.
+- Fetch prompt names `to-triage` and its absolute `SKILL.md` path, the Fetch job, and each ask with its refs, paths or URLs.
 - Prompt: role, repository path, baseline and range, absolute path of the role's reference in this skill, requirement text or path, project rule paths, and any project-local review skill paths from Fetch. Agents read the diff themselves.
 - Payloads (candidates for the verifier, known findings for hunters, open findings for recheck) go in one file in system temp; the prompt names its path.
 - Hunters of one review get the same prompt, except role, ID prefix and lenses, in that order.
-- Release finished Fetch/recheck workers before hunting. With too few slots, batch hunters, collect all candidates, then run the verifier.
+- Release finished one-shot `recheck` or standalone `Fetch` workers before hunting; keep a reusable `to-triage` worker alive. With too few slots, batch hunters, collect all candidates, then run the verifier.
 
 ## Recheck
 

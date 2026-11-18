@@ -28,16 +28,16 @@ flowchart LR
 | Situation | Use |
 | --- | --- |
 | "Plan PROJ-123", "what is unclear here", "break this into steps" | `go-plan` |
-| You only want requirements read from a ticket | `go-triage` |
+| You only want requirements read from a ticket | `to-triage` |
 | The plan is approved and you want it built | `go-work` |
-| The manager has a ticket | It runs `go-triage` first, then `go-plan` itself, because only the main thread can ask you questions |
+| The manager has a ticket | It runs `to-triage` first, then `go-plan` itself, because only the main thread can ask you questions |
 
 ## WORK IT
 
 | Sign | Means |
 | --- | --- |
 | Questions come in numbered rounds, each with a recommended answer, and none the code already answers | Grill is efficient |
-| A ticket link triggers `go-triage` first | Requirements are read |
+| A ticket link triggers `to-triage` first | Requirements are read |
 | The session ends only when you say the picture is shared and then say plan | You are in control |
 | Every acceptance criterion maps to a step with a named failing test | Plan is testable |
 | Every step has a one-line commit message | Plan is committable |
@@ -46,12 +46,12 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    T[go-triage] --> P[go-plan]
+    T[to-triage] --> P[go-plan]
     P --> W[go-work]
 ```
 
 | Link | What happens |
 | --- | --- |
-| `go-triage` | Supplies the requirements brief before the grill |
+| `to-triage` | Supplies the requirements brief before the grill |
 | `go-work` | Builds from the approved plan |
 | `justaway` | Saves the returned plan and checklist as `plan.md` and `checklist.md` |

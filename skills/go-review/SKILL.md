@@ -13,7 +13,7 @@ Start the review team whether `justaway` is on or off. If an agent is unavailabl
 
 ## 1. Fetch
 
-One `go-triage` Fetch call (per [agents.md](references/agents.md)) gathers everything at once. Ask only what is missing:
+One `to-triage` Fetch call (per [agents.md](references/agents.md)) gathers everything at once. Ask only what is missing:
 
 - Ticket text, when the requirement is a ticket URL or key, including linked tickets.
 - Baseline evidence, unless the user supplied the baseline.

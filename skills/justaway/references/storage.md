@@ -5,7 +5,7 @@ Plugin documents default to `~/.just-do-it/`. The repository receives only the s
 ```text
 ~/.just-do-it/
   {project}/
-    docs/                          # glossary.md and adr/, shared by every branch
+    docs/                          # glossary.md, adr/, and e2e-path.md (shared by every branch)
     {branch}/
       commit-format.md
       plan.md
@@ -13,7 +13,7 @@ Plugin documents default to `~/.just-do-it/`. The repository receives only the s
       review.md
       pr-{base}.md
       testing-guide-{short-description}.md   # written by to-test-md; to-test-html writes the .html beside it
-      backend-{short-description}.md         # written by ask-be
+      handoff-{short-description}.md         # written by to-handoff
       attachments/{ticket}/        # cached ticket files
       state/
         jobs.md
@@ -28,7 +28,7 @@ Plugin documents default to `~/.just-do-it/`. The repository receives only the s
 - Approval unavailable or denied: report the blocked path and return the unsaved content. Do not claim it was saved, ask for plan approval, or advance a manager step that requires the file. Continue only after access or an explicit writable task directory is supplied.
 - Keep an explicit task directory for the whole job and pass it to subagents and `to-*` skills. Never silently move documents into the repository or plugin cache.
 - The user reads files above `state/`; the plugin keeps the rest in `state/`.
-- The manager saves every doc a `go-*` skill returns; `to-*` skills and `ask-be` write their documents in the same branch folder.
+- The manager saves every doc a `go-*` skill returns; `to-*` skills write their documents in the same branch folder.
 - Write only files listed here: create when missing, update in place otherwise. Never a numbered or dated copy.
 
 ## Project folder

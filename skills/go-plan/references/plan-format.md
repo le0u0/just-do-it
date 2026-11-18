@@ -84,8 +84,8 @@ None.
   - Merge overlapping bullets; aim for at most 15 in all and 5 per group.
 - **Out of scope:** excluded work, or `None.`. Directly after the criteria so the boundary reads with them.
 - **Testing:**
-  - Seams under test, highest first, as few as possible, preferably existing. One line each on what it catches and misses; approving the plan confirms them.
-  - `E2E:` the scenario in plain words, or `none`. e2e runs once, after the last step; this line is its only scope.
+  - Keep scope focused, and cover every changed component or module with behavior (including template bindings); if a changed file has no spec yet, plan a new spec beside it focused on the changed behavior. One line each on what it catches and misses; approving the plan confirms them.
+  - `E2E:` the scenario in plain words (create a new e2e spec when none exists for the area). Use `none` only when there is no E2E setup (`none: no setup`), the change has no UI or user-flow impact, or the user explicitly skips E2E — never set `none` just because no prior spec exists. e2e runs once, after the last step; this line is its only scope.
   - Prior art and exact spec files go in `<sub>`.
 - **Decisions:** at most seven choices that change scope or design, one line each; mention the diagnosis when it drove one. State the choice alone.
 - **Deletions:** every deleted file, or `None.`. Approving the plan approves exactly these.

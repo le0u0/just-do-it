@@ -8,7 +8,7 @@ Subagents are required; an unavailable agent blocks the review.
 
 ```mermaid
 flowchart LR
-    IN([requirements, baseline,<br/>previous review]) --> G[go-triage<br/>fast: ticket text,<br/>diff stat, paths]
+    IN([requirements, baseline,<br/>previous review]) --> G[to-triage<br/>fast: ticket text,<br/>diff stat, paths]
     G --> T{tier}
     T -->|Quick| Q[1 hunter<br/>verifies its own]
     T -->|Standard / Deep| H[2-3 hunters<br/>standard, by lens]
