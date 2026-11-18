@@ -14,7 +14,7 @@ description: 'E2E tests with Playwright: author specs and test data, explore UI 
 1. Find the e2e setup and project references per [setup.md](references/setup.md). No setup: write and run nothing, say so.
 2. Use `playwright-cli` for every browser step: [playwright-cli.md](references/playwright-cli.md).
 3. Pick one branch:
-   - **Author** a spec or its data: check the E2E folder first (from `docs/e2e-path.md` in storage, or request a `Folder scan` from `go-triage` — do not read specific files at first). If the user has not already confirmed the scenario (e.g. in an approved plan), suggest scenario(s) and ask the user to confirm before writing; then explore and follow [authoring.md](references/authoring.md).
+   - **Author** a spec or its data: require the E2E folder path and confirmed scenario(s) in the handoff. If missing, return `blocked` so the caller resolves them; do not read storage, spawn `to-triage`, or ask the user. Then explore and follow [authoring.md](references/authoring.md).
    - **Explore** UI or find locators: explore only.
    - **Run or debug**: [running.md](references/running.md).
 

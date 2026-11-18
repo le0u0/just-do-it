@@ -17,10 +17,10 @@ disable-model-invocation: true
 ## Duties
 
 - Own decisions, scope, order, user communication, acceptance, and every plugin document.
-- Write the specs and code yourself: run `go-plan`, `go-work` and `go-fix` in the main thread. Run `go-review` in the main thread too; it starts its own review agents. Send `go-triage` and `go-e2e` to subagents.
-- Skills return results in the reply. You alone save `plan.md`, `checklist.md`, `review.md`, `triage.md`, `state/diagnose.md`, `commit-format.md`, and the glossary and ADRs from `go-plan`'s `Decisions`, per [storage.md](references/storage.md) and [written-docs.md](references/written-docs.md).
+- Write the specs and code yourself: run `go-plan`, `go-work` and `go-fix` in the main thread. Run `go-review` in the main thread too; it starts its own review agents. Send `to-triage` and `go-e2e` to subagents.
+- Skills return results in the reply. You alone save `plan.md`, `checklist.md`, `review.md`, `triage.md`, `state/diagnose.md`, `commit-format.md`, `docs/e2e-path.md`, and the glossary and ADRs from `go-plan`'s `Decisions`, per [storage.md](references/storage.md) and [written-docs.md](references/written-docs.md). All `go-*` skills write nothing to storage.
 - Subagents are required. An unavailable agent or failed launch blocks the delegated job; report it and stop. Never perform that job in the main thread.
-- Route all read-only fetch, git diff/compare, code search, and folder-scan jobs — including read-only discovery needed by other subagents — to `go-triage` (`Fetch` mode, `fast` tier) and pass the fetched facts in their handoff to keep token usage low.
+- Route all read-only fetch, git diff/compare, code search, and folder-scan jobs — including read-only discovery needed by other subagents — to `to-triage` (`Fetch` mode, `fast` tier) and pass the fetched facts in their handoff to keep token usage low.
 
 ## Authorization
 
@@ -37,23 +37,23 @@ disable-model-invocation: true
 | main thread | `go-work` | Write specs and code for a step, diagnose a failure, or write, fix or run unit specs |
 | main thread | `go-fix` | Fix or disposition findings in a review |
 | main thread | `go-review` | Review a diff or branch; starts its own review agents |
-| subagent | `go-triage` | Ticket requirements, queue triage, or any read-only fetch/compare/search job (`Fetch` mode) |
+| subagent | `to-triage` | Ticket requirements, queue triage, or any read-only fetch/compare/search job (`Fetch` mode) |
 | subagent | `go-e2e` | Write or fix e2e specs, explore UI, or run e2e tests; open the e2e UI only when the user asks |
 
 - Start each subagent per [agents.md](references/agents.md); announce its model and effort.
 
 ## Ticket flow
 
-1. Pasted link, even inside a review request: ask the project per [storage.md](references/storage.md) if its branch has none. Assign `go-triage` first, fetching live again when `triage.md` exists, since the requirement may have changed. Save the whole updated brief as `triage.md` before planning or reviewing.
-2. Run `go-plan` in the main thread (a subagent cannot ask the user). It returns the plan in the reply and writes no files, so the save is yours:
-   1. Save `plan.md`, `checklist.md`, and `commit-format.md` when `Decisions` has a `Commit format` line.
+1. Pasted link, even inside a review request: ask the project per [storage.md](references/storage.md) if its branch has none. Assign `to-triage` first, fetching live again when `triage.md` exists, since the requirement may have changed. Save the whole updated brief as `triage.md` before planning or reviewing.
+2. Run `go-plan` in the main thread (subagents cannot ask the user), passing `docs/e2e-path.md` in the handoff when present. Finish `Grill` and wait for user answers before `go-plan` writes the plan. Once it returns the plan in the reply, save it yourself:
+   1. Save `plan.md`, `checklist.md`, `commit-format.md` (when `Decisions` has `Commit format`), and `docs/e2e-path.md` (when `Decisions` has an E2E folder path).
    2. Only then print a short numbered/bullet summary in chat — `Goal`, numbered steps (what each step does), `Unit` specs, `E2E` scope (or why `none`), and `Deletions` (if any) — and ask for plan approval. Never ask before the files exist; showing the plan in chat is not saving it. No need to print file paths; `plan.md` and `checklist.md` remain the full agent spec.
 3. On approval, set `Status: approved` in `plan.md`. Loop over the approved plan's steps in order, one `go-work` call per step. Pass it the plan text and the step number.
    - Record each step's `Done` line in `checklist.md`, then start the next step.
    - `go-work` reports a stop condition: ask the user.
    - After the last step, confirm the plan's `Goal` holds.
 4. Run the final validation per [validation.md](references/validation.md). Still failing after the fixes: stop and ask the user.
-5. Plan's `E2E` line is not `none`: check `docs/e2e-path.md` in storage (if missing, find the E2E folder via `go-triage` `Folder scan` and save the path to `docs/e2e-path.md`). If the user has not already confirmed the E2E scenario, check that E2E folder via `go-triage` `Folder scan` (not reading specific files at first), suggest scenario(s), and ask the user to confirm; then assign `go-e2e` once to write and run exactly those `E2E` specs, per [tests.md](references/tests.md). Fix failures with `go-work`.
+5. Plan's `E2E` line is not `none`: check `docs/e2e-path.md` in storage (if missing, find the E2E folder via `to-triage` `Folder scan` and save `docs/e2e-path.md`). If the user has not confirmed the E2E scenario, run `to-triage` `Folder scan` on that folder, suggest scenario(s), and ask the user to confirm. Assign `go-e2e` once with the E2E folder path, confirmed scenario(s), and `E2E` specs in the handoff, per [tests.md](references/tests.md). Fix failures with `go-work`.
 6. Validation done (and e2e passed when planned): send baseline, scope, and previous `review.md` (if any) to `go-review`.
    - Save its report as `review.md`; write test results into `Tests` per [tests.md](references/tests.md).
    - Only `go-review` reviews.

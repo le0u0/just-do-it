@@ -13,10 +13,10 @@
 ```mermaid
 flowchart TD
     U([User]) <--> M[justaway<br/>main thread]
-    M -->|ticket triage| H[go-triage]
+    M -->|ticket triage| H[to-triage]
     M -->|write and run e2e tests| E[go-e2e]
     M -->|runs itself| R[go-review<br/>main thread]
-    R -->|fetch: fast| H2[go-triage Fetch]
+    R -->|fetch: fast| H2[to-triage Fetch]
     R -->|hunt: standard| HU[hunters]
     R -->|verify: reasoning| V[verifier]
 ```

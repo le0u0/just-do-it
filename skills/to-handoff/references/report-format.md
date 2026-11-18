@@ -1,4 +1,4 @@
-# Backend report format
+# Handoff report format
 
 Use the Slack format by default. Use plain format when requested. Preserve exact technical evidence; mark material unknowns without inventing details.
 
@@ -40,11 +40,11 @@ Request ID: [if captured]
 ```
 ````
 
-For a backend requirement, use the same opening and divider style. Replace API sections with **REQUIREMENT** and, when helpful, **EXAMPLE** or **OPEN QUESTIONS**. Include the relevant contract and supporting changes; do not invent permission values or defaults.
+For a requirement or cross-team ask, use the same opening and divider style. Replace API sections with **REQUIREMENT** and, when helpful, **EXAMPLE** or **OPEN QUESTIONS**. Include the relevant contract and supporting changes; do not invent permission values or defaults.
 
 ## Plain format
 
-Use concise prose and ordinary Markdown headings and code blocks, without dividers or decorative styling. For an API issue, state the problem and request details, then response and payload. For a backend requirement, state the requested behavior, relevant contract, and material open questions. Adapt sections to the evidence; omit unavailable optional details.
+Use concise prose and ordinary Markdown headings and code blocks, without dividers or decorative styling. For an API issue, state the problem and request details, then response and payload. For a requirement or cross-team ask, state the requested behavior, relevant contract, and material open questions. Adapt sections to the evidence; omit unavailable optional details.
 
 ## Evidence
 

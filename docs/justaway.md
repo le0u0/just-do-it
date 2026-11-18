@@ -7,7 +7,7 @@ Turns the session into a manager that runs the whole ticket flow. You call it wi
 ```mermaid
 flowchart LR
     M[justaway<br/>main thread] --> MT[go-plan, go-work,<br/>go-fix, go-review]
-    M --> SA[subagents:<br/>go-triage, go-e2e]
+    M --> SA[subagents:<br/>to-triage, go-e2e]
     MT --> S[save docs]
     SA --> S
     S --> V[check results<br/>itself]
@@ -17,7 +17,7 @@ flowchart LR
 | --- | --- |
 | Main thread | Writes the specs and code itself: runs `go-plan`, `go-work` and `go-fix`, calling `go-work` once per plan step and running the final validation |
 | Main thread | Runs `go-review`; it starts its own review agents |
-| Subagents | Sends `go-triage` and `go-e2e` to subagents, and announces each model and effort |
+| Subagents | Sends `to-triage` and `go-e2e` to subagents, and announces each model and effort |
 
 | Does | Detail |
 | --- | --- |
@@ -55,7 +55,7 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    T[go-triage] --> P[go-plan] --> W[go-work] --> E[go-e2e] --> R[go-review] --> F[go-fix] --> R2[go-review]
+    T[to-triage] --> P[go-plan] --> W[go-work] --> E[go-e2e] --> R[go-review] --> F[go-fix] --> R2[go-review]
 ```
 
 | Topic | What happens |

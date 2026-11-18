@@ -1,5 +1,5 @@
 ---
-name: go-triage
+name: to-triage
 description: 'Triage tickets, a queue, or any pasted link from live requirements, comments and image attachments, and return the brief in the reply, with no files written except cached attachments. Also fetches raw facts for other skills: ticket text, git facts, code search. Use for "triage PROJ-123", "what does this ticket need", "go through my queue", a pasted URL, or when a skill needs search or fetching done cheaply.'
 ---
 
@@ -83,7 +83,7 @@ Facts only, for another skill to judge. No brief, no opinion, no file written, n
 | Delta files | Paths changed between two given refs, and which of the given paths are among them |
 | Code search | Each hit as `path:line` with the line, for the given symbol or text |
 | File text | Each given file verbatim, or `missing` |
-| Folder scan | File list and brief purpose/scenario summary for the given folder (e.g. `playwright/`) |
+| Folder scan | Locate the E2E/test folder if none given (e.g. `playwright/`, `e2e/`, `cypress/`), and list its file paths verbatim (no spec-content reading or summary) |
 
 - Run only read-only commands; never fetch a remote unless the caller asks.
 - Return in the order asked, one heading per ask; `none` when empty; quote command output, do not summarize it.

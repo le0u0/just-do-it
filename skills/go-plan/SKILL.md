@@ -9,12 +9,12 @@ description: 'Think through one ticket with the user, then plan it as a plan and
 
 - Run in the main thread, where the user can answer.
 - Write no production code, tests, or files. Return the plan and checklist in the reply; the caller saves them. Report as the caller specifies.
-- Two phases: grill, then write. User only wants gaps found: stop after the grill.
+- Two phases: grill, then write. Complete `Grill` before `Write`, unless the user asks to skip grilling. User only wants gaps found: stop after the grill.
 
 ## Inputs
 
 - Requirements come only from supplied or explicitly retrieved context. Store a supplied ticket link; the key alone says nothing.
-- Ticket URL or explicit lookup: run `go-triage` first. Its brief is context, not approved scope.
+- Ticket URL or explicit lookup: run `to-triage` first. Its brief is context, not approved scope.
 - Read the project references per [setup.md](references/setup.md) and the code the ticket likely touches.
 
 ## 1. Grill
@@ -33,8 +33,8 @@ Treat the ticket as a design tree: each decision branches into the decisions tha
   - A checkable `Goal`.
   - Glossary term clashes and ADR-worthy decisions per [domain-docs.md](references/domain-docs.md).
   - Boundaries, probed with a concrete edge-case scenario.
-  - E2E scenario when E2E setup exists and UI or user flows change: check `docs/e2e-path.md` in storage for the E2E folder path (if missing, find the folder via `go-triage` `Folder scan` and record the path in `docs/e2e-path.md`). Check the E2E folder listing first — do not read specific spec files at first — then suggest concrete scenario(s) and ask the user to confirm before writing the plan.
-- Done when the frontier is empty and the user confirms shared understanding. Then ask them to say plan, unless they already did.
+  - E2E scenario when E2E setup exists and UI or user flows change: read the E2E folder path from the handoff. If missing, locate it via `to-triage` `Folder scan` and return it under `Decisions` for the caller to save as `docs/e2e-path.md`. List the folder first without reading spec files, then suggest concrete scenario(s) and confirm with the user before writing the plan.
+- Done when the frontier is empty and the user confirms shared understanding. Even if they already said "plan" or invoked `justaway`, ask open questions and wait for answers first. Then write if asked to plan, else ask them to say plan.
 
 ## Commit format
 

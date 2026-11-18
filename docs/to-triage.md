@@ -1,4 +1,4 @@
-# go-triage
+# to-triage
 
 Read a ticket, a queue or a pasted link and return a short requirements brief. The manager runs it as a subagent; you can also call it directly.
 
@@ -32,10 +32,10 @@ flowchart LR
 
 | Situation | Use |
 | --- | --- |
-| "Triage PROJ-123", "what does this ticket need", "go through my queue", a pasted URL | `go-triage` |
+| "Triage PROJ-123", "what does this ticket need", "go through my queue", a pasted URL | `to-triage` |
 | You want the ticket turned into a plan | `go-plan` |
-| The manager gets a pasted link | It runs `go-triage` first, so the research exists before any planning |
-| `go-review`, or any skill that needs ticket text, git facts or code search | Calls the `go-triage` Fetch job as a `fast` subagent |
+| The manager gets a pasted link | It runs `to-triage` first, so the research exists before any planning |
+| `go-review`, or any skill that needs ticket text, git facts or code search | Calls the `to-triage` Fetch job as a `fast` subagent |
 
 ## WORK IT
 
@@ -51,7 +51,7 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    T[go-triage] --> P[go-plan]
+    T[to-triage] --> P[go-plan]
 ```
 
 | Link | What happens |
