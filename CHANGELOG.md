@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.6.2](https://github.com/le0u0/just-do-it/compare/v2.6.1...v2.6.2) (2026-11-18)
+
+
+### Bug Fixes
+
+* enforce grill gate, handoffs, to-triage, and to-handoff ([c65614a](https://github.com/le0u0/just-do-it/commit/c65614afc9a4d09294028d2a61a11f35933b021f))
+* enforce grill gate, handoffs, unit/E2E rules, and rename to-triage/to-handoff ([89dcd76](https://github.com/le0u0/just-do-it/commit/89dcd761a931be76d4be3f248f094f6afca57d67))
+* enforce unit/E2E coverage, triage routing, and agent reuse ([b59b59f](https://github.com/le0u0/just-do-it/commit/b59b59f1c7e72b2409a686853c940f5aad2cd8cd))
+
 ## [2.6.1](https://github.com/le0u0/just-do-it/compare/v2.6.0...v2.6.1) (2026-11-17)
 
 
