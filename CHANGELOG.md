@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.7.0](https://github.com/le0u0/just-do-it/compare/v2.6.2...v2.7.0) (2026-11-19)
+
+
+### Features
+
+* streamline delegated ticket workflows ([c52c0ed](https://github.com/le0u0/just-do-it/commit/c52c0edfd5dd01fe5fd13c4d59040a88dd0bf51d))
+* streamline delegated ticket workflows ([a638df3](https://github.com/le0u0/just-do-it/commit/a638df38a600e27d2b638607e444d1fbd56e5e8f))
+
+
+### Bug Fixes
+
+* preserve workflow evidence and changes ([94c0298](https://github.com/le0u0/just-do-it/commit/94c029833179791b3e59c2997418944ce2073571))
+
 ## [2.6.2](https://github.com/le0u0/just-do-it/compare/v2.6.1...v2.6.2) (2026-11-18)
 
 
