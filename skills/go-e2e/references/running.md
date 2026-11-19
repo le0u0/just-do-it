@@ -12,7 +12,7 @@
 
 - Run without a pipe. Report the real exit code, or unknown, for this run only.
 - `Result`: counts, such as `12 specs, 0 failed`, plus each failed spec file and test name.
-- Failed-only log in the system temp directory (name, error, top stack lines). Report its path.
+- Return failure excerpts directly per [Test report](../../justaway/references/reports.md#test-report).
 - State the symptom; leave the cause to the caller.
 - `Affected`: other specs using the changed code, helpers, or selectors, unrun.
 - Check wrapper scripts for file writes first. Compare the worktree before and after.
@@ -20,7 +20,7 @@
 
 ## Debug
 
-Only when asked, and only when `npx playwright test --help` lists `--debug=cli`. Else report from the log.
+Only when asked, and only when `npx playwright test --help` lists `--debug=cli`. Otherwise report the runner output.
 
 1. Run the one failing test with `--debug=cli` in the background.
 2. `playwright-cli attach <session>`.

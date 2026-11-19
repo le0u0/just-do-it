@@ -4,7 +4,7 @@ Cache every attachment of every fetched ticket, any type, including embedded ima
 
 ## Location
 
-- `attachments/{ticket}/` in the directory the caller names, else the system temp directory. Original file names.
+- `attachments/{ticket}/` under the approved task directory when saving, else an isolated system temp directory. If research runs before the delivery decision, use temp and retain attachments only when saving is approved. Original file names.
 - Create a ticket's folder only when it has a file.
 - Reuse files already there; download only the rest.
 

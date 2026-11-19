@@ -8,7 +8,7 @@ Subagents are required; an unavailable agent blocks the review.
 
 ```mermaid
 flowchart LR
-    IN([requirements, baseline,<br/>previous review]) --> G[to-triage<br/>fast: ticket text,<br/>diff stat, paths]
+    IN([requirements, baseline,<br/>previous review]) --> G[review Fetch<br/>fast: ticket text,<br/>diff stat, paths]
     G --> T{tier}
     T -->|Quick| Q[1 hunter<br/>verifies its own]
     T -->|Standard / Deep| H[2-3 hunters<br/>standard, by lens]
@@ -32,7 +32,7 @@ flowchart LR
 
 | Gives | Never |
 | --- | --- |
-| Full report in the reply: `TODO`, `RESOLVED`, `IGNORED`, `PRE-EXISTING` (uncounted), reference with `Tier`, `Round` | Runs tests, edits source, writes files. `Tests` stays "not run" for the manager |
+| Full report saved or printed: `TODO`, `RESOLVED`, `IGNORED`, `PRE-EXISTING` (uncounted), reference with `Tier`, `Round` | Runs tests or edits source. `Tests` stays "not run" until the manager fills it |
 
 ## USE IT
 
@@ -63,4 +63,4 @@ flowchart LR
 | Caller | What happens |
 | --- | --- |
 | You, directly | Report only; ask for `go-fix` when you want fixes |
-| `justaway` | Sends every finding to `go-fix`, re-reviews once, saves `review.md`, fills `Tests` |
+| `justaway` | Sends in-scope findings to `go-fix`, re-reviews, fills `Tests`, and delivers the final report |

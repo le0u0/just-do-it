@@ -5,15 +5,7 @@ description: 'Write, fix or run unit specs for changed code, following the proje
 
 # Unit Tests
 
-Report as the caller specifies; default `Done` / `Open` / `Changed`. A run reports:
-
-```text
-Status: done | failed | blocked
-Result: <counts>; failed: <spec file and test name each, or none>
-Commands: <command → real exit code>
-Changed: <files, or none>
-Open: <or none>
-```
+Report edits as the caller specifies, defaulting to `Done` / `Open` / `Changed`. Use the shared [Test report](../justaway/references/reports.md#test-report) after a run.
 
 ## Modes
 

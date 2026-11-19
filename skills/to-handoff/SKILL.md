@@ -18,9 +18,8 @@ Prepare a short, readable report that the target team (backend, frontend, DevOps
 
 ## Output
 
-- Default: return the complete Markdown report in the reply. Do not create a file.
-- In `justaway` manager mode: save `handoff-{short-description}.md` in the branch folder, updating it in place. A user-supplied task directory wins. Resolve the branch folder and apply the shared [storage rules](../justaway/references/storage.md); on a blocked save, return the report and blocked path.
-- If the user explicitly requests a Markdown file, follow their requested location. If no location is provided, ask where to save it outside manager mode; in manager mode use the branch folder.
+- Return the complete Markdown report in the reply, including in `justaway`.
+- Save only on request. Use the supplied location or ask for one; when the user selects the task directory, use `handoff-{short-description}.md`. Check write permission first.
 
 ## HAR input
 

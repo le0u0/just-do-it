@@ -2,7 +2,7 @@
 
 ## When
 
-When the user or plan authorizes tests, the manager runs unit specs of its own steps per `go-work` and assigns `go-e2e`:
+When the user or plan authorizes tests, each `go-work` worker runs its step's unit specs. The coordinator assigns `go-e2e`:
 
 - Once, after the last step passes, if the plan's `E2E` line is not `none`.
 - A rerun after a fix: the failed specs.
@@ -19,11 +19,11 @@ When the user or plan authorizes tests, the manager runs unit specs of its own s
 
 ## Review request
 
-Each kind runs when `review.md` has no result of that kind for the current `HEAD` and diff, unless the user skips it. In order:
+Each kind runs when the review has no result of that kind for the current `HEAD` and diff, unless the user skips it. In order:
 
-1. `go-review` returns the report; save it as `review.md`.
+1. `go-review` returns its report to the coordinator.
 2. Run `go-ut` on the specs in the diff; assign `go-e2e` the plan's `E2E` specs (no plan: the e2e specs in the diff).
-   - Reuse a result only when `review.md` `Tests` or `checklist.md` records it for the current `HEAD` and diff.
+   - Reuse a result only when the review's `Tests` or the checklist records it for the current `HEAD` and diff.
    - Skip e2e only when a current result exists, the user skips it, or no spec is in scope.
-3. Write both results into `review.md`'s `Tests`, replacing `Unit` and `E2E`; `not run: <reason>` for a skipped kind. Only you edit `Tests`.
+3. Write both results into the report's `Tests`, replacing `Unit` and `E2E`; `not run: <reason>` for a skipped kind. Only you edit `Tests`.
 4. Not done until `Tests` shows both lines. Report a failed spec with the review; fix it with `go-work` when asked.

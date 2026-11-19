@@ -43,40 +43,32 @@ agy plugin install https://github.com/le0u0/just-do-it
 
 | Step | What happens |
 | --- | --- |
-| Describe the work | The manager assigns subagents, runs the rest, checks results, reports briefly |
+| Describe the work | The coordinator assigns workers, checks results, and handles approvals and delivery |
 | Done | Turn manager mode off |
-| One job only | Call a skill directly in the current thread; `go-*` skills return results in the reply and write no files |
+| One job only | Call a skill directly. Output follows its delivery rules |
 
 ## Manager
 
-```mermaid
-flowchart LR
-    U([You]) <--> M[justaway<br/>main thread]
-    M --> MT[go-plan, go-work,<br/>go-fix, go-review]
-    M --> SA[subagents:<br/>to-triage, go-e2e]
-    MT -->|go-review starts| RA[Fetch, hunters,<br/>verifier]
-    M --> D[(~/.just-do-it/<br/>project/branch)]
-```
-
-| Where | Runs | Tier |
+| Stage | Worker | Tier |
 | --- | --- | --- |
-| Main thread | `go-plan`, `go-work`, `go-fix`, so it can ask you questions | your session's |
-| Main thread | `go-review`, which starts its own agents | Fetch `fast`, hunters `standard`, verifier `reasoning`, recheck `fast` |
-| Subagent | `go-e2e` | `standard` |
-| Subagent | `to-triage` | `fast` |
+| Ticket or requirements link | [`go-research`](docs/go-research.md) | fast |
+| Grill and plan | [`go-plan`](docs/go-plan.md) | reasoning |
+| Implementation | [`go-work`](docs/go-work.md), one worker per step. Independent TDD steps run in parallel | standard |
+| E2E | [`go-e2e`](docs/go-e2e.md) | standard |
+| Review | [`go-review`](docs/go-review.md), run by the coordinator with its own team | Fetch and recheck fast, hunters standard, verifier reasoning |
 
-| Tier | Claude | Codex | Antigravity (`swarm`) |
+| Tier | Claude | Codex | Antigravity (preferred family) |
 | --- | --- | --- | --- |
 | `fast` | `haiku (low)` | `luna (low)` | `flash (low)` |
 | `standard` | `sonnet (medium)` | `terra (medium)` | `hydrogen (medium)` |
-| `reasoning` | `opus (medium)` | `sol (medium)` | `argon (medium)` |
+| `reasoning` | `opus (medium)` | `sol (medium)` | `neon (medium)` |
 
-Model families resolve from the host's current catalog. User model and effort preferences win.
+Model families resolve from the active host's worker options. Antigravity uses Swarm with `workspace="inherit"` and the selected model variant. Legacy dispatch is reserved for tracker research that needs MCP access. See [Antigravity dispatch](skills/justaway/references/agents.md#antigravity-dispatch).
 
 | Also | Detail |
 | --- | --- |
 | Announces | Model and effort per subagent; tell it a preference and it uses that |
-| Saves | Every returned document in `~/.just-do-it/{project}/{branch}/` |
+| Delivers | Research, plan, review, PR, and QA outputs save to a resolved task directory in manager mode. Otherwise choose save or terminal output |
 | Docs | [Architecture](docs/architecture/ARCHITECTURE.md); one doc per skill in [`docs/`](docs/), such as [`docs/go-review.md`](docs/go-review.md) |
 
 ## Skills you call

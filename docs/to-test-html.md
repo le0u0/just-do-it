@@ -9,17 +9,17 @@ flowchart LR
     G[testing-guide-<br/>short-description.md] --> J[convert to JSON<br/>per data-shape.md]
     J --> Z[fast subagent adds zh,<br/>terms from repo i18n]
     Z --> T[swap into<br/>references/qa-template.html]
-    T --> H[save .html<br/>beside the guide]
-    H --> V[verify per verify.md]
-    V --> O([pass, fail,<br/>or not verified])
+    T --> V[verify per verify.md]
+    V --> H[save or print HTML]
+    H --> O([pass, fail,<br/>or not verified])
 ```
 
 | Step | Does |
 | --- | --- |
-| Reads | `testing-guide-{short-description}.md` in `~/.just-do-it/{project}/{branch}/` |
+| Reads | A supplied Markdown guide or `testing-guide-{short-description}.md` in the task directory |
 | Translates | A `fast` subagent adds `zh`, using terms from the repo i18n, then the branch folder; unmatched terms are reported in `Open` |
 | Converts | To JSON per `data-shape.md`, and swaps that JSON into `references/qa-template.html` |
-| Saves | `testing-guide-{short-description}.html` beside the guide, updating in place |
+| Delivers | `testing-guide-{short-description}.html` in the selected task directory or HTML in the terminal |
 | Verifies | The page per `verify.md`, and reports `pass`, `fail` or `not verified` |
 | No guide | Stops, writes nothing, and tells you to run `to-test-md` first |
 
@@ -40,7 +40,7 @@ flowchart LR
 
 | Sign | Means |
 | --- | --- |
-| The `.html` sits beside the guide and opens with no console error | Page works |
+| The generated HTML opens with no console error | Page works |
 | Testers can mark Pass or Fail, add notes to failed tests, and export a readable PDF report | Usable for QA |
 | Progress survives a reload | State kept |
 | Language and Pass/Fail buttons are segmented controls, and links open in a new tab | UI as designed |

@@ -8,7 +8,7 @@ Writes the pull request title and body for the current branch. You call it; the 
 flowchart LR
     IN([branch diff vs base,<br/>your words, GLOSSARY.md]) --> T[one-line title]
     T --> B[body: Summary,<br/>Evidence, Merge Danger]
-    B --> S[save pr-{base}.md]
+    B --> S[save draft or print in terminal]
     S -->|you ask| P([push, open PR])
 ```
 
@@ -17,7 +17,7 @@ flowchart LR
 | Reads | The branch diff against its base and what you tell it, plus `GLOSSARY.md` when present |
 | Title | A one-line title in the project's commit format |
 | Body | Summary (diagram, tree, pseudocode or diff), Evidence (before and after) and Merge Danger (door and blast radius) |
-| Saves | `pr-{base}.md` in `~/.just-do-it/{project}/{branch}/`, updating in place; one file per target base |
+| Delivers | `pr-{base}.md` in the selected task directory, or title and body in the terminal |
 
 | Gives | Never |
 | --- | --- |
@@ -42,7 +42,7 @@ flowchart LR
 | Summary uses the smallest view that makes the point | Easy to read |
 | Evidence shows before and after, or `not run` | Honest evidence |
 | Merge Danger names a one-way or two-way door | Risk is named |
-| `pr-{base}.md` exists at the branch folder path | Saved |
+| Reply gives the saved `pr-{base}.md` path or prints the complete draft | Delivered |
 | Without an open request, nothing is pushed | Nothing leaves your machine |
 
 ## FIT IT
@@ -55,5 +55,5 @@ flowchart LR
 | Topic | What happens |
 | --- | --- |
 | When | You run it after the review is approved, outside the manager flow |
-| No host CLI | It gives the new-PR URL and says the PR is not opened |
+| Cannot open from this session | It reports the blocker and gives the new-PR URL when known |
 | Credit | Follows Matt Pocock's `pr`, from the `show-me` skill by Dex Horthy |

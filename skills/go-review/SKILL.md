@@ -1,11 +1,11 @@
 ---
 name: go-review
-description: 'Review a branch, diff or work-in-progress change against the project''s standards and the supplied objective or bug, and return the review report in the reply. Use for "review my branch" or "review this diff".'
+description: 'Review a branch, diff or work-in-progress change against the project''s standards and the supplied objective or bug, and deliver the review report. Use for "review my branch" or "review this diff".'
 ---
 
 # Review
 
-Report as the caller specifies. The report is the reply; write no file.
+For a managed review, return the full report privately to the coordinator. For direct use, deliver `review.md` or print the report per [Output delivery](../justaway/references/storage.md#output-delivery).
 
 Run in the main thread as coordinator: pick the tier, start the review agents, assemble the report. Never read hunks yourself; agents read the code.
 
@@ -13,7 +13,7 @@ Start the review team whether `justaway` is on or off. If an agent is unavailabl
 
 ## 1. Fetch
 
-One `to-triage` Fetch call (per [agents.md](references/agents.md)) gathers everything at once. Ask only what is missing:
+Start one review-owned fast Fetch worker per [agents.md](references/agents.md). Give it [fetch.md](references/fetch.md) and request only missing inputs:
 
 - Ticket text, when the requirement is a ticket URL or key, including linked tickets.
 - Baseline evidence, unless the user supplied the baseline.
@@ -35,7 +35,7 @@ Decide from its facts yourself: the baseline per [scope-baseline.md](references/
 1. Start every hunter of the tier in parallel, per [agents.md](references/agents.md) and [hunter.md](references/hunter.md).
 2. Collect their candidates. Quick: the single hunter returns findings; skip step 3.
 3. Start one verifier with all candidates, per [verifier.md](references/verifier.md).
-4. Number the verifier's findings by severity; place them per [report-format.md](references/report-format.md). Relay the verifier's dropped lines in the reply above the report.
+4. Number the verifier's findings by severity; place them per [report-format.md](references/report-format.md). Keep the verifier's dropped lines with the review result.
 
 ## 4. Re-review
 
@@ -50,8 +50,7 @@ Given a previous review, return it updated in full. Delta: `git diff <Reviewed t
 
 - A reported test failure the fix does not address is a finding; send it to the hunters as a lead.
 
-## 5. Reply
+## 5. Deliver
 
-End the reply with the report per [report-format.md](references/report-format.md). A caller's handoff lines go above it: `Changed: none`; `Open:` open issue count by severity.
-
-- Report only and end the reply with the report. `go-fix` applies fixes when the caller or user asks for them.
+- Assemble the full report per [report-format.md](references/report-format.md) and hand it to the coordinator or the selected output destination. When saving, report the path and open issue counts by severity. Keep findings and dropped lines in the saved report.
+- `go-fix` applies fixes when the caller or user asks for them.

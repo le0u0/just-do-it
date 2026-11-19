@@ -39,7 +39,7 @@ The manager calls it once, after the last step, for the specs the plan's `E2E` l
 | It finds the e2e setup first, and writes nothing when there is none | Setup respected |
 | Specs come from explored locators, not from reading source alone | Locators are real |
 | A run names exact spec files, never a folder or the full suite, and reports the real exit code | Run is exact |
-| A failure comes with a log path and the symptom, not a guessed cause | Failure is evidenced |
+| A failure report includes the test name, runner error, and top relevant stack lines | Failure is evidenced |
 
 ## FIT IT
 
