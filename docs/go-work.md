@@ -1,27 +1,29 @@
 # go-work
 
-Implements one step of work, test-first: a request, one step of a plan, or a failure to fix. The manager runs it in the main thread once per plan step; you can call it directly.
+Implements one step of work, test-first: a request, one step of a plan, or a failure to fix. The manager assigns one standard worker per step and runs independent steps concurrently. You can call it directly.
 
 ## DO IT
 
 ```mermaid
 flowchart LR
     IN([request, failure,<br/>or plan step]) --> M{mode}
-    M --> D[dev-tdd<br/>once per step]
+    M --> D[dev-tdd<br/>once per behavior step]
+    M --> S[verify shared setup]
     D --> O([Done, Open, Changed])
+    S --> O
 ```
 
 | Mode | Does |
 | --- | --- |
 | Direct request | Does the request |
 | Failure to fix | Diagnose first |
-| Plan step | One step only |
+| Plan step | Own the test, fix, and local setup for one behavior, or verify the assigned shared setup |
 | Specs only | Calls `go-ut` |
 
 | Does | Detail |
 | --- | --- |
 | Input | A request, a failure, or one step of a plan from `go-plan`, as text or a path you name |
-| Calls | `dev-tdd` once per step |
+| Calls | `dev-tdd` once per behavior step |
 | Writes | Source and specs in the repo. Returns `Done` / `Open` / `Changed` |
 
 | Gives | Never |

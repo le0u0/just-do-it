@@ -5,19 +5,19 @@ description: 'Implement one step of work (a request, a plan step, or a failure t
 
 # Work
 
-Report as the caller specifies; default `Done` / `Open` / `Changed`. A test run reports `Result` and `Commands`.
+Report as the caller specifies. Default to `Done` / `Open` / `Changed`. Pass test-run evidence to the caller per [Test report](../justaway/references/reports.md#test-report), including the excerpt for any unresolved failure.
 
 ## Modes
 
 - **Direct request:** implement it, report changed files. No start gate.
 - **Failure to fix:** diagnose per [diagnose.md](references/diagnose.md), then fix.
-- **Plan step:** the caller passes the plan text and names one step. Do only that step, per [step-execution.md](references/step-execution.md). Never start the next step; the caller sequences steps.
+- **Plan step:** the caller passes the plan and names one step. Follow [step-execution.md](references/step-execution.md). In `justaway`, edit owned paths, run authorized scoped tests, and return evidence to the coordinator.
 - **Specs only or test run:** call `go-ut`. Change no spec here.
 
 ## Rules
 
 - Stay on the current branch.
-- Commit only per the plan's per-step delivery, or when the user approves the work and the exact one-line message.
+- In a manager-assigned job, leave HEAD and the index untouched and report questions to the coordinator. For standalone work, commit only per the plan's per-step delivery, or when the user approves the work and the exact one-line message.
 - A small follow-up to committed work amends instead of adding a commit:
   1. List unpushed commits (`git log @{u}..HEAD`, or `origin/HEAD..HEAD` with no upstream).
   2. Related to the unpushed `HEAD` commit (same file or purpose) and the plan does not use per-step commits: `git commit --amend --no-edit`. Per-step commits: never amend; one new commit with the plan's message.
@@ -30,7 +30,7 @@ Report as the caller specifies; default `Done` / `Open` / `Changed`. A test run 
 
 1. Read the [project references](references/project-references.md); follow their conventions for mocking, setup, and file placement.
 2. Ask once when the request omits a choice a project skill asks for, such as a variant or target folder.
-3. Call `dev-tdd` once per step (a direct request is one step). It leaves the step's specs passing.
+3. Own the whole behavior step, including its specs, implementation, and step-specific setup. Complete any approved setup needed to run the focused spec, then call `dev-tdd` once for the step. For a setup-only step, run its named verification when authorized and return the outcome.
 4. Run typecheck regularly; spec runs happen inside `dev-tdd` and `go-ut`.
    - Passing specs and lint prove no typing. Typecheck every config the project defines, strictest included, plus editor diagnostics when a tool offers them; cover spec files too.
    - Errors in files you touched are yours to fix, or report in `Open` when pre-existing and out of scope.

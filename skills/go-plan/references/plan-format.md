@@ -70,14 +70,15 @@ None.
 - **Goal:** one or two checkable lines: the behavior plus the specs that must pass.
   - The user confirms it; only a requirement change the user requests alters it.
   - The manager runs the steps until it holds.
-- **Steps:** directly after `Goal`, since the user reads those two first. One independently verifiable behavior ending in one passing commit; usually two to four, one for a small ticket.
-  - Merge steps touching the same file or behavior. Add one only when it can pass its spec alone.
+- **Steps:** directly after `Goal`. Each step ends with a focused verification check and one planned commit. Use one step for work that can be verified together.
+  - Group changes that need each other to deliver one behavior. Keep its specs, implementation, and setup used only for that behavior together. Plan separate steps for independently verifiable behaviors with disjoint writes so workers can run them together.
+  - Give required shared setup its own step when multiple later steps need it and a focused check can verify it. List that setup step under `Blocked by` for each consumer.
   - Lines: `Do`, `Test`, `Commit`, `Blocked by`, `Files`.
   - `Do`: at most three bullets of behavior in plain words, not code edits.
-  - `Blocked by`: earlier steps needed, or `none`.
+  - `Blocked by`: actual prerequisites, or `none` if the step can start after plan approval. Step numbers do not imply dependencies.
   - `Commit`: one-line message in the confirmed format, no body.
-  - `Files`: mark a deleted file `delete` and list it under `Deletions`.
-  - `Test`: behaviors through a public seam, or `none: no setup`. Each spec is written first and must fail first.
+  - `Files`: name owned source and test paths. Mark a deleted file `delete` and list it under `Deletions`.
+  - `Test`: name the public seam and focused runner for a behavior, or the focused verification for shared setup. Use `none: no setup` when no runner exists and setup is outside scope. Name any shared state or existing isolation relevant to parallel execution. Write and run each behavior's failing spec first when authorized.
   - Seams, temporary contracts, access-right changes, precedents go in `<sub>` beside `Files`, only when the developer needs them.
 - **Acceptance criteria:** observable results, one bullet each, key error and edge cases included.
   - Group by topic under `###` headings (such as the screen, rule set, or role); every bullet sits in a headed topic group.

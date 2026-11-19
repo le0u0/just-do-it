@@ -1,20 +1,18 @@
-# Agent Handling
+# Scheduling
 
-## Parallel work
+## Parallel steps
 
-- Order jobs by their inputs. Parallelize only read-only work or edits to disjoint files.
+1. Fill available worker slots with compatible ready steps. A step is ready after its `Blocked by` steps have been verified and delivered. Use one worker per step and launch the compatible workers before waiting for any result. A conflict delays only the conflicting step. Continue dispatching other ready work.
+   - Check owned paths, test inputs, focused runner commands and mutable state. Concurrent steps need disjoint writes and tests independent of sibling edits. Use existing runner isolation for shared databases, fixtures, ports, build output, or caches when it makes tests independent. A file filter alone does not prove independence.
+   - Run conflicting or uncertain steps in sequence with each other.
+2. Give each worker the approved plan, step number, owned paths, current checkout and branch, starting checkout state, and authorized tests. Each worker runs `dev-tdd` through `go-work`. If it finds a sibling dependency or shared-state conflict, pause the affected work and resume it in sequence. Keep existing edits intact.
+3. Verify each step's actual diff and red and green evidence. A test failure caused by sibling work is invalid as red evidence. Rerun affected checks after overlapping work stops and report any red result that could not be verified. Preserve pre-existing changes.
+4. With per-step commits, wait for the active wave to finish editing, then commit verified steps one at a time in plan order. Use each approved one-line message. Scope the commit to the verified step's paths, adding only new files for those paths as needed. Check staged and unstaged diffs first, preserve unrelated staging, and verify the commit's SHA and paths. Follow the [commit gate](../../go-work/references/step-execution.md#commit-gate). In leave-uncommitted mode, relay step approval when required; leave index and HEAD untouched.
+5. Mark each delivered step in the checklist and schedule the next ready steps. A failed step blocks its dependents. Keep independent work moving when safe.
 
-## Token budget
+## Worker reuse
 
-- If one command verifies it, verify it yourself; reruns and reads stay in the manager.
-
-## Reuse
-
-- Record each agent's name and ID/roster handle in `state/jobs.md`; send later work to it per [agents.md](agents.md#host-mapping).
-- Keep **one** reusable `to-triage` agent and **one** reusable `go-e2e` agent alive for the whole ticket/session (idle/waiting workers cost no tokens). **Do not kill them after a job finishes** — only kill when the ticket/session is done or the host hits slot limits.
-- Reuse the same `go-e2e` worker (e.g. `e2e`) for exploring, writing, running, debugging, and rerunning specs — never spawn separate `e2e-write` / `e2e-run` workers.
-- Reuse the same `to-triage` worker for all triage and `Fetch` jobs (tickets, diffs, searches, folder scans) via `send_message`.
-- `go-review` re-review: run it again with the previous `review.md`; save its full report over `review.md`. Its hunter/verifier agents start fresh each round (and are cleaned up after each review round).
-- Start fresh only when no usable agent for that skill exists on the ticket; one agent per skill, never one per step.
-- A resumed agent cannot change model or effort; settle both at the start.
-- Messaging the existing agent fails (or worker killed): start a fresh agent, point it at the plan, `checklist.md`, `state/jobs.md`.
+- Reuse the planner across grill rounds. If replaced, supply the confirmed decisions and current frontier.
+- Use one E2E worker for the task. Reuse the research worker only for requirement research.
+- Resume a step's worker for that step's fixes and missing evidence. Release it after verification and delivery.
+- Review starts and cleans up its own workers. Pass the previous full report for re-review.

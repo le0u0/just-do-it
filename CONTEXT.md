@@ -6,8 +6,8 @@ Shared terms for this plugin.
 
 | Term | Meaning |
 | --- | --- |
-| Manager | `justaway`, the main thread. Assigns triage and e2e to subagents, runs `go-plan`, `go-work`, `go-fix` and `go-review` (which starts its own review agents), saves every plugin doc, verifies results, decides the next step. |
-| Skill | An action, such as `go-review`. `go-*` do work and return results in the reply; `dev-*` drive a method; `justaway` starts manager mode; `to-*` are user-invoked and model-blocked. |
+| Manager | `justaway`, the main thread. Coordinates research, planning, implementation and E2E workers. Owns approvals, verification, Git commits, and output delivery. Runs `go-fix` and the skill-owned `go-review` workflow. |
+| Skill | An action, such as `go-review`. `go-*` do work; `dev-*` drive a method; `justaway` starts manager mode; `to-*` are user-invoked and model-blocked. |
 
 ## Skill structure
 
@@ -23,7 +23,7 @@ Shared terms for this plugin.
 | --- | --- |
 | Ticket | A task ID such as `PROJ-123`. Requirements come from supplied or retrieved context, never the key alone. |
 | Project folder | `~/.just-do-it/{project}/`: one per product or codebase, with `docs/` and branch folders. |
-| Branch folder | `~/.just-do-it/{project}/{branch}/`: `plan.md`, `checklist.md`, `commit-format.md`, `review.md`, `pr-{base}.md`, the testing guide (`.md`, `.html`), `attachments/`, and `state/` for plugin files. The manager saves what `go-*` return; `to-*` write their own. |
+| Branch folder | `~/.just-do-it/{project}/{branch}/`: `plan.md`, `checklist.md`, `commit-format.md`, `review.md`, `pr-{base}.md`, the testing guide (`.md`, `.html`), `attachments/`, and `state/` for plugin files. Use it when saving task outputs per the shared delivery rules. |
 | Step | A reviewable milestone in an approved plan. Uncommitted unless the user approves a commit. |
 | Test-driven slice | One behavior: one failing test through a public seam, then the minimum code to pass it. |
 | Temporary contract | A feature-local stand-in until a real dependency exists, with a ticket-linked `FIXME` and removal condition. |
@@ -40,7 +40,7 @@ Shared terms for this plugin.
 | --- | --- |
 | Self-check | A skill checking its own work. Not a review. |
 | Formal review | `go-review`'s hunters and verifier applying the project's review skill (else standards and requirements) and review checks. |
-| Fetch | `to-triage`'s second job: raw facts (ticket text, git facts, code search, file text) for another skill, on the `fast` tier. No judgement. |
+| Fetch | `go-review`'s fast worker that gathers ticket, baseline, diff, and rule evidence for review. |
 | Tier | How many review agents run: Quick (one self-verifying hunter), Standard (two hunters, one verifier), Deep (adds a security hunter). Set by diff size and risky paths. |
 | Round | Review count on one change: 1 for the first review, plus 1 per re-review. After round 3, re-review only checks fixes. |
 | Pre-existing | A real bug the change did not introduce or expose. Listed under `PRE-EXISTING`, not counted, not sent to `go-fix` unless the user asks. |

@@ -1,6 +1,6 @@
 ---
 name: to-pr
-description: 'Write the pull request title and body for a finished branch: a visual summary, before and after evidence, and merge danger. Saves pr-<base>.md, and opens the PR when asked. Use for "pr", "create a PR", "open a PR", "write the PR", "PR text" or "commit, push, pr".'
+description: 'Write the pull request title and body for a finished branch: a visual summary, before and after evidence, and merge danger. Delivers pr-<base>.md or prints the draft, and opens the PR when asked. Use for "pr", "create a PR", "open a PR", "write the PR", "PR text" or "commit, push, pr".'
 disable-model-invocation: true
 metadata:
   credits:
@@ -25,26 +25,13 @@ Write the title and body for the current branch.
 
 1. Write the title as one line in the project's commit format.
 2. Write the body with the template below. No preambles; short prose.
-3. Save the body as `pr-{base}.md` in the branch folder (see Storage); `{base}` is the base branch with `/` replaced by `-`. Always save before replying. Never write into the repository.
-4. Reply with the title, the body, and the path. The reply must end with the saved path; no path means step 3 did not run.
-5. Only when asked to open the PR:
-   1. Host: `git remote get-url origin`. Base: as in Input.
+3. Deliver per [Output delivery](../justaway/references/storage.md#output-delivery). Save the body as `pr-{base}.md`, replacing `/` in the base name with `-`, or print the title and full body. When saving, report the title and path.
+4. Only when asked to open the PR:
+   1. Host: `git remote get-url origin`. Use the confirmed base.
    2. Push the branch if it has no remote copy. Never force-push.
-   3. Open with the host's CLI, e.g. `gh pr create --base <base> --title <title> --body-file <path>`.
-   4. No CLI: give the new-PR URL and say it is not opened:
-      - GitHub: `<repo-url>/compare/<base>...<branch>`
-      - Bitbucket: `<repo-url>/pull-requests/new?source=<branch>&dest=<base>`
-      - GitLab: `<repo-url>/-/merge_requests/new?merge_request[source_branch]=<branch>`
-      - Another host: say the URL is unknown.
+   3. Open with the host's CLI or connector. With a saved body, GitHub CLI uses `gh pr create --base <base> --title <title> --body-file <path>`. For terminal-only delivery, pass the body through the connector or stdin with `--body-file -`.
+   4. If the PR cannot be created, report the blocker and provide the host's compare or new-PR URL when known.
    5. Report the PR URL.
-
-## Storage
-
-- Apply the shared [storage permission rules](../justaway/references/storage.md#rules) before writing; a user-supplied task directory wins. On a blocked save, report the unsaved content and path; do not open a PR or claim a saved path.
-- Branch folder: `~/.just-do-it/{project}/{branch}/`; `{branch}` = `git branch --show-current`, `/` replaced by `-`.
-- Find it: glob `~/.just-do-it/*/{branch}`.
-- No match: ask which project. Reuse the folder matching ignoring case and separators, else create it (lowercase words joined by hyphens).
-- `pr-{base}.md` exists: update in place. One file per target base.
 
 ## Body template
 

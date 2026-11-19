@@ -7,14 +7,14 @@ Writes the manual testing guide as Markdown for a tester who knows nothing about
 ```mermaid
 flowchart LR
     IN([plan.md +<br/>diff from baseline]) --> W[write guide:<br/>setup, groups,<br/>numbered tests]
-    W --> S[save testing-guide-<br/>short-description.md]
-    S --> O([path + Open])
+    W --> S[save or print guide]
+    S --> O([report coverage gaps])
 ```
 
 | Step | Does |
 | --- | --- |
 | Reads | `plan.md` and its baseline diff, or supplied requirements and diff; the ticket URL comes from triage or supplied requirements |
-| Saves | `testing-guide-{short-description}.md` in `~/.just-do-it/{project}/{branch}/`, updating in place |
+| Delivers | `testing-guide-{short-description}.md` in the selected task directory or guide in the terminal |
 | Format | Before you start, groups, numbered tests, one `You should see:` line each |
 | Wording | Uses screen names, never file paths or component names |
 | Returns | In `Open`: behaviours no test covers, and tests that cannot be done by hand |
@@ -39,7 +39,7 @@ flowchart LR
 | Each acceptance criterion has a test, or appears in `Open` if it cannot be tested by hand | Coverage and gaps visible |
 | Every step is 15 words or fewer, one action each | Easy to follow |
 | Tests are grouped by purpose, with a one-line reason | Easy to scan |
-| The reply gives the path and an `Open` list | Gaps visible |
+| The reply gives the saved path or full guide, with an `Open` list | Gaps visible |
 | Re-running edits the same file | No duplicates |
 
 ## FIT IT
@@ -51,6 +51,6 @@ flowchart LR
 
 | Topic | What happens |
 | --- | --- |
-| `to-test-html` | Builds its page from this file |
+| `to-test-html` | Builds its page from the saved or supplied Markdown |
 | Linked tickets | It reads `Linked:` tickets from `state/triage.md`, saved by the manager |
 | Position | Part of the user-run end of the flow, after `to-pr` |

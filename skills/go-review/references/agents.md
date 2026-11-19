@@ -14,7 +14,7 @@ Each call maps the role's tier per [host mapping](../../justaway/references/agen
 
 | Role | Tier | Quick | Standard | Deep |
 | --- | --- | --- | --- | --- |
-| Fetch: `to-triage` Fetch job | `fast` | 1 | 1 | 1 |
+| Fetch | `fast` | 1 | 1 | 1 |
 | Hunter: Correctness | `standard` | 1, all lenses, verifies its own | 1 | 1 |
 | Hunter: Contract | `standard` | — | 1 | 1 |
 | Hunter: Security | `standard` | — | — | 1 |
@@ -32,12 +32,13 @@ Lenses from [review-method.md](review-method.md):
 ## Start
 
 - Announce each worker launch before starting per [Announce](../../justaway/references/agents.md#announce).
-- Start each hunter, verifier, and recheck worker fresh per [host mapping](../../justaway/references/agents.md#host-mapping) (avoid forks and avoid resuming earlier review workers), and clean them up when done. Reuse the session's `to-triage` worker for `Fetch` when available.
-- Fetch prompt names `to-triage` and its absolute `SKILL.md` path, the Fetch job, and each ask with its refs, paths or URLs.
+- Start each hunter, verifier, and recheck worker fresh per [host mapping](../../justaway/references/agents.md#host-mapping) (avoid forks and avoid resuming earlier review workers), and clean them up when done. Fetch uses a dedicated review worker per round.
+- Fetch prompt names the absolute path to [fetch.md](fetch.md) and gives each ask with its refs, paths or URLs.
+- In Antigravity, Fetch uses Swarm like other review roles. If direct review needs a tracker unavailable to Swarm and has no research brief, the coordinator uses `go-research` for the tracker lookup and passes its brief internally. Fetch gathers the remaining review inputs. See [Antigravity dispatch](../../justaway/references/agents.md#antigravity-dispatch).
 - Prompt: role, repository path, baseline and range, absolute path of the role's reference in this skill, requirement text or path, project rule paths, and any project-local review skill paths from Fetch. Agents read the diff themselves.
 - Payloads (candidates for the verifier, known findings for hunters, open findings for recheck) go in one file in system temp; the prompt names its path.
 - Hunters of one review get the same prompt, except role, ID prefix and lenses, in that order.
-- Release finished one-shot `recheck` or standalone `Fetch` workers before hunting; keep a reusable `to-triage` worker alive. With too few slots, batch hunters, collect all candidates, then run the verifier.
+- Release finished `recheck` and `Fetch` workers before hunting. With too few slots, batch hunters, collect all candidates, then run the verifier.
 
 ## Recheck
 

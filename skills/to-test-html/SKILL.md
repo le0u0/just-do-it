@@ -1,6 +1,6 @@
 ---
 name: to-test-html
-description: 'Build the single-file HTML QA page from an existing testing guide Markdown. Use for "QA page", "html testing guide" or "build the test page".'
+description: 'Build the single-file HTML QA page from a Markdown testing guide. Use for "QA page", "html testing guide" or "build the test page".'
 disable-model-invocation: true
 ---
 
@@ -10,25 +10,23 @@ Render the guide into one HTML page the tester ticks through. Never hand-edited.
 
 ## Input
 
-- `testing-guide-{short-description}.md` in the user-supplied task directory, else `~/.just-do-it/{project}/{branch}/` (`{branch}` = `git branch --show-current`, `/` replaced by `-`; glob `~/.just-do-it/*/{branch}`).
+- Use the supplied Markdown guide, a guide in the current session, or `testing-guide-{short-description}.md` in the resolved task directory.
 - Guide missing: stop, tell the user to run `to-test-md` first, write nothing.
 - Start the translation worker whether `justaway` is on or off. If that worker cannot start, report blocked and write no HTML.
 
 ## Steps
 
-1. Convert the guide to data JSON per [data-shape.md](references/data-shape.md), English text only.
+1. Resolve save or terminal output per [Output delivery](../justaway/references/storage.md#output-delivery). For a save, find any existing output first so test IDs can be preserved. Convert the guide to English data JSON per [data-shape.md](references/data-shape.md).
 2. Translate per `Translate` in the same file: one `fast` subagent adds `zh` to every text.
-3. Fill [qa-template.html](references/qa-template.html) per the same file. Save as `testing-guide-{short-description}.html` beside the guide, updating in place.
-4. Build the page per [html-page.md](references/html-page.md).
-5. Verify per [verify.md](references/verify.md).
-6. Reply with the path, what you verified, what you could not.
+3. Fill [qa-template.html](references/qa-template.html) per the same file and follow [html-page.md](references/html-page.md).
+4. Verify per [verify.md](references/verify.md). Use an isolated temporary preview for terminal delivery.
+5. Save as `testing-guide-{short-description}.html` in the selected task directory and report the path, or print the HTML in the terminal. If the host cannot display the bundled page in full, provide a copy-ready stdout command using the installed template and complete generated substitutions. State what was verified.
 
 ## Rules
 
 - Change the `.md` first, then rerun. The `.html` is the only output.
-- Apply the shared [storage permission rules](../justaway/references/storage.md#rules) before writing. On a blocked save, report the target path as unsaved and stop before serving or verification.
 
 ## Done when
 
-- The `.html` sits beside the guide and opens with no console error.
+- The generated page opens with no console error. Deliver through the selected output.
 - Each `verify.md` check is `pass`, `fail` or `not verified`.

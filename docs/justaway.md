@@ -1,65 +1,30 @@
-# justaway
+# Justaway
 
-Turns the session into a manager that runs the whole ticket flow. You call it with `/justaway on`; the model never starts it.
-
-## DO IT
+Use `justaway on` to enable manager mode for the session. Use `justaway off` to end it.
 
 ```mermaid
 flowchart LR
-    M[justaway<br/>main thread] --> MT[go-plan, go-work,<br/>go-fix, go-review]
-    M --> SA[subagents:<br/>to-triage, go-e2e]
-    MT --> S[save docs]
-    SA --> S
-    S --> V[check results<br/>itself]
+    T[Requirement] --> R[Research]
+    R --> P[Grill and plan]
+    U([User]) <-->|decisions and approval| P
+    P --> A[TDD step worker]
+    P --> B[Independent TDD step worker]
+    A --> V[Validation]
+    B --> V
+    V --> E[E2E when planned]
+    E --> C[Review]
 ```
 
-| Where | Runs |
+| Stage | Who runs it |
 | --- | --- |
-| Main thread | Writes the specs and code itself: runs `go-plan`, `go-work` and `go-fix`, calling `go-work` once per plan step and running the final validation |
-| Main thread | Runs `go-review`; it starts its own review agents |
-| Subagents | Sends `to-triage` and `go-e2e` to subagents, and announces each model and effort |
+| Research | `go-research`, fast/low. Reads the ticket or requirements link and maps source and test paths |
+| Grill and plan | One `go-plan` worker, reasoning/medium. The coordinator relays questions, answers, and approval |
+| Build | One `go-work` worker per step, standard/medium. Independent steps run concurrently. Each worker runs its own TDD loop |
+| E2E | One `go-e2e` worker, standard/medium. Runs the exact approved scope |
+| Review and fixes | The coordinator runs `go-review` with its existing team and applies findings through `go-fix` |
 
-| Does | Detail |
-| --- | --- |
-| Saves | Every plugin doc the skills return: `plan.md`, `checklist.md`, `review.md`, `triage.md`, `state/diagnose.md`, `state/jobs.md` |
-| Checks | Each result itself: diff, artifacts, and test exit codes |
+Workers use the current checkout and branch. The planner looks for steps with separate write paths and independent tests. The coordinator fills available slots with those steps before waiting for results. A conflict delays the affected step while other ready workers continue. The coordinator verifies each step before unlocking its dependents, commits approved work on the current branch, and preserves unrelated changes.
 
-| Gives | Never |
-| --- | --- |
-| Saved docs, checked results | Commits, pushes or resets unless you or an approved plan said so |
+The coordinator saves results to a resolved task directory. If the directory is missing, choose a destination or terminal output. With terminal output, the coordinator keeps task state in the session. Plan approval follows delivery of the plan and checklist.
 
-## USE IT
-
-| Situation | Use |
-| --- | --- |
-| A ticket from triage to review | `justaway` |
-| One job, such as a plan or a review | that `go-*` skill directly |
-| Finished ticket needs a PR or guide | `to-pr`, `to-test-md` yourself |
-| Return the session to normal | `/justaway off` |
-| No subagents available | It says the workflow cannot run |
-
-## WORK IT
-
-| Sign | Means |
-| --- | --- |
-| It asks the project once, then triages before planning | Context first |
-| A pasted link is triaged again each time, even inside a review request, since the requirement may have changed | Requirement is current |
-| A review with no saved requirement stops and asks you for one, or whether to review without | No blind review |
-| It stops for plan approval, then fixes every review finding itself and leaves what it cannot fix for you | Gate, then fixes |
-| A review request runs any unit or e2e tests that have no result for the current code | Tests are current |
-| Replies stay at three lines (except plan approval, which prints a short summary of Goal, steps, and test scope): job, what needs you, doc path | Short replies |
-| `state/jobs.md` holds each subagent job with evidence and agent ID | Jobs are traceable |
-| It ends the ticket by telling you to run the `to-*` skills | Handoff to you |
-
-## FIT IT
-
-```mermaid
-flowchart LR
-    T[to-triage] --> P[go-plan] --> W[go-work] --> E[go-e2e] --> R[go-review] --> F[go-fix] --> R2[go-review]
-```
-
-| Topic | What happens |
-| --- | --- |
-| Storage | It saves the output of every step to `~/.just-do-it/{project}/{branch}/` |
-| Subagents | It reuses one subagent per skill for the ticket; `go-review`'s agents start fresh each round |
-| After approval | You run `to-pr`, `to-test-md`, `to-test-html` |
+[Agent mapping](../skills/justaway/references/agents.md#host-mapping) · [Scheduling](../skills/justaway/references/reuse.md#parallel-steps) · [Output delivery](../skills/justaway/references/storage.md#output-delivery)
