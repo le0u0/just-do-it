@@ -50,5 +50,5 @@ Applies for per-step commits, or when the user asks.
 - Scope changed: propose a new one-line message and get approval first.
 - No plan message: the project's commit format, else `<type>: <description>`.
 - Stage only the step's files or hunks; stop if unrelated staged changes would enter.
-- Before committing, inspect the step's production and spec changes. For a manager commit, use an explicit path-scoped commit (for Git, `git commit --only -m <message> -- <paths>`), adding new paths first if needed. Verify that the commit contains only the step's changes.
+- Before committing, inspect the step's production and spec changes. For a manager commit, use an explicit path-scoped commit (for Git, `git commit --only -m <message> -- <paths>`), adding new paths first if needed. This commits the entire working-tree version of each path, regardless of staged hunks: stop before committing if any path also contains unrelated changes. Verify that the commit contains only the step's changes.
 - Record the SHA. Never push.
