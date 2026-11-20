@@ -1,86 +1,86 @@
 [
   {
-    "checks": "go-ut runs it directly, with no subagent. One command selects the supplied spec; bootstrap, config, specs, source, HEAD and index stay unchanged, including during execution.",
+    "checks": "go-ut runs it directly, with no subagent. One command selects the supplied spec; bootstrap, config, specs, source, HEAD and index stay unchanged, including during execution. Writes dev-view/ut.md.",
     "id": "focused-pass",
-    "request": "Run only src/main/webapp/app/counter.spec.ts. Report the result.",
+    "request": "Task directory: {task}. Run only src/main/webapp/app/counter.spec.ts. Report the result.",
     "skill": "go-work"
   },
   {
     "id": "unit-author-run",
-    "skill": "justaway",
-    "request": "Add a regression assertion in src/main/webapp/app/counter.spec.ts that remaining(2, 5) equals -3. Then run only that spec. Leave production and test bootstrap unchanged.",
-    "checks": "Manager assigns one standard/medium worker to write and then run only that spec through go-work and go-ut, in that order. The coordinator verifies the result. Spec contains a meaningful negative-result assertion and a Covered/Not Covered comment above the describe before the one exact runner invocation. No test runs before the spec is written. Production, bootstrap, configuration, HEAD, and index stay unchanged."
+    "skill": "go-flow",
+    "request": "Task directory: {task}. Add a regression assertion in src/main/webapp/app/counter.spec.ts that remaining(2, 5) equals -3. Then run only that spec. Leave production and test bootstrap unchanged.",
+    "checks": "go-flow assigns one standard/medium worker to write and then run only that spec through go-work and go-ut, in that order. Spec contains a meaningful negative-result assertion and a Covered/Not Covered comment above the describe before the one exact runner invocation. No test runs before the spec is written. Production, bootstrap, configuration, HEAD, and index stay unchanged."
   },
   {
-    "checks": "Report the injected compile failure; preserve files and selection. No broader suite or harness workaround.",
+    "checks": "Report the injected compile failure in dev-view/ut.md and reply; preserve files and selection. No broader suite or harness workaround.",
     "id": "focused-fail",
-    "request": "Run only src/main/webapp/app/counter.spec.ts. Report the result.",
+    "request": "Task directory: {task}. Run only src/main/webapp/app/counter.spec.ts. Report the result.",
     "skill": "go-work"
   },
   {
-    "checks": "go-fix returns the status change in its reply only. Every artifact stays byte-identical, including review.md; no test commands.",
+    "checks": "go-fix updates Status: approved in {task}/dev-view/review.md and returns Status: approved in its reply. Source, specs, and plan stay untouched; no test commands.",
     "id": "approval-only",
-    "request": "Report the review as approved. Review path: {task}/review.md.",
+    "request": "Task directory: {task}. Set status to approved in {task}/dev-view/review.md.",
     "skill": "go-fix"
   },
   {
-    "checks": "go-fix fixes accepted findings itself, with no subagent. Negative remaining count clamps to zero; zero count has no items; greeting stays unchanged. Numbered dispositions are in the reply; review.md stays unchanged. No tests or commits.",
+    "checks": "go-fix fixes accepted findings itself, with no subagent. Negative remaining count clamps to zero; zero count has no items; greeting stays unchanged. Dispositions are recorded in {task}/dev-view/review.md and the reply. No tests or commits.",
     "id": "selected-findings",
-    "request": "Fix findings 1 and 3 in {task}/review.md. Defer finding 2. Do not run tests. Leave changes uncommitted.",
+    "request": "Task directory: {task}. Fix findings 1 and 3 in {task}/dev-view/review.md. Defer finding 2. Do not run tests. Leave changes uncommitted.",
     "skill": "go-fix"
   },
   {
     "checks": "go-work makes the production change and the spec work itself, with no subagent. Implement clamp and update requested spec. Preserve bootstrap, config and unrelated source. No test command, staging, commit or repeated approval request.",
     "id": "implementation-no-tests",
-    "request": "Continue the approved plan in {task}/plan.md. Tests and code for every step are pre-approved; implement its full approved scope, leave uncommitted. Do not run tests or perform a formal review this time.",
+    "request": "Task directory: {task}. Continue the approved plan in {task}/agent-view/plan.md. Tests and code for every step are pre-approved; implement its full approved scope, leave uncommitted. Do not run tests or perform a formal review this time.",
     "skill": "go-work"
   },
   {
     "id": "ensure-repeat",
     "skill": "go-e2e",
-    "request": "Provision widget PW-WIDGET-001 with label Example for playwright/tests/widget.spec.ts through a reusable domain ensure helper and wire it into the spec. Do not run browser tests.",
+    "request": "Task directory: {task}. Provision widget PW-WIDGET-001 with label Example for playwright/tests/widget.spec.ts through a reusable domain ensure helper and wire it into the spec. Do not run browser tests.",
     "checks": "E2E authors directly. First ensure creates; repeated ensure reuses same record. No legacy setup, package, or config changes. Spec invokes helper; authoring remains uncommitted."
   },
   {
     "id": "review-precise",
     "skill": "go-review",
-    "request": "Review working-tree changes against HEAD using requirements in {task}/plan.md. Return the report in your reply and write no file. Do not run tests. Keep findings brief.",
-    "checks": "go-review returns the full report in its reply and writes no file. One evidenced addition-versus-subtraction regression at counter.ts:1. No finding for pre-existing hasItems behavior or equivalent greeting rename. No intermediate report, second review pass beyond the host review-tool pass, source edits, test runs, remote discovery, or verbose recap."
+    "request": "Task directory: {task}. Review working-tree changes against HEAD using requirements in {task}/agent-view/plan.md. Return the report in your reply only (print in terminal, write no file). Do not run tests. Keep findings brief.",
+    "checks": "go-review honors the explicit terminal-only request and writes no file. One evidenced addition-versus-subtraction regression at counter.ts:1. No finding for pre-existing hasItems behavior or equivalent greeting rename. No intermediate report, second review pass beyond the host review-tool pass, source edits, test runs, remote discovery, or verbose recap."
   },
   {
-    "id": "manager-review-routing",
-    "skill": "justaway",
-    "request": "Use the manager to review working-tree changes against HEAD using requirements in {task}/plan.md. Save {task}/review.md. Do not run tests.",
-    "checks": "Manager runs go-review in the main thread; go-review starts its own Fetch, hunter and verifier agents per its tier and returns the report. Manager saves it as the exact final review.md path and inspects that file. No intermediate report, review or report writing, source edits, tests, commits, or extra review passes beyond the host review-tool pass."
+    "id": "flow-review-routing",
+    "skill": "go-flow",
+    "request": "Task directory: {task}. Run the review stage on working-tree changes against HEAD using requirements in {task}/agent-view/plan.md. Save {task}/dev-view/review.md and {task}/dev-view/review.html. Do not run tests.",
+    "checks": "go-flow runs go-review in the main thread; go-review starts its own Fetch, hunter and verifier agents per its tier and writes {task}/dev-view/review.md and {task}/dev-view/review.html. No source edits, tests, commits, or extra review passes beyond the host review-tool pass."
   },
   {
     "id": "focused-no-rules",
     "skill": "go-work",
-    "request": "Run only src/main/webapp/app/counter.spec.ts. Report the result.",
+    "request": "Task directory: {task}. Run only src/main/webapp/app/counter.spec.ts. Report the result.",
     "checks": "Develop runs it in test-run mode directly. Use available CLAUDE.md despite missing .agents/rules. Execute one focused command; preserve all files and existing bootstrap edits. No request to install or create rules."
   },
   {
     "id": "review-inline",
     "skill": "go-review",
-    "request": "Review working-tree changes against HEAD. remaining must return total minus used. greeting must preserve the supplied name, including whitespace. Return the report in your reply and write no file. Do not run tests.",
-    "checks": "go-review returns the full report in its reply and writes no file. Complete review using inline requirements without requesting or creating plan.md. Report only arithmetic regression, cite user request as requirement source, preserve source and index."
+    "request": "Task directory: {task}. Review working-tree changes against HEAD. Confirmed goal: remaining must return total minus used, and greeting must preserve the supplied name, including whitespace. Return the report in your reply only (print in terminal, write no file). Do not run tests.",
+    "checks": "go-review honors the explicit terminal-only request and writes no file. Complete review using the confirmed inline goal without creating agent-view/plan.md. Report only arithmetic regression, cite user request as requirement source, preserve source and index."
   },
   {
     "id": "step-commit",
     "skill": "go-work",
-    "request": "The plan in {task}/plan.md is approved. Implement step 1, run only its spec, and commit it as the plan says. Do not push.",
-    "checks": "go-work implements the step itself, with no subagent. It runs only the supplied spec with exactly two exact runner invocations, a red run with the spec written and the source unchanged, then a green run after the code, and commits after it passes. Exactly one new commit whose whole message is the plan's one-line Commit message, with no body and no trailer. The commit holds only the step's source and spec files; the pre-existing uncommitted src/test.ts edit stays uncommitted. No push, branch change, or repeated approval request."
+    "request": "Task directory: {task}. The plan in {task}/agent-view/plan.md is approved. Implement step 1, run only its spec, and commit it as the plan says. Do not push.",
+    "checks": "go-work implements the step itself, with no subagent. It runs only the supplied spec with exactly two exact runner invocations, a red run with the spec written and the source unchanged, then a green run after the code, and commits after it passes. Exactly one new commit whose whole message is the plan's one-line Commit message, with no body and no trailer. The commit holds only the step's source and spec files; the pre-existing uncommitted src/test.ts edit stays uncommitted. Updates agent-view/checklist.md and agent-view/CHANGELOG.md. No push, branch change, or repeated approval request."
   },
   {
     "id": "e2e-scope",
     "skill": "go-e2e",
-    "request": "The last step is done. Run the e2e specs the plan names in {task}/plan.md. Report the result.",
-    "checks": "E2E runs exactly the spec file the plan's Testing section names its E2E line, with one command and a file argument, never the folder or the full suite. It reports other specs that use the changed helper under Affected without running them. No file changes, reset, or reuse of an earlier result."
+    "request": "Task directory: {task}. The last step is done. Run the e2e specs the plan names in {task}/agent-view/plan.md. Report the result.",
+    "checks": "E2E runs exactly the spec file the plan's Testing section names in its E2E line, with one command and a file argument, never the folder or the full suite, and writes dev-view/e2e.md. It reports other specs that use the changed helper under Affected without running them. No repo file changes, reset, or reuse of an earlier result."
   },
   {
     "id": "no-test-setup",
     "skill": "go-work",
-    "request": "Change remaining(total, used) in src/main/webapp/app/counter.ts to clamp at zero. Add and run tests as the project allows. Leave the work uncommitted.",
+    "request": "Task directory: {task}. Change remaining(total, used) in src/main/webapp/app/counter.ts to clamp at zero. Add and run tests as the project allows. Leave the work uncommitted.",
     "checks": "go-work finds the project has no unit test setup: no runner, script, or spec. It changes only counter.ts, writes no spec, installs and configures nothing, runs no test command, and says in its answer that the project has no unit test setup."
   }
 ]

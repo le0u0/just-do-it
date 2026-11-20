@@ -69,7 +69,7 @@ None.
 
 - **Goal:** one or two checkable lines: the behavior plus the specs that must pass.
   - The user confirms it; only a requirement change the user requests alters it.
-  - The manager runs the steps until it holds.
+  - `go-work` runs the steps until it holds.
 - **Statechart (when stateful):** directly after `Goal` when the feature has UI/form states, async transitions, or status lifecycles per [statechart.md](statechart.md). Include a Mermaid `stateDiagram-v2` block and one-line invariant bullets. Omit for static changes.
 - **Steps:** directly after `Goal` (or `Statechart`). Each step ends with a focused verification check and one planned commit. Group cohesive changes to avoid micro-commits. Use one step for work that can be verified together.
   - Group changes that need each other to deliver one behavior. Keep its specs, implementation, and setup used only for that behavior together. Plan separate steps for independently verifiable behaviors with disjoint writes so workers can run them together.
