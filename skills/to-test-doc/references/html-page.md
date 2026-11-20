@@ -1,6 +1,6 @@
 # HTML Page (`dev-view/testing-guide.html`)
 
-Generate a single-file, self-contained HTML QA page that testers tick through offline in any browser. Pure `.md` reference—no external `.html` template or binary assets.
+Generate a single-file, self-contained HTML QA page that testers tick through offline. Start from the [working QA example](../../../examples/example-project/PROJ-9999-prevent-duplicate-save/dev-view/testing-guide.html). Replace its `DATA` with the guide data and preserve the embedded PDF bundle and license notices.
 
 ## Format & Design
 
@@ -33,6 +33,7 @@ Generate a single-file, self-contained HTML QA page that testers tick through of
 ## Bilingual Data (`en` + `zh`)
 
 1. Format the guide data as a **multi-line, pretty-printed** `const DATA = {\n  ...\n};` JSON object at the top of `<script>` (never a single minified line, so later edits only read and `edit_file` the changed lines):
+   - Serialize `<` in JSON strings as `\u003c` before embedding JSON in the script element. Escape untrusted text and validate URLs when rendering into HTML.
    - `ticket`, `link`, `slug`, `languages: ["en", "zh"]`, `related`, `title: {en, zh}`, `setup: [{text: {en, zh}}]`, `groups: [{name: {en, zh}, why: {en, zh}, tests: [{id, title: {en, zh}, note, steps: [{en, zh}], expect: {en, zh}}]}]`.
    - Assign a stable unique `id` (`case-1`, UUID, etc.) per test. When updating an existing `dev-view/testing-guide.html`, read only its `DATA` lines first and edit the changed lines in place, preserving matching test `id`s so saved `localStorage` results survive updates.
 2. **Translate (`zh`)**:
@@ -43,4 +44,5 @@ Generate a single-file, self-contained HTML QA page that testers tick through of
 ## Saving progress & Exporting report
 
 - **State persistence**: save `{results, notes}` under `localStorage` key `qa-v2-[ticket,slug]`. If `localStorage` throws (blocked in sandboxed `file://` or preview panes), fall back to `window.name` and unhide the red warning banner.
-- **Export report**: clicking **Export report** switches the view to a clean failed-tests print report layout (showing feature title, ticket, `YYYY-MM-DD`, and failed test cards with steps, expected result, and tester notes—or `"No failed tests."` when none failed; omitting passed/unmarked details) and triggers `window.print()` (or browser Save-as-PDF) in the active language, then restores the interactive view.
+- **Export report**: clicking **Export report** directly downloads `{ticket}-qa-report-YYYY-MM-DD.pdf` in the selected language. Keep the full-width title, ticket and date, failed-test count, failed cards, highlighted expected results, and tester notes. Show a localized `No failed tests.` message when none failed. Omit passed and unmarked counts and cases.
+- Keep the compressed PDF library and its license notices inline for offline export. PDF export requires `DecompressionStream`. Report export failures inline.
