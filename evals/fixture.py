@@ -99,11 +99,11 @@ with open('runner-events.jsonl','a') as out: out.write(json.dumps({'args':sys.ar
         head = git(root, 'rev-parse', 'HEAD')
         (agent_view / 'plan.md').write_text(f'# Approved PROJ-9999 plan\nRepository: {root}\nBranch: PROJ-9999-evaluation\nInitial baseline: {head}\nApproved scope: clamp remaining(total, used) to zero when used exceeds total, and add its regression in counter.spec.ts.\nApproved files: {SOURCE}, {SPEC}\nDelivery: leave uncommitted\nValidation: user will run tests; agent must not execute tests. Formal review excluded for this run.\n')
         (agent_view / 'checklist.md').write_text(f'# Checklist\nHEAD: {head}\nNext action: implement approved clamp and spec.\n- [ ] Clamp and regression\n')
-        (dev_view / 'review.md').write_text(f'# Code review\n\nStatus: reviewed\n\n## Issue Count\n\nTODO: 3 (Critical: 0, Warning: 2, Minor: 1)\n\n## Tests\n\n- Unit:\n- E2E:\n\n## TODO\n\n### 1. Warning — counter.ts\n\n- **Issue:** remaining returns negative values.\n- **Fix:** Clamp to zero.\n\n---\n\n### 2. Minor — counter.ts\n\n- **Issue:** greeting retains surrounding whitespace.\n- **Fix:** Trim the name.\n\n---\n\n### 3. Warning — counter.ts\n\n- **Issue:** hasItems accepts zero.\n- **Fix:** Require a positive count.\n\n## RESOLVED\n\nNone.\n\n## IGNORED\n\nNone.\n\n## PRE-EXISTING\n\nNone.\n\n## Reference\n\n<sub>Repository: {root}<br>Branch: PROJ-9999-evaluation<br>Reviewed from: {head}<br>Reviewed to: {head}</sub>\n')
+        (agent_view / 'review.md').write_text(f'# Code review\n\nStatus: reviewed\n\n## Issue Count\n\nTODO: 3 (Critical: 0, Warning: 2, Minor: 1)\n\n## Tests\n\n- Unit:\n- E2E:\n\n## TODO\n\n### 1. Warning — counter.ts\n\n- **Issue:** remaining returns negative values.\n- **Fix:** Clamp to zero.\n\n---\n\n### 2. Minor — counter.ts\n\n- **Issue:** greeting retains surrounding whitespace.\n- **Fix:** Trim the name.\n\n---\n\n### 3. Warning — counter.ts\n\n- **Issue:** hasItems accepts zero.\n- **Fix:** Require a positive count.\n\n## RESOLVED\n\nNone.\n\n## IGNORED\n\nNone.\n\n## PRE-EXISTING\n\nNone.\n\n## Reference\n\n<sub>Repository: {root}<br>Branch: PROJ-9999-evaluation<br>Reviewed from: {head}<br>Reviewed to: {head}</sub>\n')
         if case['id'] in ('review-precise', 'review-inline', 'flow-review-routing'):
             (root / SOURCE).write_text('export function remaining(total, used) { return total + used; }\nexport function greeting(person) { return `Hello ${person}`; }\nexport function hasItems(count) { return count >= 0; }\n')
             (agent_view / 'plan.md').write_text(f'# Requirements\nRepository: {root}\nBranch: PROJ-9999-evaluation\nBaseline: {head}\nremaining computes total minus used. greeting returns Hello followed by the supplied name, preserving whitespace. Review current changes only.\n')
-            (dev_view / 'review.md').unlink()
+            (agent_view / 'review.md').unlink()
             if case['id'] == 'review-inline':
                 (agent_view / 'plan.md').unlink()
                 (agent_view / 'checklist.md').unlink()
@@ -172,13 +172,13 @@ def check(base):
                 if not any(a.endswith('playwright/tests/widget.spec.ts') for a in args): errors.append('plan spec not selected')
                 if any('other.spec' in a for a in args) or any(a.rstrip('/').endswith('playwright/tests') for a in args): errors.append('ran more than the plan spec')
         elif events: errors.append('unauthorized runner invocation')
-        if case['id'] == 'flow-review-routing' and not (task / 'dev-view' / 'review.md').exists(): errors.append('review report missing')
+        if case['id'] == 'flow-review-routing' and not (task / 'agent-view' / 'review.md').exists(): errors.append('review report missing')
         if case['id'] in ('review-precise', 'review-inline'):
-            if (task / 'dev-view' / 'review.md').exists(): errors.append('go-review wrote review.md despite terminal-only instruction')
+            if (task / 'agent-view' / 'review.md').exists() or (task / 'dev-view' / 'review.html').exists(): errors.append('go-review wrote review file despite terminal-only instruction')
             if case['id'] == 'review-inline' and (task / 'agent-view' / 'plan.md').exists(): errors.append('unrequested plan created')
         if case['id'] == 'no-test-setup' and (root / SPEC).exists(): errors.append('spec created without a test setup')
         if case['id'] == 'approval-only':
-            if 'Status: approved' not in (task / 'dev-view' / 'review.md').read_text():
+            if 'Status: approved' not in (task / 'agent-view' / 'review.md').read_text():
                 errors.append('review.md not marked Status: approved')
         if case['id'] in ('implementation-no-tests', 'selected-findings', 'step-commit'):
             # Evaluate behavior, not the spelling of the proposed implementation.

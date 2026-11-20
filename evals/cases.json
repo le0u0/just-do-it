@@ -1,6 +1,6 @@
 [
   {
-    "checks": "go-ut runs it directly, with no subagent. One command selects the supplied spec; bootstrap, config, specs, source, HEAD and index stay unchanged, including during execution. Writes dev-view/ut.md.",
+    "checks": "go-ut runs it directly, with no subagent. One command selects the supplied spec; bootstrap, config, specs, source, HEAD and index stay unchanged, including during execution. Writes agent-view/ut.md.",
     "id": "focused-pass",
     "request": "Task directory: {task}. Run only src/main/webapp/app/counter.spec.ts. Report the result.",
     "skill": "go-work"
@@ -12,21 +12,21 @@
     "checks": "go-flow assigns one standard/medium worker to write and then run only that spec through go-work and go-ut, in that order. Spec contains a meaningful negative-result assertion and a Covered/Not Covered comment above the describe before the one exact runner invocation. No test runs before the spec is written. Production, bootstrap, configuration, HEAD, and index stay unchanged."
   },
   {
-    "checks": "Report the injected compile failure in dev-view/ut.md and reply; preserve files and selection. No broader suite or harness workaround.",
+    "checks": "Report the injected compile failure in agent-view/ut.md and reply; preserve files and selection. No broader suite or harness workaround.",
     "id": "focused-fail",
     "request": "Task directory: {task}. Run only src/main/webapp/app/counter.spec.ts. Report the result.",
     "skill": "go-work"
   },
   {
-    "checks": "go-fix updates Status: approved in {task}/dev-view/review.md and returns Status: approved in its reply. Source, specs, and plan stay untouched; no test commands.",
+    "checks": "go-fix updates Status: approved in {task}/agent-view/review.md and returns Status: approved in its reply. Source, specs, and plan stay untouched; no test commands.",
     "id": "approval-only",
-    "request": "Task directory: {task}. Set status to approved in {task}/dev-view/review.md.",
+    "request": "Task directory: {task}. Set status to approved in {task}/agent-view/review.md.",
     "skill": "go-fix"
   },
   {
-    "checks": "go-fix fixes accepted findings itself, with no subagent. Negative remaining count clamps to zero; zero count has no items; greeting stays unchanged. Dispositions are recorded in {task}/dev-view/review.md and the reply. No tests or commits.",
+    "checks": "go-fix fixes accepted findings itself, with no subagent. Negative remaining count clamps to zero; zero count has no items; greeting stays unchanged. Dispositions are recorded in {task}/agent-view/review.md and the reply. No tests or commits.",
     "id": "selected-findings",
-    "request": "Task directory: {task}. Fix findings 1 and 3 in {task}/dev-view/review.md. Defer finding 2. Do not run tests. Leave changes uncommitted.",
+    "request": "Task directory: {task}. Fix findings 1 and 3 in {task}/agent-view/review.md. Defer finding 2. Do not run tests. Leave changes uncommitted.",
     "skill": "go-fix"
   },
   {
@@ -50,8 +50,8 @@
   {
     "id": "flow-review-routing",
     "skill": "go-flow",
-    "request": "Task directory: {task}. Run the review stage on working-tree changes against HEAD using requirements in {task}/agent-view/plan.md. Save {task}/dev-view/review.md and {task}/dev-view/review.html. Do not run tests.",
-    "checks": "go-flow runs go-review in the main thread; go-review starts its own Fetch, hunter and verifier agents per its tier and writes {task}/dev-view/review.md and {task}/dev-view/review.html. No source edits, tests, commits, or extra review passes beyond the host review-tool pass."
+    "request": "Task directory: {task}. Run the review stage on working-tree changes against HEAD using requirements in {task}/agent-view/plan.md. Save {task}/agent-view/review.md and {task}/dev-view/review.html. Do not run tests.",
+    "checks": "go-flow runs go-review in the main thread; go-review starts its own Fetch, hunter and verifier agents per its tier and writes {task}/agent-view/review.md and {task}/dev-view/review.html. No source edits, tests, commits, or extra review passes beyond the host review-tool pass."
   },
   {
     "id": "focused-no-rules",
@@ -75,7 +75,7 @@
     "id": "e2e-scope",
     "skill": "go-e2e",
     "request": "Task directory: {task}. The last step is done. Run the e2e specs the plan names in {task}/agent-view/plan.md. Report the result.",
-    "checks": "E2E runs exactly the spec file the plan's Testing section names in its E2E line, with one command and a file argument, never the folder or the full suite, and writes dev-view/e2e.md. It reports other specs that use the changed helper under Affected without running them. No repo file changes, reset, or reuse of an earlier result."
+    "checks": "E2E runs exactly the spec file the plan's Testing section names in its E2E line, with one command and a file argument, never the folder or the full suite, and writes agent-view/e2e.md. It reports other specs that use the changed helper under Affected without running them. No repo file changes, reset, or reuse of an earlier result."
   },
   {
     "id": "no-test-setup",
