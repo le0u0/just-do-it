@@ -20,7 +20,7 @@ Write the title and body for the current branch and save to `~/.just-do-it/{proj
 - Read `agent-view/plan.md`, `agent-view/commit-format.md`, `agent-view/review.md`, `agent-view/ut.md`, and `agent-view/e2e.md` when present in the branch folder.
 - The diff of the commits this PR adds, and what the user said.
   - Base: the branch the PR targets. Ask when unclear; `origin/HEAD` is only a guess.
-  - Commits already in the base or in another remote branch are not part of this PR; list the candidates and ask when unsure.
+  - Include every commit and change reachable from the intended head that is absent from the selected base. A commit appearing on another branch does not exclude it.
 - The project's own terms, from `~/.just-do-it/{project}/public/glossary.md` and repository `GLOSSARY.md` when present.
 
 ## Steps
@@ -30,8 +30,8 @@ Write the title and body for the current branch and save to `~/.just-do-it/{proj
 3. Save the body to `~/.just-do-it/{project}/{branch}/dev-view/pr.md` (or print in the terminal only when explicitly requested). Report the title and saved path.
 4. Only when asked to open the PR:
    1. Host: `git remote get-url origin`. Use the confirmed base.
-   2. Push the branch if it has no remote copy. Never force-push.
-   3. Open with the host's CLI or connector. With a saved body, GitHub CLI uses `gh pr create --base <base> --title <title> --body-file <path>`. For terminal-only delivery, pass the body through the connector or stdin with `--body-file -`.
+   2. Record the intended local commit. Query the selected remote's live head branch. If it is absent or behind, push that commit to the intended branch when authorized. Verify ancestry if needed before pushing. Stop if the remote has commits outside the intended history, the push fails, or verification is unavailable. Never force-push. Check that the live remote head matches the intended commit before opening the PR.
+   3. Open with the host's CLI or connector using the verified head. With a saved body, GitHub CLI uses `gh pr create --base <base> --head <head> --title <title> --body-file <path>`. For terminal-only delivery, pass the body through the connector or stdin with `--body-file -`.
    4. If the PR cannot be created, report the blocker and provide the host's compare or new-PR URL when known.
    5. Report the PR URL.
 

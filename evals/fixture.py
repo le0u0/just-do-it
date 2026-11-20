@@ -49,12 +49,24 @@ if '--help' in sys.argv[1:]:
     print('ng test [project] --include=<workspace-relative spec glob> --browsers=<browser> --watch=<boolean>'); sys.exit(0)
 root=pathlib.Path.cwd()
 files={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in root.rglob('*') if p.is_file() and '.git' not in p.parts and p.name!='runner-events.jsonl'}
-with open('runner-events.jsonl','a') as out: out.write(json.dumps({'args':sys.argv[1:],'files':files})+'\\n')
+event={'args':sys.argv[1:],'files':files}
 '''
         if case['id'] == 'focused-fail':
-            runner += "print('ERROR: unrelated.spec.ts: TS2322 existing type mismatch (synthetic runner)'); sys.exit(1)\n"
+            runner += "event['exit_code']=1\nwith open('runner-events.jsonl','a') as out: out.write(json.dumps(event)+'\\n')\nprint('ERROR: unrelated.spec.ts: TS2322 existing type mismatch (synthetic runner)'); sys.exit(1)\n"
+        elif case['id'] == 'step-commit':
+            runner += '''import subprocess
+source = (root / 'src/main/webapp/app/counter.ts').read_text().replace('export ', '')
+spec = (root / 'src/main/webapp/app/counter.spec.ts').read_text()
+spec = '\\n'.join(line for line in spec.splitlines() if not line.startswith('import '))
+harness = "function describe(name, fn) { fn(); } function it(name, fn) { fn(); } function expect(value) { return { toBe(expected) { if (value !== expected) throw new Error(`${value} !== ${expected}`); } }; }\\n"
+result = subprocess.run(['node', '-e', source + harness + spec])
+event['exit_code'] = result.returncode
+with open('runner-events.jsonl', 'a') as out: out.write(json.dumps(event) + '\\n')
+print('Synthetic assertion runner:', 'passed' if result.returncode == 0 else 'failed')
+sys.exit(result.returncode)
+'''
         else:
-            runner += "print('Synthetic runner: selected counter.spec.ts; TOTAL: 1 SUCCESS (fixture output only)')\n"
+            runner += "event['exit_code']=0\nwith open('runner-events.jsonl','a') as out: out.write(json.dumps(event)+'\\n')\nprint('Synthetic runner: selected counter.spec.ts; TOTAL: 1 SUCCESS (fixture output only)')\n"
         files['node_modules/.bin/ng'] = runner
         if case['id'] == 'focused-no-rules':
             files['CLAUDE.md'] = files.pop('.agents/rules/coding-instructions.mdc')
@@ -154,6 +166,9 @@ def check(base):
             runs = [event for event in events if not {'--help', '--version'} & set(event['args'])]
             expected_runs = 2 if case['id'] == 'step-commit' else 1
             if len(runs) != expected_runs: errors.append('expected %d test invocation(s)' % expected_runs)
+            if case['id'] == 'step-commit' and len(runs) == 2:
+                if runs[0].get('exit_code') in (None, 0) or runs[1].get('exit_code') != 0:
+                    errors.append('expected failing red run and passing green run')
             for event in events:
                 args = event['args']
                 if not {'--help', '--version'} & set(args) and '--include='+SPEC not in args and not any(args[i:i+2] == ['--include', SPEC] for i in range(len(args))): errors.append('missing exact spec selector')
@@ -180,7 +195,7 @@ def check(base):
         if case['id'] == 'approval-only':
             if 'Status: approved' not in (task / 'agent-view' / 'review.md').read_text():
                 errors.append('review.md not marked Status: approved')
-        if case['id'] in ('implementation-no-tests', 'selected-findings', 'step-commit'):
+        if case['id'] in ('implementation-no-tests', 'selected-findings', 'step-commit', 'no-test-setup'):
             # Evaluate behavior, not the spelling of the proposed implementation.
             js = (root/SOURCE).read_text().replace('export ', '')
             js += '\nif (remaining(2,5)!==0 || remaining(5,2)!==3 || greeting(" x ")!=="Hello  x ") process.exit(1);'

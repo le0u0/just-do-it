@@ -21,7 +21,9 @@ On `partial`, `failed`, or `blocked`, `Open` states the failed step/tool, reason
 
 ## Test report (`agent-view/ut.md` and `agent-view/e2e.md`)
 
-After a unit (`go-ut`) or E2E (`go-e2e`) run, write or update `agent-view/ut.md` or `agent-view/e2e.md` in the resolved branch directory and return the summary to the caller. Keep status fields within eight lines and include any failure excerpt.
+After a unit (`go-ut`) or E2E (`go-e2e`) run, write or update `agent-view/ut.md` or `agent-view/e2e.md` in the resolved branch directory and return the summary to the caller. In `go-ut` evidence-only mode, return the same fields directly to the coordinator without writing the shared report. Record a reproducible snapshot of HEAD, index, tracked working-tree contents, and untracked non-ignored files immediately before and after the run. If the snapshots differ, report the result as stale for the full checkout. Keep status fields within eight lines and include any failure excerpt.
+
+Compute the snapshot from the full `git rev-parse HEAD`, the NUL-delimited index entries from `git ls-files --stage -z`, binary `git diff --no-ext-diff --binary HEAD`, and sorted NUL-delimited names and content hashes of untracked non-ignored files from `git ls-files --others --exclude-standard -z`. Include file modes and symlink targets in those hashes. Use `git --no-optional-locks` for these queries so evidence collection does not refresh the shared index. Hash the length-delimited components together with SHA-256. Record the hash and method; do not rely on timestamps. If a component cannot be read or the repository changes while collecting it, mark the result stale.
 
 ```markdown
 # Unit Test Results
@@ -39,7 +41,7 @@ After a unit (`go-ut`) or E2E (`go-e2e`) run, write or update `agent-view/ut.md`
 
 ## Reference
 
-<sub>Repository: /absolute/path/to/repo<br>Branch: feature-branch<br>HEAD: a1b2c3d</sub>
+<sub>Repository: /absolute/path/to/repo<br>Branch: feature-branch<br>HEAD: a1b2c3d<br>Snapshot: reproducible snapshot and method</sub>
 ```
 
 (`agent-view/e2e.md` uses `# E2E Test Results` with the same fields.)

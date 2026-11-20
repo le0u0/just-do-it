@@ -18,6 +18,7 @@ h1{font-size:28px;margin:0 0 10px}
 h2{font-size:20px;margin:26px 0 12px}
 .bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:20px}
 .card{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--warn);border-radius:10px;padding:16px 18px;margin-bottom:14px}
+.card textarea[data-dispute]{display:block;width:100%;margin:12px 0 0;min-height:60px;font:inherit;padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface)}
 .top-row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
 .seg{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--bg)}
 .seg button{border:0;background:transparent;padding:6px 12px;font:600 13px inherit;cursor:pointer;color:var(--muted)}
@@ -61,13 +62,14 @@ a{color:var(--text);font-weight:600}
       <div><span class="badge warn">1 · Warning</span> <strong style="margin-left:6px">ProfileFormComponent</strong></div>
       <div class="seg" role="group" aria-label="Disposition for finding 1">
         <button type="button" data-action="fix" aria-pressed="true">Accept (Fix)</button>
-        <button type="button" data-action="defer" aria-pressed="false">Defer</button>
+
         <button type="button" data-action="dispute" aria-pressed="false">Dispute</button>
         <button type="button" data-action="ignore" aria-pressed="false">Ignore</button>
       </div>
     </div>
     <p style="margin:6px 0"><strong>Issue:</strong> Thrown synchronous validation error in <code>onSubmit()</code> leaves <code>isSaving</code> true and Save disabled.</p>
     <p style="margin:6px 0 0"><strong>Fix:</strong> Move <code>isSaving = true</code> after synchronous form validation or wrap in <code>try / finally</code>.</p>
+    <label hidden>Reason<textarea data-dispute rows="3"></textarea></label>
   </article>
 
   <article class="card" data-id="2">
@@ -75,24 +77,27 @@ a{color:var(--text);font-weight:600}
       <div><span class="badge warn">2 · Warning</span> <strong style="margin-left:6px">ProfileFormComponent</strong></div>
       <div class="seg" role="group" aria-label="Disposition for finding 2">
         <button type="button" data-action="fix" aria-pressed="true">Accept (Fix)</button>
-        <button type="button" data-action="defer" aria-pressed="false">Defer</button>
+
         <button type="button" data-action="dispute" aria-pressed="false">Dispute</button>
         <button type="button" data-action="ignore" aria-pressed="false">Ignore</button>
       </div>
     </div>
     <p style="margin:6px 0"><strong>Issue:</strong> Changed error handler overwrites server <code>err.error.message</code> with generic fallback text.</p>
     <p style="margin:6px 0 0"><strong>Fix:</strong> Preserve <code>err.error?.message ?? defaultError</code> display on failure.</p>
+    <label hidden>Reason<textarea data-dispute rows="3"></textarea></label>
   </article>
 </div>
 <script>
 const dispositions = { "1": "fix", "2": "fix" };
 function updateCmd() {
-  const buckets = { fix: [], defer: [], dispute: [], ignore: [] };
+  const buckets = { fix: [], dispute: [], ignore: [] };
   Object.entries(dispositions).forEach(([id, act]) => buckets[act].push(id));
   const parts = [];
   if (buckets.fix.length) parts.push("fix findings " + buckets.fix.join(", "));
-  if (buckets.defer.length) parts.push("defer " + buckets.defer.join(", "));
-  if (buckets.dispute.length) parts.push("dispute " + buckets.dispute.join(", "));
+  buckets.dispute.forEach(id => {
+    const reason = document.querySelector('.card[data-id="' + id + '"] textarea[data-dispute]').value.trim();
+    parts.push("dispute " + id + (reason ? ": " + reason : ""));
+  });
   if (buckets.ignore.length) parts.push("ignore " + buckets.ignore.join(", "));
   document.getElementById("cmd-preview").textContent = "/go-fix " + (parts.join("; ") || "set status to approved");
 }
@@ -101,9 +106,11 @@ document.querySelectorAll(".card[data-id]").forEach(card => {
     const btn = e.target.closest("button[data-action]");
     if (!btn) return;
     dispositions[card.dataset.id] = btn.dataset.action;
+    card.querySelector("label").hidden = btn.dataset.action !== "dispute";
     card.querySelectorAll("button[data-action]").forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
     updateCmd();
   });
+  card.querySelector("textarea").addEventListener("input", updateCmd);
 });
 document.getElementById("copy-btn").addEventListener("click", async () => {
   const txt = document.getElementById("cmd-preview").textContent;

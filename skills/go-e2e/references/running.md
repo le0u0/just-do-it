@@ -4,7 +4,7 @@
 
 - Take command, folder, arguments, base URL, and auth state from `~/.just-do-it/{project}/public/jdi-config.md` (and runner config).
 - Pass the documented base URL. Unresolvable: ask.
-- Run exactly the spec files named by the user or `agent-view/plan.md`'s `E2E` line, by file argument and name filter. Prefix `PLAYWRIGHT_HTML_OPEN=never`.
+- Run exactly the spec files named by the user or in the `E2E` paths in `agent-view/plan.md`'s `## Testing` section, including the adjacent `<sub>` line, by file argument and name filter. Use the `E2E` scenario to select the test. Prefix `PLAYWRIGHT_HTML_OPEN=never`.
 - Folder, tag, full suite, or e2e UI only when asked.
 - Runner cannot select by file: record `Status: blocked` in `agent-view/e2e.md` and report.
 

@@ -5,12 +5,14 @@ description: 'Write, fix or run unit specs for changed code, following the proje
 
 # Unit Tests
 
-Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/references/storage.md). If the branch folder does not exist under `~/.just-do-it/*/{branch}`, run `go-setup` first to confirm `{project}` with the user. After any test run, write or update `~/.just-do-it/{project}/{branch}/agent-view/ut.md` per [Test report](../go-flow/references/reports.md#test-report-agent-viewutmd-and-agent-viewe2emd) and return the summary to the caller.
+Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/references/storage.md). If the branch folder does not exist under `~/.just-do-it/*/{branch}`, run `go-setup` first to confirm `{project}` with the user. After any test run outside evidence-only mode, write or update `~/.just-do-it/{project}/{branch}/agent-view/ut.md` per [Test report](../go-flow/references/reports.md#test-report-agent-viewutmd-and-agent-viewe2emd) and return the summary to the caller.
 
 ## Modes
 
 - **Write or fix specs:** no production change. Report production defects; `go-work` fixes them. When running is authorized, run the focused spec and record the result in `agent-view/ut.md`.
 - **Test run:** run the named specs per [running.md](references/running.md), write `agent-view/ut.md`, and report. Change no repository files.
+
+**Evidence-only mode:** When the coordinator requests it, return the test report fields, including the snapshot, for every outcome. Skip writing the shared report, including on retries, blocked selections, and missing setup.
 
 ## Rules
 

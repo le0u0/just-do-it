@@ -11,7 +11,7 @@ Task and project documents live outside the repository under `~/.just-do-it/{pro
       glossary.md                       # domain terms, created/updated on demand
       adr/                              # NNN-short-title.md, created/updated on demand
       jdi-config.md                    # UT & E2E runner/path/command, created when handling tests
-    {branch}/                           # git branch with '/' replaced by '-'
+    {branch}/                           # branch- plus UTF-8 hexadecimal branch name
       agent-view/                       # compact Markdown consumed by agents
         research.md                     # go-research
         attachments/{ticket}/           # go-research cached ticket attachments
@@ -34,7 +34,7 @@ Task and project documents live outside the repository under `~/.just-do-it/{pro
 
 ## Skill ownership
 
-Every skill resolves `~/.just-do-it/{project}/{branch}/` before reading or writing task files. If `{branch}` does not exist under `~/.just-do-it/*/{branch}`, trigger [`go-setup`](../SKILL.md) first so `{project}` is confirmed with the user.
+Every skill resolves `~/.just-do-it/{project}/{branch}/` before reading or writing task files, using the repository and exact branch identity and legacy compatibility rules in [`go-setup`](../SKILL.md). Never infer the project from a branch directory name alone.
 
 | Skill | Reads from storage (when present) | Writes to storage |
 | --- | --- | --- |

@@ -11,7 +11,7 @@
 
 ## Step gate
 
-- Complete the assigned step through workflow step 4 of `SKILL.md`. When behavior tests are available and authorized, run the failing spec before editing the behavior and rerun it after the fix (`go-ut` writes `agent-view/ut.md`; `go-e2e` writes `agent-view/e2e.md`). Return red and green evidence. For setup only, return the named check and outcome so dependent steps can unlock.
+- Complete the assigned step through workflow step 4 of `SKILL.md`. When behavior tests are available and authorized, run the failing spec before editing the behavior and rerun it after the fix (use `go-ut` in evidence-only mode for coordinator-assigned steps and its usual report otherwise; `go-e2e` writes `agent-view/e2e.md`). Return red and green evidence. For setup only, return the named check and outcome so dependent steps can unlock.
 - A failing spec stays in the step's scope: leave bootstrap, configuration, and unrelated specs alone.
 - An existing spec that the step's change breaks is in scope: fix the code, and rerun that spec before reporting `Done`.
 

@@ -9,14 +9,14 @@ Resolve or initialize `~/.just-do-it/{project}/{branch}/` for the current checko
 
 ## Branch slug
 
-1. Run `git branch --show-current` and replace every `/` with `-` (for example, `fix/workflow-failures-triage-changelog` becomes `fix-workflow-failures-triage-changelog`).
+1. Run `git branch --show-current`. Encode the branch name as UTF-8 hexadecimal, prefixed with `branch-`; use that as the directory name. This encoding distinguishes every branch name.
 2. Detached `HEAD` or non-git directory: ask the user for a short kebab-case task name to use as `{branch}`.
 
 ## Resolve or create storage
 
-1. Check whether `~/.just-do-it/*/{branch}` already exists:
-   - **Unique match found:** reuse that `{project}` and `~/.just-do-it/{project}/{branch}/`. Ensure `agent-view/`, `dev-view/`, and `../public/` directories exist.
-   - **No match (or multiple matches across projects):** **always ask and confirm `{project}` with the user** before creating folders. Suggest the repository folder name in lowercase kebab-case as the recommended option, or list existing `~/.just-do-it/*/` project names if multiple match, but never pick or create `{project}` without user confirmation.
+1. Resolve the project for the current repository first. Reuse a project only when its existing artifacts explicitly identify this repository; otherwise confirm the project with the user. Do not identify a project from a matching branch directory alone.
+   - Within that project, reuse the encoded branch directory only when its existing artifacts identify the current repository and exact branch. If identity is missing or conflicting, confirm it before reading or writing task data.
+   - For legacy directories with `/` replaced by `-`, reuse the legacy directory only when existing task artifacts identify both the current repository and exact branch. Leave ambiguous legacy data untouched and create the encoded directory instead. Do not move or overwrite legacy data.
 2. Once `{project}` is confirmed, check write permission and create:
    - `~/.just-do-it/{project}/public/`
    - `~/.just-do-it/{project}/{branch}/agent-view/`
