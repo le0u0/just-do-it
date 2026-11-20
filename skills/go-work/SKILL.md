@@ -28,10 +28,11 @@ Report as the caller specifies. Default to `Done` / `Open` / `Changed`. Pass tes
 
 ## Workflow
 
-1. Read the [project references](references/project-references.md); follow their conventions for mocking, setup, and file placement.
-2. Ask once when the request omits a choice a project skill asks for, such as a variant or target folder.
-3. Own the whole behavior step, including its specs, implementation, and step-specific setup. Complete any approved setup needed to run the focused spec, then call `dev-tdd` once for the step. For a setup-only step, run its named verification when authorized and return the outcome.
-4. Run typecheck regularly; spec runs happen inside `dev-tdd` and `go-ut`.
+1. Read the [project references](references/project-references.md); follow their conventions for reusable components, mocking, setup, and file placement.
+2. Inspect any supplied triage brief and attached images before implementing visual or UI behavior, and match their details.
+3. Ask once when the request omits a choice a project skill asks for, such as a variant or target folder.
+4. Own the whole behavior step, including its specs, implementation, and step-specific setup. Complete any approved setup needed to run the focused spec, then call `dev-tdd` once for the step. For a setup-only step, run its named verification when authorized and return the outcome.
+5. Run typecheck regularly; spec runs happen inside `dev-tdd` and `go-ut`.
    - Passing specs and lint prove no typing. Typecheck every config the project defines, strictest included, plus editor diagnostics when a tool offers them; cover spec files too.
    - Errors in files you touched are yours to fix, or report in `Open` when pre-existing and out of scope.
-5. Self-check by reading: each behavior maps to a changed file and a spec; the diff has nothing unrelated.
+6. Self-check by reading: each behavior maps to a changed file and a spec; the diff has nothing unrelated. Report any failed or blocked tool/check instead of claiming `Done`.

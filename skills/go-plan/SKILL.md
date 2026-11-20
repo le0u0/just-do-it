@@ -14,8 +14,8 @@ description: 'Grill one ticket, then write a plan and checklist for approval. Us
 ## Inputs
 
 - Requirements come only from supplied or explicitly retrieved context. Cite supplied ticket links; a key alone says nothing.
-- Reuse the research brief supplied by `justaway`. For a direct ticket URL or explicit lookup with no brief, use `go-research` for internal context. Treat the brief as evidence pending scope approval.
-- Read the project references per [setup.md](references/setup.md) and the code the ticket likely touches.
+- Reuse the research brief and attachments supplied by `justaway`. For a direct ticket URL or explicit lookup with no brief, use `go-research` for internal context. Treat the brief as evidence pending scope approval.
+- Read the project references per [setup.md](references/setup.md), existing reusable project components, and the code the ticket likely touches.
 
 ## 1. Grill
 
@@ -47,7 +47,7 @@ Treat the ticket as a design tree: each decision branches into the decisions tha
 1. Read [plan-format.md](references/plan-format.md). Return the plan, then the checklist per [checklist-format.md](references/checklist-format.md). Record the grill's decisions under `Decisions`.
 2. Bug ticket whose diagnosis would clutter the plan: also return a diagnosis per [diagnose-format.md](references/diagnose-format.md).
 3. Check unit and e2e setup per [setup.md](references/setup.md). Record `none: no setup` when there is no setup and adding it is outside scope.
-4. Make each step concrete enough for `go-work` to run without new design decisions: owned source and test files, dependencies including shared state, public test seams, test authorization, one-line commit message, and delivery mode.
+4. Make each step concrete enough for `go-work` to run without new design decisions: owned source and test files, reusable components or triage attachments where relevant, dependencies including shared state, public test seams, test authorization, one-line commit message, and delivery mode. Group related changes into cohesive steps.
 5. List every file a step deletes under `Deletions`; plan approval covers the listed scope and its deletions.
 6. User changes the requirement: revise `Goal`, steps, and `Deletions`, return the whole plan again.
 7. New term or hard-to-reverse decision: ask the user; propose it per [domain-docs.md](references/domain-docs.md) only after they confirm.

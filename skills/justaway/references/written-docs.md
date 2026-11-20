@@ -1,6 +1,6 @@
 # Written Docs
 
-Applies to every markdown file an agent writes (`plan.md`, `triage.md`, `diagnose.md`, `checklist.md`, `jobs.md`, `review.md`).
+Applies to every markdown file an agent writes (`plan.md`, `triage.md`, `diagnose.md`, `checklist.md`, `CHANGELOG.md`, `jobs.md`, `review.md`). (`CHANGELOG.md` uses the standard `# Changelog` / `### Features` / `* <summary> (<sha>)` format per [storage.md](storage.md).)
 
 - Write only docs [storage.md](storage.md) lists; create when missing, update in place otherwise. No `plan_2.md`.
 - One line per point, at most 15 words unless the doc's format says otherwise.

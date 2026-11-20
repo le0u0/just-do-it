@@ -70,7 +70,7 @@ None.
 - **Goal:** one or two checkable lines: the behavior plus the specs that must pass.
   - The user confirms it; only a requirement change the user requests alters it.
   - The manager runs the steps until it holds.
-- **Steps:** directly after `Goal`. Each step ends with a focused verification check and one planned commit. Use one step for work that can be verified together.
+- **Steps:** directly after `Goal`. Each step ends with a focused verification check and one planned commit. Group cohesive changes to avoid micro-commits. Use one step for work that can be verified together.
   - Group changes that need each other to deliver one behavior. Keep its specs, implementation, and setup used only for that behavior together. Plan separate steps for independently verifiable behaviors with disjoint writes so workers can run them together.
   - Give required shared setup its own step when multiple later steps need it and a focused check can verify it. List that setup step under `Blocked by` for each consumer.
   - Lines: `Do`, `Test`, `Commit`, `Blocked by`, `Files`.
@@ -79,7 +79,7 @@ None.
   - `Commit`: one-line message in the confirmed format, no body.
   - `Files`: name owned source and test paths. Mark a deleted file `delete` and list it under `Deletions`.
   - `Test`: name the public seam and focused runner for a behavior, or the focused verification for shared setup. Use `none: no setup` when no runner exists and setup is outside scope. Name any shared state or existing isolation relevant to parallel execution. Write and run each behavior's failing spec first when authorized.
-  - Seams, temporary contracts, access-right changes, precedents go in `<sub>` beside `Files`, only when the developer needs them.
+  - Seams, temporary contracts, access-right changes, reusable project components, triage image paths, and precedents go in `<sub>` beside `Files`, only when the developer needs them.
 - **Acceptance criteria:** observable results, one bullet each, key error and edge cases included.
   - Group by topic under `###` headings (such as the screen, rule set, or role); every bullet sits in a headed topic group.
   - Merge overlapping bullets; aim for at most 15 in all and 5 per group.

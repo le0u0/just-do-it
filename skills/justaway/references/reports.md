@@ -10,12 +10,14 @@
 For routine implementation and test jobs, at most eight lines of status and evidence. Research returns its full brief. Planning returns a question round or the full plan and checklist.
 
 ```text
-Status: done | failed | blocked
+Status: done | partial | failed | blocked
 Changed: <files, or none>
 Commands: <command → exit code, or none>
 Artifacts: <paths, or none>
-Open: <what remains or needs the user, or none>
+Open: <what failed/timed out/denied or remains, or none>
 ```
+
+On `partial`, `failed`, or `blocked`, `Open` states the failed step/tool, reason, and missing work. Never report `done` when a required step failed.
 
 ## Test report
 

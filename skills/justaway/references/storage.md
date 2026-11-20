@@ -18,13 +18,15 @@ An output choice for the task applies to subsequent managed outputs until the us
 - Check write permission before saving. Use the host's approval flow outside writable roots. Plan approval grants no filesystem permission.
 - Pass the resolved task directory to workers that need it. Supply specific paths or text in their handoff. Workers leave user-facing documents to the coordinator.
 - Keep reports outside the repository and plugin cache unless the user explicitly selects a repository path. Update existing documents in place.
-- Write plan-derived diagnosis, commit format, checklist progress, and job history only for tasks using storage. Write shared project documents only when their project directory is known and the user approved the underlying decision. Otherwise retain needed decisions in the plan or session.
+- Write plan-derived diagnosis, commit format, checklist progress, `CHANGELOG.md`, and job history only for tasks using storage. Write shared project documents only when their project directory is known and the user approved the underlying decision. Otherwise retain needed decisions in the plan or session.
+- Task `CHANGELOG.md` format (matching conventional changelog): `# Changelog`, `## [<branch or ticket>] (<YYYY-MM-DD>)`, grouped under `### Features`, `### Bug Fixes`, `### Refactors`, etc., with `* <summary> (<short-sha>)`. Update on every commit or amend (replacing amended SHAs).
 
 ```text
 ~/.just-do-it/
   {project}/
     docs/                             # glossary.md, adr/, e2e-path.md
     {branch}/
+      CHANGELOG.md
       commit-format.md
       plan.md
       checklist.md
