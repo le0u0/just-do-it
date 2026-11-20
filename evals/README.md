@@ -14,7 +14,7 @@ flowchart LR
 | 1. Prepare | Disposable fixtures outside any real checkout (git repos, synthetic test runner, nothing installed): `python3 evals/fixture.py prepare /private/tmp/just-do-it-evals-UNIQUE` |
 | 2. Run | Per case in `cases.json`, give a fresh agent only the skill path (from `skills/`, not an installed cache), the generated `request.txt` and the `repo` directory. It saves its final answer as `response.md` beside `repo`. Withhold `checks`, `before.json` and the fixture script |
 | 3. Check | `python3 evals/fixture.py check /private/tmp/just-do-it-evals-UNIQUE` |
-| 4. Read | Traces and responses against each case's `checks`. Manager cases: confirm the coordinator dispatches the required workers, scopes their inputs, and delivers outputs according to the user’s choice |
+| 4. Read | Traces and responses against each case's `checks`. Flow cases: confirm `go-flow` dispatches the required workers, scopes their inputs, and writes outputs to `agent-view/` and `dev-view/` |
 | 5. Baseline | Repeat without the skill. A case passing both ways may be redundant: shorten it unless it guards safety, approval or scope |
 
 Run a subset with `--case CASE_ID` (repeatable) on `prepare` and `check`.

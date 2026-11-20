@@ -4,9 +4,10 @@ Apply each relevant check to every changed file type (source, templates, styles,
 
 - **Conventions:** naming, module and dependency wiring, resource cleanup, access control; match surrounding code.
 - **Async safety:** unloaded or missing data in initialization, getters, templates, create and edit modes, first render.
-- **UI:** user flow, visible and disabled states, loading, empty and error rendering, scoped styles, roles, labels, stable test selectors.
+- **UI:** user flow, visible and disabled states, loading, empty and error rendering, scoped styles, roles, labels, stable test selectors, reuse of project components, and alignment with research attachments.
 - **Localization:** no hard-coded visible text, safe fallbacks, locale parity, where the project localizes.
-- **Unit tests:** placement beside code, meaningful assertions, mocks only at system boundaries, critical and invalid inputs, unloaded state, regression coverage.
+- **Unit tests:** placement beside code, complete coverage of all observable behaviors of the touched component/unit, meaningful assertions, mocks only at system boundaries, critical and invalid inputs, unloaded state, regression coverage.
+- **Comments:** no redundant or multi-line AI comments; any necessary comment is at most 1 line (`// ...`).
 - **End-to-end tests:** stable locators, helper reuse, deterministic waits, response assertions, test-data ownership, requested run strategy.
 - **Correctness:** runtime failures, wrong or stale data, regressions, missing behavior, unnecessary changes.
 - **Code smells:** check changed lines against [smells.md](smells.md).

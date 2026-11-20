@@ -31,7 +31,7 @@ flowchart LR
 | Build a whole plan | `go-work` (calls it) |
 | One spec, no loop | `go-ut` |
 
-The manager does not call it directly.
+`go-flow` runs it through `go-work`, not directly.
 
 ## WORK IT
 

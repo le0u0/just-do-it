@@ -10,7 +10,7 @@ Count changed lines and files from the fetched diff facts, excluding paths in [s
 
 ## Roles
 
-Each call maps the role's tier per [host mapping](../../justaway/references/agents.md#host-mapping), whatever model runs the main thread.
+Each call maps the role's tier per [host mapping](../../go-flow/references/agents.md#host-mapping), whatever model runs the main thread.
 
 | Role | Tier | Quick | Standard | Deep |
 | --- | --- | --- | --- | --- |
@@ -31,11 +31,11 @@ Lenses from [review-method.md](review-method.md):
 
 ## Start
 
-- Announce each worker launch before starting per [Announce](../../justaway/references/agents.md#announce).
-- Start each hunter, verifier, and recheck worker fresh per [host mapping](../../justaway/references/agents.md#host-mapping) (avoid forks and avoid resuming earlier review workers), and clean them up when done. Fetch uses a dedicated review worker per round.
+- Announce each worker launch before starting per [Announce](../../go-flow/references/agents.md#announce).
+- Start each hunter, verifier, and recheck worker fresh per [host mapping](../../go-flow/references/agents.md#host-mapping) (avoid forks and avoid resuming earlier review workers), and clean them up when done. Fetch uses a dedicated review worker per round.
 - Fetch prompt names the absolute path to [fetch.md](fetch.md) and gives each ask with its refs, paths or URLs.
-- In Antigravity, Fetch uses Swarm like other review roles. If direct review needs a tracker unavailable to Swarm and has no research brief, the coordinator uses `go-research` for the tracker lookup and passes its brief internally. Fetch gathers the remaining review inputs. See [Antigravity dispatch](../../justaway/references/agents.md#antigravity-dispatch).
-- Prompt: role, repository path, baseline and range, absolute path of the role's reference in this skill, requirement text or path, project rule paths, and any project-local review skill paths from Fetch. Agents read the diff themselves.
+- In Antigravity, Fetch uses Swarm like other review roles. If direct review needs a tracker unavailable to Swarm and has no `agent-view/research.md`, the coordinator uses `go-research` for the tracker lookup. Fetch gathers the remaining review inputs. See [Antigravity dispatch](../../go-flow/references/agents.md#antigravity-dispatch).
+- Prompt: role, repository path, baseline and range, absolute path of the role's reference in this skill, confirmed goal/review plan (`agent-view/plan.md` or user-confirmed review goal), `public/glossary.md` and `public/adr/` paths when present, project rule paths, and any project-local review skill paths from Fetch. Agents read the diff themselves.
 - Payloads (candidates for the verifier, known findings for hunters, open findings for recheck) go in one file in system temp; the prompt names its path.
 - Hunters of one review get the same prompt, except role, ID prefix and lenses, in that order.
 - Release finished `recheck` and `Fetch` workers before hunting. With too few slots, batch hunters, collect all candidates, then run the verifier.

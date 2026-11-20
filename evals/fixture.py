@@ -23,8 +23,14 @@ def prepare(base):
     for case in CASES:
         home = base / case['id']
         root = home / 'repo'
-        task = home / 'task'
-        task.mkdir(parents=True)
+        project_dir = home / 'storage' / 'app-ui'
+        public_dir = project_dir / 'public'
+        task = project_dir / 'PROJ-9999-evaluation'
+        agent_view = task / 'agent-view'
+        dev_view = task / 'dev-view'
+        public_dir.mkdir(parents=True)
+        agent_view.mkdir(parents=True)
+        dev_view.mkdir(parents=True)
         files = {
             SOURCE: 'export function remaining(total, used) { return total - used; }\nexport function greeting(name) { return `Hello ${name}`; }\nexport function hasItems(count) { return count >= 0; }\n',
             SPEC: "import { remaining } from './counter';\ndescribe('remaining', () => { it('subtracts used', () => { expect(remaining(5, 2)).toBe(3); }); });\n",
@@ -43,12 +49,24 @@ if '--help' in sys.argv[1:]:
     print('ng test [project] --include=<workspace-relative spec glob> --browsers=<browser> --watch=<boolean>'); sys.exit(0)
 root=pathlib.Path.cwd()
 files={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in root.rglob('*') if p.is_file() and '.git' not in p.parts and p.name!='runner-events.jsonl'}
-with open('runner-events.jsonl','a') as out: out.write(json.dumps({'args':sys.argv[1:],'files':files})+'\\n')
+event={'args':sys.argv[1:],'files':files}
 '''
         if case['id'] == 'focused-fail':
-            runner += "print('ERROR: unrelated.spec.ts: TS2322 existing type mismatch (synthetic runner)'); sys.exit(1)\n"
+            runner += "event['exit_code']=1\nwith open('runner-events.jsonl','a') as out: out.write(json.dumps(event)+'\\n')\nprint('ERROR: unrelated.spec.ts: TS2322 existing type mismatch (synthetic runner)'); sys.exit(1)\n"
+        elif case['id'] == 'step-commit':
+            runner += '''import subprocess
+source = (root / 'src/main/webapp/app/counter.ts').read_text().replace('export ', '')
+spec = (root / 'src/main/webapp/app/counter.spec.ts').read_text()
+spec = '\\n'.join(line for line in spec.splitlines() if not line.startswith('import '))
+harness = "function describe(name, fn) { fn(); } function it(name, fn) { fn(); } function expect(value) { return { toBe(expected) { if (value !== expected) throw new Error(`${value} !== ${expected}`); } }; }\\n"
+result = subprocess.run(['node', '-e', source + harness + spec])
+event['exit_code'] = result.returncode
+with open('runner-events.jsonl', 'a') as out: out.write(json.dumps(event) + '\\n')
+print('Synthetic assertion runner:', 'passed' if result.returncode == 0 else 'failed')
+sys.exit(result.returncode)
+'''
         else:
-            runner += "print('Synthetic runner: selected counter.spec.ts; TOTAL: 1 SUCCESS (fixture output only)')\n"
+            runner += "event['exit_code']=0\nwith open('runner-events.jsonl','a') as out: out.write(json.dumps(event)+'\\n')\nprint('Synthetic runner: selected counter.spec.ts; TOTAL: 1 SUCCESS (fixture output only)')\n"
         files['node_modules/.bin/ng'] = runner
         if case['id'] == 'focused-no-rules':
             files['CLAUDE.md'] = files.pop('.agents/rules/coding-instructions.mdc')
@@ -65,6 +83,19 @@ with open('runner-events.jsonl','a') as out: out.write(json.dumps({'args':sys.ar
             for name in (SPEC, 'src/test.ts', 'karma.conf.js', 'tsconfig.spec.json', 'angular.json', 'node_modules/.bin/ng', 'node_modules/@angular-devkit/build-angular/src/karma/schema.json'):
                 files.pop(name, None)
             files['package.json'] = json.dumps({'private': True})
+            (public_dir / 'jdi-config.md').write_text('# JDI Config\n\n## Retry\n- **Limit:** 1\n\n## Unit\n- **Runner:** none\n\n## E2E\n- **Runner:** none\n')
+        else:
+            (public_dir / 'jdi-config.md').write_text(
+                '# JDI Config\n\n## Retry\n- **Limit:** 1\n\n## Unit\n'
+                '- **Runner:** Karma (`karma.conf.js`)\n'
+                '- **Paths:** `src/**/*.spec.ts`\n'
+                '- **Focused command:** `./node_modules/.bin/ng test app-ui --include=<spec-path> --browsers=ChromeHeadless --watch=false`\n\n'
+                '## E2E\n'
+                '- **Runner:** Playwright (`playwright.config.ts`)\n'
+                '- **Folder:** `playwright/tests/`\n'
+                '- **Base URL:** `https://fixture.invalid`\n'
+                '- **Focused command:** `PLAYWRIGHT_HTML_OPEN=never ./node_modules/.bin/playwright test <spec-path>`\n'
+            )
         for name, content in files.items():
             p = root / name
             p.parent.mkdir(parents=True, exist_ok=True)
@@ -78,16 +109,16 @@ with open('runner-events.jsonl','a') as out: out.write(json.dumps({'args':sys.ar
             with (root / 'src/test.ts').open('a') as out:
                 out.write('// Uncommitted user note.\n')
         head = git(root, 'rev-parse', 'HEAD')
-        (task / 'plan.md').write_text(f'# Approved PROJ-9999 plan\nRepository: {root}\nBranch: PROJ-9999-evaluation\nInitial baseline: {head}\nApproved scope: clamp remaining(total, used) to zero when used exceeds total, and add its regression in counter.spec.ts.\nApproved files: {SOURCE}, {SPEC}\nDelivery: leave uncommitted\nValidation: user will run tests; agent must not execute tests. Formal review excluded for this run.\n')
-        (task / 'checklist.md').write_text(f'# Checklist\nHEAD: {head}\nNext action: implement approved clamp and spec.\n- [ ] Clamp and regression\n')
-        (task / 'review.md').write_text(f'# Code review\n\nStatus: reviewed\nRepository: {root}\nBranch: PROJ-9999-evaluation\nReviewed from: {head}\nReviewed to: {head}\nRequirement: plan.md\n\n## Findings\n\n1. Warning: remaining returns negative values. Clamp to zero.\nFile: {SOURCE}:1\n\n2. Minor: greeting retains surrounding whitespace. Trim the name.\nFile: {SOURCE}:2\n\n3. Warning: hasItems accepts zero. Require a positive count.\nFile: {SOURCE}:3\n\n## Tests\nUnit: Not run.\n')
-        if case['id'] in ('review-precise', 'review-inline', 'manager-review-routing'):
+        (agent_view / 'plan.md').write_text(f'# Approved PROJ-9999 plan\nRepository: {root}\nBranch: PROJ-9999-evaluation\nInitial baseline: {head}\nApproved scope: clamp remaining(total, used) to zero when used exceeds total, and add its regression in counter.spec.ts.\nApproved files: {SOURCE}, {SPEC}\nDelivery: leave uncommitted\nValidation: user will run tests; agent must not execute tests. Formal review excluded for this run.\n')
+        (agent_view / 'checklist.md').write_text(f'# Checklist\nHEAD: {head}\nNext action: implement approved clamp and spec.\n- [ ] Clamp and regression\n')
+        (agent_view / 'review.md').write_text(f'# Code review\n\nStatus: reviewed\n\n## Issue Count\n\nTODO: 3 (Critical: 0, Warning: 2, Minor: 1)\n\n## Tests\n\n- Unit:\n- E2E:\n\n## TODO\n\n### 1. Warning — counter.ts\n\n- **Issue:** remaining returns negative values.\n- **Fix:** Clamp to zero.\n\n---\n\n### 2. Minor — counter.ts\n\n- **Issue:** greeting retains surrounding whitespace.\n- **Fix:** Trim the name.\n\n---\n\n### 3. Warning — counter.ts\n\n- **Issue:** hasItems accepts zero.\n- **Fix:** Require a positive count.\n\n## RESOLVED\n\nNone.\n\n## IGNORED\n\nNone.\n\n## PRE-EXISTING\n\nNone.\n\n## Reference\n\n<sub>Repository: {root}<br>Branch: PROJ-9999-evaluation<br>Reviewed from: {head}<br>Reviewed to: {head}</sub>\n')
+        if case['id'] in ('review-precise', 'review-inline', 'flow-review-routing'):
             (root / SOURCE).write_text('export function remaining(total, used) { return total + used; }\nexport function greeting(person) { return `Hello ${person}`; }\nexport function hasItems(count) { return count >= 0; }\n')
-            (task / 'plan.md').write_text(f'# Requirements\nRepository: {root}\nBranch: PROJ-9999-evaluation\nBaseline: {head}\nremaining computes total minus used. greeting returns Hello followed by the supplied name, preserving whitespace. Review current changes only.\n')
-            (task / 'review.md').unlink()
+            (agent_view / 'plan.md').write_text(f'# Requirements\nRepository: {root}\nBranch: PROJ-9999-evaluation\nBaseline: {head}\nremaining computes total minus used. greeting returns Hello followed by the supplied name, preserving whitespace. Review current changes only.\n')
+            (agent_view / 'review.md').unlink()
             if case['id'] == 'review-inline':
-                (task / 'plan.md').unlink()
-                (task / 'checklist.md').unlink()
+                (agent_view / 'plan.md').unlink()
+                (agent_view / 'checklist.md').unlink()
         if case['id'] == 'e2e-scope':
             for name, body in {
                 'playwright.config.ts': "export default { use: { baseURL: 'https://fixture.invalid' } };\n",
@@ -104,11 +135,11 @@ with open('runner-events.jsonl','a') as out: out.write(json.dumps({'args':sys.ar
             git(root, 'add', '.')
             git(root, '-c', 'core.hooksPath=/dev/null', '-c', 'user.name=Skill Evaluation', '-c', 'user.email=evaluation@example.invalid', 'commit', '-qm', 'Add e2e fixture')
             head = git(root, 'rev-parse', 'HEAD')
-            (task / 'plan.md').write_text(f'# Approved PROJ-9999 plan\nRepository: {root}\nBranch: PROJ-9999-evaluation\nInitial baseline: {head}\n\n## Steps\n\n### 1. Widget label\n\n- **Do:** Show the widget label.\n- **Test:** Spec: label shown. Run: yes.\n- **Commit:** `feat: show widget label`\n- **Blocked by:** none\n\n## Testing\n\n- E2E: playwright/tests/widget.spec.ts: label is visible.\n')
+            (agent_view / 'plan.md').write_text(f'# Approved PROJ-9999 plan\nRepository: {root}\nBranch: PROJ-9999-evaluation\nInitial baseline: {head}\n\n## Steps\n\n### 1. Widget label\n\n- **Do:** Show the widget label.\n- **Test:** Spec: label shown. Run: yes.\n- **Commit:** `feat: show widget label`\n- **Blocked by:** none\n\n## Testing\n\n- E2E: playwright/tests/widget.spec.ts: label is visible.\n')
             (root / 'playwright/helpers/widget.u.ts').write_text('export const widget = 2;\n')
         if case['id'] == 'step-commit':
-            (task / 'plan.md').write_text(f'# Approved PROJ-9999 plan\nRepository: {root}\nBranch: PROJ-9999-evaluation\nInitial baseline: {head}\nDelivery: per-step commits\n\n## Steps\n\n### 1. Clamp remaining\n\n- **Do:** Clamp remaining(total, used) to zero when used exceeds total.\n- **Test:** Spec: remaining(2, 5) is 0. Run: yes.\n- **Commit:** `fix: clamp remaining to zero`\n- <sub>**Files:** {SOURCE}, {SPEC}</sub>\n')
-        before = {'files': snapshot(root), 'task': {p.name:p.read_text() for p in task.iterdir()}, 'head': head, 'index': git(root, 'write-tree')}
+            (agent_view / 'plan.md').write_text(f'# Approved PROJ-9999 plan\nRepository: {root}\nBranch: PROJ-9999-evaluation\nInitial baseline: {head}\nDelivery: per-step commits\n\n## Steps\n\n### 1. Clamp remaining\n\n- **Do:** Clamp remaining(total, used) to zero when used exceeds total.\n- **Test:** Spec: remaining(2, 5) is 0. Run: yes.\n- **Commit:** `fix: clamp remaining to zero`\n- <sub>**Files:** {SOURCE}, {SPEC}</sub>\n')
+        before = {'files': snapshot(root), 'task': {str(p.relative_to(task)): p.read_text() for p in task.rglob('*') if p.is_file()}, 'head': head, 'index': git(root, 'write-tree')}
         (home / 'before.json').write_text(json.dumps(before, indent=2))
         (home / 'request.txt').write_text(case['request'].replace('{task}', str(task)))
     print(base)
@@ -116,7 +147,7 @@ with open('runner-events.jsonl','a') as out: out.write(json.dumps({'args':sys.ar
 def check(base):
     results = []
     for case in CASES:
-        home = base / case['id']; root = home / 'repo'; task = home / 'task'
+        home = base / case['id']; root = home / 'repo'; task = home / 'storage' / 'app-ui' / 'PROJ-9999-evaluation'
         before = json.loads((home / 'before.json').read_text()); after = snapshot(root)
         changed = sorted(k for k in before['files'].keys() | after.keys() if before['files'].get(k) != after.get(k))
         events = [json.loads(s) for s in (root / 'runner-events.jsonl').read_text().splitlines()] if (root / 'runner-events.jsonl').exists() else []
@@ -135,6 +166,9 @@ def check(base):
             runs = [event for event in events if not {'--help', '--version'} & set(event['args'])]
             expected_runs = 2 if case['id'] == 'step-commit' else 1
             if len(runs) != expected_runs: errors.append('expected %d test invocation(s)' % expected_runs)
+            if case['id'] == 'step-commit' and len(runs) == 2:
+                if runs[0].get('exit_code') in (None, 0) or runs[1].get('exit_code') != 0:
+                    errors.append('expected failing red run and passing green run')
             for event in events:
                 args = event['args']
                 if not {'--help', '--version'} & set(args) and '--include='+SPEC not in args and not any(args[i:i+2] == ['--include', SPEC] for i in range(len(args))): errors.append('missing exact spec selector')
@@ -153,15 +187,15 @@ def check(base):
                 if not any(a.endswith('playwright/tests/widget.spec.ts') for a in args): errors.append('plan spec not selected')
                 if any('other.spec' in a for a in args) or any(a.rstrip('/').endswith('playwright/tests') for a in args): errors.append('ran more than the plan spec')
         elif events: errors.append('unauthorized runner invocation')
-        if case['id'] == 'manager-review-routing' and not (task / 'review.md').exists(): errors.append('review report missing')
+        if case['id'] == 'flow-review-routing' and not (task / 'agent-view' / 'review.md').exists(): errors.append('review report missing')
         if case['id'] in ('review-precise', 'review-inline'):
-            if (task / 'review.md').exists(): errors.append('go-review wrote review.md')
-            if case['id'] == 'review-inline' and (task / 'plan.md').exists(): errors.append('unrequested plan created')
+            if (task / 'agent-view' / 'review.md').exists() or (task / 'dev-view' / 'review.html').exists(): errors.append('go-review wrote review file despite terminal-only instruction')
+            if case['id'] == 'review-inline' and (task / 'agent-view' / 'plan.md').exists(): errors.append('unrequested plan created')
         if case['id'] == 'no-test-setup' and (root / SPEC).exists(): errors.append('spec created without a test setup')
         if case['id'] == 'approval-only':
-            for name, original in before['task'].items():
-                if (task/name).read_text() != original: errors.append('unexpected artifact content: '+name)
-        if case['id'] in ('implementation-no-tests', 'selected-findings', 'step-commit'):
+            if 'Status: approved' not in (task / 'agent-view' / 'review.md').read_text():
+                errors.append('review.md not marked Status: approved')
+        if case['id'] in ('implementation-no-tests', 'selected-findings', 'step-commit', 'no-test-setup'):
             # Evaluate behavior, not the spelling of the proposed implementation.
             js = (root/SOURCE).read_text().replace('export ', '')
             js += '\nif (remaining(2,5)!==0 || remaining(5,2)!==3 || greeting(" x ")!=="Hello  x ") process.exit(1);'
