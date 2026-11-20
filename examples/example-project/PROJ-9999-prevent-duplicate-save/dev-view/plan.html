@@ -15,9 +15,8 @@ header{border-bottom:1px solid var(--border);padding-bottom:18px;margin-bottom:2
 h1{font-size:28px;margin:0 0 12px;line-height:1.25}
 h2{font-size:21px;margin:28px 0 12px}
 h3{font-size:16px;margin:0 0 8px}
-.goal{background:var(--surface-alt);border-left:4px solid var(--accent);padding:14px 18px;border-radius:0 10px 10px 0;font-weight:600}
+.goal{background:var(--surface-alt);border-left:4px solid var(--accent);padding:14px 18px;border-radius:0 10px 10px 0}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:16px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
 table{width:100%;border-collapse:collapse;font-size:14px;margin-top:12px}
 th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border)}
 th{color:var(--muted);font-weight:600;background:var(--bg)}
@@ -41,7 +40,13 @@ li{margin:5px 0}
     </div>
     <h1>Plan: PROJ-9999 Prevent duplicate profile saves</h1>
     <div class="goal">
-      Goal: Second Save click sends no request while the first is pending, and Save recovers on failure. <code>profile-form.component.spec.ts</code> and <code>profile-save.spec.ts</code> pass.
+      <strong>Goal (Definition of Done)</strong>
+      <ul>
+        <li>First Save click on the profile form submits one <code>PUT /api/v1/profile</code> request, disables Save, and shows <code>Saving...</code> while the request is in flight.</li>
+        <li>Rapid or repeated Save clicks while a request is pending send no additional requests.</li>
+        <li>Successful save closes the edit flow and restores clean form state.</li>
+        <li>Failed save (500 or network error) displays the server error banner and re-enables Save so the user can retry immediately.</li>
+      </ul>
     </div>
   </header>
 
@@ -108,6 +113,7 @@ li{margin:5px 0}
     <ul>
       <li><strong>Do:</strong> Ignore <code>onSubmit()</code> calls while <code>isSaving</code> is true and disable the Save button.</li>
       <li><strong>Do:</strong> Clear <code>isSaving</code> on both success and failure while preserving the server error message.</li>
+      <li><strong>Reuse:</strong> <code>AppButtonComponent</code> (<code>[loading]="isSaving"</code>) and <code>AlertBannerComponent</code> for error display.</li>
       <li><strong>Test:</strong> Repeated clicks send one request; failed save re-enables Save and shows error. (Run: yes)</li>
       <li><strong>Files:</strong> <code>src/app/profile/profile-form.component.ts</code>, <code>src/app/profile/profile-form.component.html</code>, <code>src/app/profile/profile-form.component.spec.ts</code></li>
     </ul>
@@ -117,32 +123,16 @@ li{margin:5px 0}
     </figure>
   </article>
 
-  <div class="grid">
-    <section class="card">
-      <h2 style="margin-top:0">Acceptance Criteria</h2>
-      <h3>Saving</h3>
-      <ul>
-        <li>First Save click submits one update.</li>
-        <li>Repeated clicks submit nothing more while pending.</li>
-        <li>Save stays disabled and shows <code>Saving...</code> during the request.</li>
-      </ul>
-      <h3 style="margin-top:12px">After the request</h3>
-      <ul>
-        <li>Success closes the edit flow.</li>
-        <li>Failure shows the server error banner and re-enables Save for retry.</li>
-      </ul>
-    </section>
-    <section class="card">
-      <h2 style="margin-top:0">Testing, Decisions &amp; Scope</h2>
-      <ul>
-        <li><strong>Unit Seam:</strong> <code>ProfileFormComponent.onSubmit</code> (<code>src/app/profile/profile-form.component.spec.ts</code>)</li>
-        <li><strong>E2E:</strong> Rapid double-click on Save submits once and recovers after a mocked 500 response (<code>playwright/tests/profile-save.spec.ts</code>)</li>
-        <li><strong>Decision:</strong> Lock Save on client via <code>isSaving</code> per ADR 001; API and permissions unchanged.</li>
-        <li><strong>Out of scope:</strong> Other forms outside ProfileFormComponent.</li>
-        <li><strong>Deletions:</strong> None.</li>
-      </ul>
-    </section>
-  </div>
+  <section class="card">
+    <h2 style="margin-top:0">Testing, Decisions &amp; Scope</h2>
+    <ul>
+      <li><strong>Unit Seam:</strong> <code>ProfileFormComponent.onSubmit</code> (<code>src/app/profile/profile-form.component.spec.ts</code>)</li>
+      <li><strong>E2E:</strong> Rapid double-click on Save submits once and recovers after a mocked 500 response (<code>playwright/tests/profile-save.spec.ts</code>)</li>
+      <li><strong>Decision:</strong> Lock Save on client via <code>isSaving</code> per ADR 001; reuse <code>AppButtonComponent</code> and <code>AlertBannerComponent</code>; API and permissions unchanged.</li>
+      <li><strong>Out of scope:</strong> Other forms outside ProfileFormComponent.</li>
+      <li><strong>Deletions:</strong> None.</li>
+    </ul>
+  </section>
 </div>
 </body>
 </html>

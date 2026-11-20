@@ -81,8 +81,9 @@ Model families resolve from the active host's worker options. Antigravity uses S
 
 ## Credits
 
-| Skill | Follows |
+| Skill / Feature | Follows |
 | --- | --- |
 | `dev-tdd` | Matt Pocock's [tdd](https://github.com/mattpocock/skills/tree/main/skills/engineering/tdd) skill |
 | `to-pr` | Matt Pocock's [pr](https://github.com/mattpocock/skills/tree/main/skills/engineering/pr) skill |
 | `go-e2e` | lackeyjb's [playwright-skill](https://github.com/lackeyjb/playwright-skill) |
+| `CHANGELOG.md` versioning | Google's [release-please](https://github.com/googleapis/release-please) |

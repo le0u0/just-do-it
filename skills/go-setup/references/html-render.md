@@ -48,14 +48,12 @@ Use a consistent, restrained warm-neutral theme across all `dev-view/*.html` fil
 
 ### 2. `dev-view/plan.html` (written by `go-plan`, reviewed by user for plan approval)
 
-- **Header**: Ticket key & title, `Status: draft | approved` badge, and a prominent **Goal** banner.
+- **Header**: Ticket key & title, `Status: draft | approved` badge, and a prominent **Goal** card listing the functional bullet points that define when the task is done (never boilerplate like "tests pass").
 - **Statechart & Invariants** (when the ticket has state transitions per [`statechart.md`](../../go-plan/references/statechart.md)):
   - Visual statechart diagram (`stateDiagram-v2` / SVG) showing states and user/system events.
   - Invariant & edge-case table (`State | Rule | Guarded transition / edge case`).
-- **Attachments in Scope**: inline `<figure>` previews of images from `../agent-view/attachments/{ticket}/` referenced by the plan steps.
-- **Implementation Steps**: numbered step cards showing `Do` bullets, `Test` seam & run status, `Commit` message, `Blocked by` badges, owned `Files`, and inline thumbnail links to any relevant attachment image.
-- **Acceptance Criteria & Out of Scope**: side-by-side or stacked topic cards.
-- **Decisions & Deletions**: confirmed grill decisions and explicit file deletions.
+- **Implementation Steps**: numbered step cards showing `Do` bullets (what the step handles), `Reuse` (existing components/services confirmed with the user), `Test` seam & run status, `Commit` message, `Blocked by` badges, owned `Files`, and inline `<figure>` previews of any relevant attachment image from `../agent-view/attachments/{ticket}/`.
+- **Testing, Decisions, Out of Scope & Deletions**: summary card of authorized unit/E2E specs, confirmed grill decisions, excluded scope, and approved file deletions.
 
 ### 3. `dev-view/review.html` (written by `go-review`, updated by `go-fix`)
 

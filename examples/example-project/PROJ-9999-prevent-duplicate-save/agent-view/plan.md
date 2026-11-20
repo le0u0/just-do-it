@@ -4,7 +4,10 @@ Status: approved
 
 ## Goal
 
-Second Save click sends no request while the first is pending, and Save recovers on failure. `profile-form.component.spec.ts` and `profile-save.spec.ts` pass.
+- First Save click on the profile form submits one `PUT /api/v1/profile` request, disables Save, and shows `Saving...` while the request is in flight.
+- Rapid or repeated Save clicks while a request is pending send no additional requests.
+- Successful save closes the edit flow and restores clean form state.
+- Failed save (500 or network error) displays the server error banner and re-enables Save so the user can retry immediately.
 
 ## Statechart
 
@@ -28,23 +31,11 @@ stateDiagram-v2
 
 - **Do:** Ignore `onSubmit()` calls while `isSaving` is true and disable the Save button (`attachments/PROJ-9999/profile-save-states.svg`).
 - **Do:** Clear `isSaving` on both success and failure while preserving the server error message.
+- **Reuse:** `AppButtonComponent` (`[loading]="isSaving"`) and `AlertBannerComponent` for error display.
 - **Test:** Repeated clicks send one request; failed save re-enables Save and shows error. Run: yes.
 - **Commit:** `fix: prevent duplicate profile saves`
 - **Blocked by:** none
 - <sub>**Files:** `src/app/profile/profile-form.component.ts`, `src/app/profile/profile-form.component.html`, `src/app/profile/profile-form.component.spec.ts`; attachment: `attachments/PROJ-9999/profile-save-states.svg`</sub>
-
-## Acceptance criteria
-
-### Saving
-
-- First Save click submits one update.
-- Repeated clicks submit nothing more while pending.
-- Save stays disabled and shows `Saving...` during the request.
-
-### After the request
-
-- Success closes the edit flow.
-- Failure shows the server error banner and re-enables Save for retry.
 
 ## Out of scope
 
@@ -59,6 +50,7 @@ stateDiagram-v2
 ## Decisions
 
 - Lock Save on the client via `isSaving` per ADR 001.
+- Reuse `AppButtonComponent` and `AlertBannerComponent`.
 - API contract and permissions unchanged.
 
 ## Deletions

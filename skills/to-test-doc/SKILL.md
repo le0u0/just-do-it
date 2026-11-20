@@ -17,7 +17,7 @@ Generate the manual QA testing guide. Defaults to the interactive single-file HT
 
 ## Input
 
-- `agent-view/plan.md` in the resolved branch directory, or a supplied plan/requirements and diff. Missing: ask for requirements and diff; use their acceptance criteria in place of the plan.
+- `agent-view/plan.md` in the resolved branch directory, or a supplied plan/requirements and diff. Missing: ask for requirements and diff; use their goal/criteria in place of the plan.
 - The diff from the plan's initial baseline, or the supplied diff when there is no plan.
 - Ticket key and URL from `agent-view/plan.md` and `agent-view/research.md` (or supplied requirements); if the URL is unavailable, omit the link and report it in `Open`.
 - Known terms from `public/glossary.md` when present.
@@ -42,5 +42,5 @@ Run this step by default (unless the user asked for `.md` only):
 ## Done when
 
 - `dev-view/testing-guide.html` (or `dev-view/testing-guide.md` when `.md` was requested) is saved and its path is reported.
-- Every acceptance criterion has a test (or is listed in `Open` if untestable by hand), and every step is 15 words or fewer.
+- Every `Goal` bullet in `plan.md` (or supplied requirement) has a test (or is listed in `Open` if untestable by hand), and every step is 15 words or fewer.
 - When HTML is generated, `const DATA` is multi-line for low-token partial edits, the page opens with no console error, and each `verify.md` check is reported as `pass`, `fail`, or `not verified`.

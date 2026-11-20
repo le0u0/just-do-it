@@ -30,7 +30,8 @@ Treat the ticket as a design tree: each decision branches into the decisions tha
 - Find facts yourself in code, docs, and ticket. Ask only decisions and unknown domain terms.
 - Look for: missing or conflicting requirements, unclear criteria, edge and error cases, roles, test data, dependencies, design and wording, risks to existing behavior, simpler alternatives.
 - Include in the tree:
-  - A checkable `Goal` confirmed with the user.
+  - Checkable `Goal` bullet points (the real functional objectives that determine when the task is done, including key edge/error behaviors—never boilerplate like "tests pass") confirmed with the user.
+  - Which existing components, services, or shared primitives to reuse when multiple candidates exist or reuse is unclear (never guess—ask the user).
   - Unknown terminology, product terms, or glossary clashes per [domain-docs.md](references/domain-docs.md) and [public-docs.md](../go-setup/references/public-docs.md): **never guess unknown domain terms—ask the user, then save confirmed terms to `public/glossary.md` and accepted hard-to-reverse decisions to `public/adr/`**.
   - The commit format, when the project and `agent-view/commit-format.md` have none (see Commit format).
   - Boundaries, probed with a concrete edge-case scenario.
@@ -58,8 +59,8 @@ Treat the ticket as a design tree: each decision branches into the decisions tha
 
 ## Done when
 
-- Every behavior acceptance criterion maps to a step with a failing test named (or `none: no setup`). Each shared setup step has a focused verification check.
-- Every step has a `Commit` line.
-- The `Goal` is confirmed and checkable.
+- Every `Goal` bullet maps to a step with a failing test named (or `none: no setup`). Each shared setup step has a focused verification check.
+- Every step has a `Commit` line and a `Reuse` line.
+- The `Goal` bullets are confirmed and checkable.
 - `Open` is `None.` or lists the blocking questions.
-- `agent-view/plan.md` and `agent-view/checklist.md` (plus any updates to `public/glossary.md` or `public/adr/`) are written.
+- `agent-view/plan.md`, `agent-view/checklist.md`, and `dev-view/plan.html` (plus any updates to `public/glossary.md` or `public/adr/`) are written.

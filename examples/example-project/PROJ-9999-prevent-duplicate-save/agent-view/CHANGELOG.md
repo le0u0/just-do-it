@@ -1,6 +1,6 @@
 # Changelog
 
-## [PROJ-9999-prevent-duplicate-save] (2026-11-20)
+## [0.1.0] (2026-11-20)
 
 ### Bug Fixes
 
