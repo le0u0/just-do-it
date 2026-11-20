@@ -11,7 +11,7 @@
 1. No console errors. No horizontal scroll at 390px.
 2. Each left-list link lands with its heading in view and its link highlighted, the last two included.
 3. Language switch changes every visible string and leaves none of another language. The choice survives a reload.
-4. Confirm notes appear only for failed tests and survive status changes. Export directly to PDF. Check failed steps, expected results, notes, no-failure message, selected language, and absence of summary counts and passed and unmarked details. Check reset.
+4. Confirm notes appear only for failed tests and survive status changes. Trigger Export report and verify the report view contains only the feature header, failed steps, expected results, tester notes (or no-failure message) in the selected language, and omits summary counts and passed/unmarked details. Check reset.
 5. Repeat the save test with `localStorage` blocked (`addInitScript`): red warning shows, same-tab fallback restores state.
 6. Computed font sizes match the type scale in [html-page.md](html-page.md).
 7. Reload, then open a second tab: saved state is there.

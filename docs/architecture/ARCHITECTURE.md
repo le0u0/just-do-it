@@ -1,37 +1,42 @@
 # Architecture
 
-## Coordination
+## Independent Skills & Shared Storage
 
-`justaway` runs in the main thread. It owns user communication, scope, approval, scheduling, verification, commits, and output delivery. Workers receive the specific inputs and authority they need. Each worker reads its own repository evidence.
+Every skill is independent and writes directly to `~/.just-do-it/{project}/{branch}/` (`agent-view/`, `dev-view/`, and project-level `public/`). If the branch folder is missing, any skill automatically triggers `go-setup` to confirm `{project}` with the user and create the directory structure.
+
+`go-flow` is a stateless pipeline skill that chains the independent skills in order (`go-setup` → `go-research` → `go-plan` → parallel `go-work` → `go-review` → `go-fix`) or runs any user-selected subset of steps.
 
 ```mermaid
 flowchart TD
-    U([User]) <--> M[justaway coordinator]
-    M --> R[go-research fast]
-    M <--> P[go-plan reasoning]
-    M --> S1[go-work standard<br/>step 1]
-    M --> S2[go-work standard<br/>independent step]
-    M --> E[go-e2e standard]
-    M --> C[go-review coordinator]
+    U([User]) <--> S[go-setup<br/>~/.just-do-it/project/branch]
+    S --> R[go-research fast<br/>agent-view/research.md]
+    R --> P[go-plan reasoning<br/>agent-view/plan.md & checklist.md]
+    U <--> P
+    P --> S1[go-work standard step 1<br/>dev-tdd -> go-ut / go-e2e]
+    P --> S2[go-work standard parallel step<br/>dev-tdd -> go-ut / go-e2e]
+    S1 --> C[go-review<br/>dev-view/review.md]
+    S2 --> C
     C --> F[Fetch fast]
     C --> H[Hunters standard]
     C --> V[Verifier reasoning]
+    C -->|findings| X[go-fix<br/>updates review.md & CHANGELOG.md]
 ```
 
-## Plan and build
+## Storage views
 
-- `go-research` reads live requirements and returns source and test pointers. Routine Git reads, repository search, and folder discovery stay with the thread that needs them.
-- `go-plan` owns the grill and draft across rounds. The coordinator delivers questions and user answers, then delivers the plan and checklist for approval.
-- Each approved step gets one `go-work` worker in the current checkout and branch. Ready steps run together when their writes and test execution are independent. Run whole TDD steps in sequence when test independence is unclear. Each worker runs `dev-tdd` at its approved seams and returns red and green evidence.
-- The coordinator verifies the diff and evidence, serializes approved per-step commits, and records progress. Dependent steps start after their prerequisites are delivered.
-- `go-e2e` owns the scoped E2E job and reruns.
+- **`public/` (`~/.just-do-it/{project}/public/`):**
+  - `glossary.md`: created/updated on demand whenever any skill encounters unknown domain terms or product sections ("Section B", "patient history") and confirms them with the user.
+  - `adr/`: created/updated on demand (`NNN-short-title.md`) when hard-to-reverse decisions are confirmed in `go-plan` or `go-work`.
+  - `test-config.md`: created/confirmed on demand when a skill needs to handle tests (`go-ut`, `go-e2e`).
+- **`agent-view/` (`~/.just-do-it/{project}/{branch}/agent-view/`):**
+  - `research.md` and `attachments/{ticket}/` (`go-research`)
+  - `plan.md`, `checklist.md`, `commit-format.md`, `diagnose.md` (`go-plan`, updated by `go-work` and `go-fix`)
+  - `CHANGELOG.md` (`go-work`, `go-fix`)
+- **`dev-view/` (`~/.just-do-it/{project}/{branch}/dev-view/`):**
+  - `research.html` (`go-research`, visual brief with inline downloaded attachment images)
+  - `plan.html` (`go-plan`, visual plan with statechart diagram and attachment images for user approval)
+  - `ut.md` (`go-ut`) and `e2e.md` (`go-e2e`)
+  - `review.md` and `review.html` (`go-review`, linking `[ut.md](ut.md)` and `[e2e.md](e2e.md)` under `## Tests`)
+  - `pr.md` (`to-pr`), `testing-guide.md` & `testing-guide.html` (`to-test-doc`), `handoff.md` (`to-handoff`)
 
-## Review
-
-`go-review` owns its team in either mode. The fast Fetch worker supplies review inputs. Hunters and verifier follow the Quick, Standard, or Deep tier. Re-review checks open findings and the delta within its round cap. `to-test-html` also owns its translation worker in either mode.
-
-## Delivery
-
-[Output delivery](../../skills/justaway/references/storage.md#output-delivery) controls final research, plan, review, PR, and QA guide results. Managed workers return their results privately. The user-facing thread saves to an identified task directory or prints the result when requested. Saved outputs are reported by path. The conventional directory is `~/.just-do-it/{project}/{branch}/`.
-
-[Host mapping](../../skills/justaway/references/agents.md#host-mapping) · [Scheduling](../../skills/justaway/references/reuse.md#parallel-steps) · [Review agents](../../skills/go-review/references/agents.md)
+[Storage layout](../../skills/go-setup/references/storage.md) · [Public docs](../../skills/go-setup/references/public-docs.md) · [Host mapping](../../skills/go-flow/references/agents.md#host-mapping) · [Scheduling](../../skills/go-flow/references/reuse.md#parallel-steps) · [Review agents](../../skills/go-review/references/agents.md)

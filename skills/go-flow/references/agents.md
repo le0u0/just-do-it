@@ -1,8 +1,8 @@
 # Agents
 
-The caller that launches a worker chooses its model and effort. `go-review` and `to-test-html` own their workers in either mode.
+The caller that launches a worker chooses its model and effort. `go-review` and `to-test-doc` also manage their own workers using this mapping.
 
-| Manager job | Tier | Lifecycle |
+| Flow job | Tier | Lifecycle |
 | --- | --- | --- |
 | `go-research` | `fast` | Reuse for new or refreshed requirement sources |
 | `go-plan` | `reasoning` | One worker for the grill, plan, and revisions |
@@ -16,10 +16,10 @@ Before launch, state worker, job, resolved model and effort. Omit effort when th
 ## Start
 
 1. Inspect the active host tool and model catalog. Request fresh context and pass the selectable model ID with the role's effort when supported. If the `fast` model is unavailable, use the `standard` model and its effort. For other unavailable preferred families, use the closest selectable model for that tier. Announce the actual choice. Ask before replacing a model the user explicitly requested. On Antigravity, also follow the dispatch rules below.
-2. Launch in the coordinator's existing checkout. Send its absolute repository root and current branch with the skill name, absolute `SKILL.md` path, inputs, acceptance criteria, and authorization. Workers verify the root and branch before editing or running tests. Pass no full chat transcript.
+2. Launch in the existing checkout. Send its absolute repository root, current branch, resolved `~/.just-do-it/{project}/{branch}/` directory, skill name, absolute `SKILL.md` path, inputs, acceptance criteria, and authorization. Workers verify the root and branch before editing or running tests. Pass no full chat transcript.
 3. Use the host's follow-up tool to resume the same worker when needed. A resumed worker keeps its original model and effort.
-4. Release completed step workers after verification and close other workers when their job ends or slots are needed. If a reusable worker is gone, restore it from the current inputs and decisions.
-5. Keep delegated work in the current checkout and branch. Workers return their in-place edits. Only the coordinator stages and commits approved changes on that branch. If the host requires a separate branch, worktree, or merge for a worker, report the dispatch blocker.
+4. Release completed step workers after verification and close other workers when their job ends or slots are needed. If a reusable worker is gone, restore it from the current files in `agent-view/`.
+5. Keep delegated work in the current checkout and branch. Workers return their in-place edits. In parallel step waves, serialize per-step Git commits on that branch after verifying each step. If the host requires a separate branch, worktree, or merge for a worker, report the dispatch blocker.
 
 ## Host mapping
 
@@ -41,4 +41,4 @@ Map each tier to the active host's model and effort:
 
 - In Swarm, pass the exact user-selected model and effort, or the configured tier's model and effort, using the `fast` to `standard` fallback above when needed. Swarm encodes effort in the selectable model variant. If no applicable variant is available or `workspace="inherit"` is unavailable, report the blocker. Get approval before changing a user-selected model or effort.
 - Use `workspace="inherit"` explicitly for every Swarm worker. It shares the checkout. Omit `fork` to start with fresh conversation context. Send the worker's brief and references to any relevant Swarm board posts. Workers verify the repository root and branch before editing. Verify the worker's workspace and model in Swarm status. Keep edits in place on that branch.
-- Use legacy `define_subagent` and `invoke_subagent` only for `go-research` when tracker MCP access requires it. Use `Workspace="inherit"`, grant the required tracker access, and scope writes to attachment caching. The legacy research default is `flash_lite`. If a user's requested model or effort cannot be set on that tool, report the blocker. Follow up with `send_message` and clean up via `manage_subagents(Action="kill")`.
+- Use legacy `define_subagent` and `invoke_subagent` only for `go-research` when tracker MCP access requires it. Use `Workspace="inherit"`, grant the required tracker access, and scope writes to `agent-view/research.md` and `agent-view/attachments/`. The legacy research default is `flash_lite`. If a user's requested model or effort cannot be set on that tool, report the blocker. Follow up with `send_message` and clean up via `manage_subagents(Action="kill")`.

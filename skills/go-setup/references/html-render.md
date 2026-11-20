@@ -1,0 +1,64 @@
+# HTML Render (`dev-view/*.html`)
+
+Applies to human-readable HTML views in `~/.just-do-it/{project}/{branch}/dev-view/` (`research.html`, `plan.html`, `review.html`). Agents read the compact `.md` files in `agent-view/`; the developer reads the visual `.html` pages in `dev-view/` in a browser.
+
+## Core principles
+
+1. **Single self-contained HTML file**: inline CSS and minimal vanilla JS, zero build step, works directly via `file://` or local HTTP preview.
+2. **Figure-first & scannable**: lead with the Goal, visual statechart/flow diagram, and inline attachment images before detail cards. Use short bullets and clear status badges—never walls of text.
+3. **Inline attachment images**: reference downloaded ticket images with relative paths (`../agent-view/attachments/{ticket}/{filename}`). Render each image inside a `<figure>` card with filename caption and click-to-expand `<dialog>` lightbox.
+4. **Statecharts & diagrams**: render statecharts (`stateDiagram-v2`) and flowcharts either as clean inline `<svg>` state nodes/arrows or via `<pre class="mermaid">` with the lightweight Mermaid ESM loader (`https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs`) and a plain-text fallback when offline.
+
+## Design tokens & base CSS
+
+Use a consistent, restrained warm-neutral theme across all `dev-view/*.html` files:
+
+```css
+:root {
+  --bg: #faf7f2;
+  --surface: #ffffff;
+  --surface-alt: #f6efe3;
+  --text: #2b2622;
+  --muted: #6b625a;
+  --border: #ddd3c6;
+  --accent: #faaa6c;
+  --pass: #1f7a3d;
+  --pass-bg: #e3f4e8;
+  --warn: #b25e09;
+  --warn-bg: #fef3e2;
+  --fail: #b3261e;
+  --fail-bg: #fbe5e3;
+}
+```
+
+- **Typography**: `16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Noto Sans TC", sans-serif`; headings `28px` (h1), `22px` (h2), `16px` (h3 semibold); code in `ui-monospace, SFMono-Regular, Menlo, monospace`.
+- **Layout**: max-width `1120px` centered container, `24px` padding, responsive 2-column sticky sidebar TOC + main content on desktop (`>860px`), single column on mobile, `@media print` hiding interactive controls.
+
+## Page structures
+
+### 1. `dev-view/research.html` (written by `go-research`)
+
+- **Header**: Ticket key (linked to tracker URL), title, status badge, retrieved timestamp, and linked related tickets.
+- **Visual Attachments Gallery**: grid of `<figure>` cards for every image in `../agent-view/attachments/{ticket}/` (plus a file list for non-image attachments and any missing/failed downloads).
+- **Requirements & Acceptance Criteria**: grouped cards distinguishing confirmed requirements from comments/proposals.
+- **Open Questions**: highlighted callout box for unresolved questions or unknown domain terms.
+- **Code Pointers**: table or pill list of mapped entry points, source files, and test paths.
+
+### 2. `dev-view/plan.html` (written by `go-plan`, reviewed by user for plan approval)
+
+- **Header**: Ticket key & title, `Status: draft | approved` badge, and a prominent **Goal** banner.
+- **Statechart & Invariants** (when the ticket has state transitions per [`statechart.md`](../../go-plan/references/statechart.md)):
+  - Visual statechart diagram (`stateDiagram-v2` / SVG) showing states and user/system events.
+  - Invariant & edge-case table (`State | Rule | Guarded transition / edge case`).
+- **Attachments in Scope**: inline `<figure>` previews of images from `../agent-view/attachments/{ticket}/` referenced by the plan steps.
+- **Implementation Steps**: numbered step cards showing `Do` bullets, `Test` seam & run status, `Commit` message, `Blocked by` badges, owned `Files`, and inline thumbnail links to any relevant attachment image.
+- **Acceptance Criteria & Out of Scope**: side-by-side or stacked topic cards.
+- **Decisions & Deletions**: confirmed grill decisions and explicit file deletions.
+
+### 3. `dev-view/review.html` (written by `go-review`, updated by `go-fix`)
+
+- **Header**: Branch, baseline SHA → reviewed SHA, Tier badge (`Quick` / `Standard` / `Deep`), Round number, and open issue counts by severity (`Critical`, `Warning`, `Minor`).
+- **Tests Bar**: summary cards linking to [`ut.md`](ut.md) and [`e2e.md`](e2e.md) (or marked empty/not run when absent).
+- **Findings (`TODO`, `RESOLVED`, `IGNORED`, `PRE-EXISTING`)**:
+  - Each `TODO` finding card displays its ID, severity badge, owning component/file, **Issue**, and **Fix**.
+  - Interactive disposition selector (`Accept`, `Defer`, `Dispute`, `Ignore`) on each `TODO` card plus a **"Copy `go-fix` command"** button that copies e.g. `fix review findings 1, 2; ignore 3` to the clipboard.

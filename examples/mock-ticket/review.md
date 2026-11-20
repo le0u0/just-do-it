@@ -10,8 +10,8 @@ TODO: 2 (Critical: 0, Warning: 2, Minor: 0)
 
 ## Tests
 
-- Unit: mock, not run
-- E2E: not run
+- Unit: [ut.md](ut.md)
+- E2E:
 
 ## TODO
 

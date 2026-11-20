@@ -1,14 +1,16 @@
 ---
 name: go-research
-description: 'Research a ticket, requirements link, or tracker queue. Read live requirements and evidence, then map relevant repository files and folders. Use for ticket triage, requirements research, and the research phase of justaway.'
+description: 'Research a ticket, requirements link, or tracker queue. Read live requirements and evidence, map relevant repository files and folders, and write agent-view/research.md.'
 ---
 
 # Research Requirements
 
-## Scope
+## Scope & Storage
 
 - Read requirements and trace their impact. Keep tracker and repository source read-only. Planning goes to `go-plan`.
-- A delegated worker returns the brief privately to its caller. The user-facing thread delivers it as `state/triage.md` or in the terminal per [Output delivery](../justaway/references/storage.md#output-delivery).
+- Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/references/storage.md). If the branch folder does not exist under `~/.just-do-it/*/{branch}`, run `go-setup` first to confirm `{project}` with the user.
+- Read `~/.just-do-it/{project}/public/glossary.md` when present. If you encounter unknown domain terminology or product section names that block understanding, follow [public-docs.md](../go-setup/references/public-docs.md#glossarymd): never guess, ask the user (or list under `Open questions` when running as a background worker), and update `public/glossary.md` once confirmed.
+- Save the brief for agents to `~/.just-do-it/{project}/{branch}/agent-view/research.md`, cache attachments under `agent-view/attachments/{ticket}/`, and generate the human-readable visual brief at `dev-view/research.html` (with inline attachment images) per [html-render.md](../go-setup/references/html-render.md). Report both saved paths.
 
 ## Workflow
 
@@ -31,9 +33,9 @@ description: 'Research a ticket, requirements link, or tracker queue. Read live 
    - Non-ticket link: what bears on the work, under `Requirements` or `Open questions`, with its URL.
    - Queue: priority justified from evidence.
 5. With a checkout, read relevant files directly. List likely entry points, source and test paths, and relevant folders with file evidence. Label estimates as such. Without a checkout, mark code mapping unavailable.
-6. Return a short brief, always, even for one link; a later link returns the whole updated brief. Follow [writing-rules.md](references/writing-rules.md). No credentials or personal data.
+6. Write the brief to `agent-view/research.md` (creating or updating in place) per [writing-rules.md](references/writing-rules.md) and render `dev-view/research.html` (embedding downloaded images from `../agent-view/attachments/{ticket}/`) per [html-render.md](../go-setup/references/html-render.md). No credentials or personal data.
 
-## Brief format
+## Brief format (`agent-view/research.md`)
 
 ```markdown
 # Research: PROJ-123 title
@@ -66,6 +68,7 @@ description: 'Research a ticket, requirements link, or tracker queue. Read live 
 ## Done when
 
 - Each fetched ticket, related ones included, has BOTH its body and comments fetched and read (or an explicit failure/gap reported).
-- Every attachment is read or listed (or download failure reported).
+- Every attachment is read or listed in `agent-view/attachments/{ticket}/` (or download failure reported).
 - Likely source and test paths are mapped, or a gap is recorded.
 - Any MCP, network, timeout, or permission failure is explicitly reported in `Status` and `Open`, never hidden.
+- `agent-view/research.md` and `dev-view/research.html` are written and their paths are reported.

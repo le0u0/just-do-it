@@ -1,6 +1,6 @@
-# Diagnose Format
+# Diagnose Format (`agent-view/diagnose.md`)
 
-For a bug ticket whose diagnosis would clutter the plan, return it after the plan, per the [writing rules](writing-rules.md). The caller saves it.
+For a bug ticket whose diagnosis would clutter `agent-view/plan.md`, write it to `~/.just-do-it/{project}/{branch}/agent-view/diagnose.md` per the [writing rules](writing-rules.md).
 
 ```markdown
 # Diagnose: PROJ-123 question
@@ -30,4 +30,4 @@ For a bug ticket whose diagnosis would clutter the plan, return it after the pla
 - `Conclusions` first: at most five bullets, only what affects scope, design, risk, or validation.
 - `Rejected`: one short reason each.
 - Label evidence fact, inference, or unverified.
-- Evidence, not authorization: copy conclusions into the plan's `Decisions` for approval; never keep competing scopes.
+- Evidence, not authorization: copy conclusions into `agent-view/plan.md` `Decisions` for approval; never keep competing scopes.
