@@ -1,5 +1,26 @@
 # Changelog
 
+## [3.0.0](https://github.com/le0u0/just-do-it/compare/v2.7.0...v3.0.0) (2026-11-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* replace justaway mode with independent skill storage, go-setup, go-flow, and to-test-doc
+
+### Features
+
+* configure test retries and streamline workflow ([356e327](https://github.com/le0u0/just-do-it/commit/356e327809cd6a28a198c2371ce5b10ef8414c92))
+* move ut, e2e, and review md to agent-view and default dev-view to html ([0c661be](https://github.com/le0u0/just-do-it/commit/0c661beb14567c23b15cca2d5199b64bce55a4c2))
+* replace justaway mode with independent skill storage, go-setup, go-flow, and to-test-doc ([5301ec5](https://github.com/le0u0/just-do-it/commit/5301ec5024daa724bbb7c3c3d14e2348019a74b2))
+* unify plan Goal bullets, add Reuse step line, and use release-please changelog versioning ([30f35f0](https://github.com/le0u0/just-do-it/commit/30f35f009cc8c9edec2b7d326cf4bd2b18a32795))
+
+
+### Bug Fixes
+
+* address plugin workflow review findings ([539eecc](https://github.com/le0u0/just-do-it/commit/539eecc2b36786db9e7c68000b64eb1c841f1798))
+* report failures, require comments, follow triage, and add task changelog ([37360f2](https://github.com/le0u0/just-do-it/commit/37360f215152a6aace84105b9e5c43bb11e671ca))
+* restore automatic QA report PDF export ([2500350](https://github.com/le0u0/just-do-it/commit/25003504fcf10afcf7041b974497524c859318d4))
+
 ## [2.7.0](https://github.com/le0u0/just-do-it/compare/v2.6.2...v2.7.0) (2026-11-19)
 
 
