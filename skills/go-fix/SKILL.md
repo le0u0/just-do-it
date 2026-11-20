@@ -7,6 +7,8 @@ description: 'Fix selected findings from agent-view/review.md, record dispositio
 
 Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/references/storage.md). If the branch folder does not exist under `~/.just-do-it/*/{branch}`, run `go-setup` first to confirm `{project}` with the user.
 
+Apply the project's [test retry limit](../go-setup/references/public-docs.md#jdi-configmd), including delegated work. If test configuration lacks a valid limit, run `go-setup` to confirm it before retrying.
+
 1. Read `~/.just-do-it/{project}/{branch}/agent-view/review.md` (or a user-supplied review) and the user's selected findings/dispositions. Ask when ambiguous.
 2. Read `agent-view/plan.md` and `agent-view/checklist.md` if present, project rules per [project-references.md](references/project-references.md) (including `public/glossary.md` and `public/adr/` when present), and the checkout. Compare repository, branch, reviewed SHAs. Reverify each selected finding against current code; ask when drift makes it ambiguous.
 3. Keep finding IDs. Record each disposition: accepted, deferred, disputed, ignored. Already fixed or unsupported: explain with evidence.

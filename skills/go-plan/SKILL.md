@@ -16,7 +16,7 @@ description: 'Grill one ticket, then write agent-view/plan.md and agent-view/che
 
 - Requirements come only from supplied context, `agent-view/research.md`, or explicitly retrieved sources. Cite supplied ticket links; a key alone says nothing.
 - Read `agent-view/research.md` and `agent-view/attachments/` when present in the branch folder. For a direct ticket URL or explicit lookup with no `agent-view/research.md`, run `go-research` first.
-- Read the project references per [setup.md](references/setup.md) (including `~/.just-do-it/{project}/public/glossary.md`, `public/adr/`, and `public/test-config.md` when present), existing reusable project components, and the code the ticket likely touches.
+- Read the project references per [setup.md](references/setup.md) (including `~/.just-do-it/{project}/public/glossary.md`, `public/adr/`, and `public/jdi-config.md` when present), existing reusable project components, and the code the ticket likely touches.
 
 ## 1. Grill
 
@@ -36,7 +36,7 @@ Treat the ticket as a design tree: each decision branches into the decisions tha
   - The commit format, when the project and `agent-view/commit-format.md` have none (see Commit format).
   - Boundaries, probed with a concrete edge-case scenario.
   - State transitions & missing-transition checks for stateful UI/workflows per [statechart.md](references/statechart.md).
-  - E2E scenario when E2E setup exists and UI or user flows change: read the E2E folder path from `public/test-config.md` or locate it directly. List the folder first without reading spec files, then suggest concrete scenario(s) and confirm with the user before writing the plan.
+  - E2E scenario when E2E setup exists and UI or user flows change: read the E2E folder path from `public/jdi-config.md` or locate it directly. List the folder first without reading spec files, then suggest concrete scenario(s) and confirm with the user before writing the plan.
 - Done when the frontier is empty and the user confirms shared understanding and the `Goal`. Then write `agent-view/plan.md` and `agent-view/checklist.md`. For a grill-only request, stop after the final round.
 
 ## Commit format

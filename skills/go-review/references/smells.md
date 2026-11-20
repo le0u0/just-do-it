@@ -14,3 +14,4 @@ Judgement calls: write "possible <smell>". Project rules override. Skip tooling-
 - **Message chains:** long `a.b().c().d()` walks.
 - **Middle man:** only passes calls on.
 - **Refused bequest:** subclass ignores or overrides most of what it inherits.
+- **Noisy or multi-line comments:** comments that restate what code does, or any added comment longer than 1 line.

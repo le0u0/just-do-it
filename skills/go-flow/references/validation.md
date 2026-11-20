@@ -7,6 +7,6 @@ Run after the last plan step is done, before final review.
 3. Hand the work to the next flow step (`go-e2e` when the plan's `E2E` line is not `none`, updating `agent-view/e2e.md`, else `go-review`). Pass the initial baseline and the plan's test authorization.
 4. Failed required checks or open requirements block a verified-complete claim; excluded checks are limits, not passes.
 5. Record discovered work in `agent-view/checklist.md`; ask before expanding scope.
-6. A required check still failing: assign the failure to a `go-work` worker as a new step. Ask the user only when `go-work` reports a stop condition.
+6. A required test failing: follow the project's [test retry limit](../../go-setup/references/public-docs.md#jdi-configmd). For other failed required checks, assign the failure to a `go-work` worker as a new step; ask the user when `go-work` reports a stop condition.
 
 Finish with delivered behavior, validation limits, and uncommitted files or commit SHAs.

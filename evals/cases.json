@@ -9,7 +9,7 @@
     "id": "unit-author-run",
     "skill": "go-flow",
     "request": "Task directory: {task}. Add a regression assertion in src/main/webapp/app/counter.spec.ts that remaining(2, 5) equals -3. Then run only that spec. Leave production and test bootstrap unchanged.",
-    "checks": "go-flow assigns one standard/medium worker to write and then run only that spec through go-work and go-ut, in that order. Spec contains a meaningful negative-result assertion and a Covered/Not Covered comment above the describe before the one exact runner invocation. No test runs before the spec is written. Production, bootstrap, configuration, HEAD, and index stay unchanged."
+    "checks": "go-flow assigns one standard/medium worker to write and then run only that spec through go-work and go-ut, in that order. Spec contains a meaningful negative-result assertion before the one exact runner invocation. No test runs before the spec is written. Production, bootstrap, configuration, HEAD, and index stay unchanged."
   },
   {
     "checks": "Report the injected compile failure in agent-view/ut.md and reply; preserve files and selection. No broader suite or harness workaround.",

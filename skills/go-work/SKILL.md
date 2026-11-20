@@ -16,6 +16,7 @@ Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/referen
 
 ## Rules
 
+- Apply the project's [test retry limit](../go-setup/references/public-docs.md#jdi-configmd), including delegated work. If test configuration lacks a valid limit, run `go-setup` to confirm it.
 - Stay on the current branch.
 - In a parallel `go-flow` wave, leave `HEAD` and the index untouched for the flow coordinator to serialize commits, and report questions to the caller. For standalone work or single-step execution, commit per the plan's per-step delivery or when the user approves the work and the exact one-line message, and update `agent-view/CHANGELOG.md` and `agent-view/checklist.md`.
 - A small follow-up to committed work amends instead of adding a commit:
@@ -24,6 +25,7 @@ Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/referen
   3. Otherwise one new commit.
   4. Never amend a pushed commit.
 - Unknown domain terms, product concepts, or hard-to-reverse trade-offs encountered during implementation: **never guess**—ask the user and update `~/.just-do-it/{project}/public/glossary.md` or `public/adr/` per [public-docs.md](../go-setup/references/public-docs.md).
+- Comments: write self-explanatory code without comments by default. When a non-obvious constraint requires a comment, limit it to **1 line only (`// ...`)**—never add multi-line comments or JSDoc blocks unless project rules require them.
 - Claim only what you read or ran. Say "seen in a listing" for the rest.
 - Review is `go-review`'s job; finished work goes there.
 

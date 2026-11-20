@@ -8,7 +8,8 @@ Resolves or initializes `~/.just-do-it/{project}/{branch}/` (`agent-view/`, `dev
 2. Checks if `~/.just-do-it/*/{branch}` already exists.
    - **Exists:** reuses `{project}` and ensures `agent-view/`, `dev-view/`, and `public/` exist.
    - **Missing:** **always asks and confirms `{project}` with the user** before creating directories.
-3. When a skill needs to handle tests (`go-ut`, `go-e2e`, or explicit test setup) and `~/.just-do-it/{project}/public/test-config.md` does not exist yet, detects the repo's unit and E2E runners/paths/commands, confirms with the user, and writes `public/test-config.md`.
-4. `public/glossary.md` and `public/adr/` are not pre-created empty; they are created and updated on demand when unknown domain terms or hard-to-reverse decisions are confirmed with the user.
+3. On a direct call, lists all editable settings and current values: retry limit; unit runner, paths, and command; E2E runner, folder, base URL, command, authentication state, and test data. Updates requested fields while preserving the rest.
+4. When a skill needs test settings, confirms missing settings and saves them in `public/jdi-config.md`.
+5. `public/glossary.md` and `public/adr/` are not pre-created empty; they are created and updated on demand when unknown domain terms or hard-to-reverse decisions are confirmed with the user.
 
 [Skill](../skills/go-setup/SKILL.md) · [Storage layout](../skills/go-setup/references/storage.md) · [Public docs](../skills/go-setup/references/public-docs.md)

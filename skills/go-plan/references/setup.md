@@ -2,7 +2,7 @@
 
 ## Test setup
 
-1. Read `~/.just-do-it/{project}/public/test-config.md` if it already exists.
+1. Read `~/.just-do-it/{project}/public/jdi-config.md` if it already exists.
 2. Otherwise inspect what the project uses:
    - **Unit:** runner config, `package.json` scripts or build files, existing specs (location, naming), any project test rule or skill.
    - **E2E:** runner config and scripts, e2e folder and specs, documented base URL, auth state, test data.

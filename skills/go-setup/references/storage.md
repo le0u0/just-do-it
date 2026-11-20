@@ -10,7 +10,7 @@ Task and project documents live outside the repository under `~/.just-do-it/{pro
     public/                             # shared across branches of {project}
       glossary.md                       # domain terms, created/updated on demand
       adr/                              # NNN-short-title.md, created/updated on demand
-      test-config.md                    # UT & E2E runner/path/command, created when handling tests
+      jdi-config.md                    # UT & E2E runner/path/command, created when handling tests
     {branch}/                           # git branch with '/' replaced by '-'
       agent-view/                       # compact Markdown consumed by agents
         research.md                     # go-research
@@ -38,12 +38,12 @@ Every skill resolves `~/.just-do-it/{project}/{branch}/` before reading or writi
 
 | Skill | Reads from storage (when present) | Writes to storage |
 | --- | --- | --- |
-| `go-setup` | `~/.just-do-it/*/{branch}` | Creates `public/`, `agent-view/`, `dev-view/`; writes `public/test-config.md` when test setup is requested |
+| `go-setup` | `~/.just-do-it/*/{branch}` | Creates `public/`, `agent-view/`, `dev-view/`; writes `public/jdi-config.md` when test setup is requested |
 | `go-research` | `public/glossary.md` | `agent-view/research.md`, `agent-view/attachments/{ticket}/`, `dev-view/research.html` |
-| `go-plan` | `agent-view/research.md`, `agent-view/attachments/`, `public/glossary.md`, `public/adr/`, `public/test-config.md` | `agent-view/plan.md`, `agent-view/checklist.md`, `agent-view/commit-format.md`, `agent-view/diagnose.md`, `dev-view/plan.html`, plus on-demand updates to `public/glossary.md` and `public/adr/` |
+| `go-plan` | `agent-view/research.md`, `agent-view/attachments/`, `public/glossary.md`, `public/adr/`, `public/jdi-config.md` | `agent-view/plan.md`, `agent-view/checklist.md`, `agent-view/commit-format.md`, `agent-view/diagnose.md`, `dev-view/plan.html`, plus on-demand updates to `public/glossary.md` and `public/adr/` |
 | `go-work` | `agent-view/plan.md`, `agent-view/checklist.md`, `agent-view/research.md`, `agent-view/attachments/`, `agent-view/commit-format.md`, `public/glossary.md`, `public/adr/` | Updates `agent-view/checklist.md`, `agent-view/CHANGELOG.md`, `agent-view/diagnose.md`, plus on-demand updates to `public/glossary.md` and `public/adr/` |
-| `go-ut` | `public/test-config.md` (triggers test-config setup if missing) | `agent-view/ut.md` |
-| `go-e2e` | `public/test-config.md` (triggers test-config setup if missing), `agent-view/plan.md` | `agent-view/e2e.md` |
+| `go-ut` | `public/jdi-config.md` (triggers configuration setup if missing) | `agent-view/ut.md` |
+| `go-e2e` | `public/jdi-config.md` (triggers configuration setup if missing), `agent-view/plan.md` | `agent-view/e2e.md` |
 | `go-review` | `agent-view/plan.md`, `agent-view/research.md`, `agent-view/review.md`, `agent-view/ut.md`, `agent-view/e2e.md`, `public/glossary.md`, `public/adr/` | `agent-view/review.md` (referencing `ut.md` and `e2e.md`), `dev-view/review.html` |
 | `go-fix` | `agent-view/review.md`, `agent-view/plan.md`, `agent-view/checklist.md` | Updates `agent-view/review.md`, `dev-view/review.html`, `agent-view/checklist.md`, `agent-view/CHANGELOG.md` |
 | `to-pr` | `agent-view/plan.md`, `agent-view/review.md`, `agent-view/ut.md`, `agent-view/e2e.md`, `public/glossary.md` | `dev-view/pr.md` (always `.md`) |

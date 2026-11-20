@@ -1,4 +1,8 @@
-# Test Config
+# JDI Config
+
+## Retry
+
+- **Limit:** 1
 
 ## Unit
 

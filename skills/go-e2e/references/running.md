@@ -2,7 +2,7 @@
 
 ## Run
 
-- Take command, folder, arguments, base URL, and auth state from `~/.just-do-it/{project}/public/test-config.md` (and runner config).
+- Take command, folder, arguments, base URL, and auth state from `~/.just-do-it/{project}/public/jdi-config.md` (and runner config).
 - Pass the documented base URL. Unresolvable: ask.
 - Run exactly the spec files named by the user or `agent-view/plan.md`'s `E2E` line, by file argument and name filter. Prefix `PLAYWRIGHT_HTML_OPEN=never`.
 - Folder, tag, full suite, or e2e UI only when asked.

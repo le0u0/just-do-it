@@ -2,12 +2,12 @@
 
 ## Scope
 
-- Use the setup from [test-setup.md](test-setup.md) (`~/.just-do-it/{project}/public/test-config.md`).
+- Use the setup from [test-setup.md](test-setup.md) (`~/.just-do-it/{project}/public/jdi-config.md`).
 - Focused specs only: the step's specs; on a rerun, the failed specs plus those the fix changed.
 
 ## Steps
 
-1. Read `public/test-config.md` (or `package.json` scripts and runner config when initializing `public/test-config.md`).
+1. Read `public/jdi-config.md` (or `package.json` scripts and runner config when initializing `public/jdi-config.md`).
    - Check wrapper scripts first. Run the project's own script or local binary, never a global CLI.
    - Pick a command that selects tests without rewriting source or configuration.
    - Never install or upgrade a runner to gain a selector.

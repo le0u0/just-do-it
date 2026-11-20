@@ -67,7 +67,7 @@ Model families resolve from the active host's worker options. Antigravity uses S
 | --- | --- |
 | Announces | Model and effort per subagent; tell it a preference and it uses that |
 | Storage | Outputs save to `agent-view/` and `dev-view/` under the project's branch directory; shared glossary, ADRs, and test config live in `public/`. See [Storage](skills/go-setup/references/storage.md) |
-| Docs | [Architecture](docs/architecture/ARCHITECTURE.md); one doc per skill in [`docs/`](docs/), such as [`docs/go-review.md`](docs/go-review.md) |
+| Docs | [Workflow](docs/go-flow.md); one doc per skill in [`docs/`](docs/), such as [`docs/go-review.md`](docs/go-review.md) |
 
 ## Method & Utility Skills
 

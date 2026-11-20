@@ -41,20 +41,25 @@ Holds Architecture Decision Records (`~/.just-do-it/{project}/public/adr/NNN-sho
 - **Why:** One line stating the trade-off and reason.
 ```
 
-## `test-config.md`
+## `jdi-config.md`
 
-Holds the project's confirmed unit and E2E test setup (`~/.just-do-it/{project}/public/test-config.md`). Created **only** when a skill needs to handle tests (`go-ut`, `go-e2e`, or test verification in `go-work` / `go-plan`).
+Holds the project's confirmed settings at `~/.just-do-it/{project}/public/jdi-config.md`. Created when needed by a skill or requested through `go-setup`.
 
 ### Rules
 
-1. If `public/test-config.md` exists, read and follow it without prompting.
-2. If `public/test-config.md` does not exist when a test-handling skill runs:
+1. If `public/jdi-config.md` exists, read and follow it. If its retry limit is missing or invalid, ask the user to confirm a non-negative integer (recommend `1`) and update the file before retrying.
+2. If `public/jdi-config.md` does not exist when a test-handling skill runs:
    - Inspect `package.json`, runner config files (`vitest.config.*`, `karma.conf.*`, `jest.config.*`, `playwright.config.*`, `cypress.config.*`), and test directories.
    - Present the detected unit and E2E candidates to the user and **confirm before saving**.
-   - Write `~/.just-do-it/{project}/public/test-config.md`:
+   - Ask for a non-negative test retry limit; recommend `1` retry after the initial failed verification run.
+   - Write `~/.just-do-it/{project}/public/jdi-config.md`:
 
 ```markdown
-# Test Config
+# JDI Config
+
+## Retry
+
+- **Limit:** 1
 
 ## Unit
 
@@ -68,6 +73,9 @@ Holds the project's confirmed unit and E2E test setup (`~/.just-do-it/{project}/
 - **Folder:** `playwright/tests/`
 - **Base URL:** `http://localhost:4200`
 - **Focused command:** `PLAYWRIGHT_HTML_OPEN=never npx playwright test <spec-path>`
+- **Authentication state:** none
+- **Test data:** project fixtures
 ```
 
 - If the project has no unit or E2E setup, record `Runner: none` after confirming with the user.
+- The limit counts retries after the first unexpected failed verification run for the same failure, across skills and delegated workers. Expected TDD red runs do not count. After each failure, diagnose and attempt an authorized fix before retrying. When the limit is exhausted, stop the affected work, report the failure and evidence, and ask the user how to proceed. A limit of `0` stops after the first failure. Do not reset the count when delegating or changing workflow stages; carry the count and evidence to the caller. A new user instruction to continue starts a new retry allowance.
