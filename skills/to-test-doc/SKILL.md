@@ -1,17 +1,19 @@
 ---
 name: to-test-doc
-description: 'Write the manual QA testing guide for a finished ticket as Markdown (dev-view/testing-guide.md) or a single-file interactive HTML QA page (dev-view/testing-guide.html). Asks whether to generate md or html when not specified.'
+description: 'Write the manual QA testing guide for a finished ticket as a single-file interactive HTML QA page (dev-view/testing-guide.html) by default, or Markdown (dev-view/testing-guide.md) when requested.'
 disable-model-invocation: true
 ---
 
 # Testing Guide (`to-test-doc`)
 
-Generate the manual QA testing guide as Markdown (`dev-view/testing-guide.md`), interactive single-file HTML (`dev-view/testing-guide.html`), or both.
+Generate the manual QA testing guide. Defaults to the interactive single-file HTML QA page (`dev-view/testing-guide.html`) unless the user explicitly asks for Markdown (`dev-view/testing-guide.md`).
 
 ## Storage
 
 1. Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/references/storage.md). If the branch folder does not exist under `~/.just-do-it/*/{branch}`, run `go-setup` first to confirm `{project}` with the user.
-2. If the user did not specify `md` or `html` in their request, **ask whether they want Markdown (`testing-guide.md`), HTML (`testing-guide.html`), or both**.
+2. Output format:
+   - **Default:** generate `dev-view/testing-guide.html`.
+   - **User prefers `.md` (or asks for both):** generate `dev-view/testing-guide.md` (and `dev-view/testing-guide.html` if both).
 
 ## Input
 
@@ -20,33 +22,25 @@ Generate the manual QA testing guide as Markdown (`dev-view/testing-guide.md`), 
 - Ticket key and URL from `agent-view/plan.md` and `agent-view/research.md` (or supplied requirements); if the URL is unavailable, omit the link and report it in `Open`.
 - Known terms from `public/glossary.md` when present.
 
-## 1. Markdown Guide (`dev-view/testing-guide.md`)
-
-Run this step when generating Markdown, or when HTML is requested and `dev-view/testing-guide.md` does not exist yet:
+## 1. Draft Guide Content
 
 1. Read the plan, research brief, and diff. Use screen names users see—no file paths or component names.
-2. Write the guide per [guide-format.md](references/guide-format.md).
-3. Save to `~/.just-do-it/{project}/{branch}/dev-view/testing-guide.md` (or print in the terminal only when explicitly requested).
-4. Include `Open` with the saved path:
-   - Behaviors in the diff, plan, or supplied requirements that no test covers.
-   - Tests that cannot be done by hand, such as fetch failure or timing.
-5. Change the test list only on the user's answer.
+2. Structure the test cases per [guide-format.md](references/guide-format.md).
+3. If the user requested Markdown (`dev-view/testing-guide.md`), save it to `~/.just-do-it/{project}/{branch}/dev-view/testing-guide.md`.
 
-## 2. HTML QA Page (`dev-view/testing-guide.html`)
+## 2. HTML QA Page (`dev-view/testing-guide.html`, default)
 
-Run this step when generating HTML:
+Run this step by default (unless the user asked for `.md` only):
 
-1. Read `dev-view/testing-guide.md` (generating it via Step 1 first if missing). Check any existing `dev-view/testing-guide.html` first so test IDs can be preserved.
-2. Translate and build the single-file HTML page per [html-page.md](references/html-page.md): start one `fast` subagent per [host mapping](../go-flow/references/agents.md#host-mapping) to add `zh` translations to every text. If the translation worker cannot start, report blocked and write no HTML.
+1. Check any existing `dev-view/testing-guide.html` first so test IDs can be preserved.
+2. Translate and build the single-file HTML page per [html-page.md](references/html-page.md):
+   - Format `const DATA = { ... };` as **multi-line pretty-printed JSON** at the top of `<script>` so future small updates only need to read and `edit_file` the changed lines.
+   - Start one `fast` subagent per [host mapping](../go-flow/references/agents.md#host-mapping) to add `zh` translations to every text. If the translation worker cannot start, report blocked and write no HTML.
 3. Verify per [verify.md](references/verify.md).
-4. Save as `~/.just-do-it/{project}/{branch}/dev-view/testing-guide.html` and report the path and verification status.
-
-## Rules
-
-- When updating an existing HTML guide after content changes, update `dev-view/testing-guide.md` first, then regenerate `dev-view/testing-guide.html`.
+4. Save as `~/.just-do-it/{project}/{branch}/dev-view/testing-guide.html` and report the path, verification status, and `Open` coverage gaps (behaviors no test covers or tests that cannot be done by hand).
 
 ## Done when
 
-- The requested format (`dev-view/testing-guide.md`, `dev-view/testing-guide.html`, or both) is saved and its path is reported.
+- `dev-view/testing-guide.html` (or `dev-view/testing-guide.md` when `.md` was requested) is saved and its path is reported.
 - Every acceptance criterion has a test (or is listed in `Open` if untestable by hand), and every step is 15 words or fewer.
-- When HTML is generated, the page opens with no console error and each `verify.md` check is reported as `pass`, `fail`, or `not verified`.
+- When HTML is generated, `const DATA` is multi-line for low-token partial edits, the page opens with no console error, and each `verify.md` check is reported as `pass`, `fail`, or `not verified`.

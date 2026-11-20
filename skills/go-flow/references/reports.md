@@ -19,9 +19,9 @@ Open: <what failed/timed out/denied or remains, or none>
 
 On `partial`, `failed`, or `blocked`, `Open` states the failed step/tool, reason, and missing work. Never report `done` when a required step failed.
 
-## Test report (`dev-view/ut.md` and `dev-view/e2e.md`)
+## Test report (`agent-view/ut.md` and `agent-view/e2e.md`)
 
-After a unit (`go-ut`) or E2E (`go-e2e`) run, write or update `dev-view/ut.md` or `dev-view/e2e.md` in the resolved branch directory and return the summary to the caller. Keep status fields within eight lines and include any failure excerpt.
+After a unit (`go-ut`) or E2E (`go-e2e`) run, write or update `agent-view/ut.md` or `agent-view/e2e.md` in the resolved branch directory and return the summary to the caller. Keep status fields within eight lines and include any failure excerpt.
 
 ```markdown
 # Unit Test Results
@@ -42,7 +42,7 @@ After a unit (`go-ut`) or E2E (`go-e2e`) run, write or update `dev-view/ut.md` o
 <sub>Repository: /absolute/path/to/repo<br>Branch: feature-branch<br>HEAD: a1b2c3d</sub>
 ```
 
-(`dev-view/e2e.md` uses `# E2E Test Results` with the same fields.)
+(`agent-view/e2e.md` uses `# E2E Test Results` with the same fields.)
 
 - **done:** `Result` has counts (`12 specs, 0 failed`), `Commands` exit 0. `Failure` is `None.`.
 - **failed:** put each failed spec and test name in `Result`. Include the exact error and top relevant stack lines under `Failure`. For a runner or compile failure, include its decisive error.

@@ -1,4 +1,4 @@
-# Review Report (`dev-view/review.md`)
+# Review Report (`agent-view/review.md`)
 
 ## Style
 
@@ -64,7 +64,7 @@ None.
 - **Issue:** trigger and impact; start with `Unconfirmed:` when reachability is unsettled. **Fix:** corrective action; one alternative at most.
 - **Done / Status:** only in `RESOLVED`; updated by `go-fix` or by a re-review that finds an author's fix.
   - `Status`: `fixed (e4f5g6h)`, `fixed, tested`, `fixed, not tested`, `deferred`, `disputed`, `ignored by user`.
-- **Tests:** references to `dev-view/ut.md` and `dev-view/e2e.md` (written directly by `go-ut` and `go-e2e`). If `dev-view/ut.md` or `dev-view/e2e.md` does not exist, leave its reference empty (`- Unit:` or `- E2E:`).
+- **Tests:** references to `agent-view/ut.md` and `agent-view/e2e.md` (written directly by `go-ut` and `go-e2e`). If `agent-view/ut.md` or `agent-view/e2e.md` does not exist, leave its reference empty (`- Unit:` or `- E2E:`).
 
 ## Severity
 

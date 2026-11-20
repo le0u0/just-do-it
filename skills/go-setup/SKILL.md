@@ -30,8 +30,8 @@ Run this section **only** when a skill needs to handle tests (`go-ut`, `go-e2e`,
 1. Check if `~/.just-do-it/{project}/public/test-config.md` already exists.
    - **Exists:** read and use it directly. Do not re-prompt.
    - **Missing:** inspect the repository (`package.json`, runner configs, test folders) to detect candidate unit and E2E setups, then **ask and confirm with the user**:
-     - **Unit test:** framework/runner (Vitest, Karma, Jest, pytest, or `none`), config/spec path pattern, and focused run command.
-     - **E2E test:** framework/runner (Playwright, Cypress, or `none`), E2E folder path, base URL if documented, and focused run command.
+     - **Unit test:** framework/runner (or `none`), config/spec path pattern, and focused run command.
+     - **E2E test:** framework/runner (or `none`), E2E folder path, base URL if documented, and focused run command.
 2. Save the confirmed answers to `~/.just-do-it/{project}/public/test-config.md` per [public-docs.md](references/public-docs.md#test-configmd).
 
 ## Layout and shared references

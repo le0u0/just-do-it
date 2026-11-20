@@ -5,7 +5,7 @@ description: 'Implement one step of work (a request, a plan step, or a failure t
 
 # Work
 
-Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/references/storage.md). If the branch folder does not exist under `~/.just-do-it/*/{branch}`, run `go-setup` first to confirm `{project}` with the user. Report as the caller specifies, defaulting to `Done` / `Open` / `Changed`, and pass test-run evidence per [Test report](../go-flow/references/reports.md#test-report-dev-viewutmd-and-dev-viewe2emd).
+Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/references/storage.md). If the branch folder does not exist under `~/.just-do-it/*/{branch}`, run `go-setup` first to confirm `{project}` with the user. Report as the caller specifies, defaulting to `Done` / `Open` / `Changed`, and pass test-run evidence per [Test report](../go-flow/references/reports.md#test-report-agent-viewutmd-and-agent-viewe2emd).
 
 ## Modes
 
@@ -23,7 +23,7 @@ Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/referen
   2. Related to the unpushed `HEAD` commit (same file or purpose) and the plan does not use per-step commits: `git commit --amend --no-edit`. Per-step commits: amend only when fixing a mistake in the unpushed `HEAD` step commit itself; otherwise create one new commit with the plan's message. Update the SHA in `agent-view/CHANGELOG.md`.
   3. Otherwise one new commit.
   4. Never amend a pushed commit.
-- Unknown domain terms, product sections ("Section B", "Section C", "patient history"), or hard-to-reverse trade-offs encountered during implementation: **never guess**—ask the user and update `~/.just-do-it/{project}/public/glossary.md` or `public/adr/` per [public-docs.md](../go-setup/references/public-docs.md).
+- Unknown domain terms, product concepts, or hard-to-reverse trade-offs encountered during implementation: **never guess**—ask the user and update `~/.just-do-it/{project}/public/glossary.md` or `public/adr/` per [public-docs.md](../go-setup/references/public-docs.md).
 - Claim only what you read or ran. Say "seen in a listing" for the rest.
 - Review is `go-review`'s job; finished work goes there.
 
@@ -32,7 +32,7 @@ Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/referen
 1. Read the [project references](references/project-references.md) (including `public/glossary.md` and `public/adr/` when present); follow their conventions for reusable components, mocking, setup, and file placement.
 2. Inspect `agent-view/research.md` and `agent-view/attachments/` when present before implementing visual or UI behavior, and match their details.
 3. Ask once when the request omits a choice a project skill or unknown domain term requires.
-4. Own the whole behavior step, including its specs, implementation, and step-specific setup. Complete any approved setup needed to run the focused spec, then call `dev-tdd` once for the step (`dev-tdd` drives `go-ut` / `go-e2e`, which write `dev-view/ut.md` / `dev-view/e2e.md`). For a setup-only step, run its named verification when authorized and return the outcome.
+4. Own the whole behavior step, including its specs, implementation, and step-specific setup. Complete any approved setup needed to run the focused spec, then call `dev-tdd` once for the step (`dev-tdd` drives `go-ut` / `go-e2e`, which write `agent-view/ut.md` / `agent-view/e2e.md`). For a setup-only step, run its named verification when authorized and return the outcome.
 5. Run typecheck regularly; spec runs happen inside `dev-tdd` and `go-ut`.
    - Passing specs and lint prove no typing. Typecheck every config the project defines, strictest included, plus editor diagnostics when a tool offers them; cover spec files too.
    - Errors in files you touched are yours to fix, or report in `Open` when pre-existing and out of scope.

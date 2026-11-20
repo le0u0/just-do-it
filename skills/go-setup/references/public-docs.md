@@ -4,12 +4,12 @@ Project-level documents shared across all branches of `{project}`. None of these
 
 ## `glossary.md`
 
-Tracks domain terminology, product section names (such as "Section B", "Section C", "patient history"), internal abbreviations, and business rules that are not self-evident from generic code.
+Tracks domain terminology, product concepts, internal abbreviations, and business rules that are not self-evident from code.
 
 ### When to read and update
 
 1. Read `~/.just-do-it/{project}/public/glossary.md` (and repository `GLOSSARY.md` if present) at the start of `go-research`, `go-plan`, `go-work`, and `go-review`.
-2. Whenever you encounter an unknown term, product section name, domain concept, or ambiguous wording—or when a ticket/user word conflicts with an existing term—**never guess**.
+2. Whenever you encounter an unknown term, product concept, or ambiguous wording—or when a ticket/user word conflicts with an existing term—**never guess**.
 3. Ask the user to clarify the exact meaning (and where it lives in the UI or codebase if relevant).
 4. Once the user answers, create or update `~/.just-do-it/{project}/public/glossary.md` immediately:
 
@@ -18,8 +18,7 @@ Tracks domain terminology, product section names (such as "Section B", "Section 
 
 | Term | Meaning | Context / Location | Avoid |
 | --- | --- | --- | --- |
-| Section B | Patient allergy and adverse reaction panel in intake form. | `src/intake/section-b/` | Medical history tab |
-| Patient history | Read-only timeline of past visits on the right drawer. | `src/patient/history-drawer.tsx` | Section B |
+| Export button | Toolbar action that downloads the current view. | `src/toolbar.ts` | Download link |
 ```
 
 - Keep each meaning to one concise sentence. Update existing rows in place when refined.

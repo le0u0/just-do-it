@@ -31,7 +31,7 @@ Treat the ticket as a design tree: each decision branches into the decisions tha
 - Look for: missing or conflicting requirements, unclear criteria, edge and error cases, roles, test data, dependencies, design and wording, risks to existing behavior, simpler alternatives.
 - Include in the tree:
   - A checkable `Goal` confirmed with the user.
-  - Unknown terminology, product section names ("Section B", "Section C", "patient history"), or glossary clashes per [domain-docs.md](references/domain-docs.md) and [public-docs.md](../go-setup/references/public-docs.md): **never guess unknown domain terms—ask the user, then save confirmed terms to `public/glossary.md` and accepted hard-to-reverse decisions to `public/adr/`**.
+  - Unknown terminology, product terms, or glossary clashes per [domain-docs.md](references/domain-docs.md) and [public-docs.md](../go-setup/references/public-docs.md): **never guess unknown domain terms—ask the user, then save confirmed terms to `public/glossary.md` and accepted hard-to-reverse decisions to `public/adr/`**.
   - The commit format, when the project and `agent-view/commit-format.md` have none (see Commit format).
   - Boundaries, probed with a concrete edge-case scenario.
   - State transitions & missing-transition checks for stateful UI/workflows per [statechart.md](references/statechart.md).

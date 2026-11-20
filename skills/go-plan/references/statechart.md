@@ -16,8 +16,8 @@ Check every state against four failure lenses before writing steps:
 
 1. **Async exit completeness**: does every loading/saving state transition out on both success AND error/timeout?
 2. **Recovery from error**: can the user retry, edit, or cancel from every error state without refreshing the page?
-3. **Duplicate / concurrent events**: what happens on double-click submit or rapid tab/patient switch while a request is in flight?
-4. **Dirty-state navigation**: what happens when the user switches sections (for example, Section B to Section C) or closes a drawer with unsaved edits?
+3. **Duplicate / concurrent events**: what happens on double-click submit or rapid tab/item switch while a request is in flight?
+4. **Dirty-state navigation**: what happens when the user switches tabs/views or closes a dialog with unsaved edits?
 
 If any transition is unspecified in the ticket, ask the user during `Grill`.
 

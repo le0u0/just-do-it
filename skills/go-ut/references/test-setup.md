@@ -9,7 +9,7 @@
 
 ## No setup
 
-- When `public/test-config.md` records `Runner: none` (or no runner, script, or existing spec exists and the user confirms `none`): skip writing and running specs, record `no unit test setup` in `dev-view/ut.md`, and set one up only when the user asks.
+- When `public/test-config.md` records `Runner: none` (or no runner, script, or existing spec exists and the user confirms `none`): skip writing and running specs, record `no unit test setup` in `agent-view/ut.md`, and set one up only when the user asks.
 
 ## Partial setup
 

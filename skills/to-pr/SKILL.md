@@ -17,7 +17,7 @@ Write the title and body for the current branch and save to `~/.just-do-it/{proj
 ## Storage & Input
 
 - Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/references/storage.md). If the branch folder does not exist under `~/.just-do-it/*/{branch}`, run `go-setup` first to confirm `{project}` with the user.
-- Read `agent-view/plan.md`, `agent-view/commit-format.md`, `dev-view/review.md`, `dev-view/ut.md`, and `dev-view/e2e.md` when present in the branch folder.
+- Read `agent-view/plan.md`, `agent-view/commit-format.md`, `agent-view/review.md`, `agent-view/ut.md`, and `agent-view/e2e.md` when present in the branch folder.
 - The diff of the commits this PR adds, and what the user said.
   - Base: the branch the PR targets. Ask when unclear; `origin/HEAD` is only a guess.
   - Commits already in the base or in another remote branch are not part of this PR; list the candidates and ask when unsure.
@@ -115,7 +115,7 @@ Views:
 
 ### Evidence
 
-- Before and after proof the change works (using `dev-view/ut.md`, `dev-view/e2e.md`, or screenshots when available).
+- Before and after proof the change works (using `agent-view/ut.md`, `agent-view/e2e.md`, or screenshots when available).
 - Best: screenshots, for visual changes when the environment allows.
 - Next: execution output: the exact test that failed and now passes, as pseudocode, with command and result.
 - Write `not run` where there is no result.

@@ -1,13 +1,15 @@
 # HTML Render (`dev-view/*.html`)
 
-Applies to human-readable HTML views in `~/.just-do-it/{project}/{branch}/dev-view/` (`research.html`, `plan.html`, `review.html`). Agents read the compact `.md` files in `agent-view/`; the developer reads the visual `.html` pages in `dev-view/` in a browser.
+Applies to human-readable HTML views in `~/.just-do-it/{project}/{branch}/dev-view/` (`research.html`, `plan.html`, `review.html`, `testing-guide.html`). Agents read the compact `.md` files in `agent-view/`; the developer reads the visual `.html` pages in `dev-view/` in a browser. (`dev-view/pr.md` and `dev-view/handoff.md` remain `.md`.)
 
 ## Core principles
 
 1. **Single self-contained HTML file**: inline CSS and minimal vanilla JS, zero build step, works directly via `file://` or local HTTP preview.
-2. **Figure-first & scannable**: lead with the Goal, visual statechart/flow diagram, and inline attachment images before detail cards. Use short bullets and clear status badges—never walls of text.
-3. **Inline attachment images**: reference downloaded ticket images with relative paths (`../agent-view/attachments/{ticket}/{filename}`). Render each image inside a `<figure>` card with filename caption and click-to-expand `<dialog>` lightbox.
-4. **Statecharts & diagrams**: render statecharts (`stateDiagram-v2`) and flowcharts either as clean inline `<svg>` state nodes/arrows or via `<pre class="mermaid">` with the lightweight Mermaid ESM loader (`https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs`) and a plain-text fallback when offline.
+2. **Low-token partial edits via multi-line `const DATA`**:
+   - Place all page content inside a pretty-printed, multi-line `const DATA = { ... };` block at the top of `<script>` (or keep content in clean, multi-line semantic sections) so that later content updates only read and `edit_file` the changed lines (`StartLine`–`EndLine`) without reading or rewriting the CSS/JS shell.
+3. **Figure-first & scannable**: lead with the Goal, visual statechart/flow diagram, and inline attachment images before detail cards. Use short bullets and clear status badges—never walls of text.
+4. **Inline attachment images**: reference downloaded ticket images with relative paths (`../agent-view/attachments/{ticket}/{filename}`). Render each image inside a `<figure>` card with filename caption and click-to-expand `<dialog>` lightbox.
+5. **Statecharts & diagrams**: render statecharts (`stateDiagram-v2`) and flowcharts either as clean inline `<svg>` state nodes/arrows or via `<pre class="mermaid">`.
 
 ## Design tokens & base CSS
 
@@ -58,7 +60,7 @@ Use a consistent, restrained warm-neutral theme across all `dev-view/*.html` fil
 ### 3. `dev-view/review.html` (written by `go-review`, updated by `go-fix`)
 
 - **Header**: Branch, baseline SHA → reviewed SHA, Tier badge (`Quick` / `Standard` / `Deep`), Round number, and open issue counts by severity (`Critical`, `Warning`, `Minor`).
-- **Tests Bar**: summary cards linking to [`ut.md`](ut.md) and [`e2e.md`](e2e.md) (or marked empty/not run when absent).
+- **Tests Bar**: pass/fail status badges summarized from `../agent-view/ut.md` and `../agent-view/e2e.md` (linking to `../agent-view/ut.md` and `../agent-view/e2e.md`, or marked `not run` when absent) so the developer sees immediately whether unit and E2E tests passed or failed.
 - **Findings (`TODO`, `RESOLVED`, `IGNORED`, `PRE-EXISTING`)**:
   - Each `TODO` finding card displays its ID, severity badge, owning component/file, **Issue**, and **Fix**.
   - Interactive disposition selector (`Accept`, `Defer`, `Dispute`, `Ignore`) on each `TODO` card plus a **"Copy `go-fix` command"** button that copies e.g. `fix review findings 1, 2; ignore 3` to the clipboard.

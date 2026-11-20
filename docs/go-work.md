@@ -23,7 +23,7 @@ flowchart LR
 | Does | Detail |
 | --- | --- |
 | Reads | `agent-view/plan.md`, `agent-view/checklist.md`, `agent-view/research.md`, `agent-view/attachments/`, `public/glossary.md`, `public/adr/` |
-| Calls | `dev-tdd` once per behavior step (`go-ut` writes `dev-view/ut.md`; `go-e2e` writes `dev-view/e2e.md`) |
+| Calls | `dev-tdd` once per behavior step (`go-ut` writes `agent-view/ut.md`; `go-e2e` writes `agent-view/e2e.md`) |
 | Writes | Source and specs in the repo; updates `agent-view/checklist.md`, `agent-view/CHANGELOG.md`, `agent-view/diagnose.md`, and on-demand `public/glossary.md` / `public/adr/` |
 
 [Skill](../skills/go-work/SKILL.md) · [Storage](../skills/go-setup/references/storage.md)
