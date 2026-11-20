@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QA Test · PROJ-9999</title>
+<style id="lcss"></style>
+<style>
+:root{--accent:#faaa6c;--accent-d:#e8924f;--bg:#faf7f2;--surface:#fff;--text:#2b2622;--grey:#6b625a;--border:#ddd3c6;--pass:#1f7a3d;--pass-bg:#e3f4e8;--fail:#b3261e;--fail-bg:#fbe5e3}
+*{box-sizing:border-box}
+body{margin:0;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);color:var(--text);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang TC","Noto Sans TC",sans-serif}
+a{color:var(--text)}
+button{font:inherit;color:inherit;cursor:pointer}
+.btn{border:1px solid var(--border);background:var(--surface);border-radius:8px;padding:8px 14px;min-height:40px}
+.btn.primary,.btn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);font-weight:600}
+.top{flex:none;width:100%;max-width:1180px;margin:0 auto}
+header{padding:20px 16px 4px;position:relative}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--surface)}
+.seg .btn{border:0;border-radius:0;min-height:36px;padding:4px 14px;font-size:14px}
+.seg .btn+.btn{border-left:1px solid var(--border)}
+.lang{position:absolute;top:20px;right:16px}
+h1{font-size:28px;line-height:1.25;margin:0 0 6px;padding-right:220px}
+header p{margin:0}
+.lead{font-weight:600}
+.sub{color:var(--grey)}
+.progress{padding:8px 16px 12px;display:flex;flex-wrap:wrap;align-items:center;gap:12px;border-bottom:1px solid var(--border)}
+.bar{flex:1 1 220px;height:10px;background:#e9e1d5;border-radius:6px;overflow:hidden}
+.bar>i{display:block;height:100%;width:0;background:var(--accent);transition:width 150ms}
+.ptext{font-size:14px;color:var(--grey);white-space:nowrap}
+.layout{flex:1;min-height:0;width:100%;max-width:1180px;margin:0 auto;padding:0 16px;display:grid;grid-template-columns:260px minmax(0,1fr);gap:32px}
+nav,main{overflow:auto;padding:16px 0 48px}
+#doc{max-width:75ch}
+nav .nt{font-size:18px;font-weight:700;margin:0 0 8px}
+nav .ng{font-size:16px;font-weight:700;margin:14px 0 4px}
+nav a{display:flex;gap:6px;align-items:baseline;font-size:14px;color:var(--grey);text-decoration:none;padding:4px 8px;margin-left:12px;border-radius:6px}
+nav a.cur{background:var(--accent);color:var(--text);font-weight:600}
+nav .mk{margin-left:auto;font-weight:700}
+nav .mk.pass{color:var(--pass)}nav .mk.fail{color:var(--fail)}
+h2{font-size:24px;font-weight:700;margin:40px 0 4px;padding-top:32px;border-top:1px solid var(--border)}
+#doc>h2:first-child{margin-top:0;padding-top:0;border-top:0}
+.why{margin:0 0 12px;color:var(--grey)}
+.test{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin:14px 0}
+.th{display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:space-between}
+h3{font-size:16px;font-weight:600;margin:0;flex:1 1 240px}
+.pf .btn[data-r="pass"][aria-pressed="true"]{background:var(--pass-bg);color:var(--pass)}
+.pf .btn[data-r="fail"][aria-pressed="true"]{background:var(--fail-bg);color:var(--fail)}
+.note{margin:8px 0 0;color:var(--grey);font-style:italic}
+.steps{margin:10px 0 0;padding-left:24px}
+.steps li{margin:6px 0}
+.sc{font-weight:600}
+.expect{margin:14px 0 0;padding:10px 14px;background:#f6efe3;border-left:3px solid var(--accent);border-radius:0 6px 6px 0}
+.expect b{display:block;font-size:13px;font-weight:600;color:var(--grey);margin-bottom:2px}
+.tn{display:block;width:100%;margin:12px 0 0;min-height:60px;font:inherit;padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface)}
+.tn[hidden]{display:none}
+@media print{body{height:auto;overflow:visible;display:block}.lang,.progress,nav,.pf{display:none!important}.layout{display:block}main{overflow:visible}.test{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="top">
+ <header>
+  <div class="lang seg" id="lang" role="group"></div>
+  <h1 id="h1"></h1>
+  <p class="lead" id="lead"></p>
+  <p class="sub" id="rel"></p>
+  <p class="sub" id="hint"></p>
+ </header>
+ <div class="progress">
+  <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+  <span class="ptext" id="ptext"></span>
+  <button class="btn primary" type="button" id="b-export"></button>
+  <button class="btn" type="button" id="b-reset"></button>
+ </div>
+</div>
+<div class="layout">
+ <nav id="nav"></nav>
+ <main id="main"><div id="doc"></div></main>
+</div>
+<script>
+// Multi-line DATA block for low-token partial edits:
+const DATA = {
+  "ticket": "PROJ-9999",
+  "link": "https://example.atlassian.net/browse/PROJ-9999",
+  "slug": "testing-guide",
+  "languages": ["en", "zh"],
+  "related": [
+    { "key": "PROJ-9810", "link": "https://example.atlassian.net/browse/PROJ-9810", "role": "relates to" }
+  ],
+  "title": {
+    "en": "Prevent duplicate profile saves",
+    "zh": "防止個人檔案重複儲存"
+  },
+  "setup": [
+    {
+      "text": {
+        "en": "Account: Account that can edit profile settings.",
+        "zh": "帳號：可編輯個人檔案設定的帳號。"
+      }
+    }
+  ],
+  "groups": [
+    {
+      "name": {
+        "en": "Saving profile changes",
+        "zh": "儲存個人檔案變更"
+      },
+      "why": {
+        "en": "Check that clicking Save twice sends only one update and recovers after an error.",
+        "zh": "確認快速連按兩次儲存只會送出一次更新，且在錯誤後可重試。"
+      },
+      "tests": [
+        {
+          "id": "case-1",
+          "title": {
+            "en": "Double-click Save while saving",
+            "zh": "儲存期間快速連按兩次儲存"
+          },
+          "steps": [
+            { "en": "Profile page: open the profile form.", "zh": "個人檔案頁面：開啟個人檔案表單。" },
+            { "en": "Display name field: update the display name text.", "zh": "顯示名稱欄位：修改顯示名稱。" },
+            { "en": "Profile toolbar: double-click Save quickly.", "zh": "個人檔案工具列：快速連按兩次儲存。" }
+          ],
+          "expect": {
+            "en": "Save changes to \"Saving...\", stays disabled during the save, and saves the update once.",
+            "zh": "儲存按鈕變為「儲存中...」並保持停用，且只會儲存一次更新。"
+          }
+        },
+        {
+          "id": "case-2",
+          "title": {
+            "en": "Retry Save after a server error",
+            "zh": "伺服器錯誤後重新嘗試儲存"
+          },
+          "note": {
+            "en": "Disconnect network or trigger a failed save on the profile form.",
+            "zh": "中斷網絡或在個人檔案表單觸發失敗的儲存。"
+          },
+          "steps": [
+            { "en": "Profile form: edit the display name field and click Save.", "zh": "個人檔案表單：修改顯示名稱欄位並按儲存。" },
+            { "en": "Wait for the red error message to appear.", "zh": "等待紅色錯誤訊息顯示。" },
+            { "en": "Reconnect network and click Save again.", "zh": "重新連接網絡並再次按儲存。" }
+          ],
+          "expect": {
+            "en": "The red error message shows on failure, Save becomes clickable again, and the retry succeeds.",
+            "zh": "失敗時顯示紅色錯誤訊息，儲存按鈕恢復可按狀態，且重試成功。"
+          }
+        }
+      ]
+    }
+  ]
+};
+const ALL_LANGS=[{k:"en",lc:"en",name:"English"},{k:"zh",lc:"zh-Hant",name:"繁體中文"}];
+const LANGS=ALL_LANGS;
+const UI={
+ en:{hint:"Found an issue? Mark it Fail and add a note. Then export the report and attach it to the ticket.",qa:"QA Test",rel:"Related:",exp:"Export report",reset:"Reset",prog:(p,f,u)=>p+" pass · "+f+" fail · "+u+" not marked",tests:"Tests",setup:"Before you start",pass:"Pass",fail:"Fail",test:"Test",expect:"You should see:",rc:"Reset all results and notes?",note:"Note (optional)"},
+ zh:{hint:"發現問題？請標記為失敗並寫下備註，然後匯出報告並附加到工單。",qa:"QA 測試",rel:"相關工單：",exp:"匯出報告",reset:"重設",prog:(p,f,u)=>p+" 通過 · "+f+" 失敗 · "+u+" 未標記",tests:"測試",setup:"開始前",pass:"通過",fail:"失敗",test:"測試",expect:"你應該看到：",rc:"要重設所有結果和備註嗎？",note:"備註（選填）"}
+};
+const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const tr=(o,k)=>o[k]!=null?o[k]:o.en,bi=o=>LANGS.map(l=>'<span data-l="'+l.k+'">'+esc(tr(o,l.k))+'</span>').join("");
+const sh=o=>LANGS.map(l=>{const t=tr(o,l.k),m=t.match(/^([^:：]{1,24}[:：])\s*([\s\S]*)$/);return'<span data-l="'+l.k+'">'+(m?'<b class="sc">'+esc(m[1])+"</b> "+esc(m[2]):esc(t))+"</span>"}).join("");
+const ui=k=>bi(Object.fromEntries(LANGS.map(l=>[l.k,UI[l.k][k]])));
+let lang="en",state={results:{},notes:{}};
+const tests=[];DATA.groups.forEach((g,gi)=>g.tests.forEach(t=>tests.push({id:t.id,n:tests.length+1,g:gi,t})));
+function build(){
+ $("#h1").innerHTML=bi(DATA.title);
+ $("#lead").innerHTML='<a href="'+esc(DATA.link)+'" target="_blank" rel="noopener noreferrer">'+esc(DATA.ticket)+"</a> "+ui("qa");
+ $("#rel").innerHTML=ui("rel")+" "+DATA.related.map(r=>'<a href="'+esc(r.link)+'" target="_blank" rel="noopener noreferrer">'+esc(r.key)+"</a> ("+esc(r.role)+")").join(" · ");
+ $("#hint").innerHTML=ui("hint");$("#b-export").innerHTML=ui("exp");$("#b-reset").innerHTML=ui("reset");
+ $("#lang").innerHTML=LANGS.map(l=>'<button class="btn" type="button" data-lang="'+l.k+'">'+esc(l.name)+"</button>").join("");
+ let nav='<p class="nt">'+ui("tests")+"</p>",doc='<section class="setup"><h2>'+ui("setup")+"</h2><ul>"+DATA.setup.map(s=>"<li>"+bi(s.text)+"</li>").join("")+"</ul></section>";
+ DATA.groups.forEach((g,gi)=>{
+  nav+='<p class="ng">'+bi(g.name)+"</p>";doc+="<h2>"+bi(g.name)+'</h2><p class="why">'+bi(g.why)+"</p>";
+  tests.filter(x=>x.g===gi).forEach(x=>{
+   const t=x.t;
+   nav+='<a href="#'+x.id+'" data-id="'+x.id+'"><span>'+x.n+". "+bi(t.title)+'</span><span class="mk" data-mk="'+x.id+'"></span></a>';
+   doc+='<article class="test" id="'+x.id+'"><div class="th"><h3>'+ui("test")+" "+x.n+": "+bi(t.title)+'</h3><div class="pf seg" role="group">'
+    +["pass","fail"].map(r=>'<button type="button" class="btn" data-r="'+r+'" data-id="'+x.id+'" aria-pressed="false">'+ui(r)+"</button>").join("")+"</div></div>"
+    +(t.note?'<p class="note">'+bi(t.note)+"</p>":"")
+    +'<ol class="steps">'+t.steps.map(s=>"<li>"+sh(s)+"</li>").join("")
+    +'</ol><p class="expect"><b>'+ui("expect")+"</b>"+bi(t.expect)+'</p><textarea class="tn" data-note="'+x.id+'" rows="2" hidden></textarea></article>';
+  });
+ });
+ $("#nav").innerHTML=nav;$("#doc").innerHTML=doc;
+}
+function sync(){
+ let p=0,f=0;
+ tests.forEach(x=>{
+  const r=state.results[x.id];if(r==="pass")p++;else if(r==="fail")f++;
+  document.querySelectorAll('.pf button[data-id="'+x.id+'"]').forEach(b=>b.setAttribute("aria-pressed",String(r===b.dataset.r)));
+  const m=document.querySelector('[data-mk="'+x.id+'"]');m.className="mk"+(r?" "+r:"");m.textContent=r==="pass"?"✓":r==="fail"?"✗":"";
+ });
+ document.querySelectorAll("textarea[data-note]").forEach(t=>{t.placeholder=UI[lang].note;t.hidden=state.results[t.dataset.note]!=="fail"});
+ $("#ptext").textContent=UI[lang].prog(p,f,tests.length-p-f);
+ $("#bar").style.width=(100*(p+f)/tests.length)+"%";
+}
+function setLang(l){
+ lang=l;$("#lcss").textContent='[data-l]:not([data-l="'+l+'"]){display:none}';
+ document.querySelectorAll("[data-lang]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.lang===l)));
+ sync();
+}
+build();setLang("en");
+$("#lang").addEventListener("click",e=>{const b=e.target.closest("[data-lang]");if(b)setLang(b.dataset.lang)});
+$("#doc").addEventListener("click",e=>{const b=e.target.closest("button[data-r]");if(!b)return;const id=b.dataset.id;if(state.results[id]===b.dataset.r)delete state.results[id];else state.results[id]=b.dataset.r;sync()});
+$("#b-export").onclick=()=>window.print();
+$("#b-reset").onclick=()=>{if(confirm(UI[lang].rc)){state={results:{},notes:{}};sync()}};
+</script>
+</body>
+</html>

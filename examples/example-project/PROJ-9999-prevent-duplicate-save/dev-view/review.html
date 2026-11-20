@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Code Review · PROJ-9999-prevent-duplicate-save</title>
+<style>
+:root{--bg:#faf7f2;--surface:#fff;--surface-alt:#f6efe3;--text:#2b2622;--muted:#6b625a;--border:#ddd3c6;--accent:#faaa6c;--accent-d:#e8924f;--pass:#1f7a3d;--pass-bg:#e3f4e8;--warn:#b25e09;--warn-bg:#fef3e2;--fail:#b3261e;--fail-bg:#fbe5e3}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang TC","Noto Sans TC",sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:28px 20px 64px}
+header{border-bottom:1px solid var(--border);padding-bottom:18px;margin-bottom:20px}
+.meta{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:14px;color:var(--muted);margin-bottom:8px}
+.badge{display:inline-block;padding:3px 10px;border-radius:999px;font-weight:600;font-size:12px}
+.badge.warn{background:var(--warn-bg);color:var(--warn)}
+.badge.pass{background:var(--pass-bg);color:var(--pass)}
+h1{font-size:28px;margin:0 0 10px}
+h2{font-size:20px;margin:26px 0 12px}
+.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:20px}
+.card{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--warn);border-radius:10px;padding:16px 18px;margin-bottom:14px}
+.top-row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--bg)}
+.seg button{border:0;background:transparent;padding:6px 12px;font:600 13px inherit;cursor:pointer;color:var(--muted)}
+.seg button+button{border-left:1px solid var(--border)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--text)}
+.btn{border:1px solid var(--accent);background:var(--accent);color:var(--text);font:600 14px inherit;padding:8px 14px;border-radius:8px;cursor:pointer}
+.btn:hover{background:var(--accent-d)}
+code{font:13px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--surface-alt);padding:2px 6px;border-radius:4px}
+a{color:var(--text);font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="meta">
+      <span class="badge warn">Status: reviewed · 2 TODO (0 Critical, 2 Warning, 0 Minor)</span>
+      <span>Branch: <code>PROJ-9999-prevent-duplicate-save</code></span>
+      <span>· Range: <code>a1b2c3d..e4f5g6h</code></span>
+      <span>· Tier: <strong>Quick</strong></span>
+      <span>· Round: <strong>1</strong></span>
+    </div>
+    <h1>Code Review: PROJ-9999 Prevent duplicate profile saves</h1>
+  </header>
+
+  <div class="bar">
+    <div>
+      <strong>Tests:</strong>
+      Unit: <a href="../agent-view/ut.md"><span class="badge pass">PASS (3 specs, 0 failed)</span></a> ·
+      E2E: <a href="../agent-view/e2e.md"><span class="badge pass">PASS (1 spec, 0 failed)</span></a>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <code id="cmd-preview">/go-fix fix findings 1, 2</code>
+      <button class="btn" type="button" id="copy-btn">Copy go-fix command</button>
+    </div>
+  </div>
+
+  <h2>TODO Findings (2)</h2>
+
+  <article class="card" data-id="1">
+    <div class="top-row">
+      <div><span class="badge warn">1 · Warning</span> <strong style="margin-left:6px">ProfileFormComponent</strong></div>
+      <div class="seg" role="group" aria-label="Disposition for finding 1">
+        <button type="button" data-action="fix" aria-pressed="true">Accept (Fix)</button>
+        <button type="button" data-action="defer" aria-pressed="false">Defer</button>
+        <button type="button" data-action="dispute" aria-pressed="false">Dispute</button>
+        <button type="button" data-action="ignore" aria-pressed="false">Ignore</button>
+      </div>
+    </div>
+    <p style="margin:6px 0"><strong>Issue:</strong> Thrown synchronous validation error in <code>onSubmit()</code> leaves <code>isSaving</code> true and Save disabled.</p>
+    <p style="margin:6px 0 0"><strong>Fix:</strong> Move <code>isSaving = true</code> after synchronous form validation or wrap in <code>try / finally</code>.</p>
+  </article>
+
+  <article class="card" data-id="2">
+    <div class="top-row">
+      <div><span class="badge warn">2 · Warning</span> <strong style="margin-left:6px">ProfileFormComponent</strong></div>
+      <div class="seg" role="group" aria-label="Disposition for finding 2">
+        <button type="button" data-action="fix" aria-pressed="true">Accept (Fix)</button>
+        <button type="button" data-action="defer" aria-pressed="false">Defer</button>
+        <button type="button" data-action="dispute" aria-pressed="false">Dispute</button>
+        <button type="button" data-action="ignore" aria-pressed="false">Ignore</button>
+      </div>
+    </div>
+    <p style="margin:6px 0"><strong>Issue:</strong> Changed error handler overwrites server <code>err.error.message</code> with generic fallback text.</p>
+    <p style="margin:6px 0 0"><strong>Fix:</strong> Preserve <code>err.error?.message ?? defaultError</code> display on failure.</p>
+  </article>
+</div>
+<script>
+const dispositions = { "1": "fix", "2": "fix" };
+function updateCmd() {
+  const buckets = { fix: [], defer: [], dispute: [], ignore: [] };
+  Object.entries(dispositions).forEach(([id, act]) => buckets[act].push(id));
+  const parts = [];
+  if (buckets.fix.length) parts.push("fix findings " + buckets.fix.join(", "));
+  if (buckets.defer.length) parts.push("defer " + buckets.defer.join(", "));
+  if (buckets.dispute.length) parts.push("dispute " + buckets.dispute.join(", "));
+  if (buckets.ignore.length) parts.push("ignore " + buckets.ignore.join(", "));
+  document.getElementById("cmd-preview").textContent = "/go-fix " + (parts.join("; ") || "set status to approved");
+}
+document.querySelectorAll(".card[data-id]").forEach(card => {
+  card.addEventListener("click", e => {
+    const btn = e.target.closest("button[data-action]");
+    if (!btn) return;
+    dispositions[card.dataset.id] = btn.dataset.action;
+    card.querySelectorAll("button[data-action]").forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+    updateCmd();
+  });
+});
+document.getElementById("copy-btn").addEventListener("click", async () => {
+  const txt = document.getElementById("cmd-preview").textContent;
+  try { await navigator.clipboard.writeText(txt); document.getElementById("copy-btn").textContent = "Copied!"; setTimeout(() => document.getElementById("copy-btn").textContent = "Copy go-fix command", 1500); } catch {}
+});
+</script>
+</body>
+</html>
