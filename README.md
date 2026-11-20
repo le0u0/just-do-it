@@ -10,8 +10,8 @@ Supports Claude Code, Codex and Antigravity.
 <summary>Claude Code</summary>
 
 ```text
-/plugin marketplace add le0u0/le0u0.ai
-/plugin install just-do-it@le0u0.ai
+claude plugin marketplace add le0u0/le0u0.ai
+claude plugin install just-do-it@le0u0.ai 
 ```
 
 </details>
