@@ -1,6 +1,6 @@
 # go-review
 
-Review a branch, diff or work-in-progress change and return the review report. It runs in the main thread, called by the manager or directly, and starts its own review agents. It is the only skill that reviews.
+Review a branch, diff or work-in-progress change and write `dev-view/review.md`. Runs in the main thread, called by `go-flow` or directly, and starts its own review agents.
 
 Subagents are required; an unavailable agent blocks the review.
 
@@ -8,14 +8,20 @@ Subagents are required; an unavailable agent blocks the review.
 
 ```mermaid
 flowchart LR
-    IN([requirements, baseline,<br/>previous review]) --> G[review Fetch<br/>fast: ticket text,<br/>diff stat, paths]
+    IN([plan.md or grill user<br/>on review goal]) --> G[review Fetch<br/>fast: ticket text,<br/>diff stat, paths]
     G --> T{tier}
     T -->|Quick| Q[1 hunter<br/>verifies its own]
     T -->|Standard / Deep| H[2-3 hunters<br/>standard, by lens]
     H --> V[verifier<br/>reasoning: disprove each]
-    Q --> R([report])
+    Q --> R([write dev-view/review.md<br/>linking ut.md & e2e.md])
     V --> R
 ```
+
+| Feature | Detail |
+| --- | --- |
+| Goal & review plan | Reads `agent-view/plan.md` when present. When called directly without `plan.md` (or when goal is unclear), grills the user on the target goal and confirms a review plan before launching hunters |
+| Tests section | Links `[ut.md](ut.md)` and `[e2e.md](e2e.md)` in `dev-view/` when present (left empty when absent) |
+| Output | Always writes `~/.just-do-it/{project}/{branch}/dev-view/review.md` |
 
 | Tier | When | Agents |
 | --- | --- | --- |
@@ -23,44 +29,4 @@ flowchart LR
 | Standard | everything else | Correctness + Contract hunters (`standard`), 1 verifier (`reasoning`) |
 | Deep | auth, billing, schema, secrets, CI, release, installers, `REVIEW.md` paths, or >1000 lines | + Security hunter |
 
-| Re-review step | Does |
-| --- | --- |
-| Open finding, file untouched | Stays in `TODO`, no agent |
-| Open finding, file touched | `fast` recheck: `fixed`, or `open` when unsure |
-| New changes | Hunted alone; earlier findings passed as known |
-| Round 4+ | No new hunting; asks you to reconsider the approach |
-
-| Gives | Never |
-| --- | --- |
-| Full report saved or printed: `TODO`, `RESOLVED`, `IGNORED`, `PRE-EXISTING` (uncounted), reference with `Tier`, `Round` | Runs tests or edits source. `Tests` stays "not run" until the manager fills it |
-
-## USE IT
-
-| Situation | Use |
-| --- | --- |
-| "Review my branch", "review this diff" | `go-review` |
-| Findings are chosen for fixing | `go-fix` |
-| The manager has finished a step or the e2e run passed | It sends the baseline and scope to `go-review` |
-
-## WORK IT
-
-| Sign | Means |
-| --- | --- |
-| Baseline stated, diff not empty | Right range reviewed |
-| Every hunk read before "no actionable findings" | Nothing skipped |
-| Each finding cites lines and what breaks | Verified, not a guess |
-| Fixed items in `RESOLVED`, new ones numbered after the last | Re-review worked |
-
-## FIT IT
-
-```mermaid
-flowchart LR
-    W[go-work + go-e2e] --> R[go-review]
-    R -->|findings| F[go-fix]
-    F -->|re-review| R
-```
-
-| Caller | What happens |
-| --- | --- |
-| You, directly | Report only; ask for `go-fix` when you want fixes |
-| `justaway` | Sends in-scope findings to `go-fix`, re-reviews, fills `Tests`, and delivers the final report |
+[Skill](../skills/go-review/SKILL.md) · [Report format](../skills/go-review/references/report-format.md) · [Storage](../skills/go-setup/references/storage.md)

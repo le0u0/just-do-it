@@ -2,29 +2,33 @@
 
 Shared terms for this plugin.
 
-## Manager
+## Skills and Flow
 
 | Term | Meaning |
 | --- | --- |
-| Manager | `justaway`, the main thread. Coordinates research, planning, implementation and E2E workers. Owns approvals, verification, Git commits, and output delivery. Runs `go-fix` and the skill-owned `go-review` workflow. |
-| Skill | An action, such as `go-review`. `go-*` do work; `dev-*` drive a method; `justaway` starts manager mode; `to-*` are user-invoked and model-blocked. |
+| Skill | An independent action, such as `go-review`. `go-*` do work and write directly to `~/.just-do-it/{project}/{branch}/`; `dev-*` drive a method; `to-*` produce developer/QA deliverables or restatements. |
+| Flow (`go-flow`) | Stateless pipeline skill that chains `go-setup` → `go-research` → `go-plan` → parallel `go-work` (with `go-ut` / `go-e2e`) → `go-review` → `go-fix`, or a user-selected subset of steps. |
+| Setup (`go-setup`) | Resolves `~/.just-do-it/{project}/{branch}/` (`agent-view/`, `dev-view/`, and `public/`). Triggered automatically by any skill when the branch folder is missing; always confirms `{project}` with the user. Also confirms `public/test-config.md` on demand when a skill needs to handle tests. |
 
 ## Skill structure
 
 | Term | Meaning |
 | --- | --- |
-| Reference | A file in a skill's `references/`, linked from `SKILL.md`, read for one branch of its workflow. Shared host/storage references may be explicitly linked by other skills. |
+| Reference | A file in a skill's `references/`, linked from `SKILL.md`, read for one branch of its workflow. Shared storage and public-doc rules live in `skills/go-setup/references/`; agent dispatch rules live in `skills/go-flow/references/`. |
 | Project references | Rules, project-local skills and comparable code in the repository. Read, never copied. |
 | Project-local skill | A skill in the repository (`.agents/skills/`, `.claude/skills/`). Wins over this plugin's defaults. |
 
-## Tickets and tasks
+## Storage and views
 
 | Term | Meaning |
 | --- | --- |
 | Ticket | A task ID such as `PROJ-123`. Requirements come from supplied or retrieved context, never the key alone. |
-| Project folder | `~/.just-do-it/{project}/`: one per product or codebase, with `docs/` and branch folders. |
-| Branch folder | `~/.just-do-it/{project}/{branch}/`: `plan.md`, `checklist.md`, `commit-format.md`, `review.md`, `pr-{base}.md`, the testing guide (`.md`, `.html`), `attachments/`, and `state/` for plugin files. Use it when saving task outputs per the shared delivery rules. |
-| Step | A reviewable milestone in an approved plan. Uncommitted unless the user approves a commit. |
+| Project folder | `~/.just-do-it/{project}/`: confirmed with the user by `go-setup`. Holds `public/` and branch folders. |
+| `public/` | `~/.just-do-it/{project}/public/`: shared across branches of `{project}`. Holds on-demand `glossary.md` (unknown domain terms asked and saved), `adr/` (`NNN-short-title.md` for hard-to-reverse decisions), and `test-config.md` (confirmed UT/E2E runner, paths, and commands when handling tests). |
+| Branch folder | `~/.just-do-it/{project}/{branch}/` (git branch with `/` replaced by `-`): split into `agent-view/` and `dev-view/`. |
+| `agent-view/` | Working artifacts consumed across agent steps: `research.md`, `attachments/{ticket}/`, `plan.md`, `checklist.md`, `commit-format.md`, `diagnose.md`, `CHANGELOG.md`. |
+| `dev-view/` | Developer and QA deliverables: `review.md` (referencing `ut.md` and `e2e.md`), `ut.md`, `e2e.md`, `pr.md`, `testing-guide.md`, `testing-guide.html`, `handoff.md`. |
+| Step | A reviewable milestone in an approved plan. Uncommitted unless the plan or user approves a commit. |
 | Test-driven slice | One behavior: one failing test through a public seam, then the minimum code to pass it. |
 | Temporary contract | A feature-local stand-in until a real dependency exists, with a ticket-linked `FIXME` and removal condition. |
 
@@ -39,7 +43,7 @@ Shared terms for this plugin.
 | Term | Meaning |
 | --- | --- |
 | Self-check | A skill checking its own work. Not a review. |
-| Formal review | `go-review`'s hunters and verifier applying the project's review skill (else standards and requirements) and review checks. |
+| Formal review | `go-review`'s hunters and verifier applying the project's review skill (else standards and confirmed goal/plan) and review checks, writing `dev-view/review.md`. |
 | Fetch | `go-review`'s fast worker that gathers ticket, baseline, diff, and rule evidence for review. |
 | Tier | How many review agents run: Quick (one self-verifying hunter), Standard (two hunters, one verifier), Deep (adds a security hunter). Set by diff size and risky paths. |
 | Round | Review count on one change: 1 for the first review, plus 1 per re-review. After round 3, re-review only checks fixes. |

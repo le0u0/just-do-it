@@ -1,4 +1,4 @@
-# Review Report
+# Review Report (`dev-view/review.md`)
 
 ## Style
 
@@ -20,8 +20,8 @@ TODO: 2 (Critical: 0, Warning: 2, Minor: 0)
 
 ## Tests
 
-- Unit: pass, 2 specs
-- E2E: not run: no e2e spec in the diff
+- Unit: [ut.md](ut.md)
+- E2E: [e2e.md](e2e.md)
 
 ## TODO
 
@@ -62,9 +62,9 @@ None.
 - **Issue Count:** open `TODO` only, with severity split.
 - **Heading:** number, severity, owning class or file.
 - **Issue:** trigger and impact; start with `Unconfirmed:` when reachability is unsettled. **Fix:** corrective action; one alternative at most.
-- **Done / Status:** only in `RESOLVED`; added by the caller from `go-fix` results, or by a re-review that finds an author's fix.
+- **Done / Status:** only in `RESOLVED`; updated by `go-fix` or by a re-review that finds an author's fix.
   - `Status`: `fixed (e4f5g6h)`, `fixed, tested`, `fixed, not tested`, `deferred`, `disputed`, `ignored by user`.
-- **Tests:** written by the caller, never `go-review`. Starts `Unit: not run`, `E2E: not run`.
+- **Tests:** references to `dev-view/ut.md` and `dev-view/e2e.md` (written directly by `go-ut` and `go-e2e`). If `dev-view/ut.md` or `dev-view/e2e.md` does not exist, leave its reference empty (`- Unit:` or `- E2E:`).
 
 ## Severity
 
@@ -74,7 +74,7 @@ None.
 
 ## Sections
 
-- `Reference` in `<sub>`. `Tests` plain, under `Issue Count`: `Unit` and `E2E` lines, each `pass`, `fail` with spec names, or `not run: <reason>`.
+- `Reference` in `<sub>`. `Tests` plain, under `Issue Count`: `Unit` and `E2E` lines referencing `[ut.md](ut.md)` and `[e2e.md](e2e.md)` when present, or left empty when absent.
 - Findings by severity; numbers stable across sections; `---` between findings.
 - Keep `TODO`, `RESOLVED`, `IGNORED`, `PRE-EXISTING`; `None.` when empty.
   - `TODO`: open, deferred, disputed. `RESOLVED`: applied fixes. `IGNORED`: needs the user's explicit choice. `PRE-EXISTING`: real bugs the change did not introduce or expose; not counted, not sent to `go-fix` unless the user asks.
