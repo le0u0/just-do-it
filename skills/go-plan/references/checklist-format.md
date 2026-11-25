@@ -5,7 +5,7 @@ Return the checklist after the plan, per the [writing rules](writing-rules.md).
 ## Rules
 
 - Progress first, one item per step.
-- One current item; several only when they share no files or state.
+- Mark each active step current. Overlap in a file is fine across separate behaviors with isolated worktrees.
 - Add discovered work. Delete an item only with approval. Untick invalidated work with a short reason.
 - `Step notes`: one line per step.
 
@@ -31,8 +31,12 @@ Return the checklist after the plan, per the [writing rules](writing-rules.md).
 
 ## Reference
 
-<sub>Repository: /absolute/path/to/repo<br>Branch: PROJ-123-do-something<br>Initial baseline: a1b2c3d<br>Current HEAD: a1b2c3d<br>Current step: 2 of 2<br>Next action: approve Step 2</sub>
+<sub>Repository: /absolute/path/to/repo<br>Branch: PROJ-123-do-something<br>Initial baseline: a1b2c3d<br>Current HEAD: a1b2c3d<br>Current step: 2 of 2<br>Next action: verify Step 2</sub>
 ```
+
+## Approval
+
+When recording user approval, update the checklist before starting work. Replace pending plan approval notes with the actual next action. Record the ready step or its real blocker. Mark a step current only once it starts, and preserve completed steps and evidence.
 
 ## Afterwards
 

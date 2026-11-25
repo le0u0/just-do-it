@@ -7,7 +7,7 @@ Before running or writing unit or E2E tests, check `~/.just-do-it/{project}/publ
 ## When
 
 When the user or plan authorizes tests:
-- Each `go-work` worker returns step-local unit test evidence through `go-ut` in evidence-only mode. The coordinator collects those results. The coordinator publishes `agent-view/ut.md` after final verification on the delivered snapshot using the final run's results. Earlier results support step delivery only. Run assigned step E2E specs via `go-e2e` (writing `agent-view/e2e.md`).
+- Each worktree worker returns step-local unit and assigned E2E results from `go-ut` and `go-e2e` in evidence-only mode. Earlier results support step delivery only. The coordinator publishes the branch reports from final verification of the integrated snapshot.
 - In `go-flow`, `go-e2e` runs once after the last step passes if `agent-view/plan.md`'s `E2E` line is not `none`, updating `agent-view/e2e.md`.
 - On a rerun after a fix: rerun the failed specs and update `agent-view/ut.md` or `agent-view/e2e.md`.
 - A kind with `Runner: none` in `public/jdi-config.md` is skipped.

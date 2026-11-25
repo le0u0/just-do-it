@@ -36,6 +36,8 @@ Task and project documents live outside the repository under `~/.just-do-it/{pro
 
 Every skill resolves `~/.just-do-it/{project}/{branch}/` before reading or writing task files, using the repository and exact branch identity and legacy compatibility rules in [`go-setup`](../SKILL.md). Never infer the project from a branch directory name alone.
 
+An implementation worktree worker receives the original ticket's resolved storage path. Use it for inputs and return evidence to the coordinator. The worktree branch is not a separate ticket.
+
 | Skill | Reads from storage (when present) | Writes to storage |
 | --- | --- | --- |
 | `go-setup` | `~/.just-do-it/*/{branch}` | Creates `public/`, `agent-view/`, `dev-view/`; writes `public/jdi-config.md` when test setup is requested |

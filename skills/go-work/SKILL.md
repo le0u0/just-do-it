@@ -17,8 +17,8 @@ Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/referen
 ## Rules
 
 - Apply the project's [test retry limit](../go-setup/references/public-docs.md#jdi-configmd), including delegated work. If test configuration lacks a valid limit, run `go-setup` to confirm it.
-- Stay on the current branch.
-- In a parallel `go-flow` wave, leave `HEAD` and the index untouched for the flow coordinator to serialize commits, and report questions to the caller. For standalone work or single-step execution, commit per the plan's per-step delivery or when the user approves the work and the exact one-line message, and update `agent-view/CHANGELOG.md` and `agent-view/checklist.md`.
+- Stay on the assigned branch. A worktree worker uses the caller's ticket storage for inputs and changes only its assigned checkout. Return evidence, questions, and ordered commit SHAs to the coordinator. The coordinator updates shared reports, checklist, changelog, and project records.
+- For standalone work, commit per the plan or explicit authorization and update `agent-view/CHANGELOG.md` and `agent-view/checklist.md`.
 - A small follow-up to committed work amends instead of adding a commit:
   1. List unpushed commits (`git log @{u}..HEAD`, or `origin/HEAD..HEAD` with no upstream).
   2. Related to the unpushed `HEAD` commit (same file or purpose) and the plan does not use per-step commits: `git commit --amend --no-edit`. Per-step commits: amend only when fixing a mistake in the unpushed `HEAD` step commit itself; otherwise create one new commit with the plan's message. Update the SHA in `agent-view/CHANGELOG.md`.
@@ -38,4 +38,4 @@ Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/referen
 5. Run typecheck regularly; spec runs happen inside `dev-tdd` and `go-ut`.
    - Passing specs and lint prove no typing. Typecheck every config the project defines, strictest included, plus editor diagnostics when a tool offers them; cover spec files too.
    - Errors in files you touched are yours to fix, or report in `Open` when pre-existing and out of scope.
-6. Self-check by reading: each behavior maps to a changed file and a spec; the diff has nothing unrelated. Update `agent-view/checklist.md` and (when committed) `agent-view/CHANGELOG.md`. Report any failed or blocked tool/check instead of claiming `Done`.
+6. Self-check by reading: each behavior maps to a changed file and a spec; the diff has nothing unrelated. Follow the delivery mode above for commits and reports. Report failed or blocked checks to the caller.

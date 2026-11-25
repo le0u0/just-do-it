@@ -17,7 +17,6 @@ Find candidates under your lenses. High recall: report what you cannot rule out;
 - Check changed code follows comments in modified files.
 - Risky hunk (changed condition, removed guard): `git log -L` or `git blame`; flag a change that undoes earlier intent.
 - Per candidate, search other changed files and sibling code for the same pattern; one candidate per root cause, listing every location.
-- Skip known findings the caller passed, and anything they cover.
 
 ## Return
 
@@ -30,7 +29,3 @@ At most 15 candidates, most likely first, nothing else:
 - `<prefix>`: the ID prefix the caller gave you, such as `R1`, `R2`.
 - `pre-existing`: the bug sits in code the change did not touch and does not newly reach.
 - None: `no candidates`.
-
-## Quick tier
-
-You are also the verifier: run [verifier.md](verifier.md) on your candidates and return its output instead.

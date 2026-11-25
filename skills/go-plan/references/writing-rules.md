@@ -11,7 +11,7 @@ Applies to the plan, checklist, and diagnosis.
 ## Plan only
 
 - A person reads the plan to approve it. Plain words: what users see and what the system does.
-- File, class, function, field, and API names go in `<sub>`; Goal, Steps, Testing, and Decisions use the words users see, including on-screen labels.
+- Use the words users see in Goal, Steps, Testing, and Decisions. Put exact file paths in the `title` attribute of short reference labels.
 - Over 15 words: split into two points.
 - Group points under headings; one idea per bullet.
 - Decisions state the choice alone, as a present fact.

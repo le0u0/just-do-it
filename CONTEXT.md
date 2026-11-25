@@ -44,8 +44,8 @@ Shared terms for this plugin.
 | --- | --- |
 | Self-check | A skill checking its own work. Not a review. |
 | Formal review | `go-review`'s hunters and verifier applying the project's review skill (else standards and confirmed goal/plan) and review checks, writing `agent-view/review.md` and `dev-view/review.html`. |
-| Fetch | `go-review`'s fast worker that gathers ticket, baseline, diff, and rule evidence for review. |
-| Tier | How many review agents run: Quick (one self-verifying hunter), Standard (two hunters, one verifier), Deep (adds a security hunter). Set by diff size and risky paths. |
-| Round | Review count on one change: 1 for the first review, plus 1 per re-review. After round 3, re-review only checks fixes. |
+| Fetch | `go-review`'s fast worker that gathers baseline, diff, checkout snapshot, and rule evidence. |
+| Tier | Standard uses two hunters and one verifier. Deep adds a security hunter. Select from the reviewed diff and risky paths. |
+| Round | Counts full reviews of the same target. A fourth full review requires explicit authorization. |
 | Pre-existing | A real bug the change did not introduce or expose. Listed under `PRE-EXISTING`, not counted, not sent to `go-fix` unless the user asks. |
-| Review baseline | Where review starts: a user-supplied baseline, else the saved `Reviewed to` SHA, else the parent branch. Never the default branch by assumption. |
+| Review baseline | Start for a full review: confirmed baseline, previously saved `Reviewed from`, or evidenced Git parent. An eligible direct re-review compares from the prior `Reviewed to` commit. |

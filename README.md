@@ -57,7 +57,7 @@ Every skill writes its output to your branch storage folder (`agent-view/` and `
 
 | Tier | Claude | Codex | Antigravity (preferred family) |
 | --- | --- | --- | --- |
-| `fast` | `haiku (low)` | `luna (low)` | `flash (low)` |
+| `fast` | `haiku (low)` | `luna (low)` | `hydrogen (low)` |
 | `standard` | `sonnet (medium)` | `terra (medium)` | `hydrogen (medium)` |
 | `reasoning` | `opus (medium)` | `sol (medium)` | `neon (medium)` |
 

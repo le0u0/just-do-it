@@ -42,5 +42,5 @@ Run this step by default (unless the user asked for `.md` only):
 ## Done when
 
 - `dev-view/testing-guide.html` (or `dev-view/testing-guide.md` when `.md` was requested) is saved and its path is reported.
-- Every `Goal` bullet in `plan.md` (or supplied requirement) has a test (or is listed in `Open` if untestable by hand), and every step is 15 words or fewer.
+- Each `Expected` result in `Goal` (or equivalent supplied requirement) has a test or appears in `Open` if untestable by hand. Each test step is 15 words or fewer.
 - When HTML is generated, `const DATA` is multi-line for low-token partial edits, the page opens with no console error, and each `verify.md` check is reported as `pass`, `fail`, or `not verified`.

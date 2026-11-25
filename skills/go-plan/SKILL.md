@@ -8,14 +8,15 @@ description: 'Grill one ticket, then write agent-view/plan.md and agent-view/che
 ## Scope & Storage
 
 - Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/references/storage.md). If the branch folder does not exist under `~/.just-do-it/*/{branch}`, run `go-setup` first to confirm `{project}` with the user.
-- In `go-flow`, work in one reasoning subagent: return each question round to the caller, then resume with the user's answers. Direct use asks the user in the current thread.
+- In `go-flow`, use confirmed answers and open questions from the caller. Return unanswered questions and the decisions made so far for the next round. Direct use asks the user in the current thread.
 - Write no production code or tests. Write planning outputs for agents to `agent-view/plan.md` and `agent-view/checklist.md` (plus `agent-view/commit-format.md` when confirmed and `agent-view/diagnose.md` when needed), and render the human-readable visual plan at `dev-view/plan.html` per [html-render.md](../go-setup/references/html-render.md) (with inline attachment images and visual statechart) so the user can inspect `dev-view/plan.html` and approve.
 - Two phases: grill, then write. Complete `Grill` before `Write`, unless the user asks to skip grilling. User only wants gaps found: stop after the grill.
 
 ## Inputs
 
 - Requirements come only from supplied context, `agent-view/spec.md`, or explicitly retrieved sources. Cite supplied ticket links; a key alone says nothing.
-- Read `agent-view/spec.md` and `agent-view/attachments/` when present in the branch folder. For a direct ticket URL or explicit lookup with no `agent-view/spec.md`, run `to-spec` first.
+- Read `agent-view/spec.md` and `agent-view/attachments/` when present. For a ticket key, ticket URL, or explicit lookup, require a complete spec per [to-spec](../to-spec/SKILL.md#workflow). If absent or stale, run `to-spec`. Follow [Blocked spec](../to-spec/SKILL.md#blocked-spec) before reading project code or planning.
+- A saved blocked brief for the active ticket triggers the same stop when resuming without a ticket key in the latest message.
 - Read the project references per [setup.md](references/setup.md) (including `~/.just-do-it/{project}/public/glossary.md`, `public/adr/`, and `public/jdi-config.md` when present), existing reusable project components, and the code the ticket likely touches.
 
 ## 1. Grill
@@ -23,14 +24,30 @@ description: 'Grill one ticket, then write agent-view/plan.md and agent-view/che
 Treat the ticket as a design tree: each decision branches into the decisions that hang off it.
 
 - Work in rounds. The **frontier** is every open decision whose prerequisites are settled.
-  - Ask the whole frontier in one round, numbered, most important first.
+  - Ask the whole frontier in one round, most important first.
   - A question that depends on an open one waits.
-- Per question: a recommended answer and one line on why it matters. Word it so "yes" accepts.
-  - Put the question and the recommendation on separate lines, never in one sentence.
+- Use the terminal format below. Start each question with a divider, use `1.`, `2.`, and label choices `A.`, `B.`. Keep each question and choice short. Mark the recommended choice `(recommended)`.
+- Show only the context needed to choose. Share rationale when the user asks `why <number>`. Use one reply hint per round.
+
+```text
+────────────────────────────────────
+1. Where should Add Note open?
+   A. Patient History (recommended)
+   B. Case FM
+
+────────────────────────────────────
+2. Fix linked cards too?
+   A. Yes (recommended)
+   B. No
+
+────────────────────────────────────
+Reply 1A, 2A. Type why 2 for the reason.
+```
+
 - Find facts yourself in code, docs, and ticket. Ask only decisions and unknown domain terms.
 - Look for: missing or conflicting requirements, unclear criteria, edge and error cases, roles, test data, dependencies, design and wording, risks to existing behavior, simpler alternatives.
 - Include in the tree:
-  - Checkable `Goal` bullet points (the real functional objectives that determine when the task is done, including key edge/error behaviors—never boilerplate like "tests pass") confirmed with the user.
+  - The numbered `Goal` scenarios and their `Expected` and `Actual` behavior, confirmed with the user per [plan-format.md](references/plan-format.md#sections).
   - Which existing components, services, or shared primitives to reuse when multiple candidates exist or reuse is unclear (never guess—ask the user).
   - Unknown terminology, product terms, or glossary clashes per [domain-docs.md](references/domain-docs.md) and [public-docs.md](../go-setup/references/public-docs.md): **never guess unknown domain terms—ask the user, then save confirmed terms to `public/glossary.md` and accepted hard-to-reverse decisions to `public/adr/`**.
   - The commit format, when the project and `agent-view/commit-format.md` have none (see Commit format).
@@ -47,10 +64,10 @@ Treat the ticket as a design tree: each decision branches into the decisions tha
 
 ## 2. Write
 
-1. Read [plan-format.md](references/plan-format.md), [checklist-format.md](references/checklist-format.md), and (for stateful features) [statechart.md](references/statechart.md). Write `agent-view/plan.md` (pointing directly to relevant `attachments/{ticket}/...` files in steps and acceptance criteria) and `agent-view/checklist.md`. Record the grill's decisions under `Decisions`.
+1. Read [plan-format.md](references/plan-format.md), [checklist-format.md](references/checklist-format.md), and (for stateful features) [statechart.md](references/statechart.md). Write `agent-view/plan.md` and `agent-view/checklist.md`. Reference relevant attachments with labeled path tooltips. Record the grill's decisions under `Decisions`.
 2. Bug ticket whose diagnosis would clutter the plan: also write `agent-view/diagnose.md` per [diagnose-format.md](references/diagnose-format.md).
 3. Check unit and E2E setup per [setup.md](references/setup.md). Record `none: no setup` when there is no setup and adding it is outside scope.
-4. Make each step concrete enough for `go-work` to run without new design decisions: owned source and test files, reusable components or `agent-view/attachments/` where relevant, dependencies including shared state, public test seams, test authorization, one-line commit message, and delivery mode. Group related changes into cohesive steps.
+4. Make each step concrete enough for `go-work` to run without new design decisions: owned source and test files, reuse, dependencies and shared state, test seams, authorization, commit groups and messages, and delivery mode. Group the same feature or function in one step.
 5. List every file a step deletes under `Deletions`; plan approval covers the listed scope and its deletions.
 6. User changes the requirement: revise `Goal`, steps, and `Deletions`, and update `agent-view/plan.md` and `agent-view/checklist.md` in place.
 7. Update `public/glossary.md` for any newly confirmed domain terms and write `public/adr/NNN-short-title.md` for any confirmed ADR decisions per [domain-docs.md](references/domain-docs.md).
@@ -59,8 +76,9 @@ Treat the ticket as a design tree: each decision branches into the decisions tha
 
 ## Done when
 
-- Every `Goal` bullet maps to a step with a failing test named (or `none: no setup`). Each shared setup step has a focused verification check.
+- Each `Goal` scenario maps to a step's focused check and an observable assertion, or a documented verification gap. Each shared setup step has a focused check.
+- Step titles describe user outcomes. Each `Blocked by` names the needed output, and all checklist step numbers match the plan.
 - Every step has a `Commit` line and a `Reuse` line.
-- The `Goal` bullets are confirmed and checkable.
+- Every `Expected` result is confirmed and checkable.
 - `Open` is `None.` or lists the blocking questions.
 - `agent-view/plan.md`, `agent-view/checklist.md`, and `dev-view/plan.html` (plus any updates to `public/glossary.md` or `public/adr/`) are written.

@@ -7,6 +7,8 @@ description: 'Write, fix or run unit specs for changed code, following the proje
 
 Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/references/storage.md). If the branch folder does not exist under `~/.just-do-it/*/{branch}`, run `go-setup` first to confirm `{project}` with the user. After any test run outside evidence-only mode, write or update `~/.just-do-it/{project}/{branch}/agent-view/ut.md` per [Test report](../go-flow/references/reports.md#test-report-agent-viewutmd-and-agent-viewe2emd) and return the summary to the caller.
 
+In a worktree step, use the assigned checkout for code and use the caller's ticket storage for configuration. Evidence-only mode replaces all writes to the shared report, including missing-runner results.
+
 ## Modes
 
 - **Write or fix specs:** no production change. Report production defects; `go-work` fixes them. When running is authorized, run the focused spec and record the result in `agent-view/ut.md`.

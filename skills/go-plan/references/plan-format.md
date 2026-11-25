@@ -15,20 +15,26 @@ Status: draft
 
 ## Goal
 
-- Hide the Export button in the toolbar when the feature flag is off.
-- Keep the toolbar unchanged when the feature flag is on.
-- Update Export button visibility immediately if the flag changes while the page is open.
+1. **Open the toolbar with the flag off**\
+   Expected: Export is hidden.\
+   Actual: Export is visible.
+2. **Open the toolbar with the flag on**\
+   Expected: Export is visible.\
+   Actual: Export is visible.
+3. **Turn the flag off while the toolbar is open**\
+   Expected: Export disappears immediately.\
+   Actual: Export stays visible.
 
 ## Steps
 
-### 1. Hide Export button when flag is off
+### 1. Show or hide Export with the feature flag
 
 - **Do:** Show the Export button only when the feature flag is enabled.
 - **Reuse:** `FeatureFlagService.isEnabled` (`src/app/shared/feature-flag.service.ts`).
-- **Test:** Button absent when flag off, present when flag on. Run: yes.
-- **Commit:** `feat: hide export button when flag off`
+- **Test:** Goals 1–3. Assert Export is hidden, visible, and updated when the flag changes. Run: yes.
+- **Commit:** `feat: gate export with the feature flag`
 - **Blocked by:** none
-- <sub>**Files:** `toolbar`, `toolbar.test`; check `isExportEnabled` in `buildActions`</sub>
+- <sub>**Files:** <span title="src/toolbar.ts">Toolbar logic</span>, <span title="src/toolbar.test.ts">Toolbar unit test</span></sub>
 
 ## Out of scope
 
@@ -38,7 +44,7 @@ Status: draft
 
 - Seam: toolbar actions. Catches wrong visibility; misses real flag service.
 - E2E: Export button hidden when flag off.
-- <sub>Prior art: `layout.test`. E2E: `playwright/tests/toolbar.spec.ts`</sub>
+- <sub>Prior art: <span title="src/layout.test.ts">Layout unit test</span>. E2E: <span title="playwright/tests/toolbar.spec.ts">Toolbar E2E test</span></sub>
 
 ## Decisions
 
@@ -59,27 +65,28 @@ None.
 
 ## Sections
 
-- **Goal:** bullet list of the **real observable product/functional objectives** that determine when the task is done, including key edge and error cases.
-  - Never include boilerplate like "unit tests pass" or "E2E tests pass" in `Goal` (passing tests is a baseline workflow requirement, not a functional objective).
+- **Goal:** number the scenarios. Give each a short action or condition as its title, then put `Expected:` and `Actual:` on separate lines, in that order. Keep each line to at most 15 words. Name the affected screen, action, or output explicitly.
+  - `Actual` records the observed or documented behavior. Write `Unverified` if evidence is missing, or `Feature unavailable` for a new capability. `Expected` records the observable acceptance criterion.
+  - Include meaningful edge and error outcomes. Keep rationale, implementation, test instructions, and unchanged behavior in their applicable sections unless an unchanged behavior is itself an acceptance criterion.
   - The user confirms it; only a requirement change the user requests alters it.
-  - `go-work` runs the steps until every bullet in `Goal` holds.
+  - `go-work` runs the steps until every `Expected` result in `Goal` holds.
 - **Statechart (when stateful):** directly after `Goal` when the feature has UI/form states, async transitions, or status lifecycles per [statechart.md](statechart.md). Include a Mermaid `stateDiagram-v2` block and one-line invariant bullets. Omit for static changes.
-- **Steps:** directly after `Goal` (or `Statechart`). Each step ends with a focused verification check and one planned commit. Group cohesive changes to avoid micro-commits. Use one step for work that can be verified together.
-  - Group changes that need each other to deliver one behavior. Keep its specs, implementation, and setup used only for that behavior together. Plan separate steps for independently verifiable behaviors with disjoint writes so workers can run them together.
+- **Steps:** directly after `Goal` (or `Statechart`). Use a short title describing the user-visible outcome. Keep APIs and internal types in the implementation details. Each step has focused checks and one or more planned commit groups.
+  - Group work on the same feature or function in one step, including its tests and setup. Merge dependent changes that deliver the same outcome together. Separate steps may edit the same file for different behaviors.
   - Give required shared setup its own step when multiple later steps need it and a focused check can verify it. List that setup step under `Blocked by` for each consumer.
   - Lines: `Do`, `Reuse`, `Test`, `Commit`, `Blocked by`, `Files`.
   - `Do`: at most three bullets of behavior in plain words stating what the step will handle, not low-level code edits.
   - `Reuse`: existing project components, services, or helpers the step will reuse (confirmed with the user during `Grill` if uncertain), or `none`.
-  - `Blocked by`: actual prerequisites, or `none` if the step can start after plan approval. Step numbers do not imply dependencies.
-  - `Commit`: one-line message in the confirmed format, no body.
-  - `Files`: name owned source and test paths. Mark a deleted file `delete` and list it under `Deletions`.
-  - `Test`: name the public seam and focused runner for a behavior, or the focused verification for shared setup. Use `none: no setup` when no runner exists and setup is outside scope. Name any shared state or existing isolation relevant to parallel execution. Write and run each behavior's failing spec first when authorized.
+  - `Blocked by`: list each prerequisite step and the specific output needed from it, or `none`. Example: `Step 1 — document editor navigation for the E2E assertion`. A unit-test-only step blocks E2E work only if it supplies required shared setup or data.
+  - `Commit`: one message per cohesive category, in the confirmed format. For multiple categories, list the scope and message of each in integration order. Keep tests with the change they verify.
+  - `Files`: use short labels with exact source and test paths in their `title` attributes. Mark a deleted file `delete` and list it under `Deletions` using the same format.
+  - `Test`: cite the Goal numbers and state what each check asserts. One check can verify multiple goals if it asserts each outcome. Name the public seam and focused runner, or the focused verification for shared setup. Use `none: no setup` when no runner exists and setup is outside scope. Name shared state or isolation relevant to parallel execution. Write and run each behavior's failing spec first when authorized.
   - Seams, temporary contracts, access-right changes, reusable project components, relative attachment paths (`attachments/{ticket}/...`), and precedents go in `<sub>` beside `Files`, only when the developer needs them.
 - **Out of scope:** excluded work, or `None.`.
 - **Testing:**
   - Keep scope focused, and cover every changed component or module with behavior (including template bindings); if a changed file has no spec yet, plan a new spec beside it focused on the changed behavior. One line each on what it catches and misses; approving the plan confirms them.
   - `E2E:` the scenario in plain words (create a new e2e spec when none exists for the area). Use `none` only when there is no E2E setup (`none: no setup`), the change has no UI or user-flow impact, or the user explicitly skips E2E — never set `none` just because no prior spec exists. E2E runs once, after the last step; this line is its only scope.
-  - Prior art and exact spec files go in `<sub>`.
+  - Use labeled path tooltips for prior art and exact spec files in `<sub>`.
 - **Decisions:** at most seven choices that change scope or design, one line each; mention the diagnosis when it drove one. State the choice alone.
 - **Deletions:** every deleted file, or `None.`. Approving the plan approves exactly these.
 - **Open:** blocking questions only, or `None.`.
@@ -89,3 +96,4 @@ None.
 
 - `agent-view/spec.md` becomes scope only through user approval.
 - Ask before changing an approved plan; drop superseded scope outright.
+- After merging, removing, or reordering steps, recheck every dependency against its required output. Update step numbers and references in the plan and checklist. Carry evidence forward only for unchanged behavior it still verifies.

@@ -1,6 +1,6 @@
 # go-work
 
-Implements one step of work, test-first: a request, one step of `agent-view/plan.md`, or a failure to fix. `go-flow` assigns one standard worker per step and runs independent steps concurrently. You can also call `go-work` directly.
+Implements one feature or function, test-first, with commits grouped by purpose. In committed `go-flow`, each ready step runs in its own worktree and the coordinator integrates the resulting commits. You can also call `go-work` directly.
 
 ## DO IT
 
