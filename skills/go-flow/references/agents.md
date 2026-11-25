@@ -4,7 +4,7 @@ The caller that launches a worker chooses its model and effort. `go-review` and 
 
 | Flow job | Tier | Lifecycle |
 | --- | --- | --- |
-| `go-research` | `fast` | Reuse for new or refreshed requirement sources |
+| `to-spec` | `fast` | Reuse for new or refreshed requirement sources |
 | `go-plan` | `reasoning` | One worker for the grill, plan, and revisions |
 | `go-work` | `standard` | One worker per implementation step, reused only for that step's retries |
 | `go-e2e` | `standard` | One worker for exploration, authoring, runs and reruns |
@@ -41,4 +41,4 @@ Map each tier to the active host's model and effort:
 
 - In Swarm, pass the exact user-selected model and effort, or the configured tier's model and effort, using the `fast` to `standard` fallback above when needed. Swarm encodes effort in the selectable model variant. If no applicable variant is available or `workspace="inherit"` is unavailable, report the blocker. Get approval before changing a user-selected model or effort.
 - Use `workspace="inherit"` explicitly for every Swarm worker. It shares the checkout. Omit `fork` to start with fresh conversation context. Send the worker's brief and references to any relevant Swarm board posts. Workers verify the repository root and branch before editing. Verify the worker's workspace and model in Swarm status. Keep edits in place on that branch.
-- Use legacy `define_subagent` and `invoke_subagent` only for `go-research` when tracker MCP access requires it. Use `Workspace="inherit"`, grant the required tracker access, and scope writes to `agent-view/research.md` and `agent-view/attachments/`. The legacy research default is `flash_lite`. If a user's requested model or effort cannot be set on that tool, report the blocker. Follow up with `send_message` and clean up via `manage_subagents(Action="kill")`.
+- Use legacy `define_subagent` and `invoke_subagent` only for `to-spec` when tracker MCP access requires it. Use `Workspace="inherit"`, grant the required tracker access, and scope writes to `agent-view/spec.md` and `agent-view/attachments/`. The legacy research default is `flash_lite`. If a user's requested model or effort cannot be set on that tool, report the blocker. Follow up with `send_message` and clean up via `manage_subagents(Action="kill")`.

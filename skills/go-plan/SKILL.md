@@ -14,8 +14,8 @@ description: 'Grill one ticket, then write agent-view/plan.md and agent-view/che
 
 ## Inputs
 
-- Requirements come only from supplied context, `agent-view/research.md`, or explicitly retrieved sources. Cite supplied ticket links; a key alone says nothing.
-- Read `agent-view/research.md` and `agent-view/attachments/` when present in the branch folder. For a direct ticket URL or explicit lookup with no `agent-view/research.md`, run `go-research` first.
+- Requirements come only from supplied context, `agent-view/spec.md`, or explicitly retrieved sources. Cite supplied ticket links; a key alone says nothing.
+- Read `agent-view/spec.md` and `agent-view/attachments/` when present in the branch folder. For a direct ticket URL or explicit lookup with no `agent-view/spec.md`, run `to-spec` first.
 - Read the project references per [setup.md](references/setup.md) (including `~/.just-do-it/{project}/public/glossary.md`, `public/adr/`, and `public/jdi-config.md` when present), existing reusable project components, and the code the ticket likely touches.
 
 ## 1. Grill

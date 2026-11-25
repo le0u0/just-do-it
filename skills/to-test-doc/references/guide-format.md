@@ -29,7 +29,7 @@ You should see: <result>.
 ## Title and related
 
 - Title: feature name. Lead line: ticket key as a link when its URL is known; otherwise the plain key. No ticket: a short feature description.
-- `Related: KEY (role) · KEY`: one line after the lead, each a link on the ticket's site, from `Linked:` in `agent-view/research.md`. None: omit.
+- `Related: KEY (role) · KEY`: one line after the lead, each a link on the ticket's site, from `Linked:` in `agent-view/spec.md`. None: omit.
 
 ## Before you start
 

@@ -7,7 +7,7 @@ Skills can also run independently. If branch storage is missing, they trigger `g
 ```mermaid
 flowchart LR
     Start([Start]) -->|start workflow| S[go-setup]
-    S -->|confirm project and research| R[go-research]
+    S -->|confirm project and research| R[to-spec]
     R -->|plan| P[go-plan]
     P -->|approve plan and build| A[go-work<br/>parallel independent steps<br/>dev-tdd]
     A -->|test| T[go-ut + go-e2e<br/>ut.md & e2e.md]
@@ -24,7 +24,7 @@ flowchart LR
 | Stage | Who runs it | Writes to storage |
 | --- | --- | --- |
 | 1. Setup | `go-setup` (main thread) | Confirms `{project}`; creates `agent-view/`, `dev-view/`, `public/` |
-| 2. Research | `go-research` (`fast`) | `agent-view/research.md`, `agent-view/attachments/{ticket}/`, `dev-view/research.html` |
+| 2. Research | `to-spec` (`fast`) | `agent-view/spec.md`, `agent-view/attachments/{ticket}/`, `dev-view/spec.html` |
 | 3. Grill & plan | `go-plan` (`reasoning`) | `agent-view/plan.md`, `agent-view/checklist.md`, `agent-view/commit-format.md`, `agent-view/diagnose.md`, `dev-view/plan.html`, plus on-demand `public/glossary.md` & `public/adr/` |
 | 4. Build | `go-work` (`standard`, one worker per step, parallel when independent; drives `dev-tdd`) | Code & specs, `agent-view/checklist.md`, `agent-view/CHANGELOG.md` |
 | 5. Test | `go-ut` + `go-e2e` (`standard`) | Runs touched unit specs and planned E2E specs, writing `agent-view/ut.md` and `agent-view/e2e.md`. Failed tests are fixed and retried up to the project limit; if exhausted, stop and ask the user |

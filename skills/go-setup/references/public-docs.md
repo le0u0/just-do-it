@@ -8,7 +8,7 @@ Tracks domain terminology, product concepts, internal abbreviations, and busines
 
 ### When to read and update
 
-1. Read `~/.just-do-it/{project}/public/glossary.md` (and repository `GLOSSARY.md` if present) at the start of `go-research`, `go-plan`, `go-work`, and `go-review`.
+1. Read `~/.just-do-it/{project}/public/glossary.md` (and repository `GLOSSARY.md` if present) at the start of `to-spec`, `go-plan`, `go-work`, and `go-review`.
 2. Whenever you encounter an unknown term, product concept, or ambiguous wording—or when a ticket/user word conflicts with an existing term—**never guess**.
 3. Ask the user to clarify the exact meaning (and where it lives in the UI or codebase if relevant).
 4. Once the user answers, create or update `~/.just-do-it/{project}/public/glossary.md` immediately:

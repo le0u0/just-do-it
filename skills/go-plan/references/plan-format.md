@@ -87,5 +87,5 @@ None.
 
 ## Changes
 
-- `agent-view/research.md` becomes scope only through user approval.
+- `agent-view/spec.md` becomes scope only through user approval.
 - Ask before changing an approved plan; drop superseded scope outright.

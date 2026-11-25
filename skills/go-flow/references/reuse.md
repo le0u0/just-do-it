@@ -12,7 +12,7 @@
 
 ## Worker reuse
 
-- Reuse the planner across grill rounds. If replaced, supply `agent-view/research.md`, confirmed decisions, and current frontier.
+- Reuse the planner across grill rounds. If replaced, supply `agent-view/spec.md`, confirmed decisions, and current frontier.
 - Use one E2E worker for the task. Reuse the research worker only for requirement research.
 - Resume a step's worker for that step's fixes and missing evidence. Release it after verification and delivery.
 - Review starts and cleans up its own workers. It reads any existing `agent-view/review.md` for re-review.

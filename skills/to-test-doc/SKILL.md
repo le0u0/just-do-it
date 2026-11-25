@@ -19,7 +19,7 @@ Generate the manual QA testing guide. Defaults to the interactive single-file HT
 
 - `agent-view/plan.md` in the resolved branch directory, or a supplied plan/requirements and diff. Missing: ask for requirements and diff; use their goal/criteria in place of the plan.
 - The diff from the plan's initial baseline, or the supplied diff when there is no plan.
-- Ticket key and URL from `agent-view/plan.md` and `agent-view/research.md` (or supplied requirements); if the URL is unavailable, omit the link and report it in `Open`.
+- Ticket key and URL from `agent-view/plan.md` and `agent-view/spec.md` (or supplied requirements); if the URL is unavailable, omit the link and report it in `Open`.
 - Known terms from `public/glossary.md` when present.
 
 ## 1. Draft Guide Content

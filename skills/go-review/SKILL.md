@@ -15,7 +15,7 @@ Start the review team for every review. If an agent is unavailable or cannot sta
 
 Start one review-owned fast Fetch worker per [agents.md](references/agents.md). Give it [fetch.md](references/fetch.md) and request only missing inputs:
 
-- Ticket text, when the requirement is a ticket URL or key (and `agent-view/research.md` is absent), including linked tickets.
+- Ticket text, when the requirement is a ticket URL or key (and `agent-view/spec.md` is absent), including linked tickets.
 - Baseline evidence, unless the user or `agent-view/plan.md` supplied the baseline.
 - Diff facts for the range.
 - File text of `REVIEW.md`, for the risky paths it marks.
@@ -26,7 +26,7 @@ Decide from its facts yourself: the baseline per [scope-baseline.md](references/
 
 ## 2. Goal, review plan, and inputs
 
-- **Goal & review plan (direct run):** Read `agent-view/plan.md` and `agent-view/research.md` when present. If `agent-view/plan.md` is missing or the review goal/target is unclear when running `go-review` directly, **grill the user on the goal and target scope, confirm a concise review plan** (and update `public/glossary.md` if unknown domain terms arise per [public-docs.md](../go-setup/references/public-docs.md)) before launching the hunters.
+- **Goal & review plan (direct run):** Read `agent-view/plan.md` and `agent-view/spec.md` when present. If `agent-view/plan.md` is missing or the review goal/target is unclear when running `go-review` directly, **grill the user on the goal and target scope, confirm a concise review plan** (and update `public/glossary.md` if unknown domain terms arise per [public-docs.md](../go-setup/references/public-docs.md)) before launching the hunters.
 - **Previous review:** read `agent-view/review.md` if it already exists.
 - **Test references:** check whether `agent-view/ut.md` and `agent-view/e2e.md` exist in the branch folder. Reference them in `agent-view/review.md` under `## Tests` per [report-format.md](references/report-format.md) (leave the reference empty if the file does not exist), and display their pass/fail status badge in `dev-view/review.html`.
 - **Tier:** from the diff facts, per [agents.md](references/agents.md). The caller or user may name a tier; it wins.

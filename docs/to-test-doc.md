@@ -13,7 +13,7 @@ flowchart LR
 | Step | Does |
 | --- | --- |
 | Default output | `dev-view/testing-guide.html` (or `dev-view/testing-guide.md` when you ask for `.md`) |
-| Reads | `agent-view/plan.md`, `agent-view/research.md`, `public/glossary.md`, and branch diff |
+| Reads | `agent-view/plan.md`, `agent-view/spec.md`, `public/glossary.md`, and branch diff |
 | Low-token updates | Formats `const DATA` as multi-line JSON at the top of `<script>` so small changes only edit the changed lines |
 | Translates (HTML) | A `fast` subagent adds `zh` using terms from repo i18n, `public/glossary.md`, and `agent-view/` |
 | Verifies (HTML) | Checks the generated page per `verify.md` (`pass`, `fail`, or `not verified`) |

@@ -1,6 +1,6 @@
 # HTML Render (`dev-view/*.html`)
 
-Applies to human-readable HTML views in `~/.just-do-it/{project}/{branch}/dev-view/` (`research.html`, `plan.html`, `review.html`, `testing-guide.html`). Agents read the compact `.md` files in `agent-view/`; the developer reads the visual `.html` pages in `dev-view/` in a browser. (`dev-view/pr.md` and `dev-view/handoff.md` remain `.md`.)
+Applies to human-readable HTML views in `~/.just-do-it/{project}/{branch}/dev-view/` (`spec.html`, `plan.html`, `review.html`, `testing-guide.html`). Agents read the compact `.md` files in `agent-view/`; the developer reads the visual `.html` pages in `dev-view/` in a browser. (`dev-view/pr.md` and `dev-view/handoff.md` remain `.md`.)
 
 ## Core principles
 
@@ -39,7 +39,7 @@ Use a consistent, restrained warm-neutral theme across all `dev-view/*.html` fil
 
 ## Page structures
 
-### 1. `dev-view/research.html` (written by `go-research`)
+### 1. `dev-view/spec.html` (written by `to-spec`)
 
 - **Header**: Ticket key (linked to tracker URL), title, status badge, retrieved timestamp, and linked related tickets.
 - **Visual Attachments Gallery**: grid of `<figure>` cards for every image in `../agent-view/attachments/{ticket}/` (plus a file list for non-image attachments and any missing/failed downloads).

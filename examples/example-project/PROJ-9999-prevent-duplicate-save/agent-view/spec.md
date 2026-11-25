@@ -1,4 +1,6 @@
-# Research: PROJ-9999 Prevent duplicate profile saves
+# Spec: PROJ-9999 Prevent duplicate profile saves
+
+Status: ready
 
 ## Requirements
 

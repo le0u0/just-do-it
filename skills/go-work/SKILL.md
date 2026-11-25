@@ -32,7 +32,7 @@ Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/referen
 ## Workflow
 
 1. Read the [project references](references/project-references.md) (including `public/glossary.md` and `public/adr/` when present); follow their conventions for reusable components, mocking, setup, and file placement.
-2. Inspect `agent-view/research.md` and `agent-view/attachments/` when present before implementing visual or UI behavior, and match their details.
+2. Inspect `agent-view/spec.md` and `agent-view/attachments/` when present before implementing visual or UI behavior, and match their details.
 3. Ask once when the request omits a choice a project skill or unknown domain term requires.
 4. Own the whole behavior step, including its specs, implementation, and step-specific setup. Complete any approved setup needed to run the focused spec, then call `dev-tdd` once for the step (`dev-tdd` drives `go-ut` / `go-e2e`). Pass evidence-only mode through to `go-ut` when requested by the coordinator. For a setup-only step, run its named verification when authorized and return the outcome.
 5. Run typecheck regularly; spec runs happen inside `dev-tdd` and `go-ut`.

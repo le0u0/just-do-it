@@ -37,7 +37,7 @@ agy plugin install https://github.com/le0u0/just-do-it
 
 ## Use
 
-Call any skill directly, or call [`go-flow`](docs/go-flow.md) to chain the full ticket pipeline (`go-setup` → `go-research` → `go-plan` → parallel `go-work` → `go-review` → `go-fix`) or the steps you choose.
+Call any skill directly, or call [`go-flow`](docs/go-flow.md) to chain the full ticket pipeline (`go-setup` → `to-spec` → `go-plan` → parallel `go-work` → `go-review` → `go-fix`) or the steps you choose.
 
 Every skill writes its output to your branch storage folder (`agent-view/` and `dev-view/`), initializing it with [`go-setup`](docs/go-setup.md) after confirming the project name with you.
 
@@ -46,7 +46,7 @@ Every skill writes its output to your branch storage folder (`agent-view/` and `
 | Skill | Job | Tier |
 | --- | --- | --- |
 | [`go-setup`](docs/go-setup.md) | Confirm project and set up branch storage (`agent-view/`, `dev-view/`, `public/`) | — |
-| [`go-research`](docs/go-research.md) | Read ticket or requirements link and map repo paths | fast |
+| [`to-spec`](docs/to-spec.md) | Read ticket or requirements link and map repo paths | fast |
 | [`go-plan`](docs/go-plan.md) | Grill goal, decisions, and unknown terms, then write plan and checklist | reasoning |
 | [`go-work`](docs/go-work.md) | Implement one step test-first (`dev-tdd`). Independent steps run in parallel in `go-flow` | standard |
 | [`go-ut`](docs/go-ut.md) | Write, fix, or run focused unit specs | standard |
