@@ -18,13 +18,19 @@ a{color:var(--text);font-weight:600}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:16px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
 figure{margin:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px}
-figure img{width:100%;height:auto;border-radius:8px;cursor:zoom-in;display:block}
+figure img{width:100%;height:auto;border-radius:8px;display:block}
 figcaption{margin-top:8px;font-size:13px;color:var(--muted);display:flex;justify-content:space-between}
 ul{margin:8px 0 0;padding-left:20px}
 li{margin:6px 0}
 code{font:13px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--surface-alt);padding:2px 6px;border-radius:4px}
-dialog{border:1px solid var(--border);border-radius:12px;padding:16px;max-width:92vw;background:var(--surface)}
-dialog::backdrop{background:rgba(43,38,34,.55)}
+.attachment-trigger,.attachment-zoom{display:block;padding:0;border:0;background:transparent}
+.attachment-trigger{width:100%;cursor:pointer}
+.attachment-preview{padding:0;border:0;max-width:calc(100vw - 24px);max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px);overflow:visible;background:transparent}
+.attachment-preview::backdrop{background:rgba(43,38,34,.55)}
+.attachment-zoom{cursor:zoom-in}
+.attachment-preview img{display:block;max-width:50vw;max-height:50vh;max-height:50dvh;border-radius:8px}
+.attachment-preview.is-zoomed .attachment-zoom{cursor:zoom-out}
+.attachment-preview.is-zoomed img{width:min(calc(100vw - 24px),calc((100vh - 24px) * var(--image-ratio,1)));width:min(calc(100vw - 24px),calc((100dvh - 24px) * var(--image-ratio,1)));height:auto;max-width:none;max-height:none}
 </style>
 </head>
 <body>
@@ -41,10 +47,12 @@ dialog::backdrop{background:rgba(43,38,34,.55)}
 
   <h2>Ticket Attachment (`agent-view/attachments/PROJ-9999/`)</h2>
   <figure>
-    <img src="../agent-view/attachments/PROJ-9999/profile-save-states.svg" alt="Profile form Save button states" onclick="document.getElementById('lb').showModal()">
+    <button class="attachment-trigger" type="button" aria-haspopup="dialog" aria-controls="attachment-preview" aria-label="Open image preview: Save button states" data-attachment-preview>
+      <img src="../agent-view/attachments/PROJ-9999/profile-save-states.svg" alt="Profile form Save button states">
+    </button>
     <figcaption>
       <span><code>attachments/PROJ-9999/profile-save-states.svg</code> — Profile form Save button states (Dirty, Saving, Error)</span>
-      <span>Click image to enlarge</span>
+      <span>Click image to preview</span>
     </figcaption>
   </figure>
 
@@ -76,8 +84,56 @@ dialog::backdrop{background:rgba(43,38,34,.55)}
     </ul>
   </section>
 </div>
-<dialog id="lb" onclick="this.close()">
-  <img src="../agent-view/attachments/PROJ-9999/profile-save-states.svg" alt="Enlarged attachment" style="max-width:88vw;height:auto;display:block">
+<dialog class="attachment-preview" id="attachment-preview" aria-label="Attachment preview" closedby="any">
+  <button class="attachment-zoom" type="button" aria-label="Zoom in" autofocus></button>
 </dialog>
+<script>
+const attachmentPreview = document.getElementById("attachment-preview");
+if (attachmentPreview) {
+  const previewImage = new Image();
+  const zoomButton = attachmentPreview.querySelector(".attachment-zoom");
+  let opener;
+
+  function setAttachmentZoom(expanded) {
+    attachmentPreview.classList.toggle("is-zoomed", expanded);
+    zoomButton.setAttribute("aria-label", expanded ? "Zoom out" : "Zoom in");
+  }
+
+  function setImageRatio(image) {
+    if (image.naturalHeight) {
+      attachmentPreview.style.setProperty("--image-ratio", image.naturalWidth / image.naturalHeight);
+    }
+  }
+
+  previewImage.addEventListener("load", () => setImageRatio(previewImage));
+  document.querySelectorAll("[data-attachment-preview]").forEach(trigger => {
+    trigger.addEventListener("click", () => {
+      const image = trigger.querySelector("img");
+      opener = trigger;
+      previewImage.src = image.currentSrc || image.src;
+      previewImage.alt = image.alt;
+      zoomButton.append(previewImage);
+      attachmentPreview.style.removeProperty("--image-ratio");
+      setImageRatio(image);
+      setAttachmentZoom(true);
+      attachmentPreview.showModal();
+    });
+  });
+
+  zoomButton.addEventListener("click", () => {
+    setAttachmentZoom(!attachmentPreview.classList.contains("is-zoomed"));
+  });
+  if (!("closedBy" in attachmentPreview)) {
+    let startedOnBackdrop = false;
+    attachmentPreview.addEventListener("pointerdown", event => {
+      startedOnBackdrop = event.target === attachmentPreview;
+    });
+    attachmentPreview.addEventListener("click", event => {
+      if (startedOnBackdrop && event.target === attachmentPreview) attachmentPreview.close();
+    });
+  }
+  attachmentPreview.addEventListener("close", () => opener?.focus());
+}
+</script>
 </body>
 </html>

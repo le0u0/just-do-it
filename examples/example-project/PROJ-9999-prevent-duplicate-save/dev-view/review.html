@@ -28,6 +28,15 @@ h2{font-size:20px;margin:26px 0 12px}
 .btn:hover{background:var(--accent-d)}
 code{font:13px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--surface-alt);padding:2px 6px;border-radius:4px}
 a{color:var(--text);font-weight:600}
+.result-expected{color:var(--pass)}
+.result-actual{color:var(--fail)}
+[title],.path-tooltip-trigger{cursor:help}
+span[title],.path-tooltip-trigger{text-decoration:underline dotted;text-underline-offset:.16em}
+.path-tooltip-trigger{position:relative;display:inline-block;max-width:100%;overflow-wrap:anywhere}
+.path-tooltip{position:absolute;top:100%;left:0;z-index:5;width:max-content;max-width:min(32rem,calc(100vw - 40px));background:var(--text);color:var(--surface);padding:6px 9px;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.18);font:.8rem/1.4 ui-monospace,monospace;overflow-wrap:anywhere;visibility:hidden;opacity:0;pointer-events:none;transition:opacity .1s ease}
+.path-tooltip.above{top:auto;bottom:100%}
+.path-tooltip-trigger:not(.tooltip-dismissed):is(:hover,:focus)>.path-tooltip{visibility:visible;opacity:1;pointer-events:auto}
+@media(prefers-reduced-motion:reduce){.path-tooltip{transition:none}}
 </style>
 </head>
 <body>
@@ -37,7 +46,8 @@ a{color:var(--text);font-weight:600}
       <span class="badge warn">Status: reviewed · 2 TODO (0 Critical, 2 Warning, 0 Minor)</span>
       <span>Branch: <code>PROJ-9999-prevent-duplicate-save</code></span>
       <span>· Range: <code>a1b2c3d..e4f5g6h</code></span>
-      <span>· Tier: <strong>Quick</strong></span>
+      <span>· Coverage: full</span>
+      <span>· Tier: <strong>Standard</strong></span>
       <span>· Round: <strong>1</strong></span>
     </div>
     <h1>Code Review: PROJ-9999 Prevent duplicate profile saves</h1>
@@ -55,11 +65,21 @@ a{color:var(--text);font-weight:600}
     </div>
   </div>
 
+  <section>
+    <h2>Acceptance</h2>
+    <ul>
+      <li>Expected 1 · Save starts one request and shows Saving… · unverified · sample result unavailable</li>
+      <li>Expected 2 · Repeated clicks send one request · unverified · sample result unavailable</li>
+      <li>Expected 3 · Successful save closes Edit Profile · unverified · sample result unavailable</li>
+      <li>Expected 4 · Save accepts a retry after an error · unverified · retry action untested</li>
+    </ul>
+  </section>
+
   <h2>TODO Findings (2)</h2>
 
   <article class="card" data-id="1">
     <div class="top-row">
-      <div><span class="badge warn">1 · Warning</span> <strong style="margin-left:6px">ProfileFormComponent</strong></div>
+      <div><span class="badge warn">1 · Warning</span> <strong style="margin-left:6px"><span title="src/app/profile/profile-form.component.ts">ProfileFormComponent</span></strong></div>
       <div class="seg" role="group" aria-label="Disposition for finding 1">
         <button type="button" data-action="fix" aria-pressed="true">Accept (Fix)</button>
 
@@ -67,14 +87,20 @@ a{color:var(--text);font-weight:600}
         <button type="button" data-action="ignore" aria-pressed="false">Ignore</button>
       </div>
     </div>
-    <p style="margin:6px 0"><strong>Issue:</strong> Thrown synchronous validation error in <code>onSubmit()</code> leaves <code>isSaving</code> true and Save disabled.</p>
+    <p><strong>How to verify:</strong></p>
+    <ol>
+      <li>In <span title="src/app/profile/profile-form.component.spec.ts">ProfileForm Unit Test</span>, make validation throw before the save request starts.</li>
+      <li>Submit the form and check the Save button after the error.</li>
+    </ol>
+    <p class="result-expected">Expected: Save is enabled so the user can retry.</p>
+    <p class="result-actual">Actual: Unverified: Thrown synchronous validation error in <code>onSubmit()</code> leaves <code>isSaving</code> true and Save disabled.</p>
     <p style="margin:6px 0 0"><strong>Fix:</strong> Move <code>isSaving = true</code> after synchronous form validation or wrap in <code>try / finally</code>.</p>
     <label hidden>Reason<textarea data-dispute rows="3"></textarea></label>
   </article>
 
   <article class="card" data-id="2">
     <div class="top-row">
-      <div><span class="badge warn">2 · Warning</span> <strong style="margin-left:6px">ProfileFormComponent</strong></div>
+      <div><span class="badge warn">2 · Warning</span> <strong style="margin-left:6px"><span title="src/app/profile/profile-form.component.ts">ProfileFormComponent</span></strong></div>
       <div class="seg" role="group" aria-label="Disposition for finding 2">
         <button type="button" data-action="fix" aria-pressed="true">Accept (Fix)</button>
 
@@ -82,26 +108,38 @@ a{color:var(--text);font-weight:600}
         <button type="button" data-action="ignore" aria-pressed="false">Ignore</button>
       </div>
     </div>
-    <p style="margin:6px 0"><strong>Issue:</strong> Changed error handler overwrites server <code>err.error.message</code> with generic fallback text.</p>
+    <p><strong>How to verify:</strong></p>
+    <ol>
+      <li>Open Edit Profile. Mock the save request to return HTTP 500 with the message “Profile update rejected.”</li>
+      <li>Click Save and read the error banner.</li>
+    </ol>
+    <p class="result-expected">Expected: The banner shows “Profile update rejected.”</p>
+    <p class="result-actual">Actual: Unverified: Changed error handler overwrites server <code>err.error.message</code> with generic fallback text.</p>
     <p style="margin:6px 0 0"><strong>Fix:</strong> Preserve <code>err.error?.message ?? defaultError</code> display on failure.</p>
     <label hidden>Reason<textarea data-dispute rows="3"></textarea></label>
   </article>
 </div>
 <script>
-const dispositions = { "1": "fix", "2": "fix" };
+const cards = [...document.querySelectorAll(".card[data-id]")];
+const dispositions = Object.fromEntries(cards.map(card => [card.dataset.id, "fix"]));
+const preview = document.getElementById("cmd-preview");
+const copyButton = document.getElementById("copy-btn");
 function updateCmd() {
+  if (!preview) return;
   const buckets = { fix: [], dispute: [], ignore: [] };
   Object.entries(dispositions).forEach(([id, act]) => buckets[act].push(id));
   const parts = [];
   if (buckets.fix.length) parts.push("fix findings " + buckets.fix.join(", "));
   buckets.dispute.forEach(id => {
-    const reason = document.querySelector('.card[data-id="' + id + '"] textarea[data-dispute]').value.trim();
-    parts.push("dispute " + id + (reason ? ": " + reason : ""));
+    const card = cards.find(entry => entry.dataset.id === id);
+    const reason = card.querySelector("textarea[data-dispute]").value.trim();
+    const finding = card.querySelector(".result-actual").textContent.trim();
+    parts.push("dispute " + id + " (" + finding + ")" + (reason ? ": " + reason : ""));
   });
   if (buckets.ignore.length) parts.push("ignore " + buckets.ignore.join(", "));
-  document.getElementById("cmd-preview").textContent = "/go-fix " + (parts.join("; ") || "set status to approved");
+  preview.textContent = "/go-fix " + (parts.join("; ") || "set status to approved");
 }
-document.querySelectorAll(".card[data-id]").forEach(card => {
+cards.forEach(card => {
   card.addEventListener("click", e => {
     const btn = e.target.closest("button[data-action]");
     if (!btn) return;
@@ -112,9 +150,47 @@ document.querySelectorAll(".card[data-id]").forEach(card => {
   });
   card.querySelector("textarea").addEventListener("input", updateCmd);
 });
-document.getElementById("copy-btn").addEventListener("click", async () => {
-  const txt = document.getElementById("cmd-preview").textContent;
-  try { await navigator.clipboard.writeText(txt); document.getElementById("copy-btn").textContent = "Copied!"; setTimeout(() => document.getElementById("copy-btn").textContent = "Copy go-fix command", 1500); } catch {}
+updateCmd();
+copyButton?.addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText(preview.textContent); copyButton.textContent = "Copied!"; setTimeout(() => copyButton.textContent = "Copy go-fix command", 1500); } catch {}
+});
+</script>
+<script>
+document.querySelectorAll("span[title]").forEach((trigger, index) => {
+  const tooltip = document.createElement("span");
+  tooltip.id = "path-tooltip-" + index;
+  tooltip.className = "path-tooltip";
+  tooltip.setAttribute("role", "tooltip");
+  tooltip.textContent = trigger.title;
+
+  trigger.classList.add("path-tooltip-trigger");
+  trigger.tabIndex = 0;
+  trigger.setAttribute("aria-describedby", tooltip.id);
+  trigger.append(tooltip);
+  trigger.removeAttribute("title");
+
+  function placeTooltip() {
+    const {left, top, bottom} = trigger.getBoundingClientRect();
+    const gutter = 12;
+    const rightLimit = document.documentElement.clientWidth - tooltip.offsetWidth - gutter;
+    tooltip.style.left = Math.max(gutter, Math.min(left, rightLimit)) - left + "px";
+    tooltip.classList.toggle("above", bottom + tooltip.offsetHeight > innerHeight && top > innerHeight - bottom);
+  }
+
+  function showTooltip() {
+    trigger.classList.remove("tooltip-dismissed");
+    placeTooltip();
+  }
+
+  trigger.addEventListener("pointerenter", showTooltip);
+  trigger.addEventListener("focus", showTooltip);
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key !== "Escape") return;
+  document.querySelectorAll(".path-tooltip-trigger:is(:hover,:focus)").forEach(trigger => {
+    trigger.classList.add("tooltip-dismissed");
+  });
 });
 </script>
 </body>

@@ -16,6 +16,15 @@ h1{font-size:28px;margin:0 0 12px;line-height:1.25}
 h2{font-size:21px;margin:28px 0 12px}
 h3{font-size:16px;margin:0 0 8px}
 .goal{background:var(--surface-alt);border-left:4px solid var(--accent);padding:14px 18px;border-radius:0 10px 10px 0}
+.goal-actual{color:var(--fail)}
+.goal-expected{color:var(--pass)}
+[title],.path-tooltip-trigger{cursor:help}
+span[title],.path-tooltip-trigger{text-decoration:underline dotted;text-underline-offset:.16em}
+.path-tooltip-trigger{position:relative;display:inline-block;max-width:100%;overflow-wrap:anywhere}
+.path-tooltip{position:absolute;top:100%;left:0;z-index:5;width:max-content;max-width:min(32rem,calc(100vw - 40px));background:var(--text);color:var(--surface);padding:6px 9px;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.18);font:.8rem/1.4 ui-monospace,monospace;overflow-wrap:anywhere;visibility:hidden;opacity:0;pointer-events:none;transition:opacity .1s ease}
+.path-tooltip.above{top:auto;bottom:100%}
+.path-tooltip-trigger:not(.tooltip-dismissed):is(:hover,:focus)>.path-tooltip{visibility:visible;opacity:1;pointer-events:auto}
+@media(prefers-reduced-motion:reduce){.path-tooltip{transition:none}}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:16px}
 table{width:100%;border-collapse:collapse;font-size:14px;margin-top:12px}
 th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border)}
@@ -24,6 +33,14 @@ code{font:13px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--
 figure{margin:12px 0 0;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px}
 figure img{width:100%;height:auto;display:block;border-radius:6px}
 figcaption{font-size:12px;color:var(--muted);margin-top:6px}
+.attachment-trigger,.attachment-zoom{display:block;padding:0;border:0;background:transparent}
+.attachment-trigger{width:100%;cursor:pointer}
+.attachment-preview{padding:0;border:0;max-width:calc(100vw - 24px);max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px);overflow:visible;background:transparent}
+.attachment-preview::backdrop{background:rgba(43,38,34,.55)}
+.attachment-zoom{cursor:zoom-in}
+.attachment-preview img{display:block;max-width:50vw;max-height:50vh;max-height:50dvh;border-radius:8px}
+.attachment-preview.is-zoomed .attachment-zoom{cursor:zoom-out}
+.attachment-preview.is-zoomed img{width:min(calc(100vw - 24px),calc((100vh - 24px) * var(--image-ratio,1)));width:min(calc(100vw - 24px),calc((100dvh - 24px) * var(--image-ratio,1)));height:auto;max-width:none;max-height:none}
 ul{margin:6px 0 0;padding-left:20px}
 li{margin:5px 0}
 </style>
@@ -41,12 +58,28 @@ li{margin:5px 0}
     <h1>Plan: PROJ-9999 Prevent duplicate profile saves</h1>
     <div class="goal">
       <strong>Goal (Definition of Done)</strong>
-      <ul>
-        <li>First Save click on the profile form submits one <code>PUT /api/v1/profile</code> request, disables Save, and shows <code>Saving...</code> while the request is in flight.</li>
-        <li>Rapid or repeated Save clicks while a request is pending send no additional requests.</li>
-        <li>Successful save closes the edit flow and restores clean form state.</li>
-        <li>Failed save (500 or network error) displays the server error banner and re-enables Save so the user can retry immediately.</li>
-      </ul>
+      <ol>
+        <li>
+          <strong>Click Save on the profile form</strong><br>
+          <span class="goal-expected">Expected: Send one <code>PUT /api/v1/profile</code> request, disable Save, and show <code>Saving...</code> while pending.</span><br>
+          <span class="goal-actual">Actual: Save remains active when the request starts.</span>
+        </li>
+        <li>
+          <strong>Click Save again before the request completes</strong><br>
+          <span class="goal-expected">Expected: Only the first click sends a save request.</span><br>
+          <span class="goal-actual">Actual: Repeated clicks can send multiple requests.</span>
+        </li>
+        <li>
+          <strong>Save succeeds</strong><br>
+          <span class="goal-expected">Expected: Close the edit flow and restore a clean form state.</span><br>
+          <span class="goal-actual">Actual: Unverified.</span>
+        </li>
+        <li>
+          <strong>Save fails with a server or network error</strong><br>
+          <span class="goal-expected">Expected: Show the error banner and re-enable Save for immediate retry.</span><br>
+          <span class="goal-actual">Actual: Unverified.</span>
+        </li>
+      </ol>
     </div>
   </header>
 
@@ -115,24 +148,115 @@ li{margin:5px 0}
       <li><strong>Do:</strong> Clear <code>isSaving</code> on both success and failure while preserving the server error message.</li>
       <li><strong>Reuse:</strong> <code>AppButtonComponent</code> (<code>[loading]="isSaving"</code>) and <code>AlertBannerComponent</code> for error display.</li>
       <li><strong>Test:</strong> Repeated clicks send one request; failed save re-enables Save and shows error. (Run: yes)</li>
-      <li><strong>Files:</strong> <code>src/app/profile/profile-form.component.ts</code>, <code>src/app/profile/profile-form.component.html</code>, <code>src/app/profile/profile-form.component.spec.ts</code></li>
+      <li><strong>Files:</strong> <span title="src/app/profile/profile-form.component.ts">Profile form logic</span>, <span title="src/app/profile/profile-form.component.html">Profile form template</span>, <span title="src/app/profile/profile-form.component.spec.ts">ProfileForm Unit Test</span></li>
     </ul>
     <figure>
-      <img src="../agent-view/attachments/PROJ-9999/profile-save-states.svg" alt="Referenced attachment: Profile form Save button states">
-      <figcaption>Referenced attachment: <code>../agent-view/attachments/PROJ-9999/profile-save-states.svg</code></figcaption>
+      <button class="attachment-trigger" type="button" aria-haspopup="dialog" aria-controls="attachment-preview" aria-label="Open image preview: Save button states" data-attachment-preview>
+        <img src="../agent-view/attachments/PROJ-9999/profile-save-states.svg" alt="Profile form Save button states">
+      </button>
+      <figcaption>Referenced attachment: <span title="../agent-view/attachments/PROJ-9999/profile-save-states.svg">Save button states</span></figcaption>
     </figure>
   </article>
 
   <section class="card">
     <h2 style="margin-top:0">Testing, Decisions &amp; Scope</h2>
     <ul>
-      <li><strong>Unit Seam:</strong> <code>ProfileFormComponent.onSubmit</code> (<code>src/app/profile/profile-form.component.spec.ts</code>)</li>
-      <li><strong>E2E:</strong> Rapid double-click on Save submits once and recovers after a mocked 500 response (<code>playwright/tests/profile-save.spec.ts</code>)</li>
+      <li><strong>Unit Seam:</strong> <code>ProfileFormComponent.onSubmit</code> (<span title="src/app/profile/profile-form.component.spec.ts">ProfileForm Unit Test</span>)</li>
+      <li><strong>E2E:</strong> Rapid double-click on Save submits once and recovers after a mocked 500 response (<span title="playwright/tests/profile-save.spec.ts">Profile save E2E test</span>)</li>
       <li><strong>Decision:</strong> Lock Save on client via <code>isSaving</code> per ADR 001; reuse <code>AppButtonComponent</code> and <code>AlertBannerComponent</code>; API and permissions unchanged.</li>
       <li><strong>Out of scope:</strong> Other forms outside ProfileFormComponent.</li>
       <li><strong>Deletions:</strong> None.</li>
     </ul>
   </section>
 </div>
+<dialog class="attachment-preview" id="attachment-preview" aria-label="Attachment preview" closedby="any">
+  <button class="attachment-zoom" type="button" aria-label="Zoom in" autofocus></button>
+</dialog>
+<script>
+const attachmentPreview = document.getElementById("attachment-preview");
+if (attachmentPreview) {
+  const previewImage = new Image();
+  const zoomButton = attachmentPreview.querySelector(".attachment-zoom");
+  let opener;
+
+  function setAttachmentZoom(expanded) {
+    attachmentPreview.classList.toggle("is-zoomed", expanded);
+    zoomButton.setAttribute("aria-label", expanded ? "Zoom out" : "Zoom in");
+  }
+
+  function setImageRatio(image) {
+    if (image.naturalHeight) {
+      attachmentPreview.style.setProperty("--image-ratio", image.naturalWidth / image.naturalHeight);
+    }
+  }
+
+  previewImage.addEventListener("load", () => setImageRatio(previewImage));
+  document.querySelectorAll("[data-attachment-preview]").forEach(trigger => {
+    trigger.addEventListener("click", () => {
+      const image = trigger.querySelector("img");
+      opener = trigger;
+      previewImage.src = image.currentSrc || image.src;
+      previewImage.alt = image.alt;
+      zoomButton.append(previewImage);
+      attachmentPreview.style.removeProperty("--image-ratio");
+      setImageRatio(image);
+      setAttachmentZoom(true);
+      attachmentPreview.showModal();
+    });
+  });
+
+  zoomButton.addEventListener("click", () => {
+    setAttachmentZoom(!attachmentPreview.classList.contains("is-zoomed"));
+  });
+  if (!("closedBy" in attachmentPreview)) {
+    let startedOnBackdrop = false;
+    attachmentPreview.addEventListener("pointerdown", event => {
+      startedOnBackdrop = event.target === attachmentPreview;
+    });
+    attachmentPreview.addEventListener("click", event => {
+      if (startedOnBackdrop && event.target === attachmentPreview) attachmentPreview.close();
+    });
+  }
+  attachmentPreview.addEventListener("close", () => opener?.focus());
+}
+</script>
+<script>
+document.querySelectorAll("span[title]").forEach((trigger, index) => {
+  const tooltip = document.createElement("span");
+  tooltip.id = "path-tooltip-" + index;
+  tooltip.className = "path-tooltip";
+  tooltip.setAttribute("role", "tooltip");
+  tooltip.textContent = trigger.title;
+
+  trigger.classList.add("path-tooltip-trigger");
+  trigger.tabIndex = 0;
+  trigger.setAttribute("aria-describedby", tooltip.id);
+  trigger.append(tooltip);
+  trigger.removeAttribute("title");
+
+  function placeTooltip() {
+    const {left, top, bottom} = trigger.getBoundingClientRect();
+    const gutter = 12;
+    const rightLimit = document.documentElement.clientWidth - tooltip.offsetWidth - gutter;
+    tooltip.style.left = Math.max(gutter, Math.min(left, rightLimit)) - left + "px";
+    tooltip.classList.toggle("above", bottom + tooltip.offsetHeight > innerHeight && top > innerHeight - bottom);
+  }
+
+  function showTooltip() {
+    trigger.classList.remove("tooltip-dismissed");
+    placeTooltip();
+  }
+
+  trigger.addEventListener("pointerenter", showTooltip);
+  trigger.addEventListener("focus", showTooltip);
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key !== "Escape") return;
+  document.querySelectorAll(".path-tooltip-trigger:is(:hover,:focus)").forEach(trigger => {
+    trigger.classList.add("tooltip-dismissed");
+  });
+});
+</script>
 </body>
 </html>
