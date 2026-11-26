@@ -34,8 +34,9 @@ Run this step by default (unless the user asked for `.md` only):
 
 1. Check any existing `dev-view/testing-guide.html` first so test IDs can be preserved.
 2. Translate and build the single-file HTML page per [html-page.md](references/html-page.md):
-   - Format `const DATA = { ... };` as **multi-line pretty-printed JSON** at the top of `<script>` so future small updates only need to read and `edit_file` the changed lines.
+   - Format `const DATA = { ... };` as **multi-line pretty-printed JSON** at the top of `<script>` so future small updates only need to read and `edit_file` the changed lines. Set `hasMd: true` only when `dev-view/testing-guide.md` is also generated.
    - Start one `standard` subagent per [host mapping](../go-flow/references/agents.md#host-mapping) to add `zh` translations to every text. If the translation worker cannot start, report blocked and write no HTML.
+   - Embed the offline PDF bundle and license notices by running `python3 skills/to-test-doc/scripts/embed_pdf.py <testing-guide.html>`.
 3. Verify per [verify.md](references/verify.md).
 4. Save as `~/.just-do-it/{project}/{branch}/dev-view/testing-guide.html` and report the path, verification status, and `Open` coverage gaps (behaviors no test covers or tests that cannot be done by hand).
 
