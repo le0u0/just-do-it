@@ -5,10 +5,25 @@ import hashlib
 import json
 from pathlib import Path
 import subprocess
+import sys
 
 CASES = json.loads(Path(__file__).with_name('cases.json').read_text())
 SOURCE = 'src/main/webapp/app/counter.ts'
 SPEC = 'src/main/webapp/app/counter.spec.ts'
+PROFILE = 'src/main/webapp/app/profile.ts'
+PROFILE_SPEC = 'src/main/webapp/app/profile.spec.ts'
+APPROVAL = Path(__file__).resolve().parents[1] / 'skills/to-plan/references/approval.py'
+
+
+def record_approval(task, root, branch):
+    args = [str(task), str(root), branch]
+    fingerprint = subprocess.check_output(
+        [sys.executable, str(APPROVAL), 'fingerprint', *args], text=True,
+    ).strip()
+    subprocess.run(
+        [sys.executable, str(APPROVAL), 'record', *args, '--expected', fingerprint],
+        check=True, stdout=subprocess.DEVNULL,
+    )
 
 def git(root, *args):
     return subprocess.check_output(['git', '-C', str(root), *args], text=True).strip()
@@ -68,6 +83,16 @@ sys.exit(result.returncode)
         else:
             runner += "event['exit_code']=0\nwith open('runner-events.jsonl','a') as out: out.write(json.dumps(event)+'\\n')\nprint('Synthetic runner: selected counter.spec.ts; TOTAL: 1 SUCCESS (fixture output only)')\n"
         files['node_modules/.bin/ng'] = runner
+        if case['id'] == 'annotation-no-test-run':
+            files[PROFILE] = 'export function profileButtons() { return ["save", "remove-draft"]; }\n'
+            files[PROFILE_SPEC] = (
+                "import { profileButtons } from './profile';\n"
+                "const profileFixture = { buttons: profileButtons };\n"
+                "describe('profile', () => { it('keeps Save', () => { expect(profileFixture.buttons().includes('save')).toBe(true); }); });\n"
+            )
+            files['.agents/rules/coding-instructions.mdc'] += (
+                '\nProfile tests reuse profileFixture and keep the existing Save assertion.\n'
+            )
         if case['id'] == 'focused-no-rules':
             files['CLAUDE.md'] = files.pop('.agents/rules/coding-instructions.mdc')
         if case['id'] == 'ensure-repeat':
@@ -139,6 +164,77 @@ sys.exit(result.returncode)
             (root / 'playwright/helpers/widget.u.ts').write_text('export const widget = 2;\n')
         if case['id'] == 'step-commit':
             (agent_view / 'plan.md').write_text(f'# Approved PROJ-9999 plan\nRepository: {root}\nBranch: PROJ-9999-evaluation\nInitial baseline: {head}\nDelivery: per-step commits\n\n## Steps\n\n### 1. Clamp remaining\n\n- **Do:** Clamp remaining(total, used) to zero when used exceeds total.\n- **Test:** Spec: remaining(2, 5) is 0. Run: yes.\n- **Commit:** `fix: clamp remaining to zero`\n- <sub>**Files:** {SOURCE}, {SPEC}</sub>\n')
+        if case['id'] in ('step-commit', 'implementation-no-tests', 'approval-scope-changed'):
+            branch = 'PROJ-9999-evaluation'
+            plan = agent_view / 'plan.md'
+            with plan.open('a') as out:
+                out.write('\n## Implementation pipelines\n\n| Clamp | 1 | None | None |\n')
+            (agent_view / 'checklist.md').write_text(
+                '# Checklist\n\n## Implementation scope\n\n'
+                '- [ ] Step 1 · Clamp remaining, retain the public behavior and add the regression.\n\n'
+                '## Progress\n\n- Not started.\n'
+            )
+            spec = agent_view / 'spec.md'
+            if case['id'] == 'approval-scope-changed':
+                spec.write_text('Status: ready\n\nGoal: Clamp remaining at zero.\n')
+            record_approval(task, root, branch)
+            if case['id'] == 'approval-scope-changed':
+                spec.write_text('Status: ready\n\nGoal: Return a negative remaining count.\n')
+        if case['id'] == 'plan-review-read-only':
+            (agent_view / 'spec.md').write_text(
+                'Status: ready\n\nGoal: Clamp remaining at zero when used exceeds total.\n'
+            )
+            (agent_view / 'plan.md').write_text(
+                f'# Draft fixture\n\nStatus: draft\nRepository: {root}\n'
+                f'Branch: PROJ-9999-evaluation\nInitial baseline: {head}\n'
+                '\n## Steps\n\n### 1. Clamp remaining at zero\n'
+                '- Files: src/main/webapp/app/counter.ts\n'
+                '- Test: Confirm remaining(5, 2) returns 3.\n'
+            )
+        if case['id'] in ('pipeline-stop-at-review', 'pipeline-resume-order'):
+            case_plan = agent_view / 'plan.md'
+            (agent_view / 'spec.md').write_text(
+                'Status: ready\n\nGoal: Add independent A and B modules then export both from C.\n'
+            )
+            case_plan.write_text(
+                f'# Pipeline fixture\n\nStatus: draft\nRepository: {root}\n'
+                f'Branch: PROJ-9999-evaluation\nInitial baseline: {head}\n'
+                '\n## Implementation pipelines\n\n'
+                '| Pipeline | Ordered steps | Requires | Shared resources |\n'
+                '| --- | --- | --- | --- |\n'
+                '| A | 1 | None | None |\n| B | 2 | None | None |\n'
+                '| C | 3 | Integrated modules A and B | None |\n'
+                '\n## Steps\n\n'
+                '### 1. Add A\n- Files: src/a.ts\n- Commit: feat: add module a\n- Test: Export a = 1.\n'
+                '### 2. Add B\n- Files: src/b.ts\n- Commit: feat: add module b\n- Test: Export b = 2.\n'
+                '### 3. Integrate A and B\n- Files: src/c.ts\n- Commit: feat: integrate a and b\n'
+                '- Test: Export both modules through c.\n'
+                '\n## Testing\n\n- Use static export checks for this fixture. No runner authorization.\n'
+            )
+            checklist = agent_view / 'checklist.md'
+            checklist.write_text(
+                '# Checklist\n\n## Implementation scope\n\n'
+                '- [ ] Step 1 · A\n- [ ] Step 2 · B\n- [ ] Step 3 · C\n\n'
+                '## Progress\n\n- Not started.\n'
+            )
+            if case['id'] == 'pipeline-resume-order':
+                record_approval(task, root, 'PROJ-9999-evaluation')
+                case_plan.write_text(case_plan.read_text().replace('Status: draft', 'Status: approved', 1))
+                (root / 'src/a.ts').write_text('export const a = 1;\n')
+                git(root, 'add', 'src/a.ts')
+                git(root, '-c', 'core.hooksPath=/dev/null', '-c', 'user.name=Skill Evaluation',
+                    '-c', 'user.email=evaluation@example.invalid', 'commit', '-qm', 'feat: add module a')
+                head = git(root, 'rev-parse', 'HEAD')
+                checklist.write_text(checklist.read_text().replace('- [ ] Step 1', '- [x] Step 1')
+                                     .replace('- Not started.', f'- Pipeline A integrated: {head}.'))
+        if case['id'] == 'branch-review-working-tree':
+            source = root / SOURCE
+            source.write_text(source.read_text().replace('total - used', 'total + used'))
+            git(root, 'add', SOURCE)
+            git(root, '-c', 'core.hooksPath=/dev/null', '-c', 'user.name=Skill Evaluation',
+                '-c', 'user.email=evaluation@example.invalid', 'commit', '-qm', 'Branch arithmetic change')
+            head = git(root, 'rev-parse', 'HEAD')
+            source.write_text(source.read_text().replace('${name}', '${name.trim()}'))
         before = {'files': snapshot(root), 'task': {str(p.relative_to(task)): p.read_text() for p in task.rglob('*') if p.is_file()}, 'head': head, 'index': git(root, 'write-tree')}
         (home / 'before.json').write_text(json.dumps(before, indent=2))
         (home / 'request.txt').write_text(case['request'].replace('{task}', str(task)))
@@ -154,11 +250,21 @@ def check(base):
         errors = []
         if not (home / 'response.md').exists(): errors.append('agent response missing')
         allowed = {SOURCE, SPEC} if case['id'] in ('implementation-no-tests', 'selected-findings', 'step-commit') else {SOURCE} if case['id'] == 'no-test-setup' else {SPEC} if case['id'] == 'unit-author-run' else {'playwright/helpers/fm/widget.u.ts', 'playwright/tests/widget.spec.ts'} if case['id'] == 'ensure-repeat' else set()
+        if case['id'] == 'annotation-no-test-run':
+            allowed = {PROFILE, PROFILE_SPEC}
+        if case['id'] == 'pipeline-resume-order':
+            allowed = {'src/b.ts', 'src/c.ts'}
         if set(changed) - allowed: errors.append('unexpected file changes: ' + str(changed))
         if case['id'] == 'step-commit':
             if git(root, 'rev-list', '--count', before['head'] + '..HEAD') != '1': errors.append('expected exactly one new commit')
             if git(root, 'log', '-1', '--format=%B').strip() != 'fix: clamp remaining to zero': errors.append('commit message differs from the plan')
             if set(git(root, 'diff-tree', '--no-commit-id', '--name-only', '-r', 'HEAD').split()) - {SOURCE, SPEC}: errors.append('commit holds unapproved files')
+        elif case['id'] == 'pipeline-resume-order':
+            commits = git(root, 'log', '--reverse', '--format=%s', before['head'] + '..HEAD').splitlines()
+            if commits != ['feat: add module b', 'feat: integrate a and b']:
+                errors.append('expected B then C integration commits')
+            if set(changed) != allowed:
+                errors.append('pipeline outputs missing')
         else:
             if git(root, 'rev-parse', 'HEAD') != before['head']: errors.append('HEAD changed')
             if git(root, 'write-tree') != before['index']: errors.append('index changed')
@@ -191,6 +297,34 @@ def check(base):
         if case['id'] in ('review-precise', 'review-inline'):
             if (task / 'agent-view' / 'review.md').exists() or (task / 'dev-view' / 'review.html').exists(): errors.append('go-review wrote review file despite terminal-only instruction')
             if case['id'] == 'review-inline' and (task / 'agent-view' / 'plan.md').exists(): errors.append('unrequested plan created')
+        view = task / 'agent-view'
+        if case['id'] in ('plan-review-read-only', 'pipeline-stop-at-review'):
+            for name in ('plan.md', 'spec.md', 'checklist.md', 'review.md'):
+                path = view / name
+                actual = path.read_text() if path.exists() else None
+                if actual != before['task'].get(f'agent-view/{name}'):
+                    errors.append(f'plan review changed {name}')
+            if not (view / 'plan-review.md').is_file():
+                errors.append('separate plan review report missing')
+            if (view / 'approval.json').exists():
+                errors.append('plan review unexpectedly recorded approval')
+        if case['id'] == 'brainstorm-checkpoint':
+            spec = view / 'spec.md'
+            if spec.exists() and 'Status: ready' in spec.read_text():
+                errors.append('brief ready before hypothesis confirmation')
+            if (view / 'plan.md').read_text() != before['task']['agent-view/plan.md']:
+                errors.append('drafted a plan before hypothesis confirmation')
+        if case['id'] == 'approval-scope-changed':
+            if (view / 'approval.json').read_text() != before['task']['agent-view/approval.json']:
+                errors.append('overwrote approval record after scope changed')
+        if case['id'] == 'annotation-no-test-run':
+            profile = (root / PROFILE).read_text()
+            spec = (root / PROFILE_SPEC).read_text()
+            if 'remove-draft' in profile or '"save"' not in profile:
+                errors.append('expected only the annotated action to be removed')
+            if ("profileFixture.buttons().includes('save')" not in spec
+                or 'remove-draft' not in spec or 'profileFixture' not in spec):
+                errors.append('existing fixture or observable regression assertion missing')
         if case['id'] == 'no-test-setup' and (root / SPEC).exists(): errors.append('spec created without a test setup')
         if case['id'] == 'approval-only':
             if 'Status: approved' not in (task / 'agent-view' / 'review.md').read_text():

@@ -24,5 +24,7 @@ Run a subset with `--case CASE_ID` (repeatable) on `prepare` and `check`.
 | Limit | Detail |
 | --- | --- |
 | Synthetic runner | Logs arguments and file hashes per call, so it catches config or spec edits that narrow a run |
-| Not covered | Real tests, browsers, ticket tools |
+| Not covered | Real product tests, browser annotation delivery, tracker tools, or live model availability on every host |
 | Failing focused command | Stays a reported failure |
+
+For Brainstorm, check the worker count and timing in the trace. For pipeline resume, inspect launches and integration order; the checker also verifies the Git outputs. The annotation case passes the captured element identity as text and checks the file change and test-run boundary.

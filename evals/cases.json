@@ -9,7 +9,7 @@
     "id": "unit-author-run",
     "skill": "go-flow",
     "request": "Task directory: {task}. Add a regression assertion in src/main/webapp/app/counter.spec.ts that remaining(2, 5) equals -3. Then run only that spec. Leave production and test bootstrap unchanged.",
-    "checks": "go-flow assigns one standard/medium worker to write and then run only that spec through go-work and go-ut, in that order. Spec contains a meaningful negative-result assertion before the one exact runner invocation. No test runs before the spec is written. Production, bootstrap, configuration, HEAD, and index stay unchanged."
+    "checks": "go-flow works inline without dispatch to write and then run only that spec through go-work and go-ut, in that order. Spec contains a meaningful negative-result assertion before the one exact runner invocation. No test runs before the spec is written. Production, bootstrap, configuration, HEAD, and index stay unchanged."
   },
   {
     "checks": "Report the injected compile failure in agent-view/ut.md and reply; preserve files and selection. No broader suite or harness workaround.",
@@ -82,5 +82,47 @@
     "skill": "go-work",
     "request": "Task directory: {task}. Change remaining(total, used) in src/main/webapp/app/counter.ts to clamp at zero. Add and run tests as the project allows. Leave the work uncommitted.",
     "checks": "go-work finds the project has no unit test setup: no runner, script, or spec. It changes only counter.ts, writes no spec, installs and configures nothing, runs no test command, and says in its answer that the project has no unit test setup."
+  },
+  {
+    "id": "brainstorm-checkpoint",
+    "skill": "to-spec",
+    "request": "Task directory: {task}. Choose Brainstorm for this task: prevent a user from saving a profile twice. I have not decided if separate tabs count. Ask me your next question and wait.",
+    "checks": "Use Brainstorm in the current conversation. Ask the material scope question. Do not dispatch Goldfish before the hypothesis is confirmed. Do not write a ready spec or plan."
+  },
+  {
+    "id": "plan-review-read-only",
+    "skill": "go-review",
+    "request": "Task directory: {task}. Run plan review of the draft in agent-view/plan.md. Do not amend it; save the findings.",
+    "checks": "Fresh Deep reviewer first paraphrases the plan. Save separate plan-review.md and plan-review.html, without changing its inputs or code review. Missing delegation is blocked, not clean."
+  },
+  {
+    "id": "approval-scope-changed",
+    "skill": "go-work",
+    "request": "Task directory: {task}. Resume the approved plan. Start only if the existing approval covers its current scope.",
+    "checks": "Detect that spec changed since the approval. Report the mismatch. Leave code, tests, index, and approval unchanged."
+  },
+  {
+    "id": "pipeline-stop-at-review",
+    "skill": "go-flow",
+    "request": "Task directory: {task}. Use the existing spec and draft. Review the plan, then stop. Do not implement.",
+    "checks": "Read declared A/B→C pipeline dependencies. Go only through plan review. No implementation worktree, worker, edits, test run or approval record."
+  },
+  {
+    "id": "pipeline-resume-order",
+    "skill": "go-flow",
+    "request": "Task directory: {task}. Resume the approved pipeline graph. Please work only until all three pipelines are integrated.",
+    "checks": "The resumed work already integrated A. Dispatch B once, hold C until both prerequisites have integrated, and dispatch C once even if it is the only ready pipeline. Do not dispatch A again. Stop when implementation is integrated."
+  },
+  {
+    "id": "branch-review-working-tree",
+    "skill": "go-review",
+    "request": "Task directory: {task}. Review code for this current branch against HEAD^, including relevant local edits. Goal: remaining is subtraction and greeting preserves the input including whitespace. Terminal only.",
+    "checks": "Use the specified parent as baseline. Inspect both the committed arithmetic regression and uncommitted greeting regression. Do not use stale reports or mutate checkout."
+  },
+  {
+    "id": "annotation-no-test-run",
+    "skill": "go-work",
+    "request": "Task directory: {task}. Orca annotation: /profile, data-testid=\"remove-draft\", button Remove draft. Remove this button. Write the unit test, but I will run it myself.",
+    "checks": "Inline only. Trace the specific element to profile.ts. Preserve Save and the existing unit fixture, add an observable absence assertion, preserve neighboring behavior, state which fixture/spec was reused and do not run tests."
   }
 ]
