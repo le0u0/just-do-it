@@ -1,5 +1,20 @@
 # Changelog
 
+## [4.0.0](https://github.com/le0u0/just-do-it/compare/v3.0.0...v4.0.0) (2026-11-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* **workflow:** Use to-plan in place of go-plan.
+* **spec:** Use to-spec in place of go-research. Migrate saved research.md and research.html to spec.md and spec.html. Mark a completed spec Status: ready after validating its sources.
+
+### Features
+
+* **reports:** standardize ticket report templates ([c90ec34](https://github.com/le0u0/just-do-it/commit/c90ec344a9192afa1d52f3597f97da35582133fa))
+* **spec:** replace research with ticket specs ([39b8f40](https://github.com/le0u0/just-do-it/commit/39b8f404e49b23255cf0f090c4612a909fbcb9e5))
+* **workflow:** add spec modes and reviewed implementation plans ([acef605](https://github.com/le0u0/just-do-it/commit/acef605333d16d23d1de29b04965a47bca2aa698))
+* **workflow:** refine ticket execution and review ([3b849c6](https://github.com/le0u0/just-do-it/commit/3b849c63f3fee0b5330ecf2c71586bd82c56dba3))
+
 ## [3.0.0](https://github.com/le0u0/just-do-it/compare/v2.7.0...v3.0.0) (2026-11-20)
 
 
