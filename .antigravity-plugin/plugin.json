@@ -1,6 +1,6 @@
 {
   "name": "just-do-it",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "Independent skills and pipeline flow for ticket-driven development: setup, research, plan, work, test, review, fix.",
   "author": {
     "name": "Leo Ho"
