@@ -1,11 +1,18 @@
 ---
 name: go-review
-description: 'Review a branch, diff or work-in-progress change against the project''s standards and confirmed goal, write agent-view/review.md (linking agent-view/ut.md and agent-view/e2e.md), and render dev-view/review.html. Use for "review my branch" or "review this diff".'
+description: 'Review a draft implementation plan independently, or review code by PR, branch, commit or diff against its requirements and project rules. Save separate plan and code reports.'
 ---
 
 # Review
 
-Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/references/storage.md). If the branch folder does not exist under `~/.just-do-it/*/{branch}`, run `go-setup` first to confirm `{project}` with the user. Write the agent markdown report to `agent-view/review.md` and render the human-readable page at `dev-view/review.html` (unless the user explicitly asks for `.md` only or terminal-only output).
+Route explicit `go-review plan` or `go-review code` first. Infer plan from an explicitly named plan/design document and code from a PR, branch, commit or diff. Ask Plan or Code only if the target is unclear. Resolve [task storage](../go-setup/references/storage.md). Both modes inspect evidence and report. Apply fixes only through a separately authorized workflow.
+
+- **Plan:** Run [plan review](references/plan-review.md), then stop. It owns `plan-review.md` and `plan-review.html`.
+- **Code:** Follow the workflow below. It owns `review.md` and `review.html`.
+
+## Code review
+
+Resolve the [review target](references/scope-baseline.md#target) before dispatch. Store code reports in `agent-view/review.md` and `dev-view/review.html` unless the user chooses Markdown or terminal only. Only reuse a report for the same target identity.
 
 Run in the main thread as coordinator: confirm the review goal and plan, pick the tier, start the review agents, assemble `agent-view/review.md` and `dev-view/review.html`. Never read hunks yourself; agents read the code.
 
@@ -19,11 +26,11 @@ Start the review team for each new pass. If a required agent cannot start, repor
 
 ## 1. Fetch
 
-Start one review-owned fast Fetch worker per [agents.md](references/agents.md). Give it [fetch.md](references/fetch.md) and request only missing inputs:
+Start one review-owned Standard Fetch worker per [agents.md](references/agents.md). Give it [fetch.md](references/fetch.md) and request only missing inputs:
 
 - Baseline evidence, unless the user or `agent-view/plan.md` supplied the baseline.
 - Diff facts for the applicable range. For a possible incremental review, include the previous reviewed commit's ancestry.
-- Current checkout snapshot and clean status per [fetch.md](references/fetch.md).
+- Resolved target identity and snapshot per [fetch.md](references/fetch.md), including checkout clean status for local review.
 - File text of `REVIEW.md`, for the risky paths it marks.
 - Paths of project-local review skills in `.claude/skills/` and `.agents/skills/` (if any).
 
@@ -31,7 +38,7 @@ Decide from its facts yourself: the original baseline, then the selected compari
 
 ## 2. Goal, review plan, and inputs
 
-- **Goal & review plan (direct run):** Read `agent-view/plan.md` and `agent-view/spec.md` when present. If `agent-view/plan.md` is missing or the review goal/target is unclear when running `go-review` directly, **grill the user on the goal and target scope, confirm a concise review plan** (and update `public/glossary.md` if unknown domain terms arise per [public-docs.md](../go-setup/references/public-docs.md)) before launching the hunters.
+- **Goal & review plan (direct run):** Read matching `agent-view/plan.md` or `agent-view/spec.md` when relevant. Use the explicit goal and target from the request when provided. If the goal or target remains unclear in direct use, **confirm a concise review scope with the user** (and update `public/glossary.md` if unknown domain terms arise per [public-docs.md](../go-setup/references/public-docs.md)) before launching the hunters.
 - **Test references:** compare each available UT/E2E report's snapshot to the reviewed checkout snapshot. Label mismatched or missing snapshots `stale`. Only matching reports can support a pass or fail for the reviewed version.
 - **Tier:** Standard or Deep from the selected diff facts, per [agents.md](references/agents.md). An explicit request may select either supported tier.
 - **Reuse matching coverage:** before dispatching hunters, verify that baseline, snapshot, and review inputs match a report with recorded coverage. Use its recorded tier for the same snapshot unless the user selected another tier. A full review request requires `Coverage: full`. Reuse the findings, refresh test and acceptance evidence, and keep the round number and coverage. An explicit fresh review requests a new pass.
@@ -43,7 +50,7 @@ Decide from its facts yourself: the original baseline, then the selected compari
 2. Collect their candidates.
 3. Start one verifier with all candidates, per [verifier.md](references/verifier.md).
 4. Sort the verifier's findings by severity and number only `TODO` entries per [report-format.md](references/report-format.md). Keep the verifier's dropped lines with the review result.
-5. Before saving, check that the checkout snapshot still matches the one dispatched to the hunters. If collection fails or the snapshot changed, report the interruption and keep the previous review. Record the successful pass's range and coverage. Increment `Round` only after a stable full pass.
+5. Before saving, verify all evidence matches the dispatched target. For local targets check the checkout snapshot again. For remote PRs, confirm the pinned refs you reviewed still identify the requested version; report as stale/incomplete if the target moved. If collection fails or the snapshot changed, report the interruption and keep the previous review. Record the successful pass's range and coverage. Increment `Round` only after a stable full pass.
 
 ## 4. Re-review
 

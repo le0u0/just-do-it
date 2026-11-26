@@ -1,5 +1,7 @@
 # Test Setup and Project References
 
+Read applicable project [standards and ADRs](../../go-setup/references/public-docs.md#standardsmd) from shared storage. Apply repository rules first and verify cited precedents.
+
 ## Test setup
 
 1. Read `~/.just-do-it/{project}/public/jdi-config.md` if it already exists.

@@ -2,6 +2,13 @@
 
 Research a ticket, requirements link, or tracker queue. Reads live requirements, comments, related tickets, and attachments, maps relevant repository files and folders, and writes `agent-view/spec.md`.
 
+## Choose a mode
+
+- **Lite** — Clarify material gaps in the current conversation.
+- **Brainstorm** — Confirm a working hypothesis, then seven Standard Goldfish check distinct risks. You decide the direction after seeing the consolidated questions.
+
+If you have not chosen, the skill offers both and recommends one. A grill, scope trade-off or explicit spec stop requires spec confirmation before planning. Clear Lite tickets proceed straight to planning.
+
 ## What you get
 
 - Requirements and acceptance criteria from the live source, with comments and proposals distinguished from agreed requirements.

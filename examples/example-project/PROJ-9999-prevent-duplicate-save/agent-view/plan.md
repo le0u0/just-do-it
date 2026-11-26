@@ -1,6 +1,6 @@
 # Plan: PROJ-9999 Prevent duplicate profile saves
 
-Status: approved
+Status: example
 
 ## Goal
 
@@ -32,6 +32,12 @@ stateDiagram-v2
 
 - Invariant: `Saving` ignores duplicate `onSubmit()` calls and disables Save button.
 - Invariant: `SaveError` clears `isSaving` and keeps server error banner visible.
+
+## Implementation pipelines
+
+| Pipeline | Ordered steps | Requires | Shared resources |
+| --- | --- | --- | --- |
+| Profile save | 1 | None | Existing ProfileForm fixtures |
 
 ## Steps
 

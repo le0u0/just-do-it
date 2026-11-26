@@ -37,7 +37,7 @@ Generate a single-file, self-contained HTML QA page that testers tick through of
    - `ticket`, `link`, `slug`, `languages: ["en", "zh"]`, `related`, `title: {en, zh}`, `setup: [{text: {en, zh}}]`, `groups: [{name: {en, zh}, why: {en, zh}, tests: [{id, title: {en, zh}, note, steps: [{en, zh}], expect: {en, zh}}]}]`.
    - Assign a stable unique `id` (`case-1`, UUID, etc.) per test. When updating an existing `dev-view/testing-guide.html`, read only its `DATA` lines first and edit the changed lines in place, preserving matching test `id`s so saved `localStorage` results survive updates.
 2. **Translate (`zh`)**:
-   - Spawn one `fast` subagent per [host mapping](../../go-flow/references/agents.md#host-mapping) with the repository path and English strings.
+   - Spawn one `standard` subagent per [host mapping](../../go-flow/references/agents.md#host-mapping) with the repository path and English strings.
    - It checks the repository's translation files (`i18n`, `locales`, `zh*.json`) first, then `~/.just-do-it/{project}/public/glossary.md` and `agent-view/{research,plan}.md`. Unmatched terms are translated plainly and reported as `guess` under `Open`.
 3. Every UI label and guide string renders `<span data-l="en">...</span><span data-l="zh">...</span>` and toggles active language via `[data-l]:not([data-l="<lang>"]){display:none}` while persisting language choice in `localStorage`.
 

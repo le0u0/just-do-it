@@ -3,9 +3,9 @@
 ## Start gate
 
 1. The branch must contain the ticket key, such as `PROJ-123`, unless the user approved an exception or the project has no ticket convention. Otherwise warn and stop.
-2. The step must be in approved scope in `agent-view/plan.md` with every `Blocked by` step done in `agent-view/checklist.md`. Stop on overlapping unrelated work; ask when the plan is unclear.
-   - For standalone work on an approved plan, [sync the checklist](../../go-plan/references/checklist-format.md#approval) if it still shows pending approval.
-3. Check the assigned root, branch and starting SHA against the checkout before editing or testing. For a worker worktree, verify it belongs to the ticket repository. Use the assigned starting SHA for the step diff and the original ticket storage for the plan and prerequisite evidence.
+2. Verify the [approved scope](../../to-plan/references/approval.md) before edits or tests. The step must belong to the assigned pipeline and all prerequisite steps must be verified. For steps in your pipeline use its local evidence; other pipelines require coordinator integration evidence. Stop on overlapping unrelated work; ask when the plan is unclear.
+   - For standalone work on an approved plan, [sync the checklist](../../to-plan/references/checklist-format.md#approval) if it still shows pending approval.
+3. Check the assigned root, branch and starting SHA against the checkout before editing or testing. For a pipeline worktree, verify it belongs to the ticket repository. Use the assigned starting SHA for the step diff and the original ticket storage for the plan and prerequisite evidence.
    - Invalidate stale evidence; keep the user's changes.
    - Ask only when drift makes scope ambiguous.
    - Per-step commits: recorded commits must stay ancestors of `HEAD`.

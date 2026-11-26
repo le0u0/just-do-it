@@ -1,20 +1,20 @@
 ---
 name: to-spec
-description: 'Research a ticket, requirements link, or tracker queue. Read live requirements and evidence, map relevant repository files and folders, and write agent-view/spec.md.'
+description: 'Research a ticket, requirements link, or tracker queue. Read live requirements and evidence, offer Brainstorm or Lite, clarify scope, map relevant code, and write agent-view/spec.md.'
 ---
 
 # Get the Spec
 
 ## Scope & Storage
 
-- Read requirements and trace their impact. Keep tracker and repository source read-only. Planning goes to `go-plan`.
+- Read requirements and trace their impact. Keep tracker and repository source read-only. Planning goes to `to-plan`.
 - Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/references/storage.md). If the branch folder does not exist under `~/.just-do-it/*/{branch}`, run `go-setup` first to confirm `{project}` with the user.
 - Read `~/.just-do-it/{project}/public/glossary.md` when present. If you encounter unknown domain terminology or product section names that block understanding, follow [public-docs.md](../go-setup/references/public-docs.md#glossarymd): never guess, ask the user (or list under `Open questions` when running as a background worker), and update `public/glossary.md` once confirmed.
 - Save the brief for agents to `~/.just-do-it/{project}/{branch}/agent-view/spec.md`, cache attachments under `agent-view/attachments/{ticket}/`, and generate the human-readable visual brief at `dev-view/spec.html` (with inline attachment images) per [html-render.md](../go-setup/references/html-render.md). Report both saved paths.
 
 ## Workflow
 
-1. Resolve the ticket URL, exact key, queue filters, or pasted link. Match any saved brief to the requested source before reusing it. A ticket workflow can use a matching brief with `Status: ready` or a complete spec supplied by the user.
+1. Resolve the ticket URL, exact key, queue filters, or pasted link. Match any saved brief to the requested source before reusing it. A ticket workflow can use a matching brief with `Status: ready` or a complete spec supplied by the user. Apply [confirmation](#confirmation) before handing a spec to planning.
    - Ticket links go through steps 2 to 3. Read other requirements pages with the available web or MCP tool.
    - Ambiguous site or project: ask the user, or return the question to the caller when delegated.
    - An exact key authorizes its lookup; a branch name does not.
@@ -34,7 +34,14 @@ description: 'Research a ticket, requirements link, or tracker queue. Read live 
    - Non-ticket link: what bears on the work, under `Requirements` or `Open questions`, with its URL.
    - Queue: priority justified from evidence.
 5. With a checkout, read relevant files directly. List likely entry points, source and test paths, and relevant folders with file evidence. Label estimates as such. Without a checkout, mark code mapping unavailable.
-6. Write the brief with `Status: ready` to `agent-view/spec.md` per [writing-rules.md](references/writing-rules.md) and render `dev-view/spec.html` (embedding downloaded images from `../agent-view/attachments/{ticket}/`) per [html-render.md](../go-setup/references/html-render.md). No credentials or personal data.
+6. In the current conversation, apply [Brainstorm or Lite](references/intake.md). Resume from the saved mode and decisions.
+7. Write the brief with `Status: ready` if it can proceed, or `Status: awaiting confirmation` when the rule below applies to the ticket. Write it to `agent-view/spec.md` per [writing-rules.md](references/writing-rules.md) and render `dev-view/spec.html` (embedding downloaded images from `../agent-view/attachments/{ticket}/`) per [html-render.md](../go-setup/references/html-render.md). No credentials or personal data.
+
+## Confirmation
+
+- If intake included a grill, a scope trade-off, or a requested spec stop, show the brief and ask the user to confirm it. Store confirmed requirements, the selected mode and the reasons for any exclusions. Use `Status: awaiting confirmation` until confirmed, then use `Status: ready`. A mode choice or a Brainstorm hypothesis confirmation by itself does not approve the brief.
+- Clear Lite tickets with no scope trade-off can go directly to planning once the user selects Lite. A requested spec stop ends after the spec is delivered, including when the spec is confirmed.
+- A complete inline spec supplied as confirmed by the user can be used directly. A changed requirement or source invalidates matching confirmation. A blocked source stays blocked until resolved.
 
 ## Blocked spec
 

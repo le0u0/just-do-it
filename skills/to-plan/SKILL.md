@@ -1,6 +1,6 @@
 ---
-name: go-plan
-description: 'Grill one ticket, then write agent-view/plan.md and agent-view/checklist.md for approval. Use for "plan PROJ-123", "think through PROJ-123", "what is unclear here" or "break this into steps".'
+name: to-plan
+description: 'Turn confirmed requirements into a reviewable implementation plan. Resolve design choices, identify reuse, assign pipelines, and write agent-view/plan.md and agent-view/checklist.md for approval. Use for "plan PROJ-123", "think through PROJ-123", "what is unclear here" or "break this into steps".'
 ---
 
 # Plan
@@ -8,14 +8,14 @@ description: 'Grill one ticket, then write agent-view/plan.md and agent-view/che
 ## Scope & Storage
 
 - Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/references/storage.md). If the branch folder does not exist under `~/.just-do-it/*/{branch}`, run `go-setup` first to confirm `{project}` with the user.
-- In `go-flow`, use confirmed answers and open questions from the caller. Return unanswered questions and the decisions made so far for the next round. Direct use asks the user in the current thread.
+- Run in the current thread in both direct and go-flow use. Carry confirmed spec requirements forward; ask only unresolved implementation or design questions.
 - Write no production code or tests. Write planning outputs for agents to `agent-view/plan.md` and `agent-view/checklist.md` (plus `agent-view/commit-format.md` when confirmed and `agent-view/diagnose.md` when needed), and render the human-readable visual plan at `dev-view/plan.html` per [html-render.md](../go-setup/references/html-render.md) (with inline attachment images and visual statechart) so the user can inspect `dev-view/plan.html` and approve.
 - Two phases: grill, then write. Complete `Grill` before `Write`, unless the user asks to skip grilling. User only wants gaps found: stop after the grill.
 
 ## Inputs
 
 - Requirements come only from supplied context, `agent-view/spec.md`, or explicitly retrieved sources. Cite supplied ticket links; a key alone says nothing.
-- Read `agent-view/spec.md` and `agent-view/attachments/` when present. For a ticket key, ticket URL, or explicit lookup, require a complete spec per [to-spec](../to-spec/SKILL.md#workflow). If absent or stale, run `to-spec`. Follow [Blocked spec](../to-spec/SKILL.md#blocked-spec) before reading project code or planning.
+- Read `agent-view/spec.md` and `agent-view/attachments/` when present. For a ticket key, ticket URL, or explicit lookup, require a ready spec per [to-spec](../to-spec/SKILL.md#workflow). If absent or stale, run `to-spec`. Wait when it is awaiting confirmation. Follow [Blocked spec](../to-spec/SKILL.md#blocked-spec) before reading project code or planning.
 - A saved blocked brief for the active ticket triggers the same stop when resuming without a ticket key in the latest message.
 - Read the project references per [setup.md](references/setup.md) (including `~/.just-do-it/{project}/public/glossary.md`, `public/adr/`, and `public/jdi-config.md` when present), existing reusable project components, and the code the ticket likely touches.
 
@@ -54,7 +54,7 @@ Reply 1A, 2A. Type why 2 for the reason.
   - Boundaries, probed with a concrete edge-case scenario.
   - State transitions & missing-transition checks for stateful UI/workflows per [statechart.md](references/statechart.md).
   - E2E scenario when E2E setup exists and UI or user flows change: read the E2E folder path from `public/jdi-config.md` or locate it directly. List the folder first without reading spec files, then suggest concrete scenario(s) and confirm with the user before writing the plan.
-- Done when the frontier is empty and the user confirms shared understanding and the `Goal`. Then write `agent-view/plan.md` and `agent-view/checklist.md`. For a grill-only request, stop after the final round.
+- Done when the unresolved implementation and design decisions are settled. Use already confirmed spec outcomes as the Goal; ask only about changed or missing outcomes. Then write `agent-view/plan.md` and `agent-view/checklist.md`. For a grill-only request, stop after the final round.
 
 ## Commit format
 
@@ -67,12 +67,14 @@ Reply 1A, 2A. Type why 2 for the reason.
 1. Read [plan-format.md](references/plan-format.md), [checklist-format.md](references/checklist-format.md), and (for stateful features) [statechart.md](references/statechart.md). Write `agent-view/plan.md` and `agent-view/checklist.md`. Reference relevant attachments with labeled path tooltips. Record the grill's decisions under `Decisions`.
 2. Bug ticket whose diagnosis would clutter the plan: also write `agent-view/diagnose.md` per [diagnose-format.md](references/diagnose-format.md).
 3. Check unit and E2E setup per [setup.md](references/setup.md). Record `none: no setup` when there is no setup and adding it is outside scope.
-4. Make each step concrete enough for `go-work` to run without new design decisions: owned source and test files, reuse, dependencies and shared state, test seams, authorization, commit groups and messages, and delivery mode. Group the same feature or function in one step.
+4. Pick a short plan for clear, bounded work. For full plans, unresolved ownership, shared contract changes or hard-to-reverse decisions, agree on design alternatives and trade-offs before writing steps. Define [pipelines](references/plan-format.md#implementation-pipelines) before approval. Make each step concrete enough for `go-work` to run without new design decisions: owned source and test files, reuse, dependencies and shared state, test seams, authorization, commit groups and messages, and delivery mode. Group the same feature or function in one step.
 5. List every file a step deletes under `Deletions`; plan approval covers the listed scope and its deletions.
 6. User changes the requirement: revise `Goal`, steps, and `Deletions`, and update `agent-view/plan.md` and `agent-view/checklist.md` in place.
 7. Update `public/glossary.md` for any newly confirmed domain terms and write `public/adr/NNN-short-title.md` for any confirmed ADR decisions per [domain-docs.md](references/domain-docs.md).
 8. Render `~/.just-do-it/{project}/{branch}/dev-view/plan.html` per [html-render.md](../go-setup/references/html-render.md), including the visual statechart diagram (when stateful) and inline image previews from `../agent-view/attachments/{ticket}/`.
-9. Report `dev-view/plan.html` (alongside `agent-view/plan.md` and `agent-view/checklist.md`) so the user can review `dev-view/plan.html` in the browser and approve the plan.
+9. In a direct run, for full, risky or requested review, run `go-review plan` on the saved draft before requesting approval. In go-flow, return the draft to the coordinator for review and approval. Present the findings and obtain the user’s dispositions before materially revising it. Report `dev-view/plan.html` (alongside `agent-view/plan.md` and `agent-view/checklist.md`) so the user can review `dev-view/plan.html` in the browser and approve the plan.
+
+10. Before presenting the final draft, compute its [approval fingerprint](references/approval.md). A standalone run records approval when the user confirms that exact scope.
 
 ## Done when
 

@@ -11,7 +11,7 @@ Report as the caller specifies; default `Done` / `Open` / `Changed`.
 
 - Run specs only when the request or plan authorizes it; the newest instruction wins, so a request to run named specs authorizes exactly those runs, even when an earlier plan says not to run tests.
 - Follow [loop.md](references/loop.md): seams, vertical slices, red before green.
-- Unit specs go through `go-ut`; e2e specs through `go-e2e`, only when the user or plan asks.
+- Before authoring a unit spec, pass the behavior, relevant project rules, existing suite/fixture and run authorization to `go-ut`; keep it in the current thread or assigned pipeline. E2E specs go through `go-e2e` only when the user or plan asks.
 - Apply the project's [test retry limit](../go-setup/references/public-docs.md#jdi-configmd), including when called by another skill.
 - Skip the loop for changes with no unit-testable behavior, such as pure styling, and say so.
 - A failing spec means the code is wrong: fix the code, never edit the spec to match it.

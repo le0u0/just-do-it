@@ -1,5 +1,7 @@
 # Review Report (`agent-view/review.md`)
 
+Record review mode and target kind, repository identity, target identifier (PR number, branch, SHA or range), exact base/head and snapshot type in Reference. Incomplete target evidence cannot support a full coverage verdict.
+
 ## Style
 
 - Fragments; code, identifiers, paths, error strings exact. Present state only.

@@ -1,13 +1,17 @@
 # PROJ-9999 checklist
 
-## Implementation
+## Implementation scope
 
-- [x] Step 1: Guard Save while pending and recover on failure
-- [ ] Review findings 1–2: awaiting user disposition - current
+- [x] [Step 1](../dev-view/plan.html#step-1) · Pipeline Profile save · Guard Save while pending and recover on failure
+  - Target: Profile form component, template, unit and E2E specs.
+  - Precedent: Use `AppButtonComponent` loading state and `AlertBannerComponent` for errors.
+  - Difference: Ignore a second Save while pending and restore retry after failure.
+  - Verify: A second click produces one request; failure clears the lock and shows the server error.
 
-## Step notes
+## Progress
 
-- Step 1: Red spec failed on duplicate submit, passed after `isSaving` guard (`e4f5g6h`).
+- Step 1: Spec failed, then passed after the pending guard (`e4f5g6h`).
+- Review findings 1–2: Awaiting user disposition.
 
 ## Task files
 

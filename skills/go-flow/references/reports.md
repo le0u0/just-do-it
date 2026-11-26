@@ -2,7 +2,7 @@
 
 ## Handoff
 
-- Pass the resolved branch storage directory (`~/.just-do-it/{project}/{branch}/`), current plan step, owned files, and relevant decisions. A worker reads its inputs from `agent-view/`, `dev-view/`, and `public/`, and performs its own local discovery.
+- Pass the resolved branch storage directory (`~/.just-do-it/{project}/{branch}/`), assigned pipeline, ordered steps, approval fingerprint, owned files, and relevant decisions. A worker reads its inputs from `agent-view/`, `dev-view/`, and `public/`, and performs its own local discovery.
 - State job, acceptance criteria, test authorization, commit rules in at most twelve lines. The agent has none of the conversation.
 
 ## Report

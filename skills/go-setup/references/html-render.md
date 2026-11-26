@@ -1,6 +1,6 @@
 # HTML Render (`dev-view/*.html`)
 
-Applies to human-readable HTML views in `~/.just-do-it/{project}/{branch}/dev-view/` (`spec.html`, `plan.html`, `review.html`, `testing-guide.html`). Agents read the compact `.md` files in `agent-view/`; the developer reads the visual `.html` pages in `dev-view/` in a browser. (`dev-view/pr.md` and `dev-view/handoff.md` remain `.md`.)
+Applies to human-readable HTML views in `~/.just-do-it/{project}/{branch}/dev-view/` (`spec.html`, `plan.html`, `plan-review.html`, `review.html`, `testing-guide.html`). Agents read the compact `.md` files in `agent-view/`; the developer reads the visual `.html` pages in `dev-view/` in a browser. (`dev-view/pr.md` and `dev-view/handoff.md` remain `.md`.)
 
 ## Core principles
 
@@ -19,6 +19,12 @@ Use the matching bundled example: [plan.html](../../../examples/example-project/
 Show a short file label such as `ProfileForm Unit Test` and put the exact path and optional line in its escaped `title` attribute: `<span title="src/app/profile/profile-form.component.spec.ts">ProfileForm Unit Test</span>`. Preserve this markup from the Markdown. Both templates use it to show an immediate tooltip on hover or keyboard focus, with `cursor: help` and Escape dismissal. The `title` supplies the browser fallback when JavaScript is unavailable. If a command contains file paths, show a short command label with the full command in its tooltip.
 
 Before saving, compare the CSS and script against the template. Verify file labels, result order and colors, and that the content matches the Markdown.
+
+## Plan review
+
+Use the bundled review card style and write `dev-view/plan-review.html`. Show draft identity and coverage, then numbered findings with severity, affected decision, evidence, impact and proposed change. Use disposition labels when available. Link to the reviewed draft. Keep plan findings separate from code-test badges, code-fix commands and code review reports.
+
+Plan HTML includes an Implementation pipelines section and one stable `id="step-N"` anchor per in-scope step. Preserve the visible pipeline assignment, order, dependencies and precedent links from the Markdown. Spec HTML groups concise labeled Requirements, Acceptance, Open questions and Code pointers in cards. Display source and readiness status, including awaiting confirmation.
 
 ## Design tokens & base CSS
 
@@ -56,10 +62,10 @@ Use a consistent, restrained warm-neutral theme across all `dev-view/*.html` fil
 - **Open Questions**: highlighted callout box for unresolved questions or unknown domain terms.
 - **Code Pointers**: table or pill list of mapped entry points, source files, and test paths.
 
-### 2. `dev-view/plan.html` (written by `go-plan`, reviewed by user for plan approval)
+### 2. `dev-view/plan.html` (written by `to-plan`, reviewed by user for plan approval)
 
 - **Header**: Ticket key & title, `Status: draft | approved` badge, and an ordered **Goal** list. Bold only each scenario title. Show `Expected:` in green, then `Actual:` in red, both in regular weight.
-- **Statechart & Invariants** (when the ticket has state transitions per [`statechart.md`](../../go-plan/references/statechart.md)):
+- **Statechart & Invariants** (when the ticket has state transitions per [`statechart.md`](../../to-plan/references/statechart.md)):
   - Visual statechart diagram (`stateDiagram-v2` / SVG) showing states and user/system events.
   - Invariant & edge-case table (`State | Rule | Guarded transition / edge case`).
 - **Implementation Steps**: numbered step cards with `Do`, `Reuse`, `Test`, `Commit`, `Blocked by`, and `Files` as labeled tooltips. Show relevant attachment previews with short captions.

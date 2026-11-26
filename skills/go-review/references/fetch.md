@@ -1,5 +1,7 @@
 # Review Fetch Worker
 
+Resolve the [target](scope-baseline.md#target) before collecting evidence. For immutable targets use their pinned source for diff, rules, history and test identity; local checkout facts apply only to local targets.
+
 Gather the requested facts for the review coordinator. Use read-only commands. Return sources, paths, SHAs, and any command errors. Review findings belong to the hunters.
 
 | Input needed | Evidence |

@@ -25,6 +25,12 @@ Status: draft
    Expected: Export disappears immediately.\
    Actual: Export stays visible.
 
+## Implementation pipelines
+
+| Pipeline | Ordered steps | Requires | Shared resources |
+| --- | --- | --- | --- |
+| Toolbar | 1 | None | None |
+
 ## Steps
 
 ### 1. Show or hide Export with the feature flag
@@ -76,7 +82,7 @@ None.
   - Give required shared setup its own step when multiple later steps need it and a focused check can verify it. List that setup step under `Blocked by` for each consumer.
   - Lines: `Do`, `Reuse`, `Test`, `Commit`, `Blocked by`, `Files`.
   - `Do`: at most three bullets of behavior in plain words stating what the step will handle, not low-level code edits.
-  - `Reuse`: existing project components, services, or helpers the step will reuse (confirmed with the user during `Grill` if uncertain), or `none`.
+  - `Reuse`: cite the actual component, function and comparable caller flow at exact paths or symbols. Explain why a plausible candidate is unsuitable when diverging. A repo rule is guidance, while existing code is a precedent to verify.
   - `Blocked by`: list each prerequisite step and the specific output needed from it, or `none`. Example: `Step 1 — document editor navigation for the E2E assertion`. A unit-test-only step blocks E2E work only if it supplies required shared setup or data.
   - `Commit`: one message per cohesive category, in the confirmed format. For multiple categories, list the scope and message of each in integration order. Keep tests with the change they verify.
   - `Files`: use short labels with exact source and test paths in their `title` attributes. Mark a deleted file `delete` and list it under `Deletions` using the same format.
@@ -91,6 +97,10 @@ None.
 - **Deletions:** every deleted file, or `None.`. Approving the plan approves exactly these.
 - **Open:** blocking questions only, or `None.`.
 - **Reference:** `Delivery` is per-step commits by default, or uncommitted when the user says so.
+
+## Implementation pipelines
+
+List every executable step in exactly one pipeline. Each pipeline has an ID, an outcome, owned steps in order, write scope, prerequisites and shared resources. Name the output required from each dependency. Validate references, cycles and resource conflicts before requesting approval. Group work that shares ownership and must proceed in order. Mark independent pipelines eligible for parallel work and show the grouping in the HTML. `go-flow` executes this approved structure per [scheduling](../../go-flow/references/scheduling.md#approved-pipelines).
 
 ## Changes
 

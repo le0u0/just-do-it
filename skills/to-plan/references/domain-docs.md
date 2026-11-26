@@ -6,7 +6,7 @@ Domain notes live in `~/.just-do-it/{project}/public/glossary.md` and `~/.just-d
 
 - Read `~/.just-do-it/{project}/public/glossary.md` and `public/adr/` (when present), plus the repository's own `GLOSSARY.md` and `docs/adr/`.
 - **Never guess** unknown domain terminology, product terms, internal abbreviations, or business concepts. Always ask the user.
-- Once the user confirms a term or decision, write or update `~/.just-do-it/{project}/public/glossary.md` or `~/.just-do-it/{project}/public/adr/NNN-short-title.md` (creating the file on demand if it does not exist yet).
+- Once the user confirms a term or durable architecture decision, write or update `~/.just-do-it/{project}/public/glossary.md` or `~/.just-do-it/{project}/public/adr/NNN-short-title.md` (creating the file on demand if it does not exist yet).
 
 ## While asking
 
@@ -27,7 +27,6 @@ Domain notes live in `~/.just-do-it/{project}/public/glossary.md` and `~/.just-d
 
 - One sentence per meaning; include UI/code context when helpful.
 
-## ADR (`~/.just-do-it/{project}/public/adr/NNN-short-title.md`)
+## Standards and ADR
 
-- Offer one only when the decision is hard to reverse, surprising without context, and a real trade-off.
-- Once accepted by the user, save `public/adr/NNN-short-title.md` with title, `Context`, `Decision`, and `Why` (one line each).
+Read applicable entries in [standards.md and public ADRs](../../go-setup/references/public-docs.md#standardsmd). Distinguish a reusable, confirmed practice from a durable architectural trade-off. Propose the ADR explicitly before writing one. Report its title and full path once saved, and link it in Decisions when relevant.

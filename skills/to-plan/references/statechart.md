@@ -1,4 +1,4 @@
-# Statechart (`go-plan`)
+# Statechart (`to-plan`)
 
 Use when a ticket introduces or modifies **stateful behavior**: UI/form lifecycles (`Clean -> Dirty -> Saving -> Error`), multi-step wizards, tab switches with unsaved drafts, async request/retry flows, or business status transitions (`Draft -> Submitted -> Approved`). Skip for static layout, copy/i18n-only, or simple configuration changes.
 

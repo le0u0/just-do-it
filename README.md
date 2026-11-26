@@ -37,7 +37,7 @@ agy plugin install https://github.com/le0u0/just-do-it
 
 ## Use
 
-Call any skill directly, or call [`go-flow`](docs/go-flow.md) to chain the full ticket pipeline (`go-setup` → `to-spec` → `go-plan` → parallel `go-work` → `go-review` → `go-fix`) or the steps you choose.
+Call any skill directly, or call [`go-flow`](docs/go-flow.md) to chain the full ticket pipeline (`go-setup` → `to-spec` → `to-plan` → plan review when needed → approval → implementation pipelines → tests → code review) or the steps you choose.
 
 Every skill writes its output to your branch storage folder (`agent-view/` and `dev-view/`), initializing it with [`go-setup`](docs/go-setup.md) after confirming the project name with you.
 
@@ -46,27 +46,26 @@ Every skill writes its output to your branch storage folder (`agent-view/` and `
 | Skill | Job | Tier |
 | --- | --- | --- |
 | [`go-setup`](docs/go-setup.md) | Confirm project and set up branch storage (`agent-view/`, `dev-view/`, `public/`) | — |
-| [`to-spec`](docs/to-spec.md) | Read ticket or requirements link and map repo paths | fast |
-| [`go-plan`](docs/go-plan.md) | Grill goal, decisions, and unknown terms, then write plan and checklist | reasoning |
-| [`go-work`](docs/go-work.md) | Implement one step test-first (`dev-tdd`). Independent steps run in parallel in `go-flow` | standard |
-| [`go-ut`](docs/go-ut.md) | Write, fix, or run focused unit specs | standard |
-| [`go-e2e`](docs/go-e2e.md) | Explore UI, author, run, or debug Playwright E2E specs | standard |
-| [`go-review`](docs/go-review.md) | Confirm review goal, run review team, and link test results | Fetch and recheck fast, hunters standard, verifier reasoning |
+| [`to-spec`](docs/to-spec.md) | Choose Brainstorm or Lite and confirm requirements | Inline; seven Standard Goldfish for Brainstorm |
+| [`to-plan`](docs/to-plan.md) | Settle design decisions and write evidence-backed steps, pipelines and checklist | Inline |
+| [`go-work`](docs/go-work.md) | Implement approved steps test-first. Independent pipelines can run in parallel | Inline for one pipeline; Standard per delegated pipeline |
+| [`go-ut`](docs/go-ut.md) | Write, fix, or run focused unit specs | Inline by default |
+| [`go-e2e`](docs/go-e2e.md) | Explore UI, author, run, or debug Playwright E2E specs | Inline by default |
+| [`go-review`](docs/go-review.md) | Review a plan, PR, branch or diff | Plan reviewer and code Verifier Deep; Fetch, Recheck and hunters Standard |
 | [`go-fix`](docs/go-fix.md) | Fix selected review findings and record dispositions | — |
 | [`go-flow`](docs/go-flow.md) | Run the full pipeline or a chosen sequence of steps | — |
 
 | Tier | Claude | Codex | Antigravity (preferred family) |
 | --- | --- | --- | --- |
-| `fast` | `haiku (low)` | `luna (low)` | `hydrogen (low)` |
 | `standard` | `sonnet (medium)` | `terra (medium)` | `hydrogen (medium)` |
-| `reasoning` | `opus (medium)` | `sol (medium)` | `neon (medium)` |
+| `deep` | `opus (medium)` | `sol (medium)` | `neon (medium)` |
 
 Model families resolve from the active host's worker options. Antigravity uses Swarm with `workspace="inherit"` and the selected model variant. Legacy dispatch is reserved for tracker research that needs MCP access. See [Antigravity dispatch](skills/go-flow/references/agents.md#antigravity-dispatch).
 
 | Also | Detail |
 | --- | --- |
 | Announces | Model and effort per subagent; tell it a preference and it uses that |
-| Storage | Outputs save to `agent-view/` and `dev-view/` under the project's branch directory; shared glossary, ADRs, and test config live in `public/`. See [Storage](skills/go-setup/references/storage.md) |
+| Storage | Outputs save to `agent-view/` and `dev-view/` under the project's branch directory; shared standards, glossary, ADRs, and test config live in `public/`. See [Storage](skills/go-setup/references/storage.md) |
 | Docs | [Workflow](docs/go-flow.md); one doc per skill in [`docs/`](docs/), such as [`docs/go-review.md`](docs/go-review.md) |
 
 ## Method & Utility Skills
@@ -83,6 +82,7 @@ Model families resolve from the active host's worker options. Antigravity uses S
 
 | Skill / Feature | Follows |
 | --- | --- |
+| Brainstorm and plan review | Inspired by Google’s [Elephant-Goldfish Model](https://github.com/google/elephant-goldfish-model) |
 | `dev-tdd` | Matt Pocock's [tdd](https://github.com/mattpocock/skills/tree/main/skills/engineering/tdd) skill |
 | `to-pr` | Matt Pocock's [pr](https://github.com/mattpocock/skills/tree/main/skills/engineering/pr) skill |
 | `go-e2e` | lackeyjb's [playwright-skill](https://github.com/lackeyjb/playwright-skill) |

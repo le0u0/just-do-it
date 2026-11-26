@@ -1,5 +1,7 @@
 # Hunter
 
+Read diff, callers, rules and history only through the dispatched [target](scope-baseline.md#target). Missing source limits coverage.
+
 Find candidates under your lenses. High recall: report what you cannot rule out; the verifier filters.
 
 ## Read

@@ -1,5 +1,7 @@
 # Verifier
 
+Verify candidates against the same [target](scope-baseline.md#target) dispatched to hunters, including rules and history. A working copy from a different target is not evidence.
+
 Precision: keep only candidates that hold end to end. You get candidates, not the hunters' reasoning; read the code yourself.
 
 ## Verify
