@@ -8,7 +8,7 @@ Tracks domain terminology, product concepts, internal abbreviations, and busines
 
 ### When to read and update
 
-1. Read `~/.just-do-it/{project}/public/glossary.md` (and repository `GLOSSARY.md` if present) at the start of `go-research`, `go-plan`, `go-work`, and `go-review`.
+1. Read `~/.just-do-it/{project}/public/glossary.md` (and repository `GLOSSARY.md` if present) at the start of `to-spec`, `to-plan`, `go-work`, and `go-review`.
 2. Whenever you encounter an unknown term, product concept, or ambiguous wording—or when a ticket/user word conflicts with an existing term—**never guess**.
 3. Ask the user to clarify the exact meaning (and where it lives in the UI or codebase if relevant).
 4. Once the user answers, create or update `~/.just-do-it/{project}/public/glossary.md` immediately:
@@ -25,21 +25,23 @@ Tracks domain terminology, product concepts, internal abbreviations, and busines
 
 ## `adr/`
 
-Holds Architecture Decision Records (`~/.just-do-it/{project}/public/adr/NNN-short-title.md`) for decisions that are hard to reverse, surprising without context, or resolve a real trade-off during `go-plan` or `go-work`.
+Records confirmed durable architectural trade-offs in `~/.just-do-it/{project}/public/adr/NNN-short-title.md`.
 
-### When to read and update
-
-1. Read existing files in `~/.just-do-it/{project}/public/adr/` (and repository `docs/adr/` if present) during `go-plan`, `go-work`, and `go-review`.
-2. When a hard-to-reverse design or architecture trade-off arises in `go-plan` or `go-work`, ask the user and confirm the choice.
-3. Once confirmed, write `~/.just-do-it/{project}/public/adr/NNN-short-title.md` (numbering sequentially from `001`):
+1. Read relevant storage ADRs and repository `docs/adr/` during planning, work and review.
+2. When proposing a durable architecture decision, tell the user it is an ADR candidate and explain the trade-off. Routine implementation choices stay in the plan. Record a new ADR only after the user confirms the actual decision.
+3. Use the next available sequence number. Write Context, Decision and Why. Report the title and full path when written. Link an applicable ADR from the plan’s Decisions or the work summary.
 
 ```markdown
 # ADR 001: Short decision title
 
-- **Context:** One line stating the constraint or conflict.
-- **Decision:** One line stating the chosen design.
-- **Why:** One line stating the trade-off and reason.
+- **Context:** Constraint or conflict.
+- **Decision:** Chosen design.
+- **Why:** Trade-off and reason.
 ```
+
+## `standards.md`
+
+Record user-confirmed cross-ticket conventions in `~/.just-do-it/{project}/public/standards.md` when existing project guidance lacks the rule. Include its applicability, instruction and a verified source path or symbol showing the precedent; mark evidence unavailable when that is true. Planning, work, unit test authoring and review read relevant entries. Repository rules keep precedence; bring conflicting guidance to the user. Update the applicable entry in place and report its path. A ticket-local choice stays in the plan.
 
 ## `jdi-config.md`
 

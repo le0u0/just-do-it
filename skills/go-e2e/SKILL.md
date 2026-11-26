@@ -9,6 +9,7 @@ description: 'E2E tests with Playwright: author specs and test data, explore UI 
 
 - Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/references/storage.md). If the branch folder does not exist under `~/.just-do-it/*/{branch}`, run `go-setup` first to confirm `{project}` with the user.
 - Output: specs and test data in the repository; test run results written to `~/.just-do-it/{project}/{branch}/agent-view/e2e.md` per [Test report](../go-flow/references/reports.md#test-report-agent-viewutmd-and-agent-viewe2emd).
+- In a worktree step, run in the assigned checkout, read configuration and plan from the caller's ticket storage, and return evidence directly. Evidence-only mode replaces all writes to the shared report, including missing-runner results.
 
 ## Workflow
 
@@ -24,7 +25,7 @@ description: 'E2E tests with Playwright: author specs and test data, explore UI 
 - Apply the project's [test retry limit](../go-setup/references/public-docs.md#jdi-configmd) across callers; if missing or invalid, trigger `go-setup` to confirm it before retrying. Report exhausted retries to the caller or ask the user when running standalone. Preserve the caller's expected TDD red-run context.
 - Production changes, including missing test selectors, go to `go-work`.
 - Writing a spec never runs it. Run only when the request or approved plan authorizes it; the newest instruction wins, so a request to run named specs authorizes exactly those runs, even when an earlier plan says not to run tests.
-- A run changes no repository files and never resets environments or test data unless asked. It always updates `agent-view/e2e.md`.
+- A run changes no repository files and never resets environments or test data unless asked. Outside evidence-only mode, update `agent-view/e2e.md`.
 - Shared helper, selector, or test data changed: list other specs using it under `Affected` in `agent-view/e2e.md`.
 - Format only changed files.
 - Formal review goes to `go-review`.

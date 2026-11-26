@@ -1,5 +1,7 @@
 # Project References
 
+Read applicable project [standards and ADRs](../../go-setup/references/public-docs.md#standardsmd) from shared storage. Apply repository rules first and verify cited precedents.
+
 The project owns its rules. Before the review pass, read what applies:
 
 - `AGENTS.md`, `CLAUDE.md`, `REVIEW.md` (what matters most here and what to skip), rules in `.agents/rules/` or `.claude/rules/` (only the ones the caller lists, if any).

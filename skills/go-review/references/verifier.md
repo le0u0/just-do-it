@@ -1,5 +1,7 @@
 # Verifier
 
+Verify candidates against the same [target](scope-baseline.md#target) dispatched to hunters, including rules and history. A working copy from a different target is not evidence.
+
 Precision: keep only candidates that hold end to end. You get candidates, not the hunters' reasoning; read the code yourself.
 
 ## Verify
@@ -13,6 +15,7 @@ Precision: keep only candidates that hold end to end. You get candidates, not th
 - Omit: intentional-looking changes, lint-ignored issues, unreachable cases, style preferences, pure renames, tooling-enforced issues.
 - A missing contract limits one finding, never the review.
 - Deduplicate by root cause across hunters.
+- For each retained finding, derive the shortest concrete verification steps and expected result from the evidence. Report gaps in reachability or test setup and label code-only findings accordingly.
 
 ## Return
 

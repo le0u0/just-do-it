@@ -1,57 +1,67 @@
 ---
 name: go-review
-description: 'Review a branch, diff or work-in-progress change against the project''s standards and confirmed goal, write agent-view/review.md (linking agent-view/ut.md and agent-view/e2e.md), and render dev-view/review.html. Use for "review my branch" or "review this diff".'
+description: 'Review a draft implementation plan independently, or review code by PR, branch, commit or diff against its requirements and project rules. Save separate plan and code reports.'
 ---
 
 # Review
 
-Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/references/storage.md). If the branch folder does not exist under `~/.just-do-it/*/{branch}`, run `go-setup` first to confirm `{project}` with the user. Write the agent markdown report to `agent-view/review.md` and render the human-readable page at `dev-view/review.html` (unless the user explicitly asks for `.md` only or terminal-only output).
+Route explicit `go-review plan` or `go-review code` first. Infer plan from an explicitly named plan/design document and code from a PR, branch, commit or diff. Ask Plan or Code only if the target is unclear. Resolve [task storage](../go-setup/references/storage.md). Both modes inspect evidence and report. Apply fixes only through a separately authorized workflow.
+
+- **Plan:** Run [plan review](references/plan-review.md), then stop. It owns `plan-review.md` and `plan-review.html`.
+- **Code:** Follow the workflow below. It owns `review.md` and `review.html`.
+
+## Code review
+
+Resolve the [review target](references/scope-baseline.md#target) before dispatch. Store code reports in `agent-view/review.md` and `dev-view/review.html` unless the user chooses Markdown or terminal only. Only reuse a report for the same target identity.
 
 Run in the main thread as coordinator: confirm the review goal and plan, pick the tier, start the review agents, assemble `agent-view/review.md` and `dev-view/review.html`. Never read hunks yourself; agents read the code.
 
-Start the review team for every review. If an agent is unavailable or cannot start, report blocked and stop; never perform its review role yourself.
+Review only. Leave source and tests untouched. Deliver the report and stop without invoking `go-fix`. The `go-flow` coordinator owns any authorized automatic fix loop.
+
+For a ticket review, require a matching ready spec or complete inline requirements before gathering review inputs. This applies to a ticket key or URL in the request or plan and a blocked brief for the active ticket. Otherwise invoke [to-spec](../to-spec/SKILL.md) and follow its [blocked-spec procedure](../to-spec/SKILL.md#blocked-spec) if the requirements are unavailable.
+
+Read any previous review of this target. Select full or incremental coverage per [scope and baseline](references/scope-baseline.md#range). In the flow's intermediate fix loop, `go-fix` owns focused checks.
+
+Start the review team for each new pass. If a required agent cannot start, report blocked and stop; never perform its review role yourself.
 
 ## 1. Fetch
 
-Start one review-owned fast Fetch worker per [agents.md](references/agents.md). Give it [fetch.md](references/fetch.md) and request only missing inputs:
+Start one review-owned Standard Fetch worker per [agents.md](references/agents.md). Give it [fetch.md](references/fetch.md) and request only missing inputs:
 
-- Ticket text, when the requirement is a ticket URL or key (and `agent-view/research.md` is absent), including linked tickets.
 - Baseline evidence, unless the user or `agent-view/plan.md` supplied the baseline.
-- Diff facts for the range.
+- Diff facts for the applicable range. For a possible incremental review, include the previous reviewed commit's ancestry.
+- Resolved target identity and snapshot per [fetch.md](references/fetch.md), including checkout clean status for local review.
 - File text of `REVIEW.md`, for the risky paths it marks.
 - Paths of project-local review skills in `.claude/skills/` and `.agents/skills/` (if any).
-- Re-review: delta files from `Reviewed to`, checked against the files of open `TODO` findings in `agent-view/review.md`.
 
-Decide from its facts yourself: the baseline per [scope-baseline.md](references/scope-baseline.md), then the tier.
+Decide from its facts yourself: the original baseline, then the selected comparison range and tier.
 
 ## 2. Goal, review plan, and inputs
 
-- **Goal & review plan (direct run):** Read `agent-view/plan.md` and `agent-view/research.md` when present. If `agent-view/plan.md` is missing or the review goal/target is unclear when running `go-review` directly, **grill the user on the goal and target scope, confirm a concise review plan** (and update `public/glossary.md` if unknown domain terms arise per [public-docs.md](../go-setup/references/public-docs.md)) before launching the hunters.
-- **Previous review:** read `agent-view/review.md` if it already exists.
-- **Test references:** check whether `agent-view/ut.md` and `agent-view/e2e.md` exist in the branch folder. Reference them in `agent-view/review.md` under `## Tests` per [report-format.md](references/report-format.md) (leave the reference empty if the file does not exist), and display their pass/fail status badge in `dev-view/review.html`.
-- **Tier:** from the diff facts, per [agents.md](references/agents.md). The caller or user may name a tier; it wins.
+- **Goal & review plan (direct run):** Read matching `agent-view/plan.md` or `agent-view/spec.md` when relevant. Use the explicit goal and target from the request when provided. If the goal or target remains unclear in direct use, **confirm a concise review scope with the user** (and update `public/glossary.md` if unknown domain terms arise per [public-docs.md](../go-setup/references/public-docs.md)) before launching the hunters.
+- **Test references:** compare each available UT/E2E report's snapshot to the reviewed checkout snapshot. Label mismatched or missing snapshots `stale`. Only matching reports can support a pass or fail for the reviewed version.
+- **Tier:** Standard or Deep from the selected diff facts, per [agents.md](references/agents.md). An explicit request may select either supported tier.
+- **Reuse matching coverage:** before dispatching hunters, verify that baseline, snapshot, and review inputs match a report with recorded coverage. Use its recorded tier for the same snapshot unless the user selected another tier. A full review request requires `Coverage: full`. Reuse the findings, refresh test and acceptance evidence, and keep the round number and coverage. An explicit fresh review requests a new pass.
+- **Round cap:** before a new full pass, require explicit user authorization when the existing `Round` is 3 or more. Keep its original snapshot until a new full pass completes.
 
-## 3. First review
+## 3. Review the selected diff
 
 1. Start every hunter of the tier in parallel, per [agents.md](references/agents.md) and [hunter.md](references/hunter.md).
-2. Collect their candidates. Quick: the single hunter returns findings; skip step 3.
+2. Collect their candidates.
 3. Start one verifier with all candidates, per [verifier.md](references/verifier.md).
-4. Number the verifier's findings by severity; place them per [report-format.md](references/report-format.md). Keep the verifier's dropped lines with the review result.
+4. Sort the verifier's findings by severity and number only `TODO` entries per [report-format.md](references/report-format.md). Keep the verifier's dropped lines with the review result.
+5. Before saving, verify all evidence matches the dispatched target. For local targets check the checkout snapshot again. For remote PRs, confirm the pinned refs you reviewed still identify the requested version; report as stale/incomplete if the target moved. If collection fails or the snapshot changed, report the interruption and keep the previous review. Record the successful pass's range and coverage. Increment `Round` only after a stable full pass.
 
 ## 4. Re-review
 
-Given an existing `agent-view/review.md`, update it and `dev-view/review.html` in full. Delta: `git diff <Reviewed to>` through the working tree. Uncommitted work has no SHA: a `Diff fingerprint` equal to the previous one means no delta; otherwise hunt only files the fixes touched.
+Given an existing `agent-view/review.md`, preserve the original baseline and reconcile findings before delivery. For an incremental pass, hunters review changes since the last reviewed commit and trace their effects into relevant callers.
 
-1. **Round cap:** previous `Round` is 3 or more: run 4.2 and 4.4 only; hunt nothing new. Say in `Open`: `round cap: reconsider the approach`.
-2. **Open findings:** a `TODO` whose file the delta files leave untouched stays as written. The rest go to one recheck agent per [agents.md](references/agents.md).
-   - `fixed`: move to `RESOLVED` as one `Done` line (at most 20 words) plus `Status: fixed (<short SHA>)`; uncommitted fix: `fixed, not tested`.
-   - `open`: keep its two lines.
-3. **New code:** hunt the delta only, at the tier the delta's own diff facts give. Pass every earlier finding (all sections) as known.
-4. New findings numbered after the last. Update `Issue Count` (open `TODO` only), `Reviewed to`, `Round`, and refresh `## Tests` references to `agent-view/ut.md` and `agent-view/e2e.md` if present.
+1. **Open findings:** recheck each prior `TODO` against the current code per [agents.md](references/agents.md). Keep the numbers of items still in `TODO`. Move confirmed fixes and their evidence to `RESOLVED` without a number.
+2. **New or recurring findings:** match the newly verified findings to the previous report by defect, not by number. Merge duplicates and preserve explicit user dispositions when the trigger and impact are unchanged. Assign the next unused `TODO` number to new or reopened findings.
 
 - A reported test failure in `agent-view/ut.md` or `agent-view/e2e.md` that the fix does not address is a finding; send it to the hunters as a lead.
 
 ## 5. Deliver
 
-- Save `agent-view/review.md` per [report-format.md](references/report-format.md) and render the interactive human-readable page at `dev-view/review.html` per [html-render.md](../go-setup/references/html-render.md). Report the saved `dev-view/review.html` path and open issue counts by severity. Keep findings and dropped lines in `agent-view/review.md`.
-- `go-fix` applies fixes when the caller or user asks for them.
+- For a ticket review, map each approved `Expected` result or equivalent outcome in an earlier plan to its current evidence and verdict per [report-format.md](references/report-format.md#fields). Report missing coverage even if every test ran successfully.
+- Save `agent-view/review.md` per [report-format.md](references/report-format.md) and render the interactive human-readable page at `dev-view/review.html` per [html-render.md](../go-setup/references/html-render.md). Report the saved path and open issue counts by severity.

@@ -1,13 +1,14 @@
 # Review Fetch Worker
 
-Gather the requested facts for the review coordinator. Use read-only commands and the available tracker connector. Return sources, paths, SHAs, and any command errors. Review findings belong to the hunters.
+Resolve the [target](scope-baseline.md#target) before collecting evidence. For immutable targets use their pinned source for diff, rules, history and test identity; local checkout facts apply only to local targets.
+
+Gather the requested facts for the review coordinator. Use read-only commands. Return sources, paths, SHAs, and any command errors. Review findings belong to the hunters.
 
 | Input needed | Evidence |
 | --- | --- |
-| Ticket text | Read the supplied requirement source, its comments (`listJiraIssueComments` for Jira), and its linked requirements using the live tracker. Return the relevant text with source links. Use [research workflow](../../go-research/SKILL.md#workflow) for tracker and attachment handling when needed. |
 | Baseline evidence | For each candidate ref, report SHA, ancestry to `HEAD`, and reflog evidence of branch start when available. |
 | Diff facts | Report stats and paths for the requested range plus working tree and untracked paths. Include counts for tier selection. |
+| Checkout snapshot | Compute the SHA-256 snapshot using the [test snapshot method](../../go-flow/references/reports.md#test-report-agent-viewutmd-and-agent-viewe2emd), including HEAD, index, tracked worktree diffs, and untracked files. Return the hash and whether `git --no-optional-locks status --porcelain=v1 --untracked-files=all` is empty. Report any collection error. |
 | Project rules | Return `REVIEW.md` contents or `missing`, and paths of any applicable project-local review skills. |
-| Re-review delta | Report changed paths and which open-finding paths are in the delta. Include delta stats. |
 
-Use any supplied requirement brief directly. A missing source or failed/timed-out MCP/command call is a failure/gap to report explicitly (tool, error, what is missing)—never silently fall back to `git show` as a substitute for ticket requirements. Remote Git fetches require authorization.
+Report missing inputs and failed commands with the error and missing evidence. Remote Git fetches require authorization.

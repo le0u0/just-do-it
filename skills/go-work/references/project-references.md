@@ -1,5 +1,7 @@
 # Project References
 
+Read applicable project [standards and ADRs](../../go-setup/references/public-docs.md#standardsmd) from shared storage. Apply repository rules first and verify cited precedents.
+
 Before code work, read:
 
 - `AGENTS.md`, `CLAUDE.md`, `.agents/rules/`, `.claude/rules/`. When the plan step lists rule files, read only those.

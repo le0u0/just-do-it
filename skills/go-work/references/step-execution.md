@@ -3,22 +3,23 @@
 ## Start gate
 
 1. The branch must contain the ticket key, such as `PROJ-123`, unless the user approved an exception or the project has no ticket convention. Otherwise warn and stop.
-2. The step must be in approved scope in `agent-view/plan.md` with every `Blocked by` step done in `agent-view/checklist.md`. Stop on overlapping unrelated work; ask when the plan is unclear.
-3. Compare repository root, branch, baseline, `HEAD`, and task diff from the caller with the checkout. A delegated worker must match the given root and branch before editing or running tests. With parallel workers, check your owned paths and treat other assigned paths as separate work.
+2. Verify the [approved scope](../../to-plan/references/approval.md) before edits or tests. The step must belong to the assigned pipeline and all prerequisite steps must be verified. For steps in your pipeline use its local evidence; other pipelines require coordinator integration evidence. Stop on overlapping unrelated work; ask when the plan is unclear.
+   - For standalone work on an approved plan, [sync the checklist](../../to-plan/references/checklist-format.md#approval) if it still shows pending approval.
+3. Check the assigned root, branch and starting SHA against the checkout before editing or testing. For a pipeline worktree, verify it belongs to the ticket repository. Use the assigned starting SHA for the step diff and the original ticket storage for the plan and prerequisite evidence.
    - Invalidate stale evidence; keep the user's changes.
    - Ask only when drift makes scope ambiguous.
    - Per-step commits: recorded commits must stay ancestors of `HEAD`.
 
 ## Step gate
 
-- Complete the assigned step through workflow step 4 of `SKILL.md`. When behavior tests are available and authorized, run the failing spec before editing the behavior and rerun it after the fix (use `go-ut` in evidence-only mode for coordinator-assigned steps and its usual report otherwise; `go-e2e` writes `agent-view/e2e.md`). Return red and green evidence. For setup only, return the named check and outcome so dependent steps can unlock.
+- Complete the assigned step through workflow step 4 of `SKILL.md`. When behavior tests are available and authorized, run the failing spec before editing the behavior and rerun it after the fix. Worktree workers pass the assigned checkout and original ticket storage to test skills and use evidence-only mode. Return red and green evidence, or the named setup check and outcome.
 - A failing spec stays in the step's scope: leave bootstrap, configuration, and unrelated specs alone.
 - An existing spec that the step's change breaks is in scope: fix the code, and rerun that spec before reporting `Done`.
 
 ### Per-step commits
 
 - Plan approval covers each step, its commit, and the `Deletions`.
-- When the step's scoped verification passes, report `Done` (at most 20 words) with its verification evidence. Standalone `go-work` commits per the commit gate and updates `agent-view/checklist.md` and `agent-view/CHANGELOG.md`. In a parallel `go-flow` wave, return the diff and evidence to the flow caller to serialize commits.
+- When scoped verification passes, commit each approved category and return the ordered SHAs and evidence. Standalone `go-work` records delivery in `agent-view/checklist.md` and `agent-view/CHANGELOG.md`. The coordinator records worktree steps only after integration.
 - On a failing spec, diagnose and try a different fix; never repeat a failed one.
 - Stop and ask only when:
   - three different fixes for one failure have failed;
@@ -45,10 +46,9 @@
 
 Applies for per-step commits, or when the user asks.
 
-- Use the step's existing verification as commit evidence.
-- Use `agent-view/plan.md`'s `Commit` message exactly: one line, no body or trailer unless the user's newest instruction says otherwise. No other approval needed.
+- Use the step's verification as commit evidence.
+- Use the plan's exact one-line `Commit` message for each approved category unless the user's latest instruction says otherwise.
 - Scope changed: propose a new one-line message and get approval first.
 - No plan message: `agent-view/commit-format.md` or the project's commit format, else `<type>: <description>`.
-- Stage only the step's files or hunks; stop if unrelated staged changes would enter.
-- Before committing, inspect the step's production and spec changes. Use an explicit path-scoped commit (for Git, `git commit --only -m <message> -- <paths>`), adding new paths first if needed. This commits the entire working-tree version of each path, regardless of staged hunks: stop before committing if any path also contains unrelated changes. Verify that the commit contains only the step's changes.
-- Record the SHA in `agent-view/checklist.md` and update `agent-view/CHANGELOG.md` under its type heading (`### Features`, `### Bug Fixes`, etc.). Never push.
+- Inspect production and test changes together. Scope each commit to its approved category. In an isolated worktree, stage only that category's files or hunks, inspect the staged diff, then commit. In a shared checkout, use a path-scoped commit only when every change in those paths belongs to that category. Preserve unrelated staging.
+- Verify each commit's SHA and diff. A worker returns the SHAs for integration. Standalone execution records them in the checklist and changelog. Never push.

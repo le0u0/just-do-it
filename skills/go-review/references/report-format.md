@@ -1,11 +1,13 @@
 # Review Report (`agent-view/review.md`)
 
+Record review mode and target kind, repository identity, target identifier (PR number, branch, SHA or range), exact base/head and snapshot type in Reference. Incomplete target evidence cannot support a full coverage verdict.
+
 ## Style
 
 - Fragments; code, identifiers, paths, error strings exact. Present state only.
 - Reference detail goes in `<sub>`.
-- Issue, Fix, Done: one line each, at most 20 words, no file location.
-- Never mention a ticket, its requirements, or progress.
+- Actual, Fix, Done: one line each, at most 20 words, no file location.
+- Keep ticket acceptance evidence in `Acceptance`.
 
 ## Template
 
@@ -23,23 +25,36 @@ TODO: 2 (Critical: 0, Warning: 2, Minor: 0)
 - Unit: [ut.md](ut.md)
 - E2E: [e2e.md](e2e.md)
 
+## Acceptance
+
+- Expected 1 · Save sends one request · pass · [E2E](e2e.md), duplicate-click scenario
+- Expected 2 · Save can retry after failure · unverified · retry action untested
+
 ## TODO
 
-### 1. Warning — ProfileFormComponent
+### 1. Warning — <span title="src/app/profile/profile-form.component.ts">ProfileFormComponent</span>
 
-- **Issue:** Failed update leaves Save disabled. No retry.
+- **How to verify:**
+  1. Open Edit Profile. Make the save request return HTTP 500.
+  2. Click Save. After the error banner appears, check whether Save is enabled.
+- **Expected:** Save is enabled and accepts a retry.
+- **Actual:** Code only: Failed update leaves Save disabled. No retry.
 - **Fix:** Clear pending state on error.
 
 ---
 
-### 2. Warning — ExportService
+### 2. Warning — <span title="src/app/export/export.service.ts">ExportService</span>
 
-- **Issue:** Overflow drops the export silently.
+- **How to verify:**
+  1. Fill the export queue to its limit.
+  2. Request one more export and check the response.
+- **Expected:** The caller receives an explicit queue-full error.
+- **Actual:** Code only: Overflow drops the export silently.
 - **Fix:** Throw and show the error.
 
 ## RESOLVED
 
-### 3. Warning — SidebarComponent
+### Warning — SidebarComponent
 
 - **Done:** Removed host binding. Sidebar found by its own ID.
 - **Status:** fixed (e4f5g6h)
@@ -54,17 +69,24 @@ None.
 
 ## Reference
 
-<sub>Repository: /absolute/path/to/repo<br>Branch: feature-branch<br>Reviewed from: a1b2c3d<br>Reviewed to: e4f5g6h<br>Diff fingerprint: hash when work is uncommitted<br>Tier: Standard<br>Round: 1</sub>
+<sub>Repository: /absolute/path/to/repo<br>Branch: feature-branch<br>Reviewed from: a1b2c3d<br>Reviewed to: e4f5g6h<br>Coverage: full<br>Snapshot: checkout hash<br>Checkout clean: yes<br>Review inputs: input hash<br>Tier: Standard<br>Round: 1<br>Last TODO number: 2</sub>
 ```
 
 ## Fields
 
 - **Issue Count:** open `TODO` only, with severity split.
-- **Heading:** number, severity, owning class or file.
-- **Issue:** trigger and impact; start with `Unconfirmed:` when reachability is unsettled. **Fix:** corrective action; one alternative at most.
+- **Heading:** severity and owning class or file. Prefix with a number only in `TODO`.
+- **Last TODO number:** retain the highest number assigned so later findings never reuse it. When updating an older report, initialize this value from its highest finding heading number before removing numbers from non-`TODO` sections.
+- **How to verify:** name the exact screen and controls, or the test entry point. Include setup or input and up to four short steps. State any missing setup. Show file references as short labels with the exact path in their `title` attributes.
+- **Expected:** the observable result if the check passes. Put it before `Actual`.
+- **Actual:** the wrong result and its impact. Prefix with `Code only:` when inferred or `Unconfirmed:` when reachability is unsettled. Link an actual run when available. When reading an older report, treat its `Issue` field as `Actual`.
+- **Fix:** corrective action; one alternative at most.
+- **Finding reference:** put the source path and optional line in a tooltip on the owner or a short source label.
 - **Done / Status:** only in `RESOLVED`; updated by `go-fix` or by a re-review that finds an author's fix.
   - `Status`: `fixed (e4f5g6h)`, `fixed, tested`, `fixed, not tested`, `deferred`, `disputed`, `ignored by user`.
-- **Tests:** references to `agent-view/ut.md` and `agent-view/e2e.md` (written directly by `go-ut` and `go-e2e`). If `agent-view/ut.md` or `agent-view/e2e.md` does not exist, leave its reference empty (`- Unit:` or `- E2E:`).
+- **Tests:** link existing UT/E2E reports. Mark stale reports explicitly. Leave a missing report reference empty.
+- **Acceptance:** for a ticket, one line per approved `Expected` result or equivalent outcome with `pass`, `fail`, or `unverified`, and a specific current test, other verification result, or evidence gap. A review finding can substantiate a failure. Passing unrelated tests and evidence from older snapshots leave the criterion unverified.
+- **Review inputs:** SHA-256 of the confirmed review scope, requirements, and applicable review rules, using a stable order and length-delimited inputs. If any of these inputs cannot be identified reliably, start a fresh review instead of reusing findings.
 
 ## Severity
 
@@ -75,9 +97,10 @@ None.
 ## Sections
 
 - `Reference` in `<sub>`. `Tests` plain, under `Issue Count`: `Unit` and `E2E` lines referencing `[ut.md](ut.md)` and `[e2e.md](e2e.md)` when present, or left empty when absent.
-- Findings by severity; numbers stable across sections; `---` between findings.
+- Findings by severity; preserve numbers for entries that remain in `TODO`. When an entry leaves `TODO`, remove its displayed number. Separate entries with `---`.
 - Keep `TODO`, `RESOLVED`, `IGNORED`, `PRE-EXISTING`; `None.` when empty.
   - `TODO`: open, deferred, disputed. `RESOLVED`: applied fixes. `IGNORED`: needs the user's explicit choice. `PRE-EXISTING`: real bugs the change did not introduce or expose; not counted, not sent to `go-fix` unless the user asks.
-- `Round`: 1 on a first review, plus 1 per re-review. `Tier`: the tier this round ran.
+- `Round`: 1 on a first full review, plus 1 per subsequent full review. `Tier`: the tier used for the latest pass.
 - `Status: approved` records user approval only.
-- Uncommitted work: `Diff fingerprint` identifies the snapshot.
+- `Reviewed from`: original baseline. `Reviewed to`: HEAD of the reviewed checkout. For `Coverage: incremental`, add `Compared from` with the prior reviewed SHA. For `Coverage: full`, the comparison starts at the original baseline.
+- `Snapshot` and `Checkout clean`: reviewed checkout hash and whether the SHA alone represented it. Keep these fields and the comparison range even if focused fixes change the findings list.
