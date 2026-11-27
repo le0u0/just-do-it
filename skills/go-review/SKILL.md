@@ -5,7 +5,7 @@ description: 'Review a draft implementation plan independently, or review code b
 
 # Review
 
-Route explicit `go-review plan` or `go-review code` first. Infer plan from an explicitly named plan/design document and code from a PR, branch, commit or diff. Ask Plan or Code only if the target is unclear. Resolve [task storage](../go-setup/references/storage.md). Both modes inspect evidence and report. Apply fixes only through a separately authorized workflow.
+Route explicit `go-review plan` or `go-review code` first. Infer plan from an explicitly named plan/design document and code from a PR, branch, commit or diff. Ask Plan or Code only if the target is unclear. Resolve [task storage](../go-setup/references/storage.md) per [go-setup](../go-setup/SKILL.md). Both modes inspect evidence and report. Apply fixes only through a separately authorized workflow.
 
 - **Plan:** Run [plan review](references/plan-review.md), then stop. It owns `plan-review.md` and `plan-review.html`.
 - **Code:** Follow the workflow below. It owns `review.md` and `review.html`.

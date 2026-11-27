@@ -49,7 +49,7 @@ Holds the project's confirmed settings at `~/.just-do-it/{project}/public/jdi-co
 
 ### Rules
 
-1. If `public/jdi-config.md` exists, read and follow it. If its retry limit is missing or invalid, ask the user to confirm a non-negative integer (recommend `1`) and update the file before retrying.
+1. If `public/jdi-config.md` exists, read and follow it. If `Repository:` is missing (or mismatched after confirming `{project}`) or its retry limit is missing or invalid, confirm with the user and update the existing file before retrying.
 2. If `public/jdi-config.md` does not exist when a test-handling skill runs:
    - Inspect `package.json`, runner config files (`vitest.config.*`, `karma.conf.*`, `jest.config.*`, `playwright.config.*`, `cypress.config.*`), and test directories.
    - Present the detected unit and E2E candidates to the user and **confirm before saving**.
@@ -58,6 +58,8 @@ Holds the project's confirmed settings at `~/.just-do-it/{project}/public/jdi-co
 
 ```markdown
 # JDI Config
+
+- **Repository:** /absolute/path/to/repo
 
 ## Retry
 

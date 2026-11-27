@@ -5,7 +5,7 @@ description: 'Implement a direct request, including annotated UI changes, an app
 
 # Work
 
-Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/references/storage.md). If the branch folder does not exist under `~/.just-do-it/*/{branch}`, run `go-setup` first to confirm `{project}` with the user. Report as the caller specifies, defaulting to `Done` / `Open` / `Changed`, and pass test-run evidence per [Test report](../go-flow/references/reports.md#test-report-agent-viewutmd-and-agent-viewe2emd).
+Resolve `~/.just-do-it/{project}/{branch}/` per [go-setup](../go-setup/SKILL.md) and [storage.md](../go-setup/references/storage.md). If no existing project and branch artifacts explicitly identify this repository and exact branch, run `go-setup` first to confirm `{project}` with the user. Report as the caller specifies, defaulting to `Done` / `Open` / `Changed`, and pass test-run evidence per [Test report](../go-flow/references/reports.md#test-report-agent-viewutmd-and-agent-viewe2emd).
 
 ## Modes
 

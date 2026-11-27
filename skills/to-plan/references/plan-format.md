@@ -40,7 +40,7 @@ Status: draft
 - **Test:** Goals 1–3. Assert Export is hidden, visible, and updated when the flag changes. Run: yes.
 - **Commit:** `feat: gate export with the feature flag`
 - **Blocked by:** none
-- <sub>**Files:** <span title="src/toolbar.ts">Toolbar logic</span>, <span title="src/toolbar.test.ts">Toolbar unit test</span></sub>
+- <sub>**Files:** `src/toolbar.ts`, `src/toolbar.test.ts`</sub>
 
 ## Out of scope
 
@@ -50,7 +50,7 @@ Status: draft
 
 - Seam: toolbar actions. Catches wrong visibility; misses real flag service.
 - E2E: Export button hidden when flag off.
-- <sub>Prior art: <span title="src/layout.test.ts">Layout unit test</span>. E2E: <span title="playwright/tests/toolbar.spec.ts">Toolbar E2E test</span></sub>
+- <sub>Prior art: `src/layout.test.ts`. E2E: `playwright/tests/toolbar.spec.ts`</sub>
 
 ## Decisions
 
@@ -85,14 +85,14 @@ None.
   - `Reuse`: cite the actual component, function and comparable caller flow at exact paths or symbols. Explain why a plausible candidate is unsuitable when diverging. A repo rule is guidance, while existing code is a precedent to verify.
   - `Blocked by`: list each prerequisite step and the specific output needed from it, or `none`. Example: `Step 1 — document editor navigation for the E2E assertion`. A unit-test-only step blocks E2E work only if it supplies required shared setup or data.
   - `Commit`: one message per cohesive category, in the confirmed format. For multiple categories, list the scope and message of each in integration order. Keep tests with the change they verify.
-  - `Files`: use short labels with exact source and test paths in their `title` attributes. Mark a deleted file `delete` and list it under `Deletions` using the same format.
+  - `Files`: list exact source and test paths in backticks (use `<span title="...">` tooltips only in `dev-view/plan.html`). Mark a deleted file `delete` and list it under `Deletions` using the same format.
   - `Test`: cite the Goal numbers and state what each check asserts. One check can verify multiple goals if it asserts each outcome. Name the public seam and focused runner, or the focused verification for shared setup. Use `none: no setup` when no runner exists and setup is outside scope. Name shared state or isolation relevant to parallel execution. Write and run each behavior's failing spec first when authorized.
   - Seams, temporary contracts, access-right changes, reusable project components, relative attachment paths (`attachments/{ticket}/...`), and precedents go in `<sub>` beside `Files`, only when the developer needs them.
 - **Out of scope:** excluded work, or `None.`.
 - **Testing:**
   - Keep scope focused, and cover every changed component or module with behavior (including template bindings); if a changed file has no spec yet, plan a new spec beside it focused on the changed behavior. One line each on what it catches and misses; approving the plan confirms them.
   - `E2E:` the scenario in plain words (create a new e2e spec when none exists for the area). Use `none` only when there is no E2E setup (`none: no setup`), the change has no UI or user-flow impact, or the user explicitly skips E2E — never set `none` just because no prior spec exists. E2E runs once, after the last step; this line is its only scope.
-  - Use labeled path tooltips for prior art and exact spec files in `<sub>`.
+  - List exact prior art and spec paths in `<sub>` (use `<span title="...">` tooltips only in `dev-view/plan.html`).
 - **Decisions:** at most seven choices that change scope or design, one line each; mention the diagnosis when it drove one. State the choice alone.
 - **Deletions:** every deleted file, or `None.`. Approving the plan approves exactly these.
 - **Open:** blocking questions only, or `None.`.
