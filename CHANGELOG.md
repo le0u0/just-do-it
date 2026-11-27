@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.0.1](https://github.com/le0u0/just-do-it/compare/v4.0.0...v4.0.1) (2026-11-27)
+
+
+### Bug Fixes
+
+* enforce repo identity in storage resolution and strip HTML spans from markdown ([cfa3c55](https://github.com/le0u0/just-do-it/commit/cfa3c55bcc6512d932008a7c9901de1e83c20b1c))
+* enforce repo identity in storage resolution and strip HTML spans from markdown ([d772089](https://github.com/le0u0/just-do-it/commit/d772089a26f1f73ef86ecddf9ac18dba2308cd17))
+
 ## [4.0.0](https://github.com/le0u0/just-do-it/compare/v3.0.0...v4.0.0) (2026-11-26)
 
 
