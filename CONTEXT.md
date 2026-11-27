@@ -14,9 +14,9 @@ Shared terms for this plugin.
 
 | Term | Meaning |
 | --- | --- |
-| Reference | A file in a skill's `references/`, linked from `SKILL.md`, read for one branch of its workflow. Shared storage and public-doc rules live in `skills/go-setup/references/`; agent dispatch rules live in `skills/go-flow/references/`. |
+| Reference | A file in a skill's `references/`, linked from `SKILL.md`, read for one branch of its workflow. Shared storage and public-doc rules live in `skills/go-setup/references/`. Host dispatch lives in `references/`: `agents.md` plus one file per host under `references/hosts/`. |
 | Project references | Rules, project-local skills and comparable code in the repository. Read, never copied. |
-| Project-local skill | A skill in the repository (`.agents/skills/`, `.claude/skills/`). Wins over this plugin's defaults. |
+| Project-local skill | A skill the active host loads from the repository. Wins over this plugin's defaults. |
 
 ## Storage and views
 

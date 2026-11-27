@@ -19,8 +19,8 @@ Kind with no setup (no runner, script, or spec):
 
 The project owns the rules. Read what applies:
 
-- `AGENTS.md`, `CLAUDE.md`, `.agents/rules/`, `.claude/rules/`.
-- Project-local skills in `.claude/skills/` and `.agents/skills/`: follow those matching the job; they win over this plugin.
+- `AGENTS.md`, `CLAUDE.md`, and the active host's rules.
+- Project-local skills for the active host: follow those matching the job; they win over this plugin.
 - `~/.just-do-it/{project}/public/glossary.md` and `public/adr/` (when present), plus repository `GLOSSARY.md` and `docs/adr/`. Use terms as written; never guess unknown terms—confirm with the user and save to `public/glossary.md` or `public/adr/` per [domain-docs.md](domain-docs.md).
 - The nearest comparable feature or spec, found by searching the checkout.
 

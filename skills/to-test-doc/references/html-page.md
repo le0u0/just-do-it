@@ -50,7 +50,7 @@ nav a.cur{background:var(--accent);color:var(--text);font-weight:600}
    - `ticket`, `link`, `slug`, `languages` (`["en", "zh"]` or `["en"]`), `hasMd` (boolean, `true` only when `dev-view/testing-guide.md` exists), `related`, `title: {en, zh}`, `setup: [{text: {en, zh}}]`, `groups: [{name: {en, zh}, why: {en, zh}, tests: [{id, title: {en, zh}, note, steps: [{en, zh}], expect: {en, zh}}]}]`.
    - Assign a stable unique `id` (`case-1`, UUID, etc.) per test. When updating an existing `dev-view/testing-guide.html`, read its `DATA` lines first and preserve matching `id`s for unchanged tests so saved browser `results` and `notes` survive; assign new `id`s to new or acceptance-changed tests so they start blank. Pre-ID legacy migration is retired.
 2. **Translate (`zh`)**:
-   - Spawn one `standard` subagent per [host mapping](../../go-flow/references/agents.md#host-mapping) with the repository path and English strings.
+   - Spawn one `standard` subagent per [host mapping](../../../references/agents.md#host-mapping) with the repository path and English strings.
    - Check repo translation files (`i18n`, `locales`, `zh*.json`) first, then `~/.just-do-it/{project}/public/glossary.md` and `agent-view/{spec,plan}.md`. Unmatched terms are translated plainly and reported as `guess` under `Open`.
 3. Render bilingual strings as `<span data-l="en">...</span><span data-l="zh">...</span>`, filter `LANGS = ALL_LANGS.filter(l => (DATA.languages || ["en"]).includes(l.k))`, hide `#lang` if `LANGS.length <= 1`, and toggle active language via `<style id="lcss">` (`[data-l]:not([data-l="<lang>"]){display:none}`) while persisting choice in `localStorage`.
 

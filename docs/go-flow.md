@@ -30,4 +30,4 @@ flowchart LR
 
 For example, ask “stop after plan review” or “resume from the approved plan and stop after tests.” A changed scope needs fresh approval; progress and test evidence can change during work.
 
-[Skill](../skills/go-flow/SKILL.md) · [Agent mapping](../skills/go-flow/references/agents.md#host-mapping) · [Scheduling](../skills/go-flow/references/scheduling.md#approved-pipelines) · [Storage](../skills/go-setup/references/storage.md)
+[Skill](../skills/go-flow/SKILL.md) · [Agent mapping](../references/agents.md#host-mapping) · [Scheduling](../skills/go-flow/references/scheduling.md#approved-pipelines) · [Storage](../skills/go-setup/references/storage.md)

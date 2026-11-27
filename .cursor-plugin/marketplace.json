@@ -1,0 +1,16 @@
+{
+  "name": "just-do-it",
+  "owner": {
+    "name": "Leo Ho"
+  },
+  "metadata": {
+    "description": "Independent skills and pipeline flow for ticket-driven development."
+  },
+  "plugins": [
+    {
+      "name": "just-do-it",
+      "source": ".",
+      "description": "Independent skills and pipeline flow for ticket-driven development: setup, research, plan, work, test, review, fix."
+    }
+  ]
+}

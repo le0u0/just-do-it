@@ -13,8 +13,8 @@
 
 The project owns the rules. Read what applies:
 
-- `AGENTS.md`, `CLAUDE.md`, `.agents/rules/`, `.claude/rules/`. Only the files the caller lists, when it lists any.
-- Project-local skills in `.claude/skills/` and `.agents/skills/`: follow those matching the job; they win over this plugin.
+- `AGENTS.md`, `CLAUDE.md`, and the active host's rules. Only the files the caller lists, when it lists any.
+- Project-local skills for the active host: follow those matching the job; they win over this plugin.
 - `~/.just-do-it/{project}/public/glossary.md` and `public/adr/` (when present), terms as written.
 - The nearest comparable spec, found by searching the checkout.
 

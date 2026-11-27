@@ -32,7 +32,7 @@ Start one review-owned Standard Fetch worker per [agents.md](references/agents.m
 - Diff facts for the applicable range. For a possible incremental review, include the previous reviewed commit's ancestry.
 - Resolved target identity and snapshot per [fetch.md](references/fetch.md), including checkout clean status for local review.
 - File text of `REVIEW.md`, for the risky paths it marks.
-- Paths of project-local review skills in `.claude/skills/` and `.agents/skills/` (if any).
+- Paths of project-local review skills for the active host (if any).
 
 Decide from its facts yourself: the original baseline, then the selected comparison range and tier.
 

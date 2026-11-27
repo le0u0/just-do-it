@@ -2,7 +2,7 @@
 
 Independent skills that research, plan, build, test and review a ticket. The process lives here; the rules come from your repo (`AGENTS.md`, `CLAUDE.md`, project skills).
 
-Supports Claude Code, Codex and Antigravity.
+Supports Claude Code, Codex, Antigravity and Cursor.
 
 ## Install
 
@@ -35,6 +35,13 @@ agy plugin install https://github.com/le0u0/just-do-it
 
 </details>
 
+<details>
+<summary>Cursor</summary>
+
+In Customize, choose From GitHub Repository and select `le0u0/just-do-it`. Then install `just-do-it`.
+
+</details>
+
 ## Use
 
 Call any skill directly, or call [`go-flow`](docs/go-flow.md) to chain the full ticket pipeline (`go-setup` → `to-spec` → `to-plan` → plan review when needed → approval → implementation pipelines → tests → code review) or the steps you choose.
@@ -55,12 +62,7 @@ Every skill writes its output to your branch storage folder (`agent-view/` and `
 | [`go-fix`](docs/go-fix.md) | Fix selected review findings and record dispositions | — |
 | [`go-flow`](docs/go-flow.md) | Run the full pipeline or a chosen sequence of steps | — |
 
-| Tier | Claude | Codex | Antigravity (preferred family) |
-| --- | --- | --- | --- |
-| `standard` | `sonnet (medium)` | `terra (medium)` | `hydrogen (medium)` |
-| `deep` | `opus (medium)` | `sol (medium)` | `neon (medium)` |
-
-Model families resolve from the active host's worker options. Antigravity uses Swarm with `workspace="inherit"` and the selected model variant. Legacy dispatch is reserved for tracker research that needs MCP access. See [Antigravity dispatch](skills/go-flow/references/agents.md#antigravity-dispatch).
+Host models and spawn steps are in [`references/hosts`](references/hosts).
 
 | Also | Detail |
 | --- | --- |
