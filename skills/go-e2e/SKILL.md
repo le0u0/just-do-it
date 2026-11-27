@@ -7,7 +7,7 @@ description: 'E2E tests with Playwright: author specs and test data, explore UI 
 
 ## Scope & Storage
 
-- Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/references/storage.md). If the branch folder does not exist under `~/.just-do-it/*/{branch}`, run `go-setup` first to confirm `{project}` with the user.
+- Resolve `~/.just-do-it/{project}/{branch}/` per [go-setup](../go-setup/SKILL.md) and [storage.md](../go-setup/references/storage.md). If no existing project and branch artifacts explicitly identify this repository and exact branch, run `go-setup` first to confirm `{project}` with the user.
 - Output: specs and test data in the repository; test run results written to `~/.just-do-it/{project}/{branch}/agent-view/e2e.md` per [Test report](../go-flow/references/reports.md#test-report-agent-viewutmd-and-agent-viewe2emd).
 - In a worktree step, run in the assigned checkout, read configuration and plan from the caller's ticket storage, and return evidence directly. Evidence-only mode replaces all writes to the shared report, including missing-runner results.
 

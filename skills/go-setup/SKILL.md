@@ -1,6 +1,6 @@
 ---
 name: go-setup
-description: 'Set up and resolve the ~/.just-do-it/{project}/{branch}/ storage directory (agent-view/, dev-view/, and public/). Triggered automatically by any skill when the current branch folder is missing, or called directly to initialize project storage and jdi-config.md.'
+description: 'Set up and resolve the ~/.just-do-it/{project}/{branch}/ storage directory (agent-view/, dev-view/, and public/). Triggered automatically by any skill when repository and exact branch identity is missing or ambiguous, or called directly to initialize project storage and jdi-config.md.'
 ---
 
 # Setup Storage
@@ -30,7 +30,7 @@ Run this section when a skill needs test settings or the user calls `go-setup` d
 On every direct `go-setup` call, show all configurable fields and their current values (or `not configured`): retry limit; unit runner, config/spec path pattern, and focused command; E2E runner, folder, base URL, focused command, authentication state, and test data. Ask which fields to update. If the user already specified changes, show the full list, apply the requested changes, and report the result. Preserve all other fields. Confirm newly detected or ambiguous values before saving. A request to view settings alone makes no changes.
 
 1. Check if `~/.just-do-it/{project}/public/jdi-config.md` already exists.
-   - **Exists:** read and use it. If the retry limit is missing or invalid, ask the user to confirm it and update the existing file.
+   - **Exists:** read and use it. If `Repository:` is missing (or mismatched after confirming `{project}`) or the retry limit is missing or invalid, confirm and update the existing file.
    - **Missing:** inspect the repository (`package.json`, runner configs, test folders) to detect candidate unit and E2E setups, then **ask and confirm with the user**:
      - **Unit test:** framework/runner (or `none`), config/spec path pattern, and focused run command.
      - **E2E test:** framework/runner (or `none`), E2E folder path, base URL, focused run command, authentication state, and test data where applicable.

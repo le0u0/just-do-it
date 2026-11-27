@@ -44,7 +44,7 @@ An implementation worktree worker receives the original ticket's resolved storag
 
 | Skill | Reads from storage (when present) | Writes to storage |
 | --- | --- | --- |
-| `go-setup` | `~/.just-do-it/*/{branch}` | Creates `public/`, `agent-view/`, `dev-view/`; writes `public/jdi-config.md` when test setup is requested |
+| `go-setup` | `~/.just-do-it/{project}/public/jdi-config.md` and existing branch artifacts | Creates `public/`, `agent-view/`, `dev-view/`; writes `public/jdi-config.md` when test setup is requested |
 | `to-spec` | `public/glossary.md` | `agent-view/spec.md`, `agent-view/attachments/{ticket}/`, `dev-view/spec.html` |
 | `to-plan` | `agent-view/spec.md`, `agent-view/attachments/`, `public/glossary.md`, `public/adr/`, `public/jdi-config.md` | `agent-view/plan.md`, `agent-view/checklist.md`, `agent-view/commit-format.md`, `agent-view/diagnose.md`, `dev-view/plan.html`, plus on-demand updates to `public/standards.md`, `public/glossary.md` and `public/adr/` |
 | `go-work` | `agent-view/approval.json` for planned work, `agent-view/plan.md`, `agent-view/checklist.md`, `agent-view/spec.md`, `agent-view/attachments/`, `agent-view/commit-format.md`, `public/glossary.md`, `public/adr/` | Updates `agent-view/checklist.md`, `agent-view/CHANGELOG.md`, `agent-view/diagnose.md`, plus on-demand updates to `public/glossary.md` and `public/adr/` |

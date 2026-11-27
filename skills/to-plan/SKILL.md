@@ -7,7 +7,7 @@ description: 'Turn confirmed requirements into a reviewable implementation plan.
 
 ## Scope & Storage
 
-- Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/references/storage.md). If the branch folder does not exist under `~/.just-do-it/*/{branch}`, run `go-setup` first to confirm `{project}` with the user.
+- Resolve `~/.just-do-it/{project}/{branch}/` per [go-setup](../go-setup/SKILL.md) and [storage.md](../go-setup/references/storage.md). If no existing project and branch artifacts explicitly identify this repository and exact branch, run `go-setup` first to confirm `{project}` with the user.
 - Run in the current thread in both direct and go-flow use. Carry confirmed spec requirements forward; ask only unresolved implementation or design questions.
 - Write no production code or tests. Write planning outputs for agents to `agent-view/plan.md` and `agent-view/checklist.md` (plus `agent-view/commit-format.md` when confirmed and `agent-view/diagnose.md` when needed), and render the human-readable visual plan at `dev-view/plan.html` per [html-render.md](../go-setup/references/html-render.md) (with inline attachment images and visual statechart) so the user can inspect `dev-view/plan.html` and approve.
 - Two phases: grill, then write. Complete `Grill` before `Write`, unless the user asks to skip grilling. User only wants gaps found: stop after the grill.
@@ -64,7 +64,7 @@ Reply 1A, 2A. Type why 2 for the reason.
 
 ## 2. Write
 
-1. Read [plan-format.md](references/plan-format.md), [checklist-format.md](references/checklist-format.md), and (for stateful features) [statechart.md](references/statechart.md). Write `agent-view/plan.md` and `agent-view/checklist.md`. Reference relevant attachments with labeled path tooltips. Record the grill's decisions under `Decisions`.
+1. Read [plan-format.md](references/plan-format.md), [checklist-format.md](references/checklist-format.md), and (for stateful features) [statechart.md](references/statechart.md). Write `agent-view/plan.md` and `agent-view/checklist.md`. Reference relevant attachments by relative path. Record the grill's decisions under `Decisions`.
 2. Bug ticket whose diagnosis would clutter the plan: also write `agent-view/diagnose.md` per [diagnose-format.md](references/diagnose-format.md).
 3. Check unit and E2E setup per [setup.md](references/setup.md). Record `none: no setup` when there is no setup and adding it is outside scope.
 4. Pick a short plan for clear, bounded work. For full plans, unresolved ownership, shared contract changes or hard-to-reverse decisions, agree on design alternatives and trade-offs before writing steps. Define [pipelines](references/plan-format.md#implementation-pipelines) before approval. Make each step concrete enough for `go-work` to run without new design decisions: owned source and test files, reuse, dependencies and shared state, test seams, authorization, commit groups and messages, and delivery mode. Group the same feature or function in one step.

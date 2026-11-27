@@ -8,7 +8,7 @@ description: 'Research a ticket, requirements link, or tracker queue. Read live 
 ## Scope & Storage
 
 - Read requirements and trace their impact. Keep tracker and repository source read-only. Planning goes to `to-plan`.
-- Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/references/storage.md). If the branch folder does not exist under `~/.just-do-it/*/{branch}`, run `go-setup` first to confirm `{project}` with the user.
+- Resolve `~/.just-do-it/{project}/{branch}/` per [go-setup](../go-setup/SKILL.md) and [storage.md](../go-setup/references/storage.md). If no existing project and branch artifacts explicitly identify this repository and exact branch, run `go-setup` first to confirm `{project}` with the user.
 - Read `~/.just-do-it/{project}/public/glossary.md` when present. If you encounter unknown domain terminology or product section names that block understanding, follow [public-docs.md](../go-setup/references/public-docs.md#glossarymd): never guess, ask the user (or list under `Open questions` when running as a background worker), and update `public/glossary.md` once confirmed.
 - Save the brief for agents to `~/.just-do-it/{project}/{branch}/agent-view/spec.md`, cache attachments under `agent-view/attachments/{ticket}/`, and generate the human-readable visual brief at `dev-view/spec.html` (with inline attachment images) per [html-render.md](../go-setup/references/html-render.md). Report both saved paths.
 
@@ -80,7 +80,7 @@ Status: ready
 
 ## Reference
 
-<sub>Source: https://example.atlassian.net/browse/PROJ-123<br>Retrieved: 2026-10-13 10:00<br>Linked: PROJ-100</sub>
+<sub>Repository: /absolute/path/to/repo<br>Branch: PROJ-123-do-something<br>Source: https://example.atlassian.net/browse/PROJ-123<br>Retrieved: 2026-10-13 10:00<br>Linked: PROJ-100</sub>
 ```
 
 ## Done when

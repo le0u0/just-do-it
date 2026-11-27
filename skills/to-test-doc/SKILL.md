@@ -10,7 +10,7 @@ Generate the manual QA testing guide. Defaults to the interactive single-file HT
 
 ## Storage
 
-1. Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/references/storage.md). If the branch folder does not exist under `~/.just-do-it/*/{branch}`, run `go-setup` first to confirm `{project}` with the user.
+1. Resolve `~/.just-do-it/{project}/{branch}/` per [go-setup](../go-setup/SKILL.md) and [storage.md](../go-setup/references/storage.md). If no existing project and branch artifacts explicitly identify this repository and exact branch, run `go-setup` first to confirm `{project}` with the user.
 2. Output format:
    - **Default:** generate `dev-view/testing-guide.html`.
    - **User prefers `.md` (or asks for both):** generate `dev-view/testing-guide.md` (and `dev-view/testing-guide.html` if both).

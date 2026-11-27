@@ -16,7 +16,7 @@ Write the title and body for the current branch and save to `~/.just-do-it/{proj
 
 ## Storage & Input
 
-- Resolve `~/.just-do-it/{project}/{branch}/` per [storage.md](../go-setup/references/storage.md). If the branch folder does not exist under `~/.just-do-it/*/{branch}`, run `go-setup` first to confirm `{project}` with the user.
+- Resolve `~/.just-do-it/{project}/{branch}/` per [go-setup](../go-setup/SKILL.md) and [storage.md](../go-setup/references/storage.md). If no existing project and branch artifacts explicitly identify this repository and exact branch, run `go-setup` first to confirm `{project}` with the user.
 - Read `agent-view/plan.md`, `agent-view/commit-format.md`, `agent-view/review.md`, `agent-view/ut.md`, and `agent-view/e2e.md` when present in the branch folder.
 - The diff of the commits this PR adds, and what the user said.
   - Base: the branch the PR targets. Ask when unclear; `origin/HEAD` is only a guess.

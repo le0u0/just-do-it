@@ -8,7 +8,7 @@ Shared terms for this plugin.
 | --- | --- |
 | Skill | An independent action, such as `go-review`. `go-*` do work and write directly to `~/.just-do-it/{project}/{branch}/`; `dev-*` drive a method; `to-*` produce developer/QA deliverables or restatements. |
 | Flow (`go-flow`) | Stateless pipeline skill that chains `go-setup` → `to-spec` → `to-plan` → plan review when required → approval → `go-work` pipelines → verification → code review → `go-fix`, or a user-selected subset of steps. |
-| Setup (`go-setup`) | Resolves `~/.just-do-it/{project}/{branch}/` (`agent-view/`, `dev-view/`, and `public/`). Triggered automatically by any skill when the branch folder is missing; always confirms `{project}` with the user. Also confirms `public/jdi-config.md` on demand when a skill needs to handle tests. |
+| Setup (`go-setup`) | Resolves `~/.just-do-it/{project}/{branch}/` (`agent-view/`, `dev-view/`, and `public/`). Triggered automatically by any skill when repository and exact branch identity is missing or ambiguous; always confirms `{project}` with the user. Also confirms `public/jdi-config.md` on demand when a skill needs to handle tests. |
 
 ## Skill structure
 

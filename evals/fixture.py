@@ -108,10 +108,10 @@ sys.exit(result.returncode)
             for name in (SPEC, 'src/test.ts', 'karma.conf.js', 'tsconfig.spec.json', 'angular.json', 'node_modules/.bin/ng', 'node_modules/@angular-devkit/build-angular/src/karma/schema.json'):
                 files.pop(name, None)
             files['package.json'] = json.dumps({'private': True})
-            (public_dir / 'jdi-config.md').write_text('# JDI Config\n\n## Retry\n- **Limit:** 1\n\n## Unit\n- **Runner:** none\n\n## E2E\n- **Runner:** none\n')
+            (public_dir / 'jdi-config.md').write_text(f'# JDI Config\n\n- **Repository:** {root}\n\n## Retry\n- **Limit:** 1\n\n## Unit\n- **Runner:** none\n\n## E2E\n- **Runner:** none\n')
         else:
             (public_dir / 'jdi-config.md').write_text(
-                '# JDI Config\n\n## Retry\n- **Limit:** 1\n\n## Unit\n'
+                f'# JDI Config\n\n- **Repository:** {root}\n\n## Retry\n- **Limit:** 1\n\n## Unit\n'
                 '- **Runner:** Karma (`karma.conf.js`)\n'
                 '- **Paths:** `src/**/*.spec.ts`\n'
                 '- **Focused command:** `./node_modules/.bin/ng test app-ui --include=<spec-path> --browsers=ChromeHeadless --watch=false`\n\n'

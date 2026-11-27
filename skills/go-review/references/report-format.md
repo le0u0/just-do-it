@@ -32,7 +32,7 @@ TODO: 2 (Critical: 0, Warning: 2, Minor: 0)
 
 ## TODO
 
-### 1. Warning — <span title="src/app/profile/profile-form.component.ts">ProfileFormComponent</span>
+### 1. Warning — ProfileFormComponent (`src/app/profile/profile-form.component.ts`)
 
 - **How to verify:**
   1. Open Edit Profile. Make the save request return HTTP 500.
@@ -43,7 +43,7 @@ TODO: 2 (Critical: 0, Warning: 2, Minor: 0)
 
 ---
 
-### 2. Warning — <span title="src/app/export/export.service.ts">ExportService</span>
+### 2. Warning — ExportService (`src/app/export/export.service.ts`)
 
 - **How to verify:**
   1. Fill the export queue to its limit.
@@ -77,11 +77,11 @@ None.
 - **Issue Count:** open `TODO` only, with severity split.
 - **Heading:** severity and owning class or file. Prefix with a number only in `TODO`.
 - **Last TODO number:** retain the highest number assigned so later findings never reuse it. When updating an older report, initialize this value from its highest finding heading number before removing numbers from non-`TODO` sections.
-- **How to verify:** name the exact screen and controls, or the test entry point. Include setup or input and up to four short steps. State any missing setup. Show file references as short labels with the exact path in their `title` attributes.
+- **How to verify:** name the exact screen and controls, or the test entry point. Include setup or input and up to four short steps. State any missing setup. Show file references as plain backticked paths (use `<span title="...">` tooltips only in `dev-view/review.html`).
 - **Expected:** the observable result if the check passes. Put it before `Actual`.
 - **Actual:** the wrong result and its impact. Prefix with `Code only:` when inferred or `Unconfirmed:` when reachability is unsettled. Link an actual run when available. When reading an older report, treat its `Issue` field as `Actual`.
 - **Fix:** corrective action; one alternative at most.
-- **Finding reference:** put the source path and optional line in a tooltip on the owner or a short source label.
+- **Finding reference:** put the source path and optional line in backticks beside the owner (use `<span title="...">` tooltips only in `dev-view/review.html`).
 - **Done / Status:** only in `RESOLVED`; updated by `go-fix` or by a re-review that finds an author's fix.
   - `Status`: `fixed (e4f5g6h)`, `fixed, tested`, `fixed, not tested`, `deferred`, `disputed`, `ignored by user`.
 - **Tests:** link existing UT/E2E reports. Mark stale reports explicitly. Leave a missing report reference empty.
